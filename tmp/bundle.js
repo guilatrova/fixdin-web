@@ -54,7 +54,7 @@ require('source-map-support').install({environment: 'node'});
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';var _path=__webpack_require__(2);var _path2=_interopRequireDefault(_path);var _express=__webpack_require__(3);var _express2=_interopRequireDefault(_express);var _compression=__webpack_require__(4);var _compression2=_interopRequireDefault(_compression);var _cookieParser=__webpack_require__(5);var _cookieParser2=_interopRequireDefault(_cookieParser);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _server=__webpack_require__(7);var _server2=_interopRequireDefault(_server);var _routes=__webpack_require__(180);var _routes2=_interopRequireDefault(_routes);var _router=__webpack_require__(618);var _RubixAssetMiddleware=__webpack_require__(636);var _RubixAssetMiddleware2=_interopRequireDefault(_RubixAssetMiddleware);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var port=process.env.PORT||8080;var app=(0,_express2.default)();app.use((0,_compression2.default)());app.use((0,_cookieParser2.default)());app.use(_express2.default.static(_path2.default.join(process.cwd(),'public')));app.set('views',_path2.default.join(process.cwd(),'views'));app.set('view engine','pug');function renderHTML(req,res){(0,_router.renderHTMLString)(_routes2.default,req,function(error,redirectLocation,html){if(error){if(error.message==='Not found'){res.status(404).send(error.message);}else{res.status(500).send(error.message);}}else if(redirectLocation){res.redirect(302,redirectLocation.pathname+redirectLocation.search);}else{res.render('index',{content:html});}});}app.get('*',(0,_RubixAssetMiddleware2.default)('ltr'),function(req,res,next){renderHTML(req,res);});app.listen(port,function(){console.log('Node.js app is running at http://localhost:'+port+'/');});;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(port,'port','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/server.babel.js');__REACT_HOT_LOADER__.register(app,'app','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/server.babel.js');__REACT_HOT_LOADER__.register(renderHTML,'renderHTML','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/server.babel.js');}();;
+	'use strict';var _path=__webpack_require__(2);var _path2=_interopRequireDefault(_path);var _express=__webpack_require__(3);var _express2=_interopRequireDefault(_express);var _compression=__webpack_require__(4);var _compression2=_interopRequireDefault(_compression);var _cookieParser=__webpack_require__(5);var _cookieParser2=_interopRequireDefault(_cookieParser);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _server=__webpack_require__(7);var _server2=_interopRequireDefault(_server);var _routes=__webpack_require__(180);var _routes2=_interopRequireDefault(_routes);var _router=__webpack_require__(619);var _RubixAssetMiddleware=__webpack_require__(637);var _RubixAssetMiddleware2=_interopRequireDefault(_RubixAssetMiddleware);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var port=process.env.PORT||8080;var app=(0,_express2.default)();app.use((0,_compression2.default)());app.use((0,_cookieParser2.default)());app.use(_express2.default.static(_path2.default.join(process.cwd(),'public')));app.set('views',_path2.default.join(process.cwd(),'views'));app.set('view engine','pug');function renderHTML(req,res){(0,_router.renderHTMLString)(_routes2.default,req,function(error,redirectLocation,html){if(error){if(error.message==='Not found'){res.status(404).send(error.message);}else{res.status(500).send(error.message);}}else if(redirectLocation){res.redirect(302,redirectLocation.pathname+redirectLocation.search);}else{res.render('index',{content:html});}});}app.get('*',(0,_RubixAssetMiddleware2.default)('ltr'),function(req,res,next){renderHTML(req,res);});app.listen(port,function(){console.log('Node.js app is running at http://localhost:'+port+'/');});;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(port,'port','C:/Users/guilh/Source/Workspaces/FixDin/web/server.babel.js');__REACT_HOT_LOADER__.register(app,'app','C:/Users/guilh/Source/Workspaces/FixDin/web/server.babel.js');__REACT_HOT_LOADER__.register(renderHTML,'renderHTML','C:/Users/guilh/Source/Workspaces/FixDin/web/server.babel.js');}();;
 
 /***/ }),
 /* 2 */
@@ -20545,7 +20545,7 @@ require('source-map-support').install({environment: 'node'});
 /* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';exports.__esModule=true;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _classnames=__webpack_require__(259);var _classnames2=_interopRequireDefault(_classnames);var _reactRouter=__webpack_require__(260);var _rubix=__webpack_require__(261);var _footer=__webpack_require__(614);var _footer2=_interopRequireDefault(_footer);var _header=__webpack_require__(615);var _header2=_interopRequireDefault(_header);var _sidebar=__webpack_require__(616);var _sidebar2=_interopRequireDefault(_sidebar);var _home=__webpack_require__(637);var _home2=_interopRequireDefault(_home);var _login=__webpack_require__(638);var _login2=_interopRequireDefault(_login);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var App=function(_React$Component){(0,_inherits3.default)(App,_React$Component);function App(){(0,_classCallCheck3.default)(this,App);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}App.prototype.render=function render(){return _react2.default.createElement(_rubix.MainContainer,this.props,_react2.default.createElement(_sidebar2.default,null),_react2.default.createElement(_header2.default,null),_react2.default.createElement('div',{id:'body'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},this.props.children)))),_react2.default.createElement(_footer2.default,null));};return App;}(_react2.default.Component);var _default=_react2.default.createElement(_reactRouter.Router,null,_react2.default.createElement(_reactRouter.Route,{path:'/',component:App},_react2.default.createElement(_reactRouter.IndexRoute,{component:_home2.default})),_react2.default.createElement(_reactRouter.Route,{path:'/login',component:_login2.default}));exports.default=_default;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(App,'App','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/routes.js');__REACT_HOT_LOADER__.register(_default,'default','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/routes.js');}();;
+	'use strict';exports.__esModule=true;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _classnames=__webpack_require__(259);var _classnames2=_interopRequireDefault(_classnames);var _reactRouter=__webpack_require__(260);var _rubix=__webpack_require__(261);var _footer=__webpack_require__(614);var _footer2=_interopRequireDefault(_footer);var _header=__webpack_require__(615);var _header2=_interopRequireDefault(_header);var _sidebar=__webpack_require__(616);var _sidebar2=_interopRequireDefault(_sidebar);var _home=__webpack_require__(638);var _home2=_interopRequireDefault(_home);var _login=__webpack_require__(618);var _login2=_interopRequireDefault(_login);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var App=function(_React$Component){(0,_inherits3.default)(App,_React$Component);function App(){(0,_classCallCheck3.default)(this,App);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}App.prototype.render=function render(){return _react2.default.createElement(_rubix.MainContainer,this.props,_react2.default.createElement(_sidebar2.default,null),_react2.default.createElement(_header2.default,null),_react2.default.createElement('div',{id:'body'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},this.props.children)))),_react2.default.createElement(_footer2.default,null));};return App;}(_react2.default.Component);var _default=_react2.default.createElement(_reactRouter.Router,null,_react2.default.createElement(_reactRouter.Route,{path:'/',component:App},_react2.default.createElement(_reactRouter.IndexRoute,{component:_home2.default})),_react2.default.createElement(_reactRouter.Route,{path:'/login',component:_login2.default}));exports.default=_default;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(App,'App','C:/Users/guilh/Source/Workspaces/FixDin/web/src/routes.js');__REACT_HOT_LOADER__.register(_default,'default','C:/Users/guilh/Source/Workspaces/FixDin/web/src/routes.js');}();;
 
 /***/ }),
 /* 181 */
@@ -50021,23 +50021,29 @@ require('source-map-support').install({environment: 'node'});
 /* 614 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _rubix=__webpack_require__(261);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Footer=function(_React$Component){(0,_inherits3.default)(Footer,_React$Component);function Footer(){var _temp,_this,_ret;(0,_classCallCheck3.default)(this,Footer);for(var _len=arguments.length,args=Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}return _ret=(_temp=(_this=(0,_possibleConstructorReturn3.default)(this,_React$Component.call.apply(_React$Component,[this].concat(args))),_this),_this.state={version:0},_temp),(0,_possibleConstructorReturn3.default)(_this,_ret);}Footer.prototype.componentDidMount=function componentDidMount(){this.setState({version:document.body.getAttribute('data-version')});};Footer.prototype.render=function render(){var year=new Date().getFullYear();return _react2.default.createElement('div',{id:'footer-container'},_react2.default.createElement(_rubix.Grid,{id:'footer',className:'text-center'},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement('div',null,'\xA9 ',year,' SketchPixy Creative - v',this.state.version)))));};return Footer;}(_react2.default.Component);exports.default=Footer;;var _temp2=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Footer,'Footer','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/common/footer.js');}();;
+	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _rubix=__webpack_require__(261);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Footer=function(_React$Component){(0,_inherits3.default)(Footer,_React$Component);function Footer(){var _temp,_this,_ret;(0,_classCallCheck3.default)(this,Footer);for(var _len=arguments.length,args=Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}return _ret=(_temp=(_this=(0,_possibleConstructorReturn3.default)(this,_React$Component.call.apply(_React$Component,[this].concat(args))),_this),_this.state={version:0},_temp),(0,_possibleConstructorReturn3.default)(_this,_ret);}Footer.prototype.componentDidMount=function componentDidMount(){this.setState({version:document.body.getAttribute('data-version')});};Footer.prototype.render=function render(){var year=new Date().getFullYear();return _react2.default.createElement('div',{id:'footer-container'},_react2.default.createElement(_rubix.Grid,{id:'footer',className:'text-center'},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement('div',null,'\xA9 ',year,' SketchPixy Creative - v',this.state.version)))));};return Footer;}(_react2.default.Component);exports.default=Footer;;var _temp2=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Footer,'Footer','C:/Users/guilh/Source/Workspaces/FixDin/web/src/common/footer.js');}();;
 
 /***/ }),
 /* 615 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';exports.__esModule=true;exports.default=undefined;var _extends2=__webpack_require__(263);var _extends3=_interopRequireDefault(_extends2);var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _classnames=__webpack_require__(259);var _classnames2=_interopRequireDefault(_classnames);var _rubix=__webpack_require__(261);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Brand=function(_React$Component){(0,_inherits3.default)(Brand,_React$Component);function Brand(){(0,_classCallCheck3.default)(this,Brand);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Brand.prototype.render=function render(){return _react2.default.createElement(_rubix.Navbar.Header,this.props,_react2.default.createElement(_rubix.Navbar.Brand,{tabIndex:'-1'},_react2.default.createElement('a',{href:'#'},_react2.default.createElement('img',{src:'/imgs/common/logo.png',alt:'rubix',width:'111',height:'28'}))));};return Brand;}(_react2.default.Component);var HeaderNavigation=function(_React$Component2){(0,_inherits3.default)(HeaderNavigation,_React$Component2);function HeaderNavigation(){(0,_classCallCheck3.default)(this,HeaderNavigation);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}HeaderNavigation.prototype.render=function render(){var props=(0,_extends3.default)({},this.props,{className:(0,_classnames2.default)('pull-right',this.props.className)});return _react2.default.createElement(_rubix.Nav,props,_react2.default.createElement(_rubix.NavItem,{className:'logout',href:'#'},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'off-1'})));};return HeaderNavigation;}(_react2.default.Component);var Header=function(_React$Component3){(0,_inherits3.default)(Header,_React$Component3);function Header(){(0,_classCallCheck3.default)(this,Header);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}Header.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,(0,_extends3.default)({id:'navbar'},this.props),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement(_rubix.Navbar,{fixedTop:true,fluid:true,id:'rubix-nav-header'},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:3,visible:'xs'},_react2.default.createElement(_rubix.SidebarBtn,null)),_react2.default.createElement(_rubix.Col,{xs:6,sm:4},_react2.default.createElement(Brand,null)),_react2.default.createElement(_rubix.Col,{xs:3,sm:8,collapseRight:true,className:'text-right'},_react2.default.createElement(HeaderNavigation,null)))))));};return Header;}(_react2.default.Component);exports.default=Header;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Brand,'Brand','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/common/header.js');__REACT_HOT_LOADER__.register(HeaderNavigation,'HeaderNavigation','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/common/header.js');__REACT_HOT_LOADER__.register(Header,'Header','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/common/header.js');}();;
+	'use strict';exports.__esModule=true;exports.default=undefined;var _extends2=__webpack_require__(263);var _extends3=_interopRequireDefault(_extends2);var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _classnames=__webpack_require__(259);var _classnames2=_interopRequireDefault(_classnames);var _rubix=__webpack_require__(261);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Brand=function(_React$Component){(0,_inherits3.default)(Brand,_React$Component);function Brand(){(0,_classCallCheck3.default)(this,Brand);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Brand.prototype.render=function render(){return _react2.default.createElement(_rubix.Navbar.Header,this.props,_react2.default.createElement(_rubix.Navbar.Brand,{tabIndex:'-1'},_react2.default.createElement('a',{href:'#'},_react2.default.createElement('img',{src:'/imgs/common/logo.png',alt:'rubix',width:'111',height:'28'}))));};return Brand;}(_react2.default.Component);var HeaderNavigation=function(_React$Component2){(0,_inherits3.default)(HeaderNavigation,_React$Component2);function HeaderNavigation(){(0,_classCallCheck3.default)(this,HeaderNavigation);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}HeaderNavigation.prototype.render=function render(){var props=(0,_extends3.default)({},this.props,{className:(0,_classnames2.default)('pull-right',this.props.className)});return _react2.default.createElement(_rubix.Nav,props,_react2.default.createElement(_rubix.NavItem,{className:'logout',href:'#'},_react2.default.createElement(_rubix.Icon,{bundle:'fontello',glyph:'off-1'})));};return HeaderNavigation;}(_react2.default.Component);var Header=function(_React$Component3){(0,_inherits3.default)(Header,_React$Component3);function Header(){(0,_classCallCheck3.default)(this,Header);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}Header.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,(0,_extends3.default)({id:'navbar'},this.props),_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement(_rubix.Navbar,{fixedTop:true,fluid:true,id:'rubix-nav-header'},_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:3,visible:'xs'},_react2.default.createElement(_rubix.SidebarBtn,null)),_react2.default.createElement(_rubix.Col,{xs:6,sm:4},_react2.default.createElement(Brand,null)),_react2.default.createElement(_rubix.Col,{xs:3,sm:8,collapseRight:true,className:'text-right'},_react2.default.createElement(HeaderNavigation,null)))))));};return Header;}(_react2.default.Component);exports.default=Header;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Brand,'Brand','C:/Users/guilh/Source/Workspaces/FixDin/web/src/common/header.js');__REACT_HOT_LOADER__.register(HeaderNavigation,'HeaderNavigation','C:/Users/guilh/Source/Workspaces/FixDin/web/src/common/header.js');__REACT_HOT_LOADER__.register(Header,'Header','C:/Users/guilh/Source/Workspaces/FixDin/web/src/common/header.js');}();;
 
 /***/ }),
 /* 616 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _class,_class2;var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _rubix=__webpack_require__(261);var _reactRouter=__webpack_require__(260);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var ApplicationSidebar=(0,_reactRouter.withRouter)(_class=function(_React$Component){(0,_inherits3.default)(ApplicationSidebar,_React$Component);function ApplicationSidebar(){(0,_classCallCheck3.default)(this,ApplicationSidebar);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}ApplicationSidebar.prototype.handleChange=function handleChange(e){this._nav.search(e.target.value);};ApplicationSidebar.prototype.render=function render(){var _this2=this;return _react2.default.createElement('div',null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement(_rubix.FormControl,{type:'text',placeholder:'Search...',onChange:this.handleChange.bind(this),className:'sidebar-search',style:{border:'none',background:'none',margin:'10px 0 0 0',borderBottom:'1px solid #666',color:'white'}}),_react2.default.createElement('div',{className:'sidebar-nav-container'},_react2.default.createElement(_rubix.SidebarNav,{style:{marginBottom:0},ref:function ref(c){return _this2._nav=c;}},_react2.default.createElement('div',{className:'sidebar-header'},'PAGES'),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-fontello-gauge',name:'Home',href:'/'})))))));};return ApplicationSidebar;}(_react2.default.Component))||_class;var DummySidebar=function(_React$Component2){(0,_inherits3.default)(DummySidebar,_React$Component2);function DummySidebar(){(0,_classCallCheck3.default)(this,DummySidebar);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}DummySidebar.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement('div',{className:'sidebar-header'},'DUMMY SIDEBAR'),_react2.default.createElement(_rubix.LoremIpsum,{query:'1p'}))));};return DummySidebar;}(_react2.default.Component);var SidebarContainer=(0,_reactRouter.withRouter)(_class2=function(_React$Component3){(0,_inherits3.default)(SidebarContainer,_React$Component3);function SidebarContainer(){(0,_classCallCheck3.default)(this,SidebarContainer);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}SidebarContainer.prototype.render=function render(){return _react2.default.createElement('div',{id:'sidebar'},_react2.default.createElement('div',{id:'avatar'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,{className:'fg-white'},_react2.default.createElement(_rubix.Col,{xs:4,collapseRight:true},_react2.default.createElement('img',{src:'/imgs/app/avatars/avatar0.png',width:'40',height:'40'})),_react2.default.createElement(_rubix.Col,{xs:8,collapseLeft:true,id:'avatar-col'},_react2.default.createElement('div',{style:{top:23,fontSize:16,lineHeight:1,position:'relative'}},'Anna Sanchez'),_react2.default.createElement('div',null,_react2.default.createElement(_rubix.Progress,{id:'demo-progress',value:30,color:'#ffffff'}),_react2.default.createElement('a',{href:'#'},_react2.default.createElement(_rubix.Icon,{id:'demo-icon',bundle:'fontello',glyph:'lock-5'}))))))),_react2.default.createElement(_rubix.SidebarControls,null,_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'docs',sidebar:0}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'chat-1',sidebar:1}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'chart-pie-2',sidebar:2}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'th-list-2',sidebar:3}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'bell-5',sidebar:4})),_react2.default.createElement('div',{id:'sidebar-container'},_react2.default.createElement(_rubix.Sidebar,{sidebar:0},_react2.default.createElement(ApplicationSidebar,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:1},_react2.default.createElement(DummySidebar,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:2},_react2.default.createElement(DummySidebar,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:3},_react2.default.createElement(DummySidebar,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:4},_react2.default.createElement(DummySidebar,null))));};return SidebarContainer;}(_react2.default.Component))||_class2;exports.default=SidebarContainer;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(ApplicationSidebar,'ApplicationSidebar','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/common/sidebar.js');__REACT_HOT_LOADER__.register(DummySidebar,'DummySidebar','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/common/sidebar.js');__REACT_HOT_LOADER__.register(SidebarContainer,'SidebarContainer','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/common/sidebar.js');}();;
+	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _class,_class2;var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _rubix=__webpack_require__(261);var _reactRouter=__webpack_require__(260);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var ApplicationSidebar=(0,_reactRouter.withRouter)(_class=function(_React$Component){(0,_inherits3.default)(ApplicationSidebar,_React$Component);function ApplicationSidebar(){(0,_classCallCheck3.default)(this,ApplicationSidebar);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}ApplicationSidebar.prototype.handleChange=function handleChange(e){this._nav.search(e.target.value);};ApplicationSidebar.prototype.render=function render(){var _this2=this;return _react2.default.createElement('div',null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement(_rubix.FormControl,{type:'text',placeholder:'Search...',onChange:this.handleChange.bind(this),className:'sidebar-search',style:{border:'none',background:'none',margin:'10px 0 0 0',borderBottom:'1px solid #666',color:'white'}}),_react2.default.createElement('div',{className:'sidebar-nav-container'},_react2.default.createElement(_rubix.SidebarNav,{style:{marginBottom:0},ref:function ref(c){return _this2._nav=c;}},_react2.default.createElement('div',{className:'sidebar-header'},'PAGES'),_react2.default.createElement(_rubix.SidebarNavItem,{glyph:'icon-fontello-gauge',name:'Home',href:'/'})))))));};return ApplicationSidebar;}(_react2.default.Component))||_class;var DummySidebar=function(_React$Component2){(0,_inherits3.default)(DummySidebar,_React$Component2);function DummySidebar(){(0,_classCallCheck3.default)(this,DummySidebar);return(0,_possibleConstructorReturn3.default)(this,_React$Component2.apply(this,arguments));}DummySidebar.prototype.render=function render(){return _react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:12},_react2.default.createElement('div',{className:'sidebar-header'},'DUMMY SIDEBAR'),_react2.default.createElement(_rubix.LoremIpsum,{query:'1p'}))));};return DummySidebar;}(_react2.default.Component);var SidebarContainer=(0,_reactRouter.withRouter)(_class2=function(_React$Component3){(0,_inherits3.default)(SidebarContainer,_React$Component3);function SidebarContainer(){(0,_classCallCheck3.default)(this,SidebarContainer);return(0,_possibleConstructorReturn3.default)(this,_React$Component3.apply(this,arguments));}SidebarContainer.prototype.render=function render(){return _react2.default.createElement('div',{id:'sidebar'},_react2.default.createElement('div',{id:'avatar'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,{className:'fg-white'},_react2.default.createElement(_rubix.Col,{xs:4,collapseRight:true},_react2.default.createElement('img',{src:'/imgs/app/avatars/avatar0.png',width:'40',height:'40'})),_react2.default.createElement(_rubix.Col,{xs:8,collapseLeft:true,id:'avatar-col'},_react2.default.createElement('div',{style:{top:23,fontSize:16,lineHeight:1,position:'relative'}},'Anna Sanchez'),_react2.default.createElement('div',null,_react2.default.createElement(_rubix.Progress,{id:'demo-progress',value:30,color:'#ffffff'}),_react2.default.createElement('a',{href:'#'},_react2.default.createElement(_rubix.Icon,{id:'demo-icon',bundle:'fontello',glyph:'lock-5'}))))))),_react2.default.createElement(_rubix.SidebarControls,null,_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'docs',sidebar:0}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'chat-1',sidebar:1}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'chart-pie-2',sidebar:2}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'th-list-2',sidebar:3}),_react2.default.createElement(_rubix.SidebarControlBtn,{bundle:'fontello',glyph:'bell-5',sidebar:4})),_react2.default.createElement('div',{id:'sidebar-container'},_react2.default.createElement(_rubix.Sidebar,{sidebar:0},_react2.default.createElement(ApplicationSidebar,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:1},_react2.default.createElement(DummySidebar,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:2},_react2.default.createElement(DummySidebar,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:3},_react2.default.createElement(DummySidebar,null)),_react2.default.createElement(_rubix.Sidebar,{sidebar:4},_react2.default.createElement(DummySidebar,null))));};return SidebarContainer;}(_react2.default.Component))||_class2;exports.default=SidebarContainer;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(ApplicationSidebar,'ApplicationSidebar','C:/Users/guilh/Source/Workspaces/FixDin/web/src/common/sidebar.js');__REACT_HOT_LOADER__.register(DummySidebar,'DummySidebar','C:/Users/guilh/Source/Workspaces/FixDin/web/src/common/sidebar.js');__REACT_HOT_LOADER__.register(SidebarContainer,'SidebarContainer','C:/Users/guilh/Source/Workspaces/FixDin/web/src/common/sidebar.js');}();;
 
 /***/ }),
 /* 617 */,
 /* 618 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _reactRouter=__webpack_require__(260);var _rubix=__webpack_require__(261);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Login=function(_React$Component){(0,_inherits3.default)(Login,_React$Component);function Login(){(0,_classCallCheck3.default)(this,Login);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Login.prototype.back=function back(e){e.preventDefault();e.stopPropagation();this.props.router.goBack();};Login.prototype.componentDidMount=function componentDidMount(){var html=document.getElementsByTagName('html')[0];html.setAttribute('class','authentication');};Login.prototype.componentWillUnmount=function componentWillUnmount(){$('html').removeClass('authentication');};Login.prototype.getPath=function getPath(path){return'oi';var dir=this.props.location.pathname.search('rtl')!==-1?'rtl':'ltr';path='/'+dir+'/'+path;return path;};Login.prototype.render=function render(){return _react2.default.createElement('div',{id:'auth-container',className:'login'},_react2.default.createElement('div',{id:'auth-row'},_react2.default.createElement('div',{id:'auth-cell'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{sm:4,smOffset:4,xs:10,xsOffset:1,collapseLeft:true,collapseRight:true},_react2.default.createElement(_rubix.PanelContainer,{controls:false},_react2.default.createElement(_rubix.Panel,null,_react2.default.createElement(_rubix.PanelBody,{style:{padding:0}},_react2.default.createElement('div',{className:'text-center bg-darkblue fg-white'},_react2.default.createElement('h3',{style:{margin:0,padding:25}},'Sign in to Rubix')),_react2.default.createElement('div',{className:'bg-hoverblue fg-black50 text-center',style:{padding:12.5}},_react2.default.createElement('div',null,'You need to sign in for those awesome features'),_react2.default.createElement('div',{style:{marginTop:12.5,marginBottom:12.5}},_react2.default.createElement(_rubix.Button,{id:'facebook-btn',lg:true,bsStyle:'darkblue',type:'submit',onClick:this.back},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-facebook'}),_react2.default.createElement('span',null,'Sign in ',_react2.default.createElement('span',{className:'hidden-xs'},'with facebook')))),_react2.default.createElement('div',null,_react2.default.createElement('a',{id:'twitter-link',href:'#',onClick:this.back},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-twitter'}),_react2.default.createElement('span',null,' or with twitter')))),_react2.default.createElement('div',null,_react2.default.createElement('div',{className:'text-center',style:{padding:12.5}},'or use your Rubix account'),_react2.default.createElement('div',{style:{padding:25,paddingTop:0,paddingBottom:0,margin:'auto',marginBottom:25,marginTop:25}},_react2.default.createElement(_rubix.Form,{onSubmit:this.back},_react2.default.createElement(_rubix.FormGroup,{controlId:'emailaddress'},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,null,_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-mail'})),_react2.default.createElement(_rubix.FormControl,{autoFocus:true,type:'email',className:'border-focus-blue',placeholder:'support@sketchpixy.com'}))),_react2.default.createElement(_rubix.FormGroup,{controlId:'password'},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,null,_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-key'})),_react2.default.createElement(_rubix.FormControl,{type:'password',className:'border-focus-blue',placeholder:'password'}))),_react2.default.createElement(_rubix.FormGroup,null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true,style:{paddingTop:10}},_react2.default.createElement(_reactRouter.Link,{to:this.getPath('signup')},'Create a Rubix account')),_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true,className:'text-right'},_react2.default.createElement(_rubix.Button,{outlined:true,lg:true,type:'submit',bsStyle:'blue',onClick:this.back},'Login')))))))))))))))));};Login.prototype.render=function render(){return _react2.default.createElement('div',{id:'auth-container',className:'login'},_react2.default.createElement('div',{id:'auth-row'},_react2.default.createElement('div',{id:'auth-cell'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{sm:4,smOffset:4,xs:10,xsOffset:1,collapseLeft:true,collapseRight:true},_react2.default.createElement(_rubix.PanelContainer,{controls:false},_react2.default.createElement(_rubix.Panel,null,_react2.default.createElement(_rubix.PanelBody,{style:{padding:0}},_react2.default.createElement('div',{className:'text-center bg-darkblue fg-white'},_react2.default.createElement('h3',{style:{margin:0,padding:25}},'Sign in to Rubix')),_react2.default.createElement('div',{className:'bg-hoverblue fg-black50 text-center',style:{padding:12.5}},_react2.default.createElement('div',null,'You need to sign in for those awesome features'),_react2.default.createElement('div',{style:{marginTop:12.5,marginBottom:12.5}},_react2.default.createElement(_rubix.Button,{id:'facebook-btn',lg:true,bsStyle:'darkblue',type:'submit',onClick:this.back},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-facebook'}),_react2.default.createElement('span',null,'Sign in ',_react2.default.createElement('span',{className:'hidden-xs'},'with facebook')))),_react2.default.createElement('div',null,_react2.default.createElement('a',{id:'twitter-link',href:'#',onClick:this.back},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-twitter'}),_react2.default.createElement('span',null,' or with twitter')))),_react2.default.createElement('div',null,_react2.default.createElement('div',{className:'text-center',style:{padding:12.5}},'or use your Rubix account'),_react2.default.createElement('div',{style:{padding:25,paddingTop:0,paddingBottom:0,margin:'auto',marginBottom:25,marginTop:25}},_react2.default.createElement(_rubix.Form,{onSubmit:this.back},_react2.default.createElement(_rubix.FormGroup,{controlId:'emailaddress'},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,null,_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-mail'})),_react2.default.createElement(_rubix.FormControl,{autoFocus:true,type:'email',className:'border-focus-blue',placeholder:'support@sketchpixy.com'}))),_react2.default.createElement(_rubix.FormGroup,{controlId:'password'},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,null,_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-key'})),_react2.default.createElement(_rubix.FormControl,{type:'password',className:'border-focus-blue',placeholder:'password'}))),_react2.default.createElement(_rubix.FormGroup,null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true,style:{paddingTop:10}},_react2.default.createElement(_reactRouter.Link,{to:this.getPath('signup')},'Create a Rubix account')),_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true,className:'text-right'},_react2.default.createElement(_rubix.Button,{outlined:true,lg:true,type:'submit',bsStyle:'blue',onClick:this.back},'Login')))))))))))))))));};return Login;}(_react2.default.Component);exports.default=Login;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Login,'Login','C:/Users/guilh/Source/Workspaces/FixDin/web/src/auth/components/login.js');}();;
+
+/***/ }),
+/* 619 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50083,17 +50089,17 @@ require('source-map-support').install({environment: 'node'});
 	
 	var _reactRouter = __webpack_require__(260);
 	
-	var _reactHotLoader = __webpack_require__(619);
+	var _reactHotLoader = __webpack_require__(620);
 	
-	var _reactRouterScroll = __webpack_require__(620);
+	var _reactRouterScroll = __webpack_require__(621);
 	
 	var _reactRouterScroll2 = _interopRequireDefault(_reactRouterScroll);
 	
-	var _onRouterSetup = __webpack_require__(631);
+	var _onRouterSetup = __webpack_require__(632);
 	
 	var _onRouterSetup2 = _interopRequireDefault(_onRouterSetup);
 	
-	var _checkScroll = __webpack_require__(633);
+	var _checkScroll = __webpack_require__(634);
 	
 	var _checkScroll2 = _interopRequireDefault(_checkScroll);
 	
@@ -50179,13 +50185,13 @@ require('source-map-support').install({environment: 'node'});
 	}
 
 /***/ }),
-/* 619 */
+/* 620 */
 /***/ (function(module, exports) {
 
 	module.exports = require("react-hot-loader");
 
 /***/ }),
-/* 620 */
+/* 621 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50197,7 +50203,7 @@ require('source-map-support').install({environment: 'node'});
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _ScrollBehaviorContainer = __webpack_require__(621);
+	var _ScrollBehaviorContainer = __webpack_require__(622);
 	
 	var _ScrollBehaviorContainer2 = _interopRequireDefault(_ScrollBehaviorContainer);
 	
@@ -50220,7 +50226,7 @@ require('source-map-support').install({environment: 'node'});
 	module.exports = exports['default'];
 
 /***/ }),
-/* 621 */
+/* 622 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50231,7 +50237,7 @@ require('source-map-support').install({environment: 'node'});
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _ScrollBehavior = __webpack_require__(622);
+	var _ScrollBehavior = __webpack_require__(623);
 	
 	var _ScrollBehavior2 = _interopRequireDefault(_ScrollBehavior);
 	
@@ -50312,36 +50318,36 @@ require('source-map-support').install({environment: 'node'});
 
 
 /***/ }),
-/* 622 */
+/* 623 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _off = __webpack_require__(623);
+	var _off = __webpack_require__(624);
 	
 	var _off2 = _interopRequireDefault(_off);
 	
-	var _on = __webpack_require__(624);
+	var _on = __webpack_require__(625);
 	
 	var _on2 = _interopRequireDefault(_on);
 	
-	var _scrollLeft = __webpack_require__(625);
+	var _scrollLeft = __webpack_require__(626);
 	
 	var _scrollLeft2 = _interopRequireDefault(_scrollLeft);
 	
-	var _scrollTop = __webpack_require__(627);
+	var _scrollTop = __webpack_require__(628);
 	
 	var _scrollTop2 = _interopRequireDefault(_scrollTop);
 	
-	var _requestAnimationFrame = __webpack_require__(628);
+	var _requestAnimationFrame = __webpack_require__(629);
 	
 	var _requestAnimationFrame2 = _interopRequireDefault(_requestAnimationFrame);
 	
-	var _Actions = __webpack_require__(629);
+	var _Actions = __webpack_require__(630);
 	
-	var _DOMStateStorage = __webpack_require__(630);
+	var _DOMStateStorage = __webpack_require__(631);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -50519,7 +50525,7 @@ require('source-map-support').install({environment: 'node'});
 	module.exports = exports['default'];
 
 /***/ }),
-/* 623 */
+/* 624 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50541,7 +50547,7 @@ require('source-map-support').install({environment: 'node'});
 	module.exports = off;
 
 /***/ }),
-/* 624 */
+/* 625 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50562,11 +50568,11 @@ require('source-map-support').install({environment: 'node'});
 	module.exports = on;
 
 /***/ }),
-/* 625 */
+/* 626 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var getWindow = __webpack_require__(626);
+	var getWindow = __webpack_require__(627);
 	
 	module.exports = function scrollTop(node, val) {
 	  var win = getWindow(node);
@@ -50577,7 +50583,7 @@ require('source-map-support').install({environment: 'node'});
 	};
 
 /***/ }),
-/* 626 */
+/* 627 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -50587,11 +50593,11 @@ require('source-map-support').install({environment: 'node'});
 	};
 
 /***/ }),
-/* 627 */
+/* 628 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var getWindow = __webpack_require__(626);
+	var getWindow = __webpack_require__(627);
 	
 	module.exports = function scrollTop(node, val) {
 	  var win = getWindow(node);
@@ -50602,7 +50608,7 @@ require('source-map-support').install({environment: 'node'});
 	};
 
 /***/ }),
-/* 628 */
+/* 629 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50653,7 +50659,7 @@ require('source-map-support').install({environment: 'node'});
 	module.exports = compatRaf;
 
 /***/ }),
-/* 629 */
+/* 630 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -50680,7 +50686,7 @@ require('source-map-support').install({environment: 'node'});
 	var POP = exports.POP = 'POP';
 
 /***/ }),
-/* 630 */
+/* 631 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50770,7 +50776,7 @@ require('source-map-support').install({environment: 'node'});
 	};
 
 /***/ }),
-/* 631 */
+/* 632 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50784,7 +50790,7 @@ require('source-map-support').install({environment: 'node'});
 	
 	var _isBrowser2 = _interopRequireDefault(_isBrowser);
 	
-	__webpack_require__(632);
+	__webpack_require__(633);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -50849,7 +50855,7 @@ require('source-map-support').install({environment: 'node'});
 	}
 
 /***/ }),
-/* 632 */
+/* 633 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -51076,7 +51082,7 @@ require('source-map-support').install({environment: 'node'});
 	}
 
 /***/ }),
-/* 633 */
+/* 634 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51090,11 +51096,11 @@ require('source-map-support').install({environment: 'node'});
 	
 	var _isBrowser2 = _interopRequireDefault(_isBrowser);
 	
-	var _onRouterUpdate = __webpack_require__(634);
+	var _onRouterUpdate = __webpack_require__(635);
 	
 	var _onRouterUpdate2 = _interopRequireDefault(_onRouterUpdate);
 	
-	var _ga = __webpack_require__(635);
+	var _ga = __webpack_require__(636);
 	
 	var _ga2 = _interopRequireDefault(_ga);
 	
@@ -51122,7 +51128,7 @@ require('source-map-support').install({environment: 'node'});
 	}
 
 /***/ }),
-/* 634 */
+/* 635 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51168,7 +51174,7 @@ require('source-map-support').install({environment: 'node'});
 	}
 
 /***/ }),
-/* 635 */
+/* 636 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51195,7 +51201,7 @@ require('source-map-support').install({environment: 'node'});
 	};
 
 /***/ }),
-/* 636 */
+/* 637 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51245,16 +51251,10 @@ require('source-map-support').install({environment: 'node'});
 	var static_path = 'http://' + hostname + ':' + port;
 
 /***/ }),
-/* 637 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Home=function(_React$Component){(0,_inherits3.default)(Home,_React$Component);function Home(){(0,_classCallCheck3.default)(this,Home);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Home.prototype.render=function render(){return _react2.default.createElement('div',null,'Hello World!');};return Home;}(_react2.default.Component);exports.default=Home;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Home,'Home','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/components/home.js');}();;
-
-/***/ }),
 /* 638 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);var _reactRouter=__webpack_require__(260);var _rubix=__webpack_require__(261);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Login=function(_React$Component){(0,_inherits3.default)(Login,_React$Component);function Login(){(0,_classCallCheck3.default)(this,Login);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Login.prototype.back=function back(e){e.preventDefault();e.stopPropagation();this.props.router.goBack();};Login.prototype.componentDidMount=function componentDidMount(){var html=document.getElementsByTagName('html')[0];html.setAttribute('class','authentication');};Login.prototype.componentWillUnmount=function componentWillUnmount(){$('html').removeClass('authentication');};Login.prototype.getPath=function getPath(path){return'oi';var dir=this.props.location.pathname.search('rtl')!==-1?'rtl':'ltr';path='/'+dir+'/'+path;return path;};Login.prototype.render=function render(){return _react2.default.createElement('div',{id:'auth-container',className:'login'},_react2.default.createElement('div',{id:'auth-row'},_react2.default.createElement('div',{id:'auth-cell'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{sm:4,smOffset:4,xs:10,xsOffset:1,collapseLeft:true,collapseRight:true},_react2.default.createElement(_rubix.PanelContainer,{controls:false},_react2.default.createElement(_rubix.Panel,null,_react2.default.createElement(_rubix.PanelBody,{style:{padding:0}},_react2.default.createElement('div',{className:'text-center bg-darkblue fg-white'},_react2.default.createElement('h3',{style:{margin:0,padding:25}},'Sign in to Rubix')),_react2.default.createElement('div',{className:'bg-hoverblue fg-black50 text-center',style:{padding:12.5}},_react2.default.createElement('div',null,'You need to sign in for those awesome features'),_react2.default.createElement('div',{style:{marginTop:12.5,marginBottom:12.5}},_react2.default.createElement(_rubix.Button,{id:'facebook-btn',lg:true,bsStyle:'darkblue',type:'submit',onClick:this.back},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-facebook'}),_react2.default.createElement('span',null,'Sign in ',_react2.default.createElement('span',{className:'hidden-xs'},'with facebook')))),_react2.default.createElement('div',null,_react2.default.createElement('a',{id:'twitter-link',href:'#',onClick:this.back},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-twitter'}),_react2.default.createElement('span',null,' or with twitter')))),_react2.default.createElement('div',null,_react2.default.createElement('div',{className:'text-center',style:{padding:12.5}},'or use your Rubix account'),_react2.default.createElement('div',{style:{padding:25,paddingTop:0,paddingBottom:0,margin:'auto',marginBottom:25,marginTop:25}},_react2.default.createElement(_rubix.Form,{onSubmit:this.back},_react2.default.createElement(_rubix.FormGroup,{controlId:'emailaddress'},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,null,_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-mail'})),_react2.default.createElement(_rubix.FormControl,{autoFocus:true,type:'email',className:'border-focus-blue',placeholder:'support@sketchpixy.com'}))),_react2.default.createElement(_rubix.FormGroup,{controlId:'password'},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,null,_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-key'})),_react2.default.createElement(_rubix.FormControl,{type:'password',className:'border-focus-blue',placeholder:'password'}))),_react2.default.createElement(_rubix.FormGroup,null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true,style:{paddingTop:10}},_react2.default.createElement(_reactRouter.Link,{to:this.getPath('signup')},'Create a Rubix account')),_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true,className:'text-right'},_react2.default.createElement(_rubix.Button,{outlined:true,lg:true,type:'submit',bsStyle:'blue',onClick:this.back},'Login')))))))))))))))));};Login.prototype.render=function render(){return _react2.default.createElement('div',{id:'auth-container',className:'login'},_react2.default.createElement('div',{id:'auth-row'},_react2.default.createElement('div',{id:'auth-cell'},_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{sm:4,smOffset:4,xs:10,xsOffset:1,collapseLeft:true,collapseRight:true},_react2.default.createElement(_rubix.PanelContainer,{controls:false},_react2.default.createElement(_rubix.Panel,null,_react2.default.createElement(_rubix.PanelBody,{style:{padding:0}},_react2.default.createElement('div',{className:'text-center bg-darkblue fg-white'},_react2.default.createElement('h3',{style:{margin:0,padding:25}},'Sign in to Rubix')),_react2.default.createElement('div',{className:'bg-hoverblue fg-black50 text-center',style:{padding:12.5}},_react2.default.createElement('div',null,'You need to sign in for those awesome features'),_react2.default.createElement('div',{style:{marginTop:12.5,marginBottom:12.5}},_react2.default.createElement(_rubix.Button,{id:'facebook-btn',lg:true,bsStyle:'darkblue',type:'submit',onClick:this.back},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-facebook'}),_react2.default.createElement('span',null,'Sign in ',_react2.default.createElement('span',{className:'hidden-xs'},'with facebook')))),_react2.default.createElement('div',null,_react2.default.createElement('a',{id:'twitter-link',href:'#',onClick:this.back},_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-twitter'}),_react2.default.createElement('span',null,' or with twitter')))),_react2.default.createElement('div',null,_react2.default.createElement('div',{className:'text-center',style:{padding:12.5}},'or use your Rubix account'),_react2.default.createElement('div',{style:{padding:25,paddingTop:0,paddingBottom:0,margin:'auto',marginBottom:25,marginTop:25}},_react2.default.createElement(_rubix.Form,{onSubmit:this.back},_react2.default.createElement(_rubix.FormGroup,{controlId:'emailaddress'},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,null,_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-mail'})),_react2.default.createElement(_rubix.FormControl,{autoFocus:true,type:'email',className:'border-focus-blue',placeholder:'support@sketchpixy.com'}))),_react2.default.createElement(_rubix.FormGroup,{controlId:'password'},_react2.default.createElement(_rubix.InputGroup,{bsSize:'large'},_react2.default.createElement(_rubix.InputGroup.Addon,null,_react2.default.createElement(_rubix.Icon,{glyph:'icon-fontello-key'})),_react2.default.createElement(_rubix.FormControl,{type:'password',className:'border-focus-blue',placeholder:'password'}))),_react2.default.createElement(_rubix.FormGroup,null,_react2.default.createElement(_rubix.Grid,null,_react2.default.createElement(_rubix.Row,null,_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true,style:{paddingTop:10}},_react2.default.createElement(_reactRouter.Link,{to:this.getPath('signup')},'Create a Rubix account')),_react2.default.createElement(_rubix.Col,{xs:6,collapseLeft:true,collapseRight:true,className:'text-right'},_react2.default.createElement(_rubix.Button,{outlined:true,lg:true,type:'submit',bsStyle:'blue',onClick:this.back},'Login')))))))))))))))));};return Login;}(_react2.default.Component);exports.default=Login;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Login,'Login','C:/Users/Guilherme/Desktop/Programming/Rubix/node-seed/src/components/login.js');}();;
+	'use strict';exports.__esModule=true;exports.default=undefined;var _classCallCheck2=__webpack_require__(181);var _classCallCheck3=_interopRequireDefault(_classCallCheck2);var _possibleConstructorReturn2=__webpack_require__(182);var _possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2);var _inherits2=__webpack_require__(251);var _inherits3=_interopRequireDefault(_inherits2);var _react=__webpack_require__(6);var _react2=_interopRequireDefault(_react);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}var Home=function(_React$Component){(0,_inherits3.default)(Home,_React$Component);function Home(){(0,_classCallCheck3.default)(this,Home);return(0,_possibleConstructorReturn3.default)(this,_React$Component.apply(this,arguments));}Home.prototype.render=function render(){return _react2.default.createElement('div',null,'Hello World!');};return Home;}(_react2.default.Component);exports.default=Home;;var _temp=function(){if(typeof __REACT_HOT_LOADER__==='undefined'){return;}__REACT_HOT_LOADER__.register(Home,'Home','C:/Users/guilh/Source/Workspaces/FixDin/web/src/common/home.js');}();;
 
 /***/ })
 /******/ ]);

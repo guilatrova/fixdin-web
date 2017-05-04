@@ -7,9 +7,9 @@ import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 import Footer from './common/footer';
 import Header from './common/header';
 import Sidebar from './common/sidebar';
+import Home from './common/home';
 
-import Home from './components/home';
-import Login from './components/login';
+import Login from './auth/components/login';
 
 class App extends React.Component {
   render() {
