@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { doLogin } from '../actions/authActions';
 
 import {
   Row,
@@ -20,11 +22,29 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-export default class Login extends React.Component {
-  back(e) {
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+  handleBack(e) {
     e.preventDefault();
     e.stopPropagation();
     this.props.router.goBack();
+  }
+
+  handleSubmit(e) {
+      e.preventDefault();
+      this.props.doLogin(this.state).then(
+          () => {
+              console.log('boa');
+          },
+          (data) => {
+              console.error(data);
+          }
+      );
   }
 
   componentDidMount() {
@@ -37,159 +57,87 @@ export default class Login extends React.Component {
   }
 
   getPath(path) {
-      return 'oi'
-    var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-    path = `/${dir}/${path}`;
-    return path;
+    return 'oi';
   }
-
-render() {
-    return (
-        <div id='auth-container' className='login'>
-            <div id='auth-row'>
-                <div id='auth-cell'>
-                    <Grid>
-                        <Row>
-                            <Col sm={4} smOffset={4} xs={10} xsOffset={1} collapseLeft collapseRight>
-                                <PanelContainer controls={false}>
-                                    <Panel>
-                                    <PanelBody style={{padding: 0}}>
-                                        <div className='text-center bg-darkblue fg-white'>
-                                        <h3 style={{margin: 0, padding: 25}}>Sign in to Rubix</h3>
-                                        </div>
-                                        <div className='bg-hoverblue fg-black50 text-center' style={{padding: 12.5}}>
-                                        <div>You need to sign in for those awesome features</div>
-                                        <div style={{marginTop: 12.5, marginBottom: 12.5}}>
-                                            <Button id='facebook-btn' lg bsStyle='darkblue' type='submit' onClick={this.back}>
-                                            <Icon glyph='icon-fontello-facebook' />
-                                            <span>Sign in <span className='hidden-xs'>with facebook</span></span>
-                                            </Button>
-                                        </div>
-                                        <div>
-                                            <a id='twitter-link' href='#' onClick={this.back}><Icon glyph='icon-fontello-twitter' /><span> or with twitter</span></a>
-                                        </div>
-                                        </div>
-                                        <div>
-                                        <div className='text-center' style={{padding: 12.5}}>
-                                            or use your Rubix account
-                                        </div>
-                                        <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
-                                            <Form onSubmit={this.back}>
-                                            <FormGroup controlId='emailaddress'>
-                                                <InputGroup bsSize='large'>
-                                                <InputGroup.Addon>
-                                                    <Icon glyph='icon-fontello-mail' />
-                                                </InputGroup.Addon>
-                                                <FormControl autoFocus type='email' className='border-focus-blue' placeholder='support@sketchpixy.com' />
-                                                </InputGroup>
-                                            </FormGroup>
-                                            <FormGroup controlId='password'>
-                                                <InputGroup bsSize='large'>
-                                                <InputGroup.Addon>
-                                                    <Icon glyph='icon-fontello-key' />
-                                                </InputGroup.Addon>
-                                                <FormControl type='password' className='border-focus-blue' placeholder='password' />
-                                                </InputGroup>
-                                            </FormGroup>
-                                            <FormGroup>
-                                                <Grid>
-                                                <Row>
-                                                    <Col xs={6} collapseLeft collapseRight style={{paddingTop: 10}}>
-                                                    <Link to={this.getPath('signup')}>Create a Rubix account</Link>
-                                                    </Col>
-                                                    <Col xs={6} collapseLeft collapseRight className='text-right'>
-                                                    <Button outlined lg type='submit' bsStyle='blue' onClick={this.back}>Login</Button>
-                                                    </Col>
-                                                </Row>
-                                                </Grid>
-                                            </FormGroup>
-                                            </Form>
-                                        </div>
-                                        </div>
-                                    </PanelBody>
-                                    </Panel>
-                                </PanelContainer>
-                                </Col>
-                        </Row>
-                    </Grid>
-                </div>
-            </div>
-        </div>
-    )
-}
 
   render() {
-    return (
-      <div id='auth-container' className='login'>
-        <div id='auth-row'>
-          <div id='auth-cell'>
-            <Grid>
-              <Row>
-                <Col sm={4} smOffset={4} xs={10} xsOffset={1} collapseLeft collapseRight>
-                  <PanelContainer controls={false}>
-                    <Panel>
-                      <PanelBody style={{padding: 0}}>
-                        <div className='text-center bg-darkblue fg-white'>
-                          <h3 style={{margin: 0, padding: 25}}>Sign in to Rubix</h3>
-                        </div>
-                        <div className='bg-hoverblue fg-black50 text-center' style={{padding: 12.5}}>
-                          <div>You need to sign in for those awesome features</div>
-                          <div style={{marginTop: 12.5, marginBottom: 12.5}}>
-                            <Button id='facebook-btn' lg bsStyle='darkblue' type='submit' onClick={this.back}>
-                              <Icon glyph='icon-fontello-facebook' />
-                              <span>Sign in <span className='hidden-xs'>with facebook</span></span>
-                            </Button>
-                          </div>
-                          <div>
-                            <a id='twitter-link' href='#' onClick={this.back}><Icon glyph='icon-fontello-twitter' /><span> or with twitter</span></a>
-                          </div>
-                        </div>
-                        <div>
-                          <div className='text-center' style={{padding: 12.5}}>
-                            or use your Rubix account
-                          </div>
-                          <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
-                            <Form onSubmit={this.back}>
-                              <FormGroup controlId='emailaddress'>
-                                <InputGroup bsSize='large'>
-                                  <InputGroup.Addon>
-                                    <Icon glyph='icon-fontello-mail' />
-                                  </InputGroup.Addon>
-                                  <FormControl autoFocus type='email' className='border-focus-blue' placeholder='support@sketchpixy.com' />
-                                </InputGroup>
-                              </FormGroup>
-                              <FormGroup controlId='password'>
-                                <InputGroup bsSize='large'>
-                                  <InputGroup.Addon>
-                                    <Icon glyph='icon-fontello-key' />
-                                  </InputGroup.Addon>
-                                  <FormControl type='password' className='border-focus-blue' placeholder='password' />
-                                </InputGroup>
-                              </FormGroup>
-                              <FormGroup>
-                                <Grid>
-                                  <Row>
-                                    <Col xs={6} collapseLeft collapseRight style={{paddingTop: 10}}>
-                                      <Link to={this.getPath('signup')}>Create a Rubix account</Link>
-                                    </Col>
-                                    <Col xs={6} collapseLeft collapseRight className='text-right'>
-                                      <Button outlined lg type='submit' bsStyle='blue' onClick={this.back}>Login</Button>
-                                    </Col>
-                                  </Row>
-                                </Grid>
-                              </FormGroup>
-                            </Form>
-                          </div>
-                        </div>
-                      </PanelBody>
-                    </Panel>
-                  </PanelContainer>
-                </Col>
-              </Row>
-            </Grid>
+      return (
+          <div id='auth-container' className='login'>
+              <div id='auth-row'>
+                  <div id='auth-cell'>
+                      <Grid>
+                          <Row>
+                              <Col sm={4} smOffset={4} xs={10} xsOffset={1} collapseLeft collapseRight>
+                                  <PanelContainer controls={false}>
+                                      <Panel>
+                                      <PanelBody style={{padding: 0}}>
+                                          <div className='text-center bg-darkblue fg-white'>
+                                          <h3 style={{margin: 0, padding: 25}}>Sign in to Rubix</h3>
+                                          </div>
+                                          <div className='bg-hoverblue fg-black50 text-center' style={{padding: 12.5}}>
+                                          <div>You need to sign in for those awesome features</div>
+                                          <div style={{marginTop: 12.5, marginBottom: 12.5}}>
+                                              <Button id='facebook-btn' lg bsStyle='darkblue' type='submit' onClick={this.back}>
+                                              <Icon glyph='icon-fontello-facebook' />
+                                              <span>Sign in <span className='hidden-xs'>with facebook</span></span>
+                                              </Button>
+                                          </div>
+                                          <div>
+                                              <a id='twitter-link' href='#' onClick={this.back}><Icon glyph='icon-fontello-twitter' /><span> or with twitter</span></a>
+                                          </div>
+                                          </div>
+                                          <div>
+                                          <div className='text-center' style={{padding: 12.5}}>
+                                              or use your Rubix account
+                                          </div>
+                                          <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
+                                              <Form onSubmit={this.back}>
+                                              <FormGroup controlId='emailaddress'>
+                                                  <InputGroup bsSize='large'>
+                                                  <InputGroup.Addon>
+                                                      <Icon glyph='icon-fontello-mail' />
+                                                  </InputGroup.Addon>
+                                                  <FormControl autoFocus type='email' className='border-focus-blue' placeholder='support@sketchpixy.com' />
+                                                  </InputGroup>
+                                              </FormGroup>
+                                              <FormGroup controlId='password'>
+                                                  <InputGroup bsSize='large'>
+                                                  <InputGroup.Addon>
+                                                      <Icon glyph='icon-fontello-key' />
+                                                  </InputGroup.Addon>
+                                                  <FormControl type='password' className='border-focus-blue' placeholder='password' />
+                                                  </InputGroup>
+                                              </FormGroup>
+                                              <FormGroup>
+                                                  <Grid>
+                                                  <Row>
+                                                      <Col xs={6} collapseLeft collapseRight style={{paddingTop: 10}}>
+                                                      <Link to={this.getPath('signup')}>Create a Rubix account</Link>
+                                                      </Col>
+                                                      <Col xs={6} collapseLeft collapseRight className='text-right'>
+                                                      <Button outlined lg type='submit' bsStyle='blue' onClick={this.handleSubmit}>Login</Button>
+                                                      </Col>
+                                                  </Row>
+                                                  </Grid>
+                                              </FormGroup>
+                                              </Form>
+                                          </div>
+                                          </div>
+                                      </PanelBody>
+                                      </Panel>
+                                  </PanelContainer>
+                                  </Col>
+                          </Row>
+                      </Grid>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-    );
-  }
+      )
+  }  
 }
+
+Login.propTypes = {
+    doLogin: React.PropTypes.func.isRequired
+}
+
+export default connect(null, { doLogin })(Login);
