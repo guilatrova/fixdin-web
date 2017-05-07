@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { sendSignupRequest } from '../authActions';
 
 import {
   Row,
@@ -21,10 +23,13 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            username: '',
+            first_name: '',
+            last_name: '',
             email: '',
             password: ''
         };
@@ -51,7 +56,7 @@ export default class Signup extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.doLogin(this.state).then(
+        this.props.sendSignupRequest(this.state).then(
             ({data}) => {
                 console.log(data);
             },
@@ -93,7 +98,43 @@ export default class Signup extends React.Component {
                                   <InputGroup.Addon>
                                     <Icon glyph='icon-fontello-user' />
                                   </InputGroup.Addon>
-                                  <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Username' />
+                                  <FormControl autoFocus 
+                                    type='text' 
+                                    className='border-focus-blue' 
+                                    placeholder='Username'
+                                    name="username"
+                                    onChange={this.handleChange}
+                                    value={this.state.username} />
+                                </InputGroup>
+                              </FormGroup>
+
+                              <FormGroup controlId='first_name'>
+                                <InputGroup bsSize='large'>
+                                  <InputGroup.Addon>
+                                    <Icon glyph='icon-fontello-user' />
+                                  </InputGroup.Addon>
+                                  <FormControl 
+                                    type='text' 
+                                    className='border-focus-blue' 
+                                    placeholder='First name'
+                                    name="first_name"
+                                    onChange={this.handleChange}
+                                    value={this.state.first_name} />
+                                </InputGroup>
+                              </FormGroup>
+
+                              <FormGroup controlId='last_name'>
+                                <InputGroup bsSize='large'>
+                                  <InputGroup.Addon>
+                                    <Icon glyph='icon-fontello-user' />
+                                  </InputGroup.Addon>
+                                  <FormControl 
+                                    type='text' 
+                                    className='border-focus-blue' 
+                                    placeholder='Last name'
+                                    name="last_name"
+                                    onChange={this.handleChange}
+                                    value={this.state.last_name} />
                                 </InputGroup>
                               </FormGroup>
 
@@ -102,7 +143,13 @@ export default class Signup extends React.Component {
                                   <InputGroup.Addon>
                                     <Icon glyph='icon-fontello-mail' />
                                   </InputGroup.Addon>
-                                  <FormControl type='email' className='border-focus-blue' placeholder='support@sketchpixy.com' />
+                                  <FormControl 
+                                    type='email' 
+                                    className='border-focus-blue' 
+                                    placeholder='support@sketchpixy.com'
+                                    name='email'
+                                    onChange={this.handleChange}
+                                    value={this.state.email} />
                                 </InputGroup>
                               </FormGroup>
 
@@ -111,7 +158,13 @@ export default class Signup extends React.Component {
                                   <InputGroup.Addon>
                                     <Icon glyph='icon-fontello-key' />
                                   </InputGroup.Addon>
-                                  <FormControl type='password' className='border-focus-blue' placeholder='password' />
+                                  <FormControl 
+                                    type='password' 
+                                    className='border-focus-blue' 
+                                    placeholder='password'
+                                    name='password'
+                                    onChange={this.handleChange}
+                                    value={this.state.password}  />
                                 </InputGroup>
                               </FormGroup>
 
@@ -119,7 +172,7 @@ export default class Signup extends React.Component {
                                 <Grid>
                                   <Row>
                                     <Col xs={12} collapseLeft collapseRight>
-                                      <Button type='submit' outlined lg bsStyle='blue' block onClick={this.handleBack}>Create account</Button>
+                                      <Button type='submit' outlined lg bsStyle='blue' block >Create account</Button>
                                     </Col>
                                   </Row>
                                 </Grid>
@@ -165,3 +218,9 @@ export default class Signup extends React.Component {
     );
   }
 }
+
+Signup.propTypes = {
+    sendSignupRequest: React.PropTypes.func.isRequired
+}
+
+export default connect(null, { sendSignupRequest})(Signup);

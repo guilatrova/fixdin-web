@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { doLogin } from '../authActions';
+import { sendLoginRequest } from '../authActions';
 
 import {
   Row,
@@ -52,7 +52,7 @@ class Login extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.doLogin(this.state).then(
+        this.props.sendLoginRequest(this.state).then(
             ({data}) => {
                 console.log(data);
             },
@@ -164,7 +164,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-    doLogin: React.PropTypes.func.isRequired
+    sendLoginRequest: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { doLogin })(Login);
+export default connect(null, { sendLoginRequest })(Login);
