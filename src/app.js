@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 
 import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 import store from './store';
-import Footer from './common/footer';
-import Header from './common/header';
-import Sidebar from './common/sidebar';
+import Footer from './common/components/Footer';
+import Header from './common/components/Header';
+import Sidebar from './common/components/Sidebar';
 
 export class App extends React.Component {
     render() {

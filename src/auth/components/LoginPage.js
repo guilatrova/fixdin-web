@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { doLogin } from '../actions/authActions';
+import { doLogin } from '../authActions';
 
 import {
   Row,
@@ -25,21 +25,35 @@ import {
 class Login extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            email: '',
+            password: ''
+        };
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-  handleBack(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.router.goBack();
-  }
+    componentDidMount() {
+        var html = document.getElementsByTagName('html')[0];
+        html.setAttribute('class', 'authentication');
+    }
+
+    componentWillUnmount() {
+        $('html').removeClass('authentication');
+    }
+
+    handleBack(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.router.goBack();
+    }
 
   handleSubmit(e) {
       e.preventDefault();
       this.props.doLogin(this.state).then(
-          () => {
-              console.log('boa');
+          ({data}) => {
+              console.log(data);
           },
           (data) => {
               console.error(data);
@@ -47,13 +61,8 @@ class Login extends React.Component {
       );
   }
 
-  componentDidMount() {
-    var html = document.getElementsByTagName('html')[0];
-    html.setAttribute('class', 'authentication');
-  }
-
-  componentWillUnmount() {
-    $('html').removeClass('authentication');
+  handleChange(e) {
+      this.setState({ [e.target.name]: e.target.value });
   }
 
   getPath(path) {
@@ -92,22 +101,38 @@ class Login extends React.Component {
                                           </div>
                                           <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
                                               <Form onSubmit={this.back}>
+
                                               <FormGroup controlId='emailaddress'>
                                                   <InputGroup bsSize='large'>
                                                   <InputGroup.Addon>
                                                       <Icon glyph='icon-fontello-mail' />
                                                   </InputGroup.Addon>
-                                                  <FormControl autoFocus type='email' className='border-focus-blue' placeholder='support@sketchpixy.com' />
+                                                  <FormControl 
+                                                    autoFocus
+                                                    className='border-focus-blue'  
+                                                    type='email'                                                     
+                                                    placeholder='support@sketchpixy.com'
+                                                    name='email'
+                                                    onChange={this.handleChange}
+                                                    value={this.state.email} />
                                                   </InputGroup>
                                               </FormGroup>
+
                                               <FormGroup controlId='password'>
                                                   <InputGroup bsSize='large'>
                                                   <InputGroup.Addon>
                                                       <Icon glyph='icon-fontello-key' />
                                                   </InputGroup.Addon>
-                                                  <FormControl type='password' className='border-focus-blue' placeholder='password' />
+                                                  <FormControl 
+                                                    className='border-focus-blue' 
+                                                    type='password' 
+                                                    placeholder='password' 
+                                                    name='password' 
+                                                    onChange={this.handleChange}
+                                                    value={this.state.password} />
                                                   </InputGroup>
                                               </FormGroup>
+
                                               <FormGroup>
                                                   <Grid>
                                                   <Row>
@@ -120,6 +145,7 @@ class Login extends React.Component {
                                                   </Row>
                                                   </Grid>
                                               </FormGroup>
+
                                               </Form>
                                           </div>
                                           </div>
