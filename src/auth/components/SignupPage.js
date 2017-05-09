@@ -48,12 +48,6 @@ class Signup extends React.Component {
         html.classList.remove('authentication');
     }
 
-    handleBack(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.props.router.goBack();
-    }
-
     handleSubmit(e) {
         e.preventDefault();
         this.props.sendSignupRequest(this.state).then(
@@ -68,10 +62,6 @@ class Signup extends React.Component {
 
   handleChange(e) {
       this.setState({ [e.target.name]: e.target.value });
-  }
-
-  getPath() {
-      return '-';
   }
 
   render() {    
@@ -186,14 +176,14 @@ class Signup extends React.Component {
                             <Grid>
                               <Row>
                                 <Col xs={12} sm={6} smCollapseRight>
-                                  <Button block type='submit' id='facebook-btn' lg bsStyle='darkblue' onClick={this.handleBack}>
+                                  <Button block type='submit' id='facebook-btn' lg bsStyle='darkblue'>
                                     <Icon glyph='icon-fontello-facebook' />
                                     <span>Facebook</span>
                                   </Button>
                                   <br className='visible-xs' />
                                 </Col>
                                 <Col xs={12} sm={6}>
-                                  <Button block type='submit' id='twitter-btn' lg bsStyle='darkblue' onClick={this.handleBack}>
+                                  <Button block type='submit' id='twitter-btn' lg bsStyle='darkblue'>
                                     <Icon glyph='icon-fontello-twitter' />
                                     <span>Twitter</span>
                                   </Button>
@@ -202,7 +192,7 @@ class Signup extends React.Component {
                               </Row>
                             </Grid>
                             <div style={{marginTop: 25}}>
-                              Already have an account? <Link to={this.getPath('login')}>Login</Link>
+                              Already have an account? <Link to='/login'>Login</Link>
                             </div>
                           </div>
                         </div>
