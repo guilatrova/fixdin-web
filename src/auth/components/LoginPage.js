@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { sendLoginRequest } from '../authActions';
 
+import LoginForm from './LoginForm';
+
 import {
   Row,
   Col,
@@ -22,16 +24,13 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-class Login extends React.Component {
+class LoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: ''
         };
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -42,22 +41,6 @@ class Login extends React.Component {
     componentWillUnmount() {
         var html = document.getElementsByTagName('html')[0];        
         html.classList.remove('authentication');
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        this.props.sendLoginRequest(this.state).then(
-            ({data}) => {
-                console.log(data);
-            },
-            (data) => {
-                console.error(data);
-            }
-        );
-    }
-
-    handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
     }
 
     render() {
@@ -91,53 +74,7 @@ class Login extends React.Component {
                                                 or use your Rubix account
                                             </div>
                                             <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
-                                                <Form onSubmit={this.handleSubmit}>
-
-                                                <FormGroup controlId='emailaddress'>
-                                                    <InputGroup bsSize='large'>
-                                                    <InputGroup.Addon>
-                                                        <Icon glyph='icon-fontello-mail' />
-                                                    </InputGroup.Addon>
-                                                    <FormControl 
-                                                        autoFocus
-                                                        className='border-focus-blue'  
-                                                        type='email'                                                     
-                                                        placeholder='email@fixdin.com'
-                                                        name='email'
-                                                        onChange={this.handleChange}
-                                                        value={this.state.email} />
-                                                    </InputGroup>
-                                                </FormGroup>
-
-                                                <FormGroup controlId='password'>
-                                                    <InputGroup bsSize='large'>
-                                                    <InputGroup.Addon>
-                                                        <Icon glyph='icon-fontello-key' />
-                                                    </InputGroup.Addon>
-                                                    <FormControl 
-                                                        className='border-focus-blue' 
-                                                        type='password' 
-                                                        placeholder='password' 
-                                                        name='password' 
-                                                        onChange={this.handleChange}
-                                                        value={this.state.password} />
-                                                    </InputGroup>
-                                                </FormGroup>
-
-                                                <FormGroup>
-                                                    <Grid>
-                                                    <Row>
-                                                        <Col xs={6} collapseLeft collapseRight style={{paddingTop: 10}}>
-                                                        <Link to='/signup'>Create a Rubix account</Link>
-                                                        </Col>
-                                                        <Col xs={6} collapseLeft collapseRight className='text-right'>
-                                                        <Button outlined lg type='submit' bsStyle='blue'>Login</Button>
-                                                        </Col>
-                                                    </Row>
-                                                    </Grid>
-                                                </FormGroup>
-
-                                                </Form>
+                                                <LoginForm sendLoginRequest={this.props.sendLoginRequest} />
                                             </div>
                                             </div>
                                         </PanelBody>
@@ -153,8 +90,8 @@ class Login extends React.Component {
     }
 }
 
-Login.propTypes = {
+LoginPage.propTypes = {
     sendLoginRequest: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { sendLoginRequest })(Login);
+export default connect(null, { sendLoginRequest })(LoginPage);
