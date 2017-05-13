@@ -34,7 +34,6 @@ describe('API Service', () => {
         })
 
         it('should create AXIOS without authorization header', () => {
-            debugger;
             const axiosInstance = createAPI();
             
             expect(axiosInstance.defaults.headers).to.not.have.property('Authorization');
