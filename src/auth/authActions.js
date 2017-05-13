@@ -10,6 +10,11 @@ export function sendLoginRequest(loginData) {
       ({ data }) => {
         saveToken(data.token);
       }
+    )
+    .catch(
+      (error) => {
+        console.error(error);
+      }
     );
 
     return loginPromise;

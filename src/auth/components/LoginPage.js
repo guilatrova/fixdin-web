@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { sendLoginRequest } from '../authActions';
@@ -91,7 +91,7 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-    sendLoginRequest: React.PropTypes.func.isRequired
+    sendLoginRequest: PropTypes.func.isRequired
 }
 
 export default connect(null, { sendLoginRequest })(LoginPage);
