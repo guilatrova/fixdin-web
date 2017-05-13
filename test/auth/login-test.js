@@ -5,7 +5,7 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 
-import LoginForm from './../src/auth/components/LoginForm';
+import LoginForm from './../../src/auth/components/LoginForm';
 
 describe('LoginForm', () => {
     sinonStubPromise(sinon);

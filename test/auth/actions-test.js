@@ -1,23 +1,28 @@
 import React from 'react';
 import sinon from 'sinon';
-import sinonStubPromise from 'sinon-stub-promise';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import axios from 'axios'
 import moxios from 'moxios'
 
-import * as apiModule from '../src/services/api';
-import * as sessionModule from '../src/services/session';
-import * as authActionsModule from '../src/auth/authActions';
+import * as apiModule from './../../src/services/api';
+import * as sessionModule from './../../src/services/session';
+import * as authActionsModule from './../../src/auth/authActions';
+
+let sandbox, axiosInstance;
 
 describe('Auth Actions', () => {
-    beforeEach(function () {
-      sinonStubPromise(sinon);
-      this.axiosInstance = apiModule.default();
-      this.axiosInstance.baseURL = 'http://mocked/api';
+    beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+        axiosInstance = apiModule.default();
 
-      sinon.stub(apiModule, 'default').returns(this.axiosInstance);
-      moxios.install(this.axiosInstance);
+        sandbox.stub(apiModule, 'default').returns(axiosInstance);
+        moxios.install(axiosInstance);
+    })
+
+    afterEach(() => {
+        sandbox.restore();
+        moxios.uninstall(axiosInstance);
     })
 
     it('should call save token when login request is succeed', (done) => {

@@ -7,12 +7,14 @@ export default function createAPI() {
     let auth = { }
     if (isAuthenticated()) {
         auth = {
-            Token: getToken()
+            headers: {
+                Authorization: `Token ${getToken()}`
+            },
         }
     }
 
     return axios.create({
        baseURL: BASE_URL,
-       auth: auth
+       ...auth
     });
 };

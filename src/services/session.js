@@ -11,5 +11,5 @@ export function getToken()
 }
 
 export function isAuthenticated() {
-    return getToken() !== null;
+    return getToken() != null;
 }

@@ -24,7 +24,7 @@
             "request": "launch", 
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha", 
             "stopOnEntry": false, 
-            "args": ["--compilers", "./tools/babel-setup.js", "--recursive", "--watch", "./test/*.js"], 
+            "args": ["--compilers", "./tools/babel-setup.js", "--recursive", "--watch", "./test"], 
             "cwd": "${workspaceRoot}", 
             "preLaunchTask": null, 
             "runtimeArgs": [ 
