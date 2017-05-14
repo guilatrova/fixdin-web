@@ -25,13 +25,6 @@ import {
 } from '@sketchpixy/rubix';
 
 class LoginPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: ''
-        };
-    }
 
     componentDidMount() {
         var html = document.getElementsByTagName('html')[0];

@@ -5,12 +5,12 @@ import { IndexRoute, Route, Router } from 'react-router';
 import { App, Dashboard } from './app';
 import Home from './common/components/Home';
 import LoginPage from './auth/components/LoginPage';
-import Signup from './auth/components/SignupPage';
+import SignupPage from './auth/components/SignupPage';
 
 export default (  
     <Router component={App}>
       <Route path='/login' component={LoginPage} />
-      <Route path='/signup' component={Signup} />
+      <Route path='/signup' component={SignupPage} />
 
       <Route path='/' component={Dashboard} >
         <IndexRoute component={Home} />
