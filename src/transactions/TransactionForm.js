@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import Datetime from 'react-datetime';
+import CurrencyInput from 'react-currency-input';
 
 import {    
   Row,
@@ -30,14 +31,15 @@ class TransactionForm extends React.Component {
             category: '',
             value: 0,
             kind: props.kind,
-            details: '',
+            details: '0,00',
             periodic: {},
             errors: {},
             periodic_visible: false
         };
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleDueDateChange = this.handleDueDateChange.bind(this);        
+        this.handleDueDateChange = this.handleDueDateChange.bind(this);
+        this.handleValueChange = this.handleValueChange.bind(this);
         this.togglePeriodic = this.togglePeriodic.bind(this);
     }
 
@@ -46,8 +48,12 @@ class TransactionForm extends React.Component {
     }
 
     handleDueDateChange(value) {
-        if (value instanceof moment)
-            this.setState({ due_date: value });
+        // if (value instanceof moment)
+        this.setState({ due_date: value });
+    }
+
+    handleValueChange(value) {
+        this.setState({ value: value });
     }
 
     togglePeriodic(e) {
@@ -104,11 +110,13 @@ class TransactionForm extends React.Component {
                 </Col>
 
                 <Col sm={10}>
-                    <FormControl
-                        className='border-focus-blue'
-                        name="value"
-                        onChange={this.handleChange}
-                        value={this.state.value} />
+                    <CurrencyInput 
+                        className='border-focus-blue form-control'
+                        onChange={this.handleValueChange}
+                        value={this.state.value}
+                        prefix="R$ "
+                        decimalSeparator=","
+                        thousandSeparator="." />
                 </Col>
 
             </FormGroup>
