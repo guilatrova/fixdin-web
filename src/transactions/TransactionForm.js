@@ -21,6 +21,8 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
+import { sendTransactionRequest } from './transactionActions';
+
 class TransactionForm extends React.Component {
     constructor(props) {
         super(props);
@@ -29,9 +31,9 @@ class TransactionForm extends React.Component {
             due_date: moment(new Date()),
             description: '',
             category: '',
-            value: 0,
+            value: '0,00',
             kind: props.kind,
-            details: '0,00',
+            details: '',
             periodic: {},
             errors: {},
             periodic_visible: false
@@ -40,7 +42,19 @@ class TransactionForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleDueDateChange = this.handleDueDateChange.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.togglePeriodic = this.togglePeriodic.bind(this);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        sendTransactionRequest(this.state)
+        .then(
+            ({ data }) => {console.log(data)}
+        )
+        .catch(
+            (error) => {console.error(error)}
+        );
     }
 
     handleChange(e) {
@@ -62,7 +76,7 @@ class TransactionForm extends React.Component {
     
     render() {
         return (
-        <Form horizontal>
+        <Form horizontal onSubmit={this.handleSubmit}>
             
             <FormGroup controlId='dueDateGroup'>
                 <Col componentClass={ControlLabel} sm={2}>
@@ -147,6 +161,12 @@ class TransactionForm extends React.Component {
             </FormGroup>
 
             <FormGroup controlId='periodicGroup'>
+            </FormGroup>
+
+            <FormGroup>
+                <Col smOffset={2} sm={10} className='text-right'>
+                    <Button lg type='submit' bsStyle='primary'>Criar</Button>
+                </Col>
             </FormGroup>
 
             </Form>

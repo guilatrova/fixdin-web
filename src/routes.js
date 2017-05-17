@@ -15,7 +15,7 @@ export default (
 
       <Route path='/' component={Dashboard} >
         <IndexRoute component={Home} />
-        <Route path='/expenses' component={TransactionForm} />
+        <Route path='/incomes' component={TransactionForm} />
       </Route>      
     </Router>
 );
