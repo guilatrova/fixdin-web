@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
+import Datetime from 'react-datetime';
 
 import {    
   Row,
@@ -23,7 +25,7 @@ class TransactionForm extends React.Component {
         super(props);
         this.state = {
             account: 0,
-            due_date: new Date(),
+            due_date: moment(new Date()),
             description: '',
             category: '',
             value: 0,
@@ -35,11 +37,17 @@ class TransactionForm extends React.Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleDueDateChange = this.handleDueDateChange.bind(this);        
         this.togglePeriodic = this.togglePeriodic.bind(this);
     }
 
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    handleDueDateChange(value) {
+        if (value instanceof moment)
+            this.setState({ due_date: value });
     }
 
     togglePeriodic(e) {
@@ -55,12 +63,11 @@ class TransactionForm extends React.Component {
                     Vencimento
                 </Col>
                 <Col sm={10}>
-                    <FormControl 
-                        autoFocus
+                    <Datetime
+                        timeFormat={false}
                         className='border-focus-blue'
-                        onChange={this.handleChange}
-                        name="due_date"
-                        value={this.state.due_date} />
+                        onChange={this.handleDueDateChange}                        
+                        value={this.state.due_date} />                    
                 </Col>
             </FormGroup>
 
