@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
-import Datetime from 'react-datetime';
+import DatetimeInput from 'react-datetime';
 import CurrencyInput from 'react-currency-input';
 
 import {    
@@ -83,7 +83,7 @@ class TransactionForm extends React.Component {
                     Vencimento
                 </Col>
                 <Col sm={10}>
-                    <Datetime
+                    <DatetimeInput
                         timeFormat={false}
                         className='border-focus-blue'
                         onChange={this.handleDueDateChange}                        

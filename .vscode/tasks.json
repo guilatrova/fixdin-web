@@ -21,6 +21,7 @@
         },
         {
             "taskName": "run",
+            "isBuildCommand": true,
             "args": ["run", "dev", "-s"]
         }
     ]

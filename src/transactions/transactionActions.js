@@ -24,3 +24,9 @@ export function sendTransactionRequest({ account, due_date, description, categor
 
     return api.post('incomes/', postData);
 }
+
+export function getTransactions() {
+    const api = createApi();
+
+    return api.get('incomes/');
+}
