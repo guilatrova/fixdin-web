@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { sendLoginRequest } from '../authActions';
+import { doLogin } from '../actions';
 
 import LoginForm from './LoginForm';
 
@@ -67,7 +67,7 @@ class LoginPage extends React.Component {
                                                 or use your Rubix account
                                             </div>
                                             <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
-                                                <LoginForm sendLoginRequest={this.props.sendLoginRequest} />
+                                                <LoginForm onSubmit={this.props.onSubmit} />
                                             </div>
                                             </div>
                                         </PanelBody>
@@ -84,7 +84,21 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-    sendLoginRequest: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired
 }
 
-export default connect(null, { sendLoginRequest })(LoginPage);
+const mapStateToProps = (state) => {
+    return {
+        errors: state.auth.errors
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSubmit: (loginData) => {
+            dispatch(doLogin(loginData))
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

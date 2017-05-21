@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import {
@@ -21,8 +21,7 @@ class LoginForm extends React.Component {
         super(props);
         this.state = {
             email: '',
-            password: '',
-            errors: {}
+            password: ''
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,14 +30,7 @@ class LoginForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.sendLoginRequest(this.state).then(
-            ({data}) => {
-                console.log(data);
-            },
-            (data) => {
-                this.setState({ errors: data });
-            }
-        );
+        this.props.onSubmit(this.state);
     }
 
     handleChange(e) {
@@ -99,7 +91,7 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.prototypes = {
-    sendLoginRequest: React.PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired
 }
 
 export default LoginForm;

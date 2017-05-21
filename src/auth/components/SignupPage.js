@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { sendSignupRequest } from '../authActions';
+import { sendSignupRequest } from '../actions';
 
 import SignupForm from './SignupForm';
 
