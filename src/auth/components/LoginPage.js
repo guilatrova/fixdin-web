@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { doLogin } from '../actions';
+import { fetchToken } from '../actions';
 
 import LoginForm from './LoginForm';
 
@@ -96,7 +96,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSubmit: (loginData) => {
-            dispatch(doLogin(loginData))
+            dispatch(fetchToken(loginData))
         }
     }
 };

@@ -1,12 +1,11 @@
 import createApi from '../services/api';
 import { saveToken } from '../services/session';
 
-export const REQUEST_LOGIN = 'REQUEST_LOGIN';
-export const RECEIVE_TOKEN = 'RECEIVE_LOGIN';
+export const AUTH_FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
 
-function requestLogin(loginData) {
+function requestToken(loginData) {
   return {
-    type: REQUEST_LOGIN,
+    type: AUTH_FETCH_TOKEN,
     loginData
   }
 }
@@ -14,28 +13,27 @@ function requestLogin(loginData) {
 function receiveToken(result, data) {
   if (result === 'success') {
     return {
-      type: RECEIVE_TOKEN,
+      type: AUTH_FETCH_TOKEN,
       result,
       token: data
     }
   }
   
   return {
-    type: RECEIVE_TOKEN,
+    type: AUTH_FETCH_TOKEN,
     result,
-    error: data
+    errors: data
   }
 }
 
-export function doLogin(loginData) {
+export function fetchToken(loginData) {
   return dispatch => {
-    dispatch(requestLogin(loginData));
+    dispatch(requestToken(loginData));
     const api = createApi();
 
     return api.post('auth/', loginData)
       .then(response => response.data)
       .then(data => { 
-        console.log(data);
         saveToken(data.token);
         return data.token;
       })
