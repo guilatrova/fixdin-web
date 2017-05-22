@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { sendSignupRequest } from '../authActions';
 
 import SignupForm from './SignupForm';
+import { fetchSignup } from '../actions';
 
 import {
   Row,
@@ -54,7 +54,7 @@ class SignupPage extends React.Component {
 
                           <div>
                             <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
-                              <SignupForm sendSignupRequest={this.props.sendSignupRequest} />
+                              <SignupForm onSubmit={this.props.onSubmit} />
                             </div>
 
                             <div className='bg-hoverblue fg-black50 text-center' style={{padding: 25, paddingTop: 12.5}}>
@@ -96,7 +96,22 @@ class SignupPage extends React.Component {
 }
 
 SignupPage.propTypes = {
-    sendSignupRequest: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired
 }
 
-export default connect(null, { sendSignupRequest })(SignupPage);
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    ...state.auth.signup
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSubmit: (signupData) => {
+      dispatch(fetchSignup(signupData))
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);

@@ -20,8 +20,6 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import { getTransactions } from './transactionActions';
-
 class TransactionList extends React.Component {
 
     render() {
