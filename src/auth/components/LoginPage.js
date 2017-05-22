@@ -89,7 +89,7 @@ LoginPage.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        errors: state.auth.errors
+        ...state.auth.login
     }
 };
 
