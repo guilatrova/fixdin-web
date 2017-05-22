@@ -84,7 +84,12 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    errors: PropTypes.array.isRequired
+}
+
+LoginPage.defaultProps = {
+    errors: {}
 }
 
 const mapStateToProps = (state) => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 import {    
@@ -24,14 +25,13 @@ import {
 
 import TransactionForm from './TransactionForm';
 import TransactionList from './TransactionList';
-import { getTransactions } from './transactionActions';
+import { fetchTransactions } from '../actions';
 
 class TransactionPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            transactions: [],
             showCreateNewModal: false,
         };
 
@@ -40,11 +40,7 @@ class TransactionPage extends React.Component {
     }
 
     componentDidMount() {
-        getTransactions().then(({data}) => {  
-            console.log(data);
-            this.setState({transactions: data})
-        })
-        .catch((error) => console.error(error));
+        this.props.fetch();
     }
 
     handleCreateTransactionClick() {
@@ -71,7 +67,7 @@ class TransactionPage extends React.Component {
                                 <Row>
 
                                     <Col xs={12}>
-                                        <TransactionList transactions={this.state.transactions} />
+                                        <TransactionList kind={'income'} transactions={this.props.transactions} />
                                     </Col>
 
                                 </Row>
@@ -86,12 +82,24 @@ class TransactionPage extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <TransactionForm />
+                        <TransactionForm kind='income' />
                     </Modal.Body>
                 </Modal>
             </div>
         )
-    }    
+    }
 }
 
-export default TransactionPage;
+const mapStateToProps = (state) => {
+    return {
+        transactions: state.transactions.page.transactions
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetch: () => dispatch(fetchTransactions())        
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionPage);

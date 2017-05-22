@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import DatetimeInput from 'react-datetime';
 import CurrencyInput from 'react-currency-input';
@@ -21,7 +22,7 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import { sendTransactionRequest } from './transactionActions';
+import { createTransaction } from '../actions';
 
 class TransactionForm extends React.Component {
     constructor(props) {
@@ -48,13 +49,7 @@ class TransactionForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        sendTransactionRequest(this.state)
-        .then(
-            ({ data }) => {console.log(data)}
-        )
-        .catch(
-            (error) => {console.error(error)}
-        );
+        this.props.onSubmit(this.state);
     }
 
     handleChange(e) {
@@ -62,7 +57,6 @@ class TransactionForm extends React.Component {
     }
 
     handleDueDateChange(value) {
-        // if (value instanceof moment)
         this.setState({ due_date: value });
     }
 
@@ -152,7 +146,7 @@ class TransactionForm extends React.Component {
 
             </FormGroup>
 
-            <FormGroup controlId='periodicCheckGroup'>
+            {/*<FormGroup controlId='periodicCheckGroup'>
                 <Col smOffset={2} sm={10}>
                     <Checkbox onChange={this.togglePeriodic} checked={this.state.periodic_visible}>
                         Periódico
@@ -161,7 +155,7 @@ class TransactionForm extends React.Component {
             </FormGroup>
 
             <FormGroup controlId='periodicGroup'>
-            </FormGroup>
+            </FormGroup>*/}
 
             <FormGroup>
                 <Col smOffset={2} sm={10} className='text-right'>
@@ -174,4 +168,28 @@ class TransactionForm extends React.Component {
     }
 }
 
-export default TransactionForm;
+TransactionForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    kind: PropTypes.string.isRequired,
+    errors: PropTypes.object.isRequired
+}
+
+TransactionForm.defaultProps = {
+    errors: {}
+}
+
+const mapStateToProps = (state) => {    
+    return {
+        ...state.transactions.form
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSubmit: (transactionData) => {
+            dispatch(createTransaction(transactionData))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionForm);
