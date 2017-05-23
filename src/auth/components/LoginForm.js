@@ -109,9 +109,4 @@ LoginForm.prototypes = {
     error: PropTypes.string.isRequired
 }
 
-LoginForm.defaultProps = {
-    isFetching: false,
-    error: ''
-}
-
 export default LoginForm;

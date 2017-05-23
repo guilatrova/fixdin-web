@@ -3,7 +3,8 @@ import { AUTH_FETCH_TOKEN, AUTH_REQUEST_SIGNUP } from './actions';
 const initialState = {
     login : {
         isFetching: false,
-        errors: {}
+        error: '',
+        token: ''
     },
     signup : {
         isFetching: false,
@@ -17,6 +18,7 @@ function authenticationArea(state, action, keyArea) {
             return Object.assign({}, state, { 
                 [keyArea]: {
                     isFetching: false,
+                    errors: {},
                     token: action.token //only for login
                 }
             });
@@ -47,6 +49,37 @@ export function authentication(state = initialState, action) {
 
         case AUTH_FETCH_TOKEN:
             return authenticationArea(state, action, 'login');
+
+        default:
+            return state;
+    }
+}
+
+export function loginReducer(state = initialState.login, action) {
+    switch (action.type) {
+        
+        case AUTH_FETCH_TOKEN:
+            if (action.result === 'success') {
+                return {
+                    ...state,
+                    isFetching: false,
+                    token: action.token,
+                    error: ''
+                };
+            }
+            else if(action.result === 'fail') {
+                return {
+                    ...state,
+                    isFetching: false,
+                    error: action.error,
+                    token: ''
+                }
+            }
+            
+            return {
+                ...state,
+                isFetching: true
+            }
 
         default:
             return state;

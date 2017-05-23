@@ -14,7 +14,6 @@ describe('Session Service', () => {
     })
 
     it('should save token', () => {
-        debugger;
         sessionModule.saveToken(SAVED_TOKEN);
         
         expect(localStorage.getItem(sessionModule.TOKEN_KEY)).to.equal(SAVED_TOKEN);

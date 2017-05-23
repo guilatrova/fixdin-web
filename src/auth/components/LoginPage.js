@@ -67,7 +67,7 @@ class LoginPage extends React.Component {
                                                 or use your Rubix account
                                             </div>
                                             <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
-                                                <LoginForm onSubmit={this.props.onSubmit} />
+                                                <LoginForm {...this.props} />
                                             </div>
                                             </div>
                                         </PanelBody>
@@ -85,16 +85,16 @@ class LoginPage extends React.Component {
 
 LoginPage.propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    errors: PropTypes.array.isRequired
+    error: PropTypes.string.isRequired
 }
 
 LoginPage.defaultProps = {
-    errors: {}
+    error: ''
 }
 
 const mapStateToProps = (state) => {
     return {
-        ...state.auth.login
+        ...state.login
     }
 };
 

@@ -22,7 +22,7 @@ function receiveToken(result, data) {
   return {
     type: AUTH_FETCH_TOKEN,
     result,
-    errors: data
+    error: data
   }
 }
 
@@ -55,12 +55,15 @@ export function fetchToken(loginData) {
 
     return api.post('auth/', loginData)
       .then(response => response.data)
-      .then(data => { 
-        saveToken(data.token);
-        return data.token;
+      .then(data => data.token)
+      .then(token => {
+        saveToken(token);
+        dispatch(receiveToken('success', token));
       })
-      .then(token => dispatch(receiveToken('success', token)))
-      .catch(error => dispatch(receiveToken('fail', error.response)))
+      .catch(error => {
+        console.log(error);
+        dispatch(receiveToken('fail', error.response.data['detail']));
+      });
   }
 }
 
