@@ -10,6 +10,7 @@ import {
   Badge,
   Panel,
   Button,
+  Alert,
   PanelBody,
   FormGroup,
   InputGroup,
@@ -38,8 +39,20 @@ class LoginForm extends React.Component {
     }
     
     render() {
+        const { isFetching, error } = this.props;
+        let submitDisabled = true;
+        if (this.state.email && this.state.password && !isFetching) {
+            submitDisabled = false;
+        }
+
         return (
         <Form onSubmit={this.handleSubmit}>
+            
+            {error && 
+            <Alert danger>
+                <strong>Opa!</strong> <span>{error}</span>
+            </Alert>
+            }
 
             <FormGroup controlId='emailaddress'>
                 <InputGroup bsSize='large'>
@@ -79,7 +92,7 @@ class LoginForm extends React.Component {
                     <Link to='/signup'>Create a Rubix account</Link>
                     </Col>
                     <Col xs={6} collapseLeft collapseRight className='text-right'>
-                    <Button outlined lg type='submit' bsStyle='blue'>Login</Button>
+                    <Button outlined lg type='submit' bsStyle='blue' disabled={submitDisabled}>Login</Button>
                     </Col>
                 </Row>
                 </Grid>
@@ -91,7 +104,14 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.prototypes = {
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired
+}
+
+LoginForm.defaultProps = {
+    isFetching: false,
+    error: ''
 }
 
 export default LoginForm;
