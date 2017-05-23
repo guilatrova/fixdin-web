@@ -88,19 +88,22 @@
   },
   "dependencies": {
     "@sketchpixy/rubix": "^2.0.0",
+    "axios": "^0.12.0",
     "babel-cli": "^6.10.1",
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
+    "moment": "^2.18.1",
     "pug": "^2.0.0-beta3",
     "react": "^15.3.0",
+    "react-currency-input": "^1.2.6",
+    "react-datetime": "^2.8.10",
     "react-dom": "^15.3.0",
     "react-hot-loader": "^3.0.0-beta.2",
     "react-router": "^3.0.0-alpha.3",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
-    "source-map-support": "^0.4.0",
-    "axios": "^0.12.0"
+    "source-map-support": "^0.4.0"
   }
 }

@@ -20,6 +20,9 @@
 @import "fonts/Simple-Line-Icons/Simple-Line-Icons";
 @import "fonts/Stroke-Gap-Icons/Stroke-Gap-Icons";
 
+/* Component styles */
+@import "components/react-datetime";
+
 /* Page styles */
 @import "pages/home";
 @import "pages/auth"

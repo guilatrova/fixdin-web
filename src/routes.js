@@ -6,6 +6,7 @@ import { App, Dashboard } from './app';
 import Home from './common/components/Home';
 import LoginPage from './auth/components/LoginPage';
 import SignupPage from './auth/components/SignupPage';
+import TransactionPage from './transactions/components/TransactionPage';
 
 export default (  
     <Router component={App}>
@@ -14,6 +15,7 @@ export default (
 
       <Route path='/' component={Dashboard} >
         <IndexRoute component={Home} />
+        <Route path='/incomes' component={TransactionPage} />
       </Route>      
     </Router>
 );

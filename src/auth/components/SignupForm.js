@@ -30,8 +30,7 @@ class SignupForm extends React.Component {
             first_name: '',
             last_name: '',
             email: '',
-            password: '',
-            errors: {}
+            password: ''
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,14 +39,7 @@ class SignupForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.sendSignupRequest(this.state).then(
-            ({data}) => {
-                console.log(data);
-            },
-            (data) => {
-                this.setState({ errors: data });
-            }
-        );
+        this.props.onSubmit(this.state);
     }
 
     handleChange(e) {
@@ -149,7 +141,7 @@ class SignupForm extends React.Component {
 }
 
 SignupForm.propTypes = {
-    sendSignupRequest: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired
 }
 
 export default SignupForm;
