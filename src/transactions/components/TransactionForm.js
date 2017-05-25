@@ -15,6 +15,7 @@ import {
   Panel,
   Checkbox,
   Button,
+  HelpBlock,
   PanelBody,
   ControlLabel,
   FormGroup,
@@ -67,12 +68,30 @@ class TransactionForm extends React.Component {
     togglePeriodic(e) {
         this.setState({ periodic_visible: !this.state.periodic_visible});
     }
+
+    isSubmitDisabled() {
+        let disabled = false;
+        if (this.props.isFetching) {
+            disabled = true;
+        }       
+        else if (this.state.value == '' || this.state.value == undefined) { //0 is enabled
+            disabled = true;
+        }
+        else {
+            disabled = !(this.state.due_date && this.state.category && this.state.description);
+        }
+
+        return disabled;
+    }
     
     render() {
+        const { errors } = this.props;
+        const disabled = this.isSubmitDisabled();
+
         return (
         <Form horizontal onSubmit={this.handleSubmit}>
             
-            <FormGroup controlId='dueDateGroup'>
+            <FormGroup controlId='dueDateGroup' validationState={'due_date' in errors ? 'error' : undefined}>
                 <Col componentClass={ControlLabel} sm={2}>
                     Vencimento
                 </Col>
@@ -81,11 +100,15 @@ class TransactionForm extends React.Component {
                         timeFormat={false}
                         className='border-focus-blue'
                         onChange={this.handleDueDateChange}                        
-                        value={this.state.due_date} />                    
+                        value={this.state.due_date} />
+
+                    {errors.due_date &&
+                        <HelpBlock>{errors.due_date}</HelpBlock>
+                    }
                 </Col>
             </FormGroup>
 
-            <FormGroup controlId='descriptionGroup'>
+            <FormGroup controlId='descriptionGroup' validationState={'description' in errors ? 'error' : undefined}>
                 <Col componentClass={ControlLabel} sm={2}>
                     Descrição
                 </Col>
@@ -95,10 +118,14 @@ class TransactionForm extends React.Component {
                         name="description"
                         onChange={this.handleChange}
                         value={this.state.description} />
+                    
+                    {errors.description &&
+                        <HelpBlock>{errors.description}</HelpBlock>
+                    }
                 </Col>
             </FormGroup>
 
-            <FormGroup controlId='categoryGroup'>
+            <FormGroup controlId='categoryGroup' validationState={'category' in errors ? 'error' : undefined}>
                 <Col componentClass={ControlLabel} sm={2}>
                     Categoria
                 </Col>
@@ -108,10 +135,14 @@ class TransactionForm extends React.Component {
                         name="category"
                         onChange={this.handleChange}
                         value={this.state.category} />
+
+                    {errors.category &&
+                        <HelpBlock>{errors.category}</HelpBlock>
+                    }
                 </Col>
             </FormGroup>
 
-            <FormGroup controlId='valueGroup'>
+            <FormGroup controlId='valueGroup' validationState={'value' in errors ? 'error' : undefined}>
 
                 <Col componentClass={ControlLabel} sm={2}>
                     Valor
@@ -125,11 +156,55 @@ class TransactionForm extends React.Component {
                         prefix="R$ "
                         decimalSeparator=","
                         thousandSeparator="." />
+
+                    {errors.value &&
+                        <HelpBlock>{errors.value}</HelpBlock>
+                    }
                 </Col>
 
             </FormGroup>
 
-            <FormGroup controlId='detailsGroup'>
+            <FormGroup controlId='deadlineGroup' validationState={'deadline_count' in errors ? 'error' : undefined}>
+
+                <Col componentClass={ControlLabel} sm={2}>
+                    Prazo
+                </Col>
+
+                <Col sm={10}>
+                    <FormControl
+                        className='border-focus-blue'
+                        name="deadline_count"
+                        onChange={this.handleChange}
+                        value={this.state.description} />
+                    
+                    {errors.deadline_count &&
+                        <HelpBlock>{errors.deadline_count}</HelpBlock>
+                    }
+                </Col>
+
+            </FormGroup>
+
+            <FormGroup controlId='priorityGroup' validationState={'priority_level' in errors ? 'error' : undefined}>
+
+                <Col componentClass={ControlLabel} sm={2}>
+                    Prazo
+                </Col>
+
+                <Col sm={10}>
+                    <FormControl
+                        className='border-focus-blue'
+                        name="priority_level"
+                        onChange={this.handleChange}
+                        value={this.state.description} />
+                    
+                    {errors.priority_level &&
+                        <HelpBlock>{errors.priority_level}</HelpBlock>
+                    }
+                </Col>
+
+            </FormGroup>
+
+            <FormGroup controlId='detailsGroup' validationState={'details' in errors ? 'error' : undefined}>
 
                 <Col componentClass={ControlLabel} sm={2}>
                     Detalhes
@@ -142,6 +217,10 @@ class TransactionForm extends React.Component {
                         name="details"
                         onChange={this.handleChange}
                         value={this.state.details} />
+
+                    {errors.details &&
+                        <HelpBlock>{errors.details}</HelpBlock>
+                    }
                 </Col>
 
             </FormGroup>
@@ -159,7 +238,7 @@ class TransactionForm extends React.Component {
 
             <FormGroup>
                 <Col smOffset={2} sm={10} className='text-right'>
-                    <Button lg type='submit' bsStyle='primary'>Criar</Button>
+                    <Button lg type='submit' bsStyle='primary' disabled={disabled}>Criar</Button>
                 </Col>
             </FormGroup>
 
@@ -171,25 +250,28 @@ class TransactionForm extends React.Component {
 TransactionForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     kind: PropTypes.string.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired
 }
 
 TransactionForm.defaultProps = {
-    errors: {}
+    errors: { }
 }
 
-const mapStateToProps = (state) => {    
-    return {
-        ...state.transactions.form
-    }
-}
+export default TransactionForm;
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onSubmit: (transactionData) => {
-            dispatch(createTransaction(transactionData))
-        }
-    }
-}
+// const mapStateToProps = (state) => {    
+//     return {
+//         ...state.transactions.form
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionForm);
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         onSubmit: (transactionData) => {
+//             dispatch(createTransaction(transactionData))
+//         }
+//     }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(TransactionForm);
