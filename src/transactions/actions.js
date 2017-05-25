@@ -73,7 +73,7 @@ export function createTransaction({ account, due_date, description, category, va
         return api.post('incomes/', postData)
             .then(response => response.data)
             .then(data => dispatch(receiveCreateTransaction('success', data)))
-            .catch(error => dispatch(receiveCreateTransaction('fail', error.response)))
+            .catch(({response}) => dispatch(receiveCreateTransaction('fail', response.data)))
             
     }
 }

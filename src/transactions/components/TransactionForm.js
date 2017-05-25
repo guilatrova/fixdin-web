@@ -77,10 +77,13 @@ class TransactionForm extends React.Component {
         else if (this.state.value == '' || this.state.value == undefined) { //0 is enabled
             disabled = true;
         }
+        else if (!moment.isMoment(this.state.due_date)) {            
+            disabled = true;            
+        }
         else {
             disabled = !(this.state.due_date && this.state.category && this.state.description);
         }
-
+        
         return disabled;
     }
     

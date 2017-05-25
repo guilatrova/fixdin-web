@@ -141,10 +141,10 @@ describe('Login', () => {
             });            
         })
 
-        it.skip('should dispatch finished with error when fetching token fails', (done) => {
+        it('should dispatch finished with error when fetching token fails', (done) => {
             const expectedActions = [
                 { type: AUTH_FETCH_TOKEN },
-                { type: AUTH_FETCH_TOKEN, result: 'fail', error: '' }
+                { type: AUTH_FETCH_TOKEN, result: 'fail', error: 'You shall not pass' }
             ]
 
             store.dispatch(fetchToken({ email:'any', password:'any' }));
@@ -157,13 +157,11 @@ describe('Login', () => {
                     response: { detail: 'You shall not pass' }
                 })
                 .then(() => {
-                    debugger;
                     expect(store.getActions()).to.deep.equal(expectedActions);
                     done();
                 })
-                .catch(() => {
-                    expect(store.getActions()).to.deep.equal(expectedActions);
-                    done();
+                .catch(error => {
+                    done(`Actions arent equal: ${error}`);
                 });
             });
         })

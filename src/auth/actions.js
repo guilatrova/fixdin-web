@@ -60,10 +60,7 @@ export function fetchToken(loginData) {
         saveToken(token);
         dispatch(receiveToken('success', token));
       })
-      .catch(error => {
-        console.log(error);
-        dispatch(receiveToken('fail', error.response.data['detail']));
-      });
+      .catch(({response}) => dispatch(receiveToken('fail', response.data['detail'])));
   }
 }
 

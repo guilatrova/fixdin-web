@@ -7,11 +7,13 @@ import moxios from 'moxios'
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
+import moment from 'moment';
 
 //import  from './../../src/'
 import * as apiModule from './../../src/services/api';
 import TransactionForm from './../../src/transactions/components/TransactionForm';
 import { CREATE_TRANSACTION, createTransaction } from './../../src/transactions/actions';
+import transactionReducer from './../../src/transactions/reducers';
 
 describe('Transaction', () => {
 
@@ -84,19 +86,30 @@ describe('Transaction', () => {
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank('due_date');
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank('value');
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank('description');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank('category');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank('category');        
 
-        const fillAllRequiredFields = (inputChangeTrigger) => {
+        const fillAllRequiredFields = (inputChangeTrigger, fieldsValue = {}) => {
             for (let i = 0; i < requiredFields.length; i++) {
-                simulateChange(inputChangeTrigger, requiredFields[i], 'any');
+                const field = requiredFields[i]; 
+                const value = fieldsValue[field] || 'any';                
+                simulateChange(inputChangeTrigger, field, value);
             }
         }
 
-        it('submit button should be enabled when required fields are filled', () => {
+        it('submit button should be disabled when due_date is invalid', () => {
             const wrapper = mount(<TransactionForm onSubmit={() => {}} kind='income' />);            
             const input = wrapper.find('#descriptionGroup'); //any input can trigger change
             
-            fillAllRequiredFields(input);            
+            fillAllRequiredFields(input);
+
+            assertSubmitDisabled(wrapper);
+        })
+
+        it('submit button should be enabled when required fields are correctly filled', () => {
+            const wrapper = mount(<TransactionForm onSubmit={() => {}} kind='income' />);            
+            const input = wrapper.find('#descriptionGroup'); //any input can trigger change
+            
+            fillAllRequiredFields(input, { due_date: moment(new Date())});
 
             const submitButton = wrapper.find('button[type="submit"]');
             expect(submitButton.props()['disabled']).to.be.false;
@@ -141,14 +154,13 @@ describe('Transaction', () => {
             moxios.uninstall(axiosInstance);
         })
 
-        it('should dispatch action before and after creating transaction', (done) => {            
-            debugger;
-            const momentStub = { format: () => { return 'a' }}
-            const transaction = {
-                value: '0',
-                due_date: momentStub,
-            }
+        const momentStub = { format: () => { return 'a' }}
+        const transaction = {
+            value: '0',
+            due_date: momentStub,
+        }
 
+        it('should dispatch action before and after creating transaction', (done) => {
             const expectedResponse = transaction
             const expectedActions = [
                 { type: CREATE_TRANSACTION },
@@ -172,13 +184,96 @@ describe('Transaction', () => {
             });
         })
 
-        xit('should dispatch fail action when something goes wrong');
+        it('should dispatch fail action when something goes wrong', (done) => {
+            const expectedResponse = {
+                value: 'invalid value supplied',
+                category: 'mandatory field'
+            }
+            const expectedActions = [
+                { type: CREATE_TRANSACTION },
+                { type: CREATE_TRANSACTION, result: 'fail', errors: expectedResponse }
+            ]
+
+            store.dispatch(createTransaction(transaction));
+
+            moxios.wait(() => {
+                let request = moxios.requests.mostRecent()
+
+                request.respondWith({
+                    status: 400,
+                    response: expectedResponse
+
+                })
+                .then((response) => {                    
+                    expect(store.getActions()).to.deep.equal(expectedActions);                    
+                    done();
+                })
+                .catch((error) => {
+                    done(`Actions arent equal: ${error}`)
+                });
+            });
+        });
 
     })
 
     describe('Reducers', () => {
 
+        const initialState = {
+            transactions: [],            
+            isFetching: false,
+            errors: {}
+        }
 
+        it('should return the initial state', () => {
+            expect(
+                transactionReducer(undefined, {})
+            ).to.deep.equal(initialState);
+        })
+
+        it('should handle CREATE TRANSACTION', () => {
+            expect(
+                transactionReducer(undefined, {
+                    type: CREATE_TRANSACTION,                    
+                })
+            ).to.deep.equal({
+                isFetching: true,
+                errors: {},
+                transactions: []
+            });
+        })
+
+        it('should handle successful CREATE TRANSACTION', () => {
+            expect(
+                transactionReducer(undefined, {
+                    type: CREATE_TRANSACTION,
+                    result: 'success',
+                    transaction: { id: 1 }
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors: {},
+                transactions: [{ id: 1 }]
+            });
+        })
+
+        it('should handle fail CREATE TRANSACTION', () => {
+            const errors = {
+                value: 'invalid value',
+                category: 'field is mandatory'
+            }
+
+            expect(
+                transactionReducer(undefined, {
+                    type: CREATE_TRANSACTION,
+                    result: 'fail',
+                    errors
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors,
+                transactions: []
+            });
+        })
 
     })    
 
