@@ -32,29 +32,27 @@ export default function reducer(state = initialState, action) {
 
         case FETCH_TRANSACTIONS:
             if (action.result === 'success') {
-                return Object.assign({}, state, { 
-                    page: {
-                        transactions: action.transactions,
-                        isFetching: false
-                    }
-                });
+                return {
+                    ...state,
+                    transactions: action.transactions,
+                    isFetching: false,
+                    errors: {}
+                }
             }
             else if (action.result === 'fail') {
-                return Object.assign({}, state, {
-                    page: {
-                        errors: action.errors,
-                        isFetching: false,
-                        transactions: []
-                    }
-                });
+                return {
+                    ...state,
+                    errors: action.errors,
+                    isFetching: false
+                }
             }
 
-            return Object.assign({}, state, { 
-                page: {
-                    isFetching: true,
-                    transactions: []
-                } 
-            });
+            return  {
+                ...state,
+                isFetching: true,
+                transactions: [],
+                errors: {}
+            } 
 
         default:
             return state;

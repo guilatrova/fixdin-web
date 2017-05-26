@@ -178,7 +178,7 @@ class TransactionForm extends React.Component {
                         className='border-focus-blue'
                         name="deadline_count"
                         onChange={this.handleChange}
-                        value={this.state.description} />
+                        value={this.state.deadline_count} />
                     
                     {errors.deadline_count &&
                         <HelpBlock>{errors.deadline_count}</HelpBlock>
@@ -190,7 +190,7 @@ class TransactionForm extends React.Component {
             <FormGroup controlId='priorityGroup' validationState={'priority_level' in errors ? 'error' : undefined}>
 
                 <Col componentClass={ControlLabel} sm={2}>
-                    Prazo
+                    Prioridade
                 </Col>
 
                 <Col sm={10}>
@@ -198,7 +198,7 @@ class TransactionForm extends React.Component {
                         className='border-focus-blue'
                         name="priority_level"
                         onChange={this.handleChange}
-                        value={this.state.description} />
+                        value={this.state.priority_level} />
                     
                     {errors.priority_level &&
                         <HelpBlock>{errors.priority_level}</HelpBlock>
@@ -262,19 +262,3 @@ TransactionForm.defaultProps = {
 }
 
 export default TransactionForm;
-
-// const mapStateToProps = (state) => {    
-//     return {
-//         ...state.transactions.form
-//     }
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         onSubmit: (transactionData) => {
-//             dispatch(createTransaction(transactionData))
-//         }
-//     }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(TransactionForm);

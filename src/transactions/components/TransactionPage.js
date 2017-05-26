@@ -25,7 +25,7 @@ import {
 
 import TransactionForm from './TransactionForm';
 import TransactionList from './TransactionList';
-import { fetchTransactions } from '../actions';
+import { fetchTransactions, createTransaction } from '../actions';
 
 class TransactionPage extends React.Component {
     constructor(props) {
@@ -67,7 +67,7 @@ class TransactionPage extends React.Component {
                                 <Row>
 
                                     <Col xs={12}>
-                                        <TransactionList kind={'income'} transactions={this.props.transactions} />
+                                        <TransactionList kind={'income'} transactions={this.props.transactions} isFetching={this.props.isFetching}/>
                                     </Col>
 
                                 </Row>
@@ -82,7 +82,7 @@ class TransactionPage extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <TransactionForm kind='income' />
+                        <TransactionForm onSubmit={this.props.onCreateFormSubmit} isFetching={this.props.isFetching} kind='income' />
                     </Modal.Body>
                 </Modal>
             </div>
@@ -91,14 +91,18 @@ class TransactionPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+
+    const { transactions, isFetching } = state.transactions;    
     return {
-        transactions: state.transactions.page.transactions
+        transactions,
+        isFetching
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch: () => dispatch(fetchTransactions())        
+        fetch: () => dispatch(fetchTransactions()),
+        onCreateFormSubmit: (transaction) => dispatch(createTransaction(transaction))
     }
 };
 
