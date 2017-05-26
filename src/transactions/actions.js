@@ -86,6 +86,6 @@ export function fetchTransactions() {
         return api.get('incomes/')
             .then(response => response.data)
             .then(data => dispatch(receiveTransactions('success', data)))
-            .catch(error => dispatch(receiveTransactions('fail', error.response)));
+            .catch(({response}) => dispatch(receiveTransactions('fail', response.data)));
     }
 }

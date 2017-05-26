@@ -23,9 +23,7 @@ import {
 class TransactionList extends React.Component {
 
     render() {
-        const transactions = this.props.transactions || [];
-
-        const rows = transactions.map((transaction) => {            
+        const rows = this.props.transactions.map((transaction) => {            
             const formattedDueDate = moment(transaction.due_date, 'yyyy-MM-dd').format('DD/MM/YYYY');
             const formattedValue = `R$ ${transaction.value.replace(".",",")}`
 

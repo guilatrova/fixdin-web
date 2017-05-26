@@ -15,14 +15,14 @@ import TransactionForm from './../../src/transactions/components/TransactionForm
 import { CREATE_TRANSACTION, createTransaction } from './../../src/transactions/actions';
 import transactionReducer from './../../src/transactions/reducers';
 
-describe('Transaction', () => {
+describe('TransactionForm', () => {
 
-    describe('TransactionForm', () => {
+    describe('Component', () => {
 
         const defaultProps = { 
             onSubmit: () => {},
             isFetching: false,
-            kind: 'income'            
+            kind: 'income'
         }
 
         it('renders ok', () => {
@@ -219,7 +219,7 @@ describe('Transaction', () => {
     describe('Reducers', () => {
 
         const initialState = {
-            transactions: [],            
+            transactions: [],
             isFetching: false,
             errors: {}
         }
