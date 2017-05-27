@@ -1,4 +1,4 @@
-import { CREATE_TRANSACTION, FETCH_TRANSACTIONS } from './actions';
+import { SAVE_TRANSACTION, FETCH_TRANSACTIONS } from './actions';
 
 const initialState = {
     transactions: [],    
@@ -9,7 +9,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
-        case CREATE_TRANSACTION:
+        case SAVE_TRANSACTION:
             if (action.result === 'success') {
                 return {
                     ...state,

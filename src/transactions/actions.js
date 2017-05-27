@@ -1,7 +1,7 @@
 import createApi from '../services/api';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
-export const CREATE_TRANSACTION = 'CREATE_TRANSACTION';
+export const SAVE_TRANSACTION = 'SAVE_TRANSACTION';
 
 function getCurrencyValue(value) {
     let unformattedAmount = value.replace(/[^0-9|,|-]+/g, "");
@@ -9,6 +9,7 @@ function getCurrencyValue(value) {
     return Number(unformattedAmount);
 }
 
+//FETCH
 function requestTransactions() {
     return {
         type: FETCH_TRANSACTIONS
@@ -31,50 +32,63 @@ function receiveTransactions(result, data) {
     }
 }
 
-function requestCreateTransaction() {
+//CREATE
+function requestSaveTransaction() {
     return {
-        type: CREATE_TRANSACTION
+        type: SAVE_TRANSACTION
     }
 }
 
-function receiveCreateTransaction(result, data) {
+function receiveSaveTransaction(result, data) {
     if (result === 'success') {
         return {
-            type: CREATE_TRANSACTION,
+            type: SAVE_TRANSACTION,
             result,
             transaction: data
         }
     }
 
     return {
-        type: CREATE_TRANSACTION,
+        type: SAVE_TRANSACTION,
         result,
         errors: data
     }
 }
 
-export function createTransaction({ account, due_date, description, category, value, details }) {
+function update(id, data) {
+    const api = createApi();
+    return api.put('incomes/' + id, data);
+}
+
+function create(data) {
+    const api = createApi();
+    return api.post('incomes/', data);
+}
+
+export function saveTransaction({ id, account, due_date, description, category, value, details, importance, deadline }) {
     return dispatch => {
-        dispatch(requestCreateTransaction());
-        const api = createApi();
+        dispatch(requestSaveTransaction());        
         
         due_date = due_date.format('YYYY-MM-DD');
         value = getCurrencyValue(value);
         
-        const postData = {
+        const data = {
             due_date,
             description,
-            category: 1,        
+            category: 1,
             value,
             details,
-            account: 1        
+            account: 1,
+            importance,
+            deadline
         }
 
-        return api.post('incomes/', postData)
+        let apiPromise = (id) ? update(id, data) : create(data);
+        
+        apiPromise
             .then(response => response.data)
-            .then(data => dispatch(receiveCreateTransaction('success', data)))
-            .catch(({response}) => dispatch(receiveCreateTransaction('fail', response.data)))
-            
+            .then(data => dispatch(receiveSaveTransaction('success', data)))
+            .catch(({response}) => dispatch(receiveSaveTransaction('fail', response.data)))            
     }
 }
 

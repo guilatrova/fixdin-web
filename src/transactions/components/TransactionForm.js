@@ -23,7 +23,7 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import { createTransaction } from '../actions';
+import { saveTransaction } from '../actions';
 
 class TransactionForm extends React.Component {
     constructor(props) {

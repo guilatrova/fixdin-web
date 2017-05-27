@@ -12,7 +12,8 @@ import moment from 'moment';
 //import  from './../../src/'
 import * as apiModule from './../../src/services/api';
 import TransactionForm from './../../src/transactions/components/TransactionForm';
-import { CREATE_TRANSACTION, createTransaction } from './../../src/transactions/actions';
+import { SAVE_TRANSACTION, saveTransaction } from './../../src/transactions/actions';
+import * as actionModule from './../../src/transactions/actions';
 import transactionReducer from './../../src/transactions/reducers';
 
 describe('TransactionForm', () => {
@@ -159,6 +160,7 @@ describe('TransactionForm', () => {
 
             })
         })
+
     })
 
     describe('Actions', () => {
@@ -182,22 +184,22 @@ describe('TransactionForm', () => {
         })
 
         const momentStub = { format: () => { return 'a' }}
-        const transaction = {
+        const transaction = { //only necessary fields...
             value: '0',
             due_date: momentStub,
         }
 
-        it('should dispatch action before and after creating transaction', (done) => {
+        it('should dispatch success action after SAVE_TRANSACTION', (done) => {
             const expectedResponse = transaction
             const expectedActions = [
-                { type: CREATE_TRANSACTION },
-                { type: CREATE_TRANSACTION, result: 'success', transaction }
+                { type: SAVE_TRANSACTION },
+                { type: SAVE_TRANSACTION, result: 'success', transaction }
             ]
 
-            store.dispatch(createTransaction(transaction));
+            store.dispatch(saveTransaction(transaction));
 
             moxios.wait(() => {
-                let request = moxios.requests.mostRecent()
+                let request = moxios.requests.mostRecent();
 
                 request.respondWith({
                     status: 201,
@@ -211,21 +213,21 @@ describe('TransactionForm', () => {
             });
         })
 
-        it('should dispatch fail action when something goes wrong', (done) => {
+        it('should dispatch fail action after SAVE_TRANSACTION when something goes wrong', (done) => {
             const expectedResponse = {
                 value: 'invalid value supplied',
                 category: 'mandatory field'
             }
             const expectedActions = [
-                { type: CREATE_TRANSACTION },
-                { type: CREATE_TRANSACTION, result: 'fail', errors: expectedResponse }
+                { type: SAVE_TRANSACTION },
+                { type: SAVE_TRANSACTION, result: 'fail', errors: expectedResponse }
             ]
 
-            store.dispatch(createTransaction(transaction));
+            store.dispatch(saveTransaction(transaction));
 
             moxios.wait(() => {
-                let request = moxios.requests.mostRecent()
-
+                let request = moxios.requests.mostRecent();
+                
                 request.respondWith({
                     status: 400,
                     response: expectedResponse
@@ -240,6 +242,19 @@ describe('TransactionForm', () => {
                 });
             });
         });
+
+        it('SAVE_TRANSACTION should use PUT when id is supplied', (done) => {
+            const editTransaction = {...transaction, id: 1}
+
+            store.dispatch(saveTransaction(editTransaction));
+
+             moxios.wait(() => {                
+                let request = moxios.requests.mostRecent();
+                expect(request.config.method).to.be.equal('put');
+                expect(request.url.indexOf(editTransaction.id)).to.be.gt(-1);
+                done();
+            });
+        })
 
     })
 
@@ -257,10 +272,10 @@ describe('TransactionForm', () => {
             ).to.deep.equal(initialState);
         })
 
-        it('should handle CREATE_TRANSACTION', () => {
+        it('should handle SAVE_TRANSACTION', () => {
             expect(
                 transactionReducer(undefined, {
-                    type: CREATE_TRANSACTION,                    
+                    type: SAVE_TRANSACTION,                    
                 })
             ).to.deep.equal({
                 isFetching: true,
@@ -269,10 +284,10 @@ describe('TransactionForm', () => {
             });
         })
 
-        it('should handle successful CREATE_TRANSACTION', () => {
+        it('should handle successful SAVE_TRANSACTION', () => {
             expect(
                 transactionReducer(undefined, {
-                    type: CREATE_TRANSACTION,
+                    type: SAVE_TRANSACTION,
                     result: 'success',
                     transaction: { id: 1 }
                 })
@@ -283,7 +298,7 @@ describe('TransactionForm', () => {
             });
         })
 
-        it('should handle fail CREATE_TRANSACTION', () => {
+        it('should handle fail SAVE_TRANSACTION', () => {
             const errors = {
                 value: 'invalid value',
                 category: 'field is mandatory'
@@ -291,7 +306,7 @@ describe('TransactionForm', () => {
 
             expect(
                 transactionReducer(undefined, {
-                    type: CREATE_TRANSACTION,
+                    type: SAVE_TRANSACTION,
                     result: 'fail',
                     errors
                 })
