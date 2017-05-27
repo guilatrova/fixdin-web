@@ -7,29 +7,53 @@ const initialState = {
     errors: {}
 }
 
-export default function reducer(state = initialState, action) {
-    switch (action.type) {
+function saveReducer(state, action) {
+    switch (action.result) {
+        case 'success':
+            const { transactions } = state;
 
-        case SAVE_TRANSACTION:
-            if (action.result === 'success') {
+            const updatedTransaction = transactions.find(item => item.id == action.transaction.id)
+
+            if (updatedTransaction) {
+                const index = transactions.indexOf(updatedTransaction);
+                
                 return {
                     ...state,
                     isFetching: false,
-                    transactions: state.transactions.concat(action.transaction)
-                }
-            }
-            else if (action.result === 'fail') {
-                return {
-                    ...state,
-                    isFetching: false,
-                    errors: action.errors
+                    transactions: [
+                        ...transactions.slice(0, index),
+                        action.transaction,
+                        ...transactions.slice(index + 1)
+                    ]
                 }
             }
 
+            return {
+                ...state,
+                isFetching: false,
+                transactions: state.transactions.concat(action.transaction)
+            }
+
+        case 'fail':
+            return {
+                ...state,
+                isFetching: false,
+                errors: action.errors
+            }
+
+        default:
             return { 
                 ...state,
                 isFetching: true
             };
+    }            
+}
+
+export default function reducer(state = initialState, action) {
+    switch (action.type) {
+
+        case SAVE_TRANSACTION:
+            return saveReducer(state, action);
 
         case FETCH_TRANSACTIONS:
             if (action.result === 'success') {

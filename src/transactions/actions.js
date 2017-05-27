@@ -39,7 +39,21 @@ function receiveTransactions(result, data) {
     }
 }
 
-//CREATE
+export function fetchTransactions() {
+    return dispatch => {
+        dispatch(requestTransactions());
+        const api = createApi();
+
+        return api.get('incomes/')
+            .then(response => response.data)
+            .then((data) => {
+                dispatch(receiveTransactions('success', data));
+            })
+            .catch(({response}) => dispatch(receiveTransactions('fail', response.data)));
+    }
+}
+
+//SAVE
 function requestSaveTransaction() {
     return {
         type: SAVE_TRANSACTION
@@ -72,19 +86,6 @@ function create(data) {
     return api.post('incomes/', data);
 }
 
-export function editTransaction(id) {
-    return {
-        type: EDIT_TRANSACTION,
-        id
-    }
-}
-
-export function finishEditTransaction() {
-    return {
-        type: FINISH_EDIT_TRANSACTION
-    }
-}
-
 export function saveTransaction({ id, account, due_date, description, category, value, details, importance, deadline }) {
     return dispatch => {
         dispatch(requestSaveTransaction());        
@@ -112,16 +113,16 @@ export function saveTransaction({ id, account, due_date, description, category, 
     }
 }
 
-export function fetchTransactions() {
-    return dispatch => {
-        dispatch(requestTransactions());
-        const api = createApi();
+//EDIT
+export function editTransaction(id) {
+    return {
+        type: EDIT_TRANSACTION,
+        id
+    }
+}
 
-        return api.get('incomes/')
-            .then(response => response.data)
-            .then((data) => {
-                dispatch(receiveTransactions('success', data));
-            })
-            .catch(({response}) => dispatch(receiveTransactions('fail', response.data)));
+export function finishEditTransaction() {
+    return {
+        type: FINISH_EDIT_TRANSACTION
     }
 }

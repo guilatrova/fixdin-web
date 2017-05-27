@@ -42,7 +42,6 @@ describe('TransactionList', () => {
 
         const wrapper = mount(<TransactionList {...defaultProps} transactions={transactions} onEdit={editSpy} />);
 
-        debugger;
         wrapper.find('.edit-button').first().simulate('click');
 
         expect(editSpy.called).to.be.true;
