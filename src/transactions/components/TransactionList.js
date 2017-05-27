@@ -12,6 +12,8 @@ import {
   Panel,
   Checkbox,
   Table,
+  ButtonToolbar,
+  ButtonGroup,
   Button,
   PanelBody,
   ControlLabel,
@@ -33,6 +35,18 @@ class TransactionList extends React.Component {
                     <td>{transaction.description}</td>
                     <td>{transaction.category}</td>
                     <td>{formattedValue}</td>
+                    <td>
+                        <ButtonToolbar>
+                            <ButtonGroup>
+                                <Button className="edit-button" outlined bsStyle="blue" onClick={() => {this.props.onEdit(transaction.id)}}>
+                                    <Icon glyph='icon-fontello-pencil' />
+                                </Button>
+                                <Button outlined bsStyle="blue">
+                                    <Icon glyph='icon-fontello-eye' />
+                                </Button>
+                            </ButtonGroup>
+                        </ButtonToolbar>
+                    </td>
                 </tr>
             );
         });
@@ -45,6 +59,7 @@ class TransactionList extends React.Component {
                         <th>Descrição</th>
                         <th>Categoria</th>
                         <th>Valor</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
