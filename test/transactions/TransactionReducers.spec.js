@@ -10,16 +10,23 @@ import { Provider } from 'react-redux';
 import moment from 'moment';
 
 import * as apiModule from './../../src/services/api';
-import { FETCH_TRANSACTIONS, EDIT_TRANSACTION, SAVE_TRANSACTION } from './../../src/transactions/actions';
+import { FETCH_TRANSACTIONS, EDIT_TRANSACTION, FINISH_EDIT_TRANSACTION, SAVE_TRANSACTION } from './../../src/transactions/actions';
 import transactionReducer from './../../src/transactions/reducers';
 
 describe('Transactions Reducers', () => {
 
     const initialState = {
         transactions: [],
+        editingTransaction: {},
         isFetching: false,
-        errors: {}
+        errors: {},
     }
+
+    const transactions = [
+        { id: 1, value: '10' },
+        { id: 2, value: '11' },
+        { id: 3, value: '12' },
+    ]
 
     it('should return the initial state', () => {
         expect(
@@ -35,7 +42,8 @@ describe('Transactions Reducers', () => {
         ).to.deep.equal({
             isFetching: true,
             errors: {},
-            transactions: []
+            transactions: [],
+            editingTransaction: {}
         });
     })
 
@@ -49,7 +57,8 @@ describe('Transactions Reducers', () => {
         ).to.deep.equal({
             isFetching: false,
             errors: {},
-            transactions: [{ id: 1 }]
+            transactions: [{ id: 1 }],
+            editingTransaction: {}
         });
     })
 
@@ -68,7 +77,8 @@ describe('Transactions Reducers', () => {
         ).to.deep.equal({
             isFetching: false,
             errors,
-            transactions: []
+            transactions: [],
+            editingTransaction: {}
         });
     })
 
@@ -80,7 +90,8 @@ describe('Transactions Reducers', () => {
         ).to.deep.equal({
             isFetching: true,
             errors: {},
-            transactions: []
+            transactions: [],
+            editingTransaction: {}
         });
     })
 
@@ -96,7 +107,8 @@ describe('Transactions Reducers', () => {
         ).to.deep.equal({
             isFetching: false,
             errors: {},
-            transactions
+            transactions,
+            editingTransaction: {}
         })
     })
 
@@ -112,33 +124,51 @@ describe('Transactions Reducers', () => {
         ).to.deep.equal({
             isFetching: false,
             errors,
-            transactions: []
-        })
-    })
-
-    xit('should handle EDIT_TRANSACTION', () => {
-        const state = {
-            transactions: [],
-            openedTransaction: {},
-            isFetching: false,
-            errors: {},                
-        }
-
-        expect(
-            transactionReducer(undefined, {
-                type: EDIT_TRANSACTION,
-                id: 1
-            })
-        ).to.deep.equal({
-            isFetching: false,
-            errors: {},
             transactions: [],
             editingTransaction: {}
         })
     })
 
-    xit('should handle FINISH_TRANSACTION', () => {
+    it('should handle EDIT_TRANSACTION', () => {
+        const state = {
+            transactions,
+            editingTransaction: {},
+            isFetching: false,
+            errors: {},
+        }
 
+        expect(
+            transactionReducer(state, {
+                type: EDIT_TRANSACTION,
+                id: 1
+            })
+        ).to.deep.equal({
+            transactions,
+            isFetching: false,
+            errors: {},            
+            editingTransaction: transactions[0]
+        })
     })
-    
+
+    it('should handle FINISH_EDIT_TRANSACTION', () => {
+        let state = {
+            transactions,
+            editingTransaction: {},
+            isFetching: false,
+            errors: {},
+        }
+        state = transactionReducer(state, { type: EDIT_TRANSACTION, id: 1})
+
+        expect(
+            transactionReducer(state, {
+                type: FINISH_EDIT_TRANSACTION
+            })
+        ).to.deep.equal({
+            isFetching: false,
+            errors: {},
+            transactions,
+            editingTransaction: {}
+        })
+    })
+
 })

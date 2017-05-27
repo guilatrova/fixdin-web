@@ -1,7 +1,8 @@
-import { SAVE_TRANSACTION, FETCH_TRANSACTIONS } from './actions';
+import { SAVE_TRANSACTION, FETCH_TRANSACTIONS, EDIT_TRANSACTION, FINISH_EDIT_TRANSACTION } from './actions';
 
 const initialState = {
     transactions: [],    
+    editingTransaction: {},
     isFetching: false,
     errors: {}
 }
@@ -52,7 +53,19 @@ export default function reducer(state = initialState, action) {
                 isFetching: true,
                 transactions: [],
                 errors: {}
-            } 
+            }
+
+        case EDIT_TRANSACTION:
+            return {
+                ...state,
+                editingTransaction: state.transactions.find(transaction => transaction.id == action.id)
+            }
+
+        case FINISH_EDIT_TRANSACTION:
+            return {
+                ...state,
+                editingTransaction: {}
+            }
 
         default:
             return state;

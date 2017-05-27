@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import createApi from '../services/api';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
@@ -23,7 +25,10 @@ function receiveTransactions(result, data) {
         return {
             type: FETCH_TRANSACTIONS,
             result,
-            transactions: data
+            transactions: data.map(e => ({
+                ...e,
+                due_date: moment(e.due_date, 'YYYY-MM-dd')
+            }))
         }
     }
 
@@ -101,7 +106,9 @@ export function fetchTransactions() {
 
         return api.get('incomes/')
             .then(response => response.data)
-            .then(data => dispatch(receiveTransactions('success', data)))
+            .then((data) => {
+                dispatch(receiveTransactions('success', data));
+            })
             .catch(({response}) => dispatch(receiveTransactions('fail', response.data)));
     }
 }
