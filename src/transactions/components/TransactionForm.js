@@ -28,15 +28,8 @@ import { createTransaction } from '../actions';
 class TransactionForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            account: 0,
-            due_date: moment(new Date()),
-            description: '',
-            category: '',
-            value: '0,00',
-            kind: props.kind,
-            details: '',
-            periodic: {},
+        this.state = { 
+            ...this.props.transaction,                       
             errors: {},
             periodic_visible: false
         };
@@ -167,7 +160,7 @@ class TransactionForm extends React.Component {
 
             </FormGroup>
 
-            <FormGroup controlId='deadlineGroup' validationState={'deadline_count' in errors ? 'error' : undefined}>
+            <FormGroup controlId='deadlineGroup' validationState={'deadline' in errors ? 'error' : undefined}>
 
                 <Col componentClass={ControlLabel} sm={2}>
                     Prazo
@@ -176,18 +169,18 @@ class TransactionForm extends React.Component {
                 <Col sm={10}>
                     <FormControl
                         className='border-focus-blue'
-                        name="deadline_count"
+                        name="deadline"
                         onChange={this.handleChange}
-                        value={this.state.deadline_count} />
+                        value={this.state.deadline} />
                     
-                    {errors.deadline_count &&
-                        <HelpBlock>{errors.deadline_count}</HelpBlock>
+                    {errors.deadline &&
+                        <HelpBlock>{errors.deadline}</HelpBlock>
                     }
                 </Col>
 
             </FormGroup>
 
-            <FormGroup controlId='priorityGroup' validationState={'priority_level' in errors ? 'error' : undefined}>
+            <FormGroup controlId='priorityGroup' validationState={'importance' in errors ? 'error' : undefined}>
 
                 <Col componentClass={ControlLabel} sm={2}>
                     Prioridade
@@ -196,12 +189,12 @@ class TransactionForm extends React.Component {
                 <Col sm={10}>
                     <FormControl
                         className='border-focus-blue'
-                        name="priority_level"
+                        name="importance"
                         onChange={this.handleChange}
-                        value={this.state.priority_level} />
+                        value={this.state.importance} />
                     
-                    {errors.priority_level &&
-                        <HelpBlock>{errors.priority_level}</HelpBlock>
+                    {errors.importance &&
+                        <HelpBlock>{errors.importance}</HelpBlock>
                     }
                 </Col>
 
@@ -254,11 +247,20 @@ TransactionForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     kind: PropTypes.string.isRequired,
     errors: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired
+    isFetching: PropTypes.bool.isRequired,
+    transaction: PropTypes.object.isRequired
 }
 
 TransactionForm.defaultProps = {
-    errors: { }
+    errors: { },
+    transaction: {
+        account: 0,
+        due_date: moment(new Date()),
+        description: '',
+        category: '',
+        value: '0,00',
+        details: '',
+    }
 }
 
 export default TransactionForm;
