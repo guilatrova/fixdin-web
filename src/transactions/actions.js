@@ -72,6 +72,19 @@ function create(data) {
     return api.post('incomes/', data);
 }
 
+export function editTransaction(id) {
+    return {
+        type: EDIT_TRANSACTION,
+        id
+    }
+}
+
+export function finishEditTransaction() {
+    return {
+        type: FINISH_EDIT_TRANSACTION
+    }
+}
+
 export function saveTransaction({ id, account, due_date, description, category, value, details, importance, deadline }) {
     return dispatch => {
         dispatch(requestSaveTransaction());        

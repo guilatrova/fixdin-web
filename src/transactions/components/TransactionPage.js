@@ -25,7 +25,7 @@ import {
 
 import TransactionForm from './TransactionForm';
 import TransactionList from './TransactionList';
-import { fetchTransactions, createTransaction } from '../actions';
+import { fetchTransactions, saveTransaction, editTransaction, finishEditTransaction } from '../actions';
 
 class TransactionPage extends React.Component {
     constructor(props) {
@@ -37,6 +37,7 @@ class TransactionPage extends React.Component {
 
         this.handleCreateTransactionClick = this.handleCreateTransactionClick.bind(this);
         this.handleHideCreateModalClick = this.handleHideCreateModalClick.bind(this);
+        this.handleEditTransaction = this.handleEditTransaction.bind(this);
     }
 
     componentDidMount() {
@@ -48,7 +49,13 @@ class TransactionPage extends React.Component {
     }
 
     handleHideCreateModalClick() {
+        this.props.finishEditTransaction();
         this.setState({ showCreateNewModal: false });
+    }
+
+    handleEditTransaction(id) {
+        this.setState({ showCreateNewModal: true });
+        this.props.editTransaction(id);
     }
 
     render() {
@@ -67,7 +74,11 @@ class TransactionPage extends React.Component {
                                 <Row>
 
                                     <Col xs={12}>
-                                        <TransactionList kind={'income'} transactions={this.props.transactions} isFetching={this.props.isFetching}/>
+                                        <TransactionList kind='income' 
+                                            transactions={this.props.transactions} 
+                                            isFetching={this.props.isFetching}
+                                            onEdit={this.handleEditTransaction}
+                                            />
                                     </Col>
 
                                 </Row>
@@ -82,7 +93,11 @@ class TransactionPage extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <TransactionForm onSubmit={this.props.onCreateFormSubmit} isFetching={this.props.isFetching} kind='income' />
+                        <TransactionForm 
+                            onSubmit={this.props.onTransactionFormSubmit} 
+                            isFetching={this.props.isFetching} 
+                            transaction={this.props.editingTransaction}
+                            kind='income' />
                     </Modal.Body>
                 </Modal>
             </div>
@@ -92,9 +107,10 @@ class TransactionPage extends React.Component {
 
 const mapStateToProps = (state) => {
 
-    const { transactions, isFetching } = state.transactions;    
+    const { transactions, isFetching, editingTransaction } = state.transactions;    
     return {
         transactions,
+        editingTransaction,
         isFetching
     }
 };
@@ -102,7 +118,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetch: () => dispatch(fetchTransactions()),
-        onCreateFormSubmit: (transaction) => dispatch(createTransaction(transaction))
+        onTransactionFormSubmit: (transaction) => dispatch(saveTransaction(transaction)),
+        editTransaction: (id) => dispatch(editTransaction(id)),
+        finishEditTransaction: () => dispatch(finishEditTransaction())
     }
 };
 
