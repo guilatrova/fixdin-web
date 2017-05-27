@@ -32,7 +32,7 @@ class TransactionPage extends React.Component {
         super(props);
 
         this.state = {
-            showCreateNewModal: false,
+            showTransactionModal: false,
         };
 
         this.handleCreateTransactionClick = this.handleCreateTransactionClick.bind(this);
@@ -45,16 +45,16 @@ class TransactionPage extends React.Component {
     }
 
     handleCreateTransactionClick() {
-        this.setState({ showCreateNewModal: true });
+        this.setState({ showTransactionModal: true });
     }
 
     handleHideCreateModalClick() {
         this.props.finishEditTransaction();
-        this.setState({ showCreateNewModal: false });
+        this.setState({ showTransactionModal: false });
     }
 
     handleEditTransaction(id) {
-        this.setState({ showCreateNewModal: true });
+        this.setState({ showTransactionModal: true });
         this.props.editTransaction(id);
     }
 
@@ -67,7 +67,7 @@ class TransactionPage extends React.Component {
                             <Grid>
                                 <Row>
                                     <Col xs={2}>
-                                        <Button bsStyle='primary' onClick={this.handleCreateTransactionClick}>Criar</Button>
+                                        <Button bsStyle='primary' onClick={this.handleCreateTransactionClick}>Nova</Button>
                                     </Col>
                                 </Row>
                                 
@@ -87,9 +87,9 @@ class TransactionPage extends React.Component {
                     </Panel>
                 </PanelContainer>
 
-                <Modal show={this.state.showCreateNewModal} onHide={this.handleHideCreateModalClick}>
+                <Modal show={this.state.showTransactionModal} onHide={this.handleHideCreateModalClick}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Criar receita</Modal.Title>
+                        <Modal.Title>{this.props.editingTransaction.id ? 'Editar receita' : 'Criar receita'}</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>

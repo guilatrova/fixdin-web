@@ -29,7 +29,7 @@ class TransactionForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            ...this.props.transaction,                       
+            ...this.props.transaction,            
             errors: {},
             periodic_visible: false
         };
@@ -234,7 +234,7 @@ class TransactionForm extends React.Component {
 
             <FormGroup>
                 <Col smOffset={2} sm={10} className='text-right'>
-                    <Button lg type='submit' bsStyle='primary' disabled={disabled}>Criar</Button>
+                    <Button lg type='submit' bsStyle='primary' disabled={disabled}>Salvar</Button>
                 </Col>
             </FormGroup>
 
