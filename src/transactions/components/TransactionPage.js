@@ -38,6 +38,7 @@ class TransactionPage extends React.Component {
         this.handleCreateTransactionClick = this.handleCreateTransactionClick.bind(this);
         this.handleHideCreateModalClick = this.handleHideCreateModalClick.bind(this);
         this.handleEditTransaction = this.handleEditTransaction.bind(this);
+        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -55,7 +56,13 @@ class TransactionPage extends React.Component {
 
     handleEditTransaction(id) {
         this.setState({ showTransactionModal: true });
-        this.props.editTransaction(id);
+        this.props.editTransaction(id);        
+    }
+
+    handleTransactionFormSubmit(transaction) {        
+        this.props.onTransactionFormSubmit(transaction);
+        this.props.finishEditTransaction();
+        this.setState({ showTransactionModal: false });
     }
 
     render() {
@@ -94,7 +101,7 @@ class TransactionPage extends React.Component {
 
                     <Modal.Body>
                         <TransactionForm 
-                            onSubmit={this.props.onTransactionFormSubmit} 
+                            onSubmit={this.handleTransactionFormSubmit} 
                             isFetching={this.props.isFetching} 
                             transaction={this.props.editingTransaction}
                             kind='income' />

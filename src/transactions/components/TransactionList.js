@@ -36,16 +36,10 @@ class TransactionList extends React.Component {
                     <td>{transaction.category}</td>
                     <td>{formattedValue}</td>
                     <td>
-                        <ButtonToolbar>
-                            <ButtonGroup>
-                                <Button className="edit-button" outlined bsStyle="blue" onClick={() => {this.props.onEdit(transaction.id)}}>
-                                    <Icon glyph='icon-fontello-pencil' />
-                                </Button>
-                                <Button outlined bsStyle="blue">
-                                    <Icon glyph='icon-fontello-eye' />
-                                </Button>
-                            </ButtonGroup>
-                        </ButtonToolbar>
+                        <Button className="edit-button" outlined bsStyle="blue" onClick={() => this.props.onEdit(transaction.id)}>
+                            <Icon glyph='icon-fontello-pencil' />
+                            Editar
+                        </Button>
                     </td>
                 </tr>
             );
