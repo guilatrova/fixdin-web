@@ -127,3 +127,38 @@ export function finishEditTransaction() {
         type: FINISH_EDIT_TRANSACTION
     }
 }
+
+//DELETE
+function requestDeleteTransaction(id) {
+    return {
+        type: DELETE_TRANSACTION,
+        id
+    }
+}
+
+function receiveDeleteTransaction(id, result, errors) {
+    if (result == 'success') {
+        return {
+            type: DELETE_TRANSACTION,
+            id,
+            result
+        }
+    }
+
+    return {
+        type: DELETE_TRANSACTION,
+        result,
+        errors
+    }
+}
+
+export function deleteTransaction(id) {
+    return dispatch => {
+        dispatch(requestDeleteTransaction(id));
+
+        const api = createApi();
+        api.delete(`incomes/${id}`)
+            .then(() => dispatch(receiveDeleteTransaction(id, 'success')))
+            .catch(({response}) => dispatch(receiveDeleteTransaction(id, 'fail', response.data)))
+    }
+}

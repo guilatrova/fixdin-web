@@ -56,8 +56,13 @@ describe('Transactions Reducers', () => {
         })
 
         it('should be handled when successful', () => {
+            const fetchingState = {
+                ...initialState,
+                isFetching: true
+            }
+
             expect(
-                transactionReducer(undefined, {
+                transactionReducer(fetchingState, {
                     type: SAVE_TRANSACTION,
                     result: 'success',
                     transaction: { id: 1 }
@@ -71,13 +76,17 @@ describe('Transactions Reducers', () => {
         })
 
         it('should be handled when failed', () => {
+            const fetchingState = {
+                ...initialState,
+                isFetching: true
+            }
             const errors = {
                 value: 'invalid value',
                 category: 'field is mandatory'
             }
 
             expect(
-                transactionReducer(undefined, {
+                transactionReducer(fetchingState, {
                     type: SAVE_TRANSACTION,
                     result: 'fail',
                     errors
@@ -189,7 +198,7 @@ describe('Transactions Reducers', () => {
 
     })
 
-    describe('FINISH + EDIT _TRANSACTION', () => {
+    describe(' EDIT_TRANSACTION + FINISH_EDIT_TRANSACTION', () => {
 
         it('should handle EDIT_TRANSACTION', () => {
             const state = {

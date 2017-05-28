@@ -10,8 +10,16 @@ import { Provider } from 'react-redux';
 import moment from 'moment';
 
 import * as apiModule from './../../src/services/api';
-import { FETCH_TRANSACTIONS, EDIT_TRANSACTION, SAVE_TRANSACTION, fetchTransactions, saveTransaction } from './../../src/transactions/actions';
 import transactionReducer from './../../src/transactions/reducers';
+import { 
+	FETCH_TRANSACTIONS, 
+	EDIT_TRANSACTION, 
+	SAVE_TRANSACTION, 
+	DELETE_TRANSACTION, 
+	fetchTransactions, 
+	saveTransaction,
+	deleteTransaction
+ } from './../../src/transactions/actions';
 
 describe('Transaction Actions', () => {
 	
@@ -167,5 +175,53 @@ describe('Transaction Actions', () => {
 				done();
 			});
 		})
-	})        
+	})
+
+	describe('DELETE_TRANSACTION', () => {
+
+		it('should dispatch success action after DELETE_TRANSACTION', (done) => {
+			const expectedActions = [
+				{ type: DELETE_TRANSACTION, id: 2 },
+				{ type: DELETE_TRANSACTION, result: 'success', id: 2 }
+			]
+
+			store.dispatch(deleteTransaction(2));
+
+			moxios.wait(() => {
+				let request = moxios.requests.mostRecent();
+
+				request.respondWith({
+					status: 204
+				}).then(() => {
+					expect(store.getActions()).to.deep.equal(expectedActions);
+					done();
+				})
+				.catch((error) => done(error.message));
+			});
+		})
+
+		it('should dispatch fail action after DELETE_TRANSACTION when something goes wrong', (done) => {
+			const errors = { 'detail': 'not found'}			
+			const expectedActions = [
+				{ type: DELETE_TRANSACTION, id: 2 },
+				{ type: DELETE_TRANSACTION, result: 'fail', errors }
+			]
+
+			store.dispatch(deleteTransaction(2));
+
+			moxios.wait(() => {
+				let request = moxios.requests.mostRecent();
+
+				request.respondWith({
+					status: 404,
+					response: errors
+				}).then(() => {
+					expect(store.getActions()).to.deep.equal(expectedActions);
+					done();
+				})
+				.catch((error) => done(error.message));
+			});
+		})
+
+	})
 })
