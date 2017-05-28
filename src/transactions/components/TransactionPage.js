@@ -23,10 +23,16 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import TransactionForm from './TransactionForm';
 import TransactionList from './TransactionList';
+import TransactionFormModal from './TransactionFormModal';
 import ConfirmDeleteTransactionModal from './ConfirmDeleteTransactionModal';
-import { fetchTransactions, saveTransaction, editTransaction, deleteTransaction, finishEditTransaction } from '../actions';
+import { 
+    fetchTransactions, 
+    saveTransaction, 
+    editTransaction, 
+    deleteTransaction, 
+    finishEditTransaction 
+} from '../actions';
 
 class TransactionPage extends React.Component {
     constructor(props) {
@@ -35,16 +41,19 @@ class TransactionPage extends React.Component {
         this.state = {
             showTransactionFormModal: false,
             showTransactionDeleteModal: false
-        };
+        };            
 
-        this.handleCreateTransactionClick = this.handleCreateTransactionClick.bind(this);
-        this.handleHideCreateModalClick = this.handleHideCreateModalClick.bind(this);
-        this.handleEditTransaction = this.handleEditTransaction.bind(this);
-        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);
+        //Form
+        this.handleCreateTransaction = this.handleCreateTransaction.bind(this);
+        this.handleHideTransactionFormModal = this.handleHideTransactionFormModal.bind(this);
+        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);        
 
         //Delete
-        this.handleDeleteTransaction = this.handleDeleteTransaction.bind(this);
-        this.handleConfirmDeleteTransaction = this.handleConfirmDeleteTransaction.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+
+        //Confirm delete
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
         this.handleHideDeleteModal = this.handleHideDeleteModal.bind(this);
     }
 
@@ -52,11 +61,11 @@ class TransactionPage extends React.Component {
         this.props.fetch();
     }
 
-    handleCreateTransactionClick() {
+    handleCreateTransaction() {
         this.setState({ showTransactionFormModal: true });
     }
 
-    handleHideCreateModalClick() {
+    handleHideTransactionFormModal() {
         this.props.finishEditTransaction();
         this.setState({ showTransactionFormModal: false });
     }
@@ -67,19 +76,19 @@ class TransactionPage extends React.Component {
         this.setState({ showTransactionFormModal: false });
     }
 
-    handleEditTransaction(id) {
+    handleEdit(id) {
         this.setState({ showTransactionFormModal: true });
         this.props.editTransaction(id);        
     }
 
-    handleDeleteTransaction(id) {
+    handleDelete(id) {
         this.setState({ 
             showTransactionDeleteModal: true,
             toDeleteId: id 
         });
     }
 
-    handleConfirmDeleteTransaction() {
+    handleConfirmDelete() {
         this.props.deleteTransaction(this.state.toDeleteId);
         this.setState({ 
             showTransactionDeleteModal: false, 
@@ -103,7 +112,7 @@ class TransactionPage extends React.Component {
                             <Grid>
                                 <Row>
                                     <Col xs={2}>
-                                        <Button bsStyle='primary' onClick={this.handleCreateTransactionClick}>Nova</Button>
+                                        <Button bsStyle='primary' onClick={this.handleCreateTransaction}>Nova</Button>
                                     </Col>
                                 </Row>
                                 
@@ -113,8 +122,8 @@ class TransactionPage extends React.Component {
                                         <TransactionList kind='income' 
                                             transactions={this.props.transactions} 
                                             isFetching={this.props.isFetching}
-                                            onEdit={this.handleEditTransaction}
-                                            onDelete={this.handleDeleteTransaction}
+                                            onEdit={this.handleEdit}
+                                            onDelete={this.handleDelete}
                                             />
                                     </Col>
 
@@ -124,24 +133,20 @@ class TransactionPage extends React.Component {
                     </Panel>
                 </PanelContainer>
 
-                <Modal show={this.state.showTransactionFormModal} onHide={this.handleHideCreateModalClick}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{this.props.editingTransaction.id ? 'Editar receita' : 'Criar receita'}</Modal.Title>
-                    </Modal.Header>
+                <TransactionFormModal
+                    show={this.state.showTransactionFormModal}
+                    onHide={this.handleHideTransactionFormModal}
+                    title={this.props.editingTransaction.id ? 'Editar receita' : 'Criar receita'}
+                    kind={'income'}
 
-                    <Modal.Body>
-                        <TransactionForm 
-                            onSubmit={this.handleTransactionFormSubmit} 
-                            isFetching={this.props.isFetching} 
-                            transaction={this.props.editingTransaction}
-                            kind='income' />
-                    </Modal.Body>
-                </Modal>
+                    onSubmit={this.handleTransactionFormSubmit}
+                    isFetching={this.props.isFetching}
+                    transaction={this.props.editingTransaction} />
 
                 <ConfirmDeleteTransactionModal 
                     show={this.state.showTransactionDeleteModal} 
                     onHide={this.handleHideDeleteModal} 
-                    onConfirmDelete={this.handleConfirmDeleteTransaction} />
+                    onConfirmDelete={this.handleConfirmDelete} />
 
             </div>
         )
