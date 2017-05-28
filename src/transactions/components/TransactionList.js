@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
@@ -36,10 +36,16 @@ class TransactionList extends React.Component {
                     <td>{transaction.category}</td>
                     <td>{formattedValue}</td>
                     <td>
-                        <Button className="edit-button" outlined bsStyle="blue" onClick={() => this.props.onEdit(transaction.id)}>
-                            <Icon glyph='icon-fontello-pencil' />
-                            Editar
-                        </Button>
+                        <ButtonToolbar>
+                            <Button className="edit-button" outlined bsStyle="blue" onClick={() => this.props.onEdit(transaction.id)}>
+                                <Icon glyph='icon-fontello-pencil' />
+                                Editar
+                            </Button>
+                            <Button className="delete-button" outlined bsStyle="blue" onClick={() => this.props.onDelete(transaction.id)}>
+                                {/*<Icon glyph='icon-fontello-pencil' />*/}
+                                Deletar
+                            </Button>
+                        </ButtonToolbar>
                     </td>
                 </tr>
             );
@@ -62,6 +68,11 @@ class TransactionList extends React.Component {
             </Table>
         );
     }    
+}
+
+TransactionList.propTypes = {
+    onEdit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired
 }
 
 export default TransactionList;

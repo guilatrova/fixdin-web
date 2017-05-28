@@ -47,5 +47,16 @@ describe('TransactionList', () => {
         expect(editSpy.called).to.be.true;
         expect(editSpy.alwaysCalledWith(1)).to.be.true;
     })
+
+    it('should calls onDelete', () => {
+        let deleteSpy = sinon.spy();
+
+        const wrapper = mount(<TransactionList {...defaultProps} transactions={transactions} onDelete={deleteSpy} />);
+
+        wrapper.find('.delete-button').first().simulate('click');
+
+        expect(deleteSpy.called).to.be.true;
+        expect(deleteSpy.alwaysCalledWith(1)).to.be.true;
+    })
     
 })
