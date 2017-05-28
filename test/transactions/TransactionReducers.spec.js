@@ -10,8 +10,14 @@ import { Provider } from 'react-redux';
 import moment from 'moment';
 
 import * as apiModule from './../../src/services/api';
-import { FETCH_TRANSACTIONS, EDIT_TRANSACTION, FINISH_EDIT_TRANSACTION, SAVE_TRANSACTION } from './../../src/transactions/actions';
 import transactionReducer from './../../src/transactions/reducers';
+import { 
+    FETCH_TRANSACTIONS, 
+    EDIT_TRANSACTION, 
+    FINISH_EDIT_TRANSACTION, 
+    SAVE_TRANSACTION,
+    DELETE_TRANSACTION
+ } from './../../src/transactions/actions';
 
 describe('Transactions Reducers', () => {
 
@@ -36,7 +42,7 @@ describe('Transactions Reducers', () => {
 
     describe('SAVE_TRANSACTION', () => {
 
-        it('should handle SAVE_TRANSACTION', () => {
+        it('should be handled', () => {
             expect(
                 transactionReducer(undefined, {
                     type: SAVE_TRANSACTION,                    
@@ -49,7 +55,7 @@ describe('Transactions Reducers', () => {
             });
         })
 
-        it('should handle successful SAVE_TRANSACTION', () => {
+        it('should be handled when successful', () => {
             expect(
                 transactionReducer(undefined, {
                     type: SAVE_TRANSACTION,
@@ -64,7 +70,7 @@ describe('Transactions Reducers', () => {
             });
         })
 
-        it('should handle fail SAVE_TRANSACTION', () => {
+        it('should be handled when failed', () => {
             const errors = {
                 value: 'invalid value',
                 category: 'field is mandatory'
@@ -134,7 +140,7 @@ describe('Transactions Reducers', () => {
 
     describe('FETCH_TRANSACTIONS', () => {
 
-        it('should handle FETCH_TRANSACTIONS', () => {
+        it('should be handled', () => {
             expect(
                 transactionReducer(undefined, {
                     type: FETCH_TRANSACTIONS,
@@ -147,7 +153,7 @@ describe('Transactions Reducers', () => {
             });
         })
 
-        it('should handle successful FETCH_TRANSACTIONS', () => {
+        it('should be handled when successful', () => {
             const transactions = [ { id: 1 }, { id: 2 } ]
 
             expect(
@@ -164,7 +170,7 @@ describe('Transactions Reducers', () => {
             })
         })
 
-        it('should handle fail FETCH_TRANSACTIONS', () => {
+        it('should be handled when failed', () => {
             const errors = { detail: 'unauthorized' };
 
             expect(
@@ -183,7 +189,7 @@ describe('Transactions Reducers', () => {
 
     })
 
-    describe('EDIT TRANSACTION', () => {
+    describe('FINISH + EDIT _TRANSACTION', () => {
 
         it('should handle EDIT_TRANSACTION', () => {
             const state = {
@@ -226,6 +232,74 @@ describe('Transactions Reducers', () => {
                 editingTransaction: {}
             })
         })
+    })
+
+    describe('DELETE_TRANSACTION', () => {
+        const initialDeleteState = {
+            transactions,
+            editingTransaction: {},
+            isFetching: false,
+            errors: {},
+        }
+
+        it('should be handled', () => {
+            expect(
+                transactionReducer(initialDeleteState, {
+                    type: DELETE_TRANSACTION,
+                    id: 2
+                })
+            ).to.deep.equal({
+                isFetching: true,
+                errors: {},
+                transactions,
+                editingTransaction: {}
+            });
+        })
+
+        it('should be handled when successful', () => {
+            const fetchingState = {
+                ...initialDeleteState,
+                isFetching: true
+            }
+            const expectedTransactions = [
+                { id: 1, value: '10' },
+                { id: 3, value: '12' },
+            ]
+
+            expect(
+                transactionReducer(fetchingState, {
+                    type: DELETE_TRANSACTION,
+                    id: 2,
+                    result: 'success'
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors: {},
+                transactions: expectedTransactions,
+                editingTransaction: {}
+            });
+        })
+
+        it('should be handled when failed', () => {
+            const fetchingState = {
+                ...initialDeleteState,
+                isFetching: true
+            }
+
+            expect(
+                transactionReducer(fetchingState, {
+                    type: DELETE_TRANSACTION,                    
+                    result: 'fail',
+                    errors: { 'detail' : 'couldnt delete' }
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors: { 'detail': 'couldnt delete' },
+                transactions,
+                editingTransaction: {}
+            });
+        })
+
     })
 
 })

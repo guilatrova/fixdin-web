@@ -1,4 +1,10 @@
-import { SAVE_TRANSACTION, FETCH_TRANSACTIONS, EDIT_TRANSACTION, FINISH_EDIT_TRANSACTION } from './actions';
+import { 
+    SAVE_TRANSACTION, 
+    FETCH_TRANSACTIONS, 
+    EDIT_TRANSACTION, 
+    FINISH_EDIT_TRANSACTION,
+    DELETE_TRANSACTION
+} from './actions';
 
 const initialState = {
     transactions: [],    
@@ -49,6 +55,30 @@ function saveReducer(state, action) {
     }            
 }
 
+function deleteReducer(state, action) {
+    switch (action.result) {
+        case 'success':
+            return {
+                ...state,
+                isFetching: false,
+                transactions: state.transactions.filter(transaction => transaction.id != action.id)
+            }
+
+        case 'fail':
+            return {
+                ...state,
+                isFetching: false,
+                errors: action.errors
+            }
+
+        default:
+            return {
+                ...state,
+                isFetching: true
+            }
+    }            
+}
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
@@ -90,6 +120,9 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 editingTransaction: {}
             }
+
+        case DELETE_TRANSACTION:
+            return deleteReducer(state, action);
 
         default:
             return state;
