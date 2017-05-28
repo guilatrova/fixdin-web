@@ -25,6 +25,7 @@ import {
 
 import TransactionForm from './TransactionForm';
 import TransactionList from './TransactionList';
+import ConfirmDeleteTransactionModal from './ConfirmDeleteTransactionModal';
 import { fetchTransactions, saveTransaction, editTransaction, deleteTransaction, finishEditTransaction } from '../actions';
 
 class TransactionPage extends React.Component {
@@ -137,37 +138,11 @@ class TransactionPage extends React.Component {
                     </Modal.Body>
                 </Modal>
 
-                <Modal show={this.state.showTransactionDeleteModal} onHide={this.handleHideDeleteModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Confirmar deletar</Modal.Title>
-                    </Modal.Header>
+                <ConfirmDeleteTransactionModal 
+                    show={this.state.showTransactionDeleteModal} 
+                    onHide={this.handleHideDeleteModal} 
+                    onConfirmDelete={this.handleConfirmDeleteTransaction} />
 
-                    <Modal.Body>
-                        Você tem certeza que deseja deletar esta transação?
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                        <Button onClick={this.handleHideDeleteModal}>Cancelar</Button>
-                        <Button bsStyle='danger' onClick={this.handleConfirmDeleteTransaction}>Deletar</Button>
-                    </Modal.Footer>
-                </Modal>
-
-                {/*{this.state.showTransactionDeleteModal && 
-                <Modal>
-                    <Modal.Header>
-                        <Modal.Title>Confirmar deletar</Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                        Você tem certeza que deseja deletar esta transação?
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                        <Button onClick={this.handleHideDeleteModal}>Fechar</Button>
-                        <Button bsStyle='danger' onClick={this.handleConfirmDeleteTransaction}>Deletar</Button>
-                    </Modal.Footer>
-
-                </Modal>}*/}
             </div>
         )
     }
