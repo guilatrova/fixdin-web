@@ -16,6 +16,7 @@ import {
   Checkbox,
   Table,
   Button,
+  ButtonGroup,
   PanelBody,
   ControlLabel,
   FormGroup,
@@ -23,6 +24,7 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
+import { EXPENSE } from '../kinds';
 import TransactionList from './TransactionList';
 import TransactionFormModal from './TransactionFormModal';
 import ConfirmDeleteTransactionModal from './ConfirmDeleteTransactionModal';
@@ -43,13 +45,13 @@ class TransactionPage extends React.Component {
             showTransactionDeleteModal: false
         };            
 
+        this.handleRefresh = this.handleRefresh.bind(this);
+
         //Form
+        this.handleEdit = this.handleEdit.bind(this);
         this.handleCreateTransaction = this.handleCreateTransaction.bind(this);
         this.handleHideTransactionFormModal = this.handleHideTransactionFormModal.bind(this);
-        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);        
-
-        //Delete
-        this.handleEdit = this.handleEdit.bind(this);
+        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);                
 
         //Confirm delete
         this.handleDelete = this.handleDelete.bind(this);
@@ -58,20 +60,32 @@ class TransactionPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetch();
+        this.props.fetch(this.props.route.kind);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        //Necessary because DidMount isn't called again when we change between Incomes and Expenses
+        if (this.props.route.kind != nextProps.route.kind) {
+            this.props.fetch(nextProps.route.kind);
+        }
+    }
+
+    handleRefresh() {
+        this.props.fetch(this.props.route.kind);
     }
 
     handleCreateTransaction() {
         this.setState({ showTransactionFormModal: true });
-    }
+    }    
 
     handleHideTransactionFormModal() {
         this.props.finishEditTransaction();
         this.setState({ showTransactionFormModal: false });
     }
 
-    handleTransactionFormSubmit(transaction) {        
-        this.props.onTransactionFormSubmit(transaction);
+    handleTransactionFormSubmit(transaction) {
+        const { kind } = this.props.route;
+        this.props.onTransactionFormSubmit(transaction, kind);
         this.props.finishEditTransaction();
         this.setState({ showTransactionFormModal: false });
     }
@@ -104,15 +118,22 @@ class TransactionPage extends React.Component {
     }
 
     render() {
+        const { kind } = this.props.route;
+        const transactions = this.props.transactions.filter(transaction => transaction.kind === kind.id);
+
         return (
             <div className="transaction-page">
+                <h1>{kind.text}</h1>
                 <PanelContainer controls={false}>
                     <Panel>
                         <PanelBody>
                             <Grid>
                                 <Row>
-                                    <Col xs={2}>
-                                        <Button bsStyle='primary' onClick={this.handleCreateTransaction}>Nova</Button>
+                                    <Col xs={12}>
+                                        <ButtonGroup>
+                                            <Button bsStyle='primary' onClick={this.handleCreateTransaction}>Nova</Button>
+                                            <Button bsStyle='blue' onClick={this.handleRefresh}>Atualizar</Button>
+                                        </ButtonGroup>
                                     </Col>
                                 </Row>
                                 
@@ -120,7 +141,7 @@ class TransactionPage extends React.Component {
 
                                     <Col xs={12}>
                                         <TransactionList kind='income' 
-                                            transactions={this.props.transactions} 
+                                            transactions={transactions} 
                                             isFetching={this.props.isFetching}
                                             onEdit={this.handleEdit}
                                             onDelete={this.handleDelete}
@@ -136,8 +157,8 @@ class TransactionPage extends React.Component {
                 <TransactionFormModal
                     show={this.state.showTransactionFormModal}
                     onHide={this.handleHideTransactionFormModal}
-                    title={this.props.editingTransaction.id ? 'Editar receita' : 'Criar receita'}
-                    kind={'income'}
+                    title={this.props.editingTransaction.id ? `Editar ${kind.text}` : `Criar ${kind.text}`}
+                    kind={kind}
 
                     onSubmit={this.handleTransactionFormSubmit}
                     isFetching={this.props.isFetching}
@@ -165,8 +186,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch: () => dispatch(fetchTransactions()),
-        onTransactionFormSubmit: (transaction) => dispatch(saveTransaction(transaction)),
+        fetch: (kind) => dispatch(fetchTransactions(kind)),
+        onTransactionFormSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
         deleteTransaction: (id) => dispatch(deleteTransaction(id)),
         editTransaction: (id) => dispatch(editTransaction(id)),        
         finishEditTransaction: () => dispatch(finishEditTransaction())

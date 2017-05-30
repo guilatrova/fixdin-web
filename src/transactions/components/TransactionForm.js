@@ -245,7 +245,6 @@ class TransactionForm extends React.Component {
 
 TransactionForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    kind: PropTypes.string.isRequired,
     errors: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     transaction: PropTypes.object.isRequired

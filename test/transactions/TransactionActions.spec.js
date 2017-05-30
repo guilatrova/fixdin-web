@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import moment from 'moment';
 
 import * as apiModule from './../../src/services/api';
+import { EXPENSE, INCOME } from './../../src/transactions/kinds';
 import transactionReducer from './../../src/transactions/reducers';
 import { 
 	FETCH_TRANSACTIONS, 
@@ -45,17 +46,18 @@ describe('Transaction Actions', () => {
 	describe('FETCH_TRANSACTIONS', () => {
 
 		it('should dispatch success action after FETCH_TRANSACTIONS', (done) => {
-			const transactions = [ { id: 1, value: 10, due_date: '2017-10-10' }, { id: 2, value: 11, due_date: '2017-10-10' }, { id: 3, value: 12, due_date: '2017-10-10' }]
+			const transactions = [ { id: 1, value: '10', due_date: '2017-10-10' }, { id: 2, value: '11', due_date: '2017-10-10' }, { id: 3, value: '12', due_date: '2017-10-10' }]
 			const expectedActions = [
 				{ type: FETCH_TRANSACTIONS },
 				{ type: FETCH_TRANSACTIONS, result: 'success', transactions:transactions.map(item => ({
 						...item,
-						due_date: moment(item.due_date, 'YYYY-MM-dd')
+						due_date: moment(item.due_date, 'YYYY-MM-dd'),
+						value: item.value.replace('.',',')
 					})) 
 				}
 			]
 
-			store.dispatch(fetchTransactions());
+			store.dispatch(fetchTransactions(INCOME));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent()
@@ -81,7 +83,7 @@ describe('Transaction Actions', () => {
 				{ type: FETCH_TRANSACTIONS, result: 'fail', errors: expectedResponse }
 			]
 
-			store.dispatch(fetchTransactions());
+			store.dispatch(fetchTransactions(INCOME));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent()
@@ -116,7 +118,7 @@ describe('Transaction Actions', () => {
 				{ type: SAVE_TRANSACTION, result: 'success', transaction }
 			]
 
-			store.dispatch(saveTransaction(transaction));
+			store.dispatch(saveTransaction(transaction, INCOME));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -143,7 +145,7 @@ describe('Transaction Actions', () => {
 				{ type: SAVE_TRANSACTION, result: 'fail', errors: expectedResponse }
 			]
 
-			store.dispatch(saveTransaction(transaction));
+			store.dispatch(saveTransaction(transaction, INCOME));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -166,7 +168,7 @@ describe('Transaction Actions', () => {
 		it('SAVE_TRANSACTION should use PUT when id is supplied', (done) => {
 			const editTransaction = {...transaction, id: 1}
 
-			store.dispatch(saveTransaction(editTransaction));
+			store.dispatch(saveTransaction(editTransaction, INCOME));
 
 			moxios.wait(() => {                
 				let request = moxios.requests.mostRecent();
@@ -185,7 +187,7 @@ describe('Transaction Actions', () => {
 				{ type: DELETE_TRANSACTION, result: 'success', id: 2 }
 			]
 
-			store.dispatch(deleteTransaction(2));
+			store.dispatch(deleteTransaction(2, INCOME));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -207,7 +209,7 @@ describe('Transaction Actions', () => {
 				{ type: DELETE_TRANSACTION, result: 'fail', errors }
 			]
 
-			store.dispatch(deleteTransaction(2));
+			store.dispatch(deleteTransaction(2, INCOME));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();

@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import moment from 'moment';
 
 import * as apiModule from './../../src/services/api';
+import { EXPENSE, INCOME } from './../../src/transactions/kinds';
 import transactionReducer from './../../src/transactions/reducers';
 import { 
     FETCH_TRANSACTIONS, 
@@ -196,6 +197,64 @@ describe('Transactions Reducers', () => {
             })
         })
 
+        it('should concat new transactions', () => {
+            const transactionsBefore = [ { id: 1, kind: INCOME.id }, { id: 2, kind: INCOME.id } ];
+            const newTransactions = [ { id: 3, kind: EXPENSE.id }, { id:4, kind: EXPENSE.id } ];
+            const transactionsAfter = [ ...transactionsBefore, ...newTransactions ]
+            const initialState = {
+                transactions: transactionsBefore,
+                editingTransaction: {},
+                isFetching: true,
+                errors: {}
+            }
+            debugger;
+            let actual =                 transactionReducer(initialState, {
+                    type: FETCH_TRANSACTIONS,
+                    result: 'success',
+                    transactions: newTransactions
+                });
+
+            let expected = {
+                ...initialState,
+                isFetching: false,
+                transactions: transactionsAfter
+            }
+
+            expect(
+                transactionReducer(initialState, {
+                    type: FETCH_TRANSACTIONS,
+                    result: 'success',
+                    transactions: newTransactions
+                })
+            ).to.deep.equal({
+                ...initialState,
+                isFetching: false,
+                transactions: transactionsAfter
+            })
+        })
+
+        it('should override old transactions', () => {
+            const transactionsBefore = [ { id: 1, value: '10' }, { id: 2, value: '20' } ];
+            const overrideTransactions = [ { id: 1, value: '50' }, { id: 2, value: '50' } ];
+            const initialState = {
+                editingTransaction: {},
+                isFetching: true,
+                errors: {},
+                transactions: transactionsBefore,                
+            }
+
+            expect(
+                transactionReducer(initialState, {
+                    type: FETCH_TRANSACTIONS,
+                    result: 'success',
+                    transactions: overrideTransactions
+                })
+            ).to.deep.equal({                
+                ...initialState,
+                isFetching: false,
+                transactions: overrideTransactions
+            })
+        })
     })
 
     describe(' EDIT_TRANSACTION + FINISH_EDIT_TRANSACTION', () => {

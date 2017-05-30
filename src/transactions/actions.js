@@ -1,5 +1,6 @@
 import moment from 'moment';
 
+import { EXPENSE } from './kinds';
 import createApi from '../services/api';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
@@ -28,7 +29,8 @@ function receiveTransactions(result, data) {
             result,
             transactions: data.map(e => ({
                 ...e,
-                due_date: moment(e.due_date, 'YYYY-MM-dd')
+                due_date: moment(e.due_date, 'YYYY-MM-dd'),
+                value: e.value.replace('.', ',')
             }))
         }
     }
@@ -40,12 +42,12 @@ function receiveTransactions(result, data) {
     }
 }
 
-export function fetchTransactions() {
+export function fetchTransactions(kind) {
     return dispatch => {
         dispatch(requestTransactions());
         const api = createApi();
 
-        return api.get('incomes/')
+        return api.get(kind.apiEndpoint)
             .then(response => response.data)
             .then((data) => {
                 dispatch(receiveTransactions('success', data));
@@ -77,22 +79,26 @@ function receiveSaveTransaction(result, data) {
     }
 }
 
-function update(id, data) {
+function update(id, data, kind) {
     const api = createApi();
-    return api.put('incomes/' + id, data);
+    return api.put(kind.apiEndpoint + id, data);
 }
 
-function create(data) {
+function create(data, kind) {
     const api = createApi();
-    return api.post('incomes/', data);
+    return api.post(kind.apiEndpoint, data);
 }
 
-export function saveTransaction({ id, account, due_date, description, category, value, details, importance, deadline }) {
+export function saveTransaction({ id, account, due_date, description, category, value, details, importance, deadline }, kind) {
     return dispatch => {
         dispatch(requestSaveTransaction());        
         
         due_date = due_date.format('YYYY-MM-DD');
         value = getCurrencyValue(value);
+
+        if (kind == EXPENSE) {
+            value = -value;
+        }
         
         const data = {
             due_date,
@@ -105,7 +111,7 @@ export function saveTransaction({ id, account, due_date, description, category, 
             deadline
         }
 
-        let apiPromise = (id) ? update(id, data) : create(data);
+        let apiPromise = (id) ? update(id, data, kind) : create(data, kind);
         
         apiPromise
             .then(response => response.data)
@@ -152,12 +158,12 @@ function receiveDeleteTransaction(id, result, errors) {
     }
 }
 
-export function deleteTransaction(id) {
+export function deleteTransaction(id, kind) {
     return dispatch => {
         dispatch(requestDeleteTransaction(id));
 
         const api = createApi();
-        api.delete(`incomes/${id}`)
+        api.delete(kind.apiEndpoint + id)
             .then(() => dispatch(receiveDeleteTransaction(id, 'success')))
             .catch(({response}) => dispatch(receiveDeleteTransaction(id, 'fail', response.data)))
     }

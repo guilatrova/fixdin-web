@@ -7,7 +7,7 @@ import {
 } from './actions';
 
 const initialState = {
-    transactions: [],    
+    transactions: [],
     editingTransaction: {},
     isFetching: false,
     errors: {}
@@ -79,6 +79,36 @@ function deleteReducer(state, action) {
     }            
 }
 
+function fetchReducer(state, action) {
+    switch (action.result) {
+
+        case 'success':
+
+            return {
+                ...state,                
+                isFetching: false,
+                errors: {},
+                transactions: state.transactions
+                    .filter(old => !action.transactions.some(newT => newT.id == old.id))
+                    .concat(action.transactions)
+            }
+        
+        case 'fail':
+            return {
+                ...state,
+                errors: action.errors,
+                isFetching: false
+            }    
+
+        default:
+            return {
+                ...state,
+                isFetching: true,
+                errors: {}
+            }
+    }
+}
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
@@ -86,28 +116,7 @@ export default function reducer(state = initialState, action) {
             return saveReducer(state, action);
 
         case FETCH_TRANSACTIONS:
-            if (action.result === 'success') {
-                return {
-                    ...state,
-                    transactions: action.transactions,
-                    isFetching: false,
-                    errors: {}
-                }
-            }
-            else if (action.result === 'fail') {
-                return {
-                    ...state,
-                    errors: action.errors,
-                    isFetching: false
-                }
-            }
-
-            return  {
-                ...state,
-                isFetching: true,
-                transactions: [],
-                errors: {}
-            }
+            return fetchReducer(state, action);
 
         case EDIT_TRANSACTION:
             return {

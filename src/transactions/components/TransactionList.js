@@ -39,10 +39,12 @@ class TransactionList extends React.Component {
                         <ButtonToolbar>
                             <Button className="edit-button" outlined bsStyle="blue" onClick={() => this.props.onEdit(transaction.id)}>
                                 <Icon glyph='icon-fontello-pencil' />
+                                {' '}
                                 Editar
                             </Button>
-                            <Button className="delete-button" outlined bsStyle="blue" onClick={() => this.props.onDelete(transaction.id)}>
-                                {/*<Icon glyph='icon-fontello-pencil' />*/}
+                            <Button className="delete-button" outlined bsStyle="red" onClick={() => this.props.onDelete(transaction.id)}>                                
+                                <Icon glyph='icon-fontello-trash-1' />
+                                {' '}
                                 Deletar
                             </Button>
                         </ButtonToolbar>
