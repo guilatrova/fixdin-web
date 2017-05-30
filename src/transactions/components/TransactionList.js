@@ -3,31 +3,17 @@ import { Link } from 'react-router';
 import moment from 'moment';
 
 import {    
-  Row,
-  Col,
   Icon,
-  Grid,
-  Form,
-  Badge,
-  Panel,
-  Checkbox,
   Table,
   ButtonToolbar,
   ButtonGroup,
   Button,
-  PanelBody,
-  ControlLabel,
-  FormGroup,
-  InputGroup,
-  FormControl
 } from '@sketchpixy/rubix';
 
-class TransactionList extends React.Component {
-
-    render() {
-        const rows = this.props.transactions.map((transaction) => {            
+const TransactionList = ({ transactions, onEdit, onDelete }) => {
+    const rows = transactions.map((transaction) => {            
             const formattedDueDate = moment(transaction.due_date, 'yyyy-MM-dd').format('DD/MM/YYYY');
-            const formattedValue = `R$ ${transaction.value.replace(".",",")}`
+            const formattedValue = `R$ ${transaction.value}`
 
             return (
                 <tr key={transaction.id}>
@@ -37,12 +23,12 @@ class TransactionList extends React.Component {
                     <td>{formattedValue}</td>
                     <td>
                         <ButtonToolbar>
-                            <Button className="edit-button" outlined bsStyle="blue" onClick={() => this.props.onEdit(transaction.id)}>
+                            <Button className="edit-button" outlined bsStyle="blue" onClick={() => onEdit(transaction.id)}>
                                 <Icon glyph='icon-fontello-pencil' />
                                 {' '}
                                 Editar
                             </Button>
-                            <Button className="delete-button" outlined bsStyle="red" onClick={() => this.props.onDelete(transaction.id)}>                                
+                            <Button className="delete-button" outlined bsStyle="red" onClick={() => onDelete(transaction.id)}>                                
                                 <Icon glyph='icon-fontello-trash-1' />
                                 {' '}
                                 Deletar
@@ -69,12 +55,6 @@ class TransactionList extends React.Component {
                 </tbody>
             </Table>
         );
-    }    
-}
-
-TransactionList.propTypes = {
-    onEdit: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired
 }
 
 export default TransactionList;

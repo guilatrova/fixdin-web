@@ -45,15 +45,16 @@ class TransactionPage extends React.Component {
             showTransactionDeleteModal: false
         };            
 
+        //Fetch
         this.handleRefresh = this.handleRefresh.bind(this);
 
-        //Form
+        //Create/Edit Modal
         this.handleEdit = this.handleEdit.bind(this);
         this.handleCreateTransaction = this.handleCreateTransaction.bind(this);
         this.handleHideTransactionFormModal = this.handleHideTransactionFormModal.bind(this);
         this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);                
 
-        //Confirm delete
+        //Delete Modal
         this.handleDelete = this.handleDelete.bind(this);
         this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
         this.handleHideDeleteModal = this.handleHideDeleteModal.bind(this);
@@ -118,6 +119,7 @@ class TransactionPage extends React.Component {
     }
 
     render() {
+        const { isFetching } = this.props;
         const { kind } = this.props.route;
         const transactions = this.props.transactions.filter(transaction => transaction.kind === kind.id);
 
@@ -132,7 +134,7 @@ class TransactionPage extends React.Component {
                                     <Col xs={12}>
                                         <ButtonGroup>
                                             <Button bsStyle='primary' onClick={this.handleCreateTransaction}>Nova</Button>
-                                            <Button bsStyle='blue' onClick={this.handleRefresh}>Atualizar</Button>
+                                            <Button bsStyle='blue' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
                                         </ButtonGroup>
                                     </Col>
                                 </Row>
@@ -142,7 +144,7 @@ class TransactionPage extends React.Component {
                                     <Col xs={12}>
                                         <TransactionList kind='income' 
                                             transactions={transactions} 
-                                            isFetching={this.props.isFetching}
+                                            isFetching={isFetching}
                                             onEdit={this.handleEdit}
                                             onDelete={this.handleDelete}
                                             />
@@ -161,7 +163,7 @@ class TransactionPage extends React.Component {
                     kind={kind}
 
                     onSubmit={this.handleTransactionFormSubmit}
-                    isFetching={this.props.isFetching}
+                    isFetching={isFetching}
                     transaction={this.props.editingTransaction} />
 
                 <ConfirmDeleteTransactionModal 
