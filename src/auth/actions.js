@@ -1,50 +1,29 @@
 import createApi from '../services/api';
 import { saveToken } from '../services/session';
 
-export const AUTH_FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
-export const AUTH_REQUEST_SIGNUP = 'AUTH_REQUEST_SIGNUP';
+export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
+export const SIGNUP = 'AUTH_REQUEST_SIGNUP';
 
+//LOGIN
 function requestToken() {
   return {
-    type: AUTH_FETCH_TOKEN
+    type: FETCH_TOKEN
   }
 }
 
 function receiveToken(result, data) {
   if (result === 'success') {
     return {
-      type: AUTH_FETCH_TOKEN,
+      type: FETCH_TOKEN,
       result,
       token: data
     }
   }
   
   return {
-    type: AUTH_FETCH_TOKEN,
+    type: FETCH_TOKEN,
     result,
     error: data
-  }
-}
-
-function requestSignup() {
-  return {
-    type: AUTH_REQUEST_SIGNUP
-  }
-}
-
-function receiveSignup(result, data) {
-  if (result === 'success') {
-    return {
-      type: AUTH_REQUEST_SIGNUP,
-      result,
-      user: data
-    }
-  }
-  
-  return {
-    type: AUTH_REQUEST_SIGNUP,
-    result,
-    errors: data
   }
 }
 
@@ -64,6 +43,29 @@ export function fetchToken(loginData) {
   }
 }
 
+//SIGNUP
+function requestSignup() {
+  return {
+    type: SIGNUP
+  }
+}
+
+function receiveSignup(result, data) {
+  if (result === 'success') {
+    return {
+      type: SIGNUP,
+      result,
+      user: data
+    }
+  }
+  
+  return {
+    type: SIGNUP,
+    result,
+    errors: data
+  }
+}
+
 export function fetchSignup(signupData) {
   return dispatch  => {
     dispatch(requestSignup())
@@ -71,10 +73,7 @@ export function fetchSignup(signupData) {
 
     return api.post('auth/users/', signupData)
       .then(response => response.data)
-      .then(data => 
-        dispatch(receiveSignup('success', data)))
-      .catch(error => 
-        dispatch(receiveSignup('fail', error.response))
-      );
+      .then(data => dispatch(receiveSignup('success', data)))
+      .catch(({response}) => dispatch(receiveSignup('fail', response.data)));        
   }
 }

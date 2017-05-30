@@ -1,9 +1,8 @@
 import React from 'react';
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import sinon from 'sinon';
-import sinonStubPromise from 'sinon-stub-promise';
-import moxios from 'moxios'
+import moxios from 'moxios';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
@@ -11,7 +10,7 @@ import { Provider } from 'react-redux';
 import * as apiModule from './../../src/services/api';
 import * as sessionModule from './../../src/services/session';
 import LoginForm from './../../src/auth/components/LoginForm';
-import { AUTH_FETCH_TOKEN, fetchToken } from './../../src/auth/actions';
+import { FETCH_TOKEN, fetchToken } from './../../src/auth/actions';
 import { loginReducer } from './../../src/auth/reducers';
 
 describe('Login', () => {
@@ -120,8 +119,8 @@ describe('Login', () => {
 
         it('should dispatch actions before and after fetching token when successful', (done) => {
             const expectedActions = [
-                { type: AUTH_FETCH_TOKEN },
-                { type: AUTH_FETCH_TOKEN, result: 'success', token }
+                { type: FETCH_TOKEN },
+                { type: FETCH_TOKEN, result: 'success', token }
             ]
 
             store.dispatch(fetchToken({ email:'any', password:'any' }));                
@@ -143,8 +142,8 @@ describe('Login', () => {
 
         it('should dispatch finished with error when fetching token fails', (done) => {
             const expectedActions = [
-                { type: AUTH_FETCH_TOKEN },
-                { type: AUTH_FETCH_TOKEN, result: 'fail', error: 'You shall not pass' }
+                { type: FETCH_TOKEN },
+                { type: FETCH_TOKEN, result: 'fail', error: 'You shall not pass' }
             ]
 
             store.dispatch(fetchToken({ email:'any', password:'any' }));
@@ -184,7 +183,7 @@ describe('Login', () => {
         it('should handle FETCH_TOKEN', () => {
             expect(
                 loginReducer(undefined, {
-                    type: AUTH_FETCH_TOKEN                    
+                    type: FETCH_TOKEN                    
                 })
             ).to.deep.equal({                
                 isFetching: true,
@@ -196,7 +195,7 @@ describe('Login', () => {
         it('should handle successful FETCH_TOKEN', () => {
             expect(
                 loginReducer(undefined, {
-                    type: AUTH_FETCH_TOKEN,
+                    type: FETCH_TOKEN,
                     result: 'success',
                     token: 'abc123'
                 })
@@ -210,7 +209,7 @@ describe('Login', () => {
         it('should handle failed FETCH_TOKEN', () => {
             expect(
                 loginReducer(undefined, {
-                    type: AUTH_FETCH_TOKEN,
+                    type: FETCH_TOKEN,
                     result: 'fail',
                     error: 'General error'
                 })

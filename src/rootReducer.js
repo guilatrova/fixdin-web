@@ -1,13 +1,10 @@
 import { combineReducers } from 'redux';
-import { authentication, loginReducer } from './auth/reducers';
+import { loginReducer as login, signupReducer as signup } from './auth/reducers';
 import transactions from './transactions/reducers';
 
-const rootReducer = combineReducers({
-  auth: {
-    login: loginReducer,
-    signup: authentication
-  },
-  login: loginReducer,
+const rootReducer = combineReducers({  
+  login,
+  signup,
   transactions
 });
 

@@ -2,7 +2,6 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import sinon from 'sinon';
-import sinonStubPromise from 'sinon-stub-promise';
 import moxios from 'moxios'
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
@@ -207,18 +206,6 @@ describe('Transactions Reducers', () => {
                 isFetching: true,
                 errors: {}
             }
-            debugger;
-            let actual =                 transactionReducer(initialState, {
-                    type: FETCH_TRANSACTIONS,
-                    result: 'success',
-                    transactions: newTransactions
-                });
-
-            let expected = {
-                ...initialState,
-                isFetching: false,
-                transactions: transactionsAfter
-            }
 
             expect(
                 transactionReducer(initialState, {
@@ -257,7 +244,7 @@ describe('Transactions Reducers', () => {
         })
     })
 
-    describe(' EDIT_TRANSACTION + FINISH_EDIT_TRANSACTION', () => {
+    describe('EDIT_TRANSACTION + FINISH_EDIT_TRANSACTION', () => {
 
         it('should handle EDIT_TRANSACTION', () => {
             const state = {

@@ -1,56 +1,144 @@
 import React from 'react';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import sinon from 'sinon';
-import sinonStubPromise from 'sinon-stub-promise';
+import moxios from 'moxios';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
 
+import * as apiModule from './../../src/services/api';
 import SignupForm from './../../src/auth/components/SignupForm';
+import { signupReducer } from './../../src/auth/reducers';
+import { SIGNUP, fetchSignup } from './../../src/auth/actions';
 
-// describe('SignupForm', () => {
-//     sinonStubPromise(sinon);
+describe('Signup', () => {
 
-//     describe('when form submits', () => {
-//         it('should call handleSubmit', () => {
-//             let signupSubmitStub = sinon.stub().returnsPromise();
-//             signupSubmitStub.resolves('ok');
+    describe('Actions', () => {
+        let sandbox, axiosInstance;
+        const middlewares = [ thunk ];
+        const mockStore = configureMockStore(middlewares);
+        let store;
 
-//             const wrapper = mount(<SignupForm sendSignupRequest={signupSubmitStub} />);
-//             let compInstance = wrapper.instance();
-//             let handleSubmitStub = sinon.stub(compInstance, 'handleSubmit');
+        beforeEach(() => {
+            sandbox = sinon.sandbox.create();
+            axiosInstance = apiModule.default();
 
-//             compInstance.forceUpdate();
-//             wrapper.update();
+            sandbox.stub(apiModule, 'default').returns(axiosInstance);
+            moxios.install(axiosInstance);
+            store =  mockStore();
+        })
 
-//             wrapper.find('form').simulate('submit');
-//             expect(handleSubmitStub.called).to.be.true;
-//         });
+        afterEach(() => {
+            sandbox.restore();
+            moxios.uninstall(axiosInstance);
+        })
 
-//         it('should store errors in state', () => {
-//             let signupSubmitStub = sinon.stub().returnsPromise();
-//             let expectedErrorResponse = { email: 'invalid email address', password: 'invalid password'};
-//             signupSubmitStub.rejects(expectedErrorResponse);
-            
-//             const wrapper = mount(<SignupForm sendSignupRequest={signupSubmitStub} />);
-//             const compInstance = wrapper.instance();
+        it('should dispatch actions before and after signup when successful', (done) => {
+            const user = { id: 2 };
+            const expectedActions = [
+                { type: SIGNUP },
+                { type: SIGNUP, result: 'success', user }
+            ]
 
-//             wrapper.find('form').simulate('submit');
+            store.dispatch(fetchSignup({}));
 
-//             expect(signupSubmitStub.called).to.be.true;
-//             expect(compInstance.state).to.have.property('errors');
-//             expect(compInstance.state.errors).to.equal(expectedErrorResponse);
-//         });
+            moxios.wait(() => {
+                let request = moxios.requests.mostRecent()
 
-//         it('should call promise', () => {
-//             let signupSubmitStub = sinon.stub().returnsPromise();
-//             signupSubmitStub.resolves('ok');
-            
-//             const wrapper = mount(<SignupForm sendSignupRequest={signupSubmitStub} />);
-//             let compInstance = wrapper.instance();
+                request.respondWith({
+                    status: 200,
+                    response: user
+                })
+                .then(() => {                    
+                    expect(store.getActions()).to.deep.equal(expectedActions);
+                    done();
+                })
+                .catch((error) => done(error.message));                
+            });            
+        })
 
-//             wrapper.find('form').simulate('submit');
+        it('should dispatch finished with error when signup fails', (done) => {
+            const errors = { email: 'You shall not pass'}
+            const expectedActions = [
+                { type: SIGNUP },
+                { type: SIGNUP, result: 'fail', errors }
+            ]
 
-//             expect(signupSubmitStub.called).to.be.true;
-//         });
-//     });
-// });
+            store.dispatch(fetchSignup({}));
+
+            moxios.wait(() => {
+                let request = moxios.requests.mostRecent()
+
+                request.respondWith({
+                    status: 400,
+                    response: errors
+                })
+                .then(() => {
+                    debugger;
+                    expect(store.getActions()).to.deep.equal(expectedActions);
+                    done();
+                })
+                .catch(error => {
+                    done(`Actions arent equal: ${error}`);
+                });
+            });
+        })
+
+    })
+
+
+    describe('Reducers', () => {
+        const initialState = {
+            isFetching: false,
+            errors: {}
+        }
+
+        it('should return the initial state', () => {
+            expect(
+                signupReducer(undefined, {})
+            ).to.deep.equal(initialState);
+        })
+
+        it('should handle SIGNUP', () => {
+            expect(
+                signupReducer(undefined, {
+                    type: SIGNUP                    
+                })
+            ).to.deep.equal({
+                isFetching: true,
+                errors: {}
+            });
+        })
+
+        it('should handle successful SIGNUP', () => {
+            expect(
+                signupReducer(undefined, {
+                    type: SIGNUP,
+                    result: 'success'
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors: {}
+            });
+        })
+
+        it('should handle failed SIGNUP', () => {
+            const errors = {
+                email: 'invalid address',
+                password: 'too short'
+            }
+
+            expect(
+                signupReducer(undefined, {
+                    type: SIGNUP,
+                    result: 'fail',
+                    errors
+                })
+            ).to.deep.equal({
+                isFetching: false,                
+                errors
+            });
+        })
+    })
+
+})

@@ -1,64 +1,50 @@
-import { AUTH_FETCH_TOKEN, AUTH_REQUEST_SIGNUP } from './actions';
+import { FETCH_TOKEN, SIGNUP } from './actions';
 
-const initialState = {
-    login : {
-        isFetching: false,
-        error: '',
-        token: ''
-    },
-    signup : {
-        isFetching: false,
-        errors: {}
-    }
+const loginInitialState = {
+    isFetching: false,
+    error: '',
+    token: ''
 }
 
-function authenticationArea(state, action, keyArea) {
-    switch (action.result) {
-        case 'success':
-            return Object.assign({}, state, { 
-                [keyArea]: {
-                    isFetching: false,
-                    errors: {},
-                    token: action.token //only for login
-                }
-            });
-
-        case 'fail':
-            return Object.assign({}, state, {
-                [keyArea]: {
-                    isFetching: false,
-                    errors: action.errors.data
-                }
-            });
-
-        default:
-            return Object.assign({}, state, {
-                [keyArea]: {
-                    isFetching: true,
-                    errors: {}
-                }
-            });
-    }
+const signupInitialState = {
+    isFetching: false,
+    errors: {}
 }
 
-export function authentication(state = initialState, action) {
+export function signupReducer(state = signupInitialState, action) {
     switch (action.type) {
 
-        case AUTH_REQUEST_SIGNUP:
-            return authenticationArea(state, action, 'signup');
+        case SIGNUP:
+            if (action.result == 'success') {
+                return {
+                    ...state,
+                    isFetching: false,
+                    errors: {}
+                }
+            }
+            else if (action.result == 'fail') {
+                return {
+                    ...state,
+                    isFetching: false,
+                    errors: action.errors
+                }
+            }
 
-        case AUTH_FETCH_TOKEN:
-            return authenticationArea(state, action, 'login');
+            return {
+                ...state,
+                isFetching: true,
+                errors: {}
+            }
 
         default:
             return state;
     }
 }
 
-export function loginReducer(state = initialState.login, action) {
+export function loginReducer(state = loginInitialState, action) {
     switch (action.type) {
         
-        case AUTH_FETCH_TOKEN:
+        case FETCH_TOKEN:
             if (action.result === 'success') {
                 return {
                     ...state,
