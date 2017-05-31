@@ -54,7 +54,7 @@ class SignupPage extends React.Component {
 
                           <div>
                             <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
-                              <SignupForm onSubmit={this.props.onSubmit} />
+                              <SignupForm onSubmit={this.props.onSubmit} errors={this.props.errors} />
                             </div>
 
                             <div className='bg-hoverblue fg-black50 text-center' style={{padding: 25, paddingTop: 12.5}}>
@@ -96,13 +96,17 @@ class SignupPage extends React.Component {
 }
 
 SignupPage.propTypes = {
-    onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state) => {
-  console.log(state);
+SignupPage.defaultProps = {
+  errors: {}
+}
+
+const mapStateToProps = (state) => {  
   return {
-    ...state.auth.signup
+    ...state.signup
   }
 };
 
