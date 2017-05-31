@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import moment from 'moment';
 
 import TransactionForm from './../../src/transactions/components/TransactionForm';
+import { itShouldDisplayErrorForField } from './../testHelpers';
 
 describe('TransactionForm', () => {    
 
@@ -24,45 +25,29 @@ describe('TransactionForm', () => {
             expect(wrapper).to.be.ok;
         })
 
-        const itShouldDisplayErrorForField = (field, controlId, message) => {
-            it(`should display error for ${field}`, () => {
-
-                const errors = {
-                    [field]: message
-                }
-                const wrapper = shallow(<TransactionForm {...defaultProps} errors={errors} />);
-                const formGroup = wrapper.find(`FormGroup[controlId="${controlId}"]`);
-
-                expect(formGroup.props().validationState).to.be.equal('error');
-                expect(wrapper.contains(
-                    message
-                )).to.be.true;
-            })
-        }
-
-        itShouldDisplayErrorForField('due_date', 'dueDateGroup', 'invalid date');
-        itShouldDisplayErrorForField('value', 'valueGroup', 'invalid value');
-        itShouldDisplayErrorForField('description', 'descriptionGroup', 'invalid description');
-        itShouldDisplayErrorForField('category', 'categoryGroup', 'wrong category');
-        itShouldDisplayErrorForField('deadline', 'deadlineGroup', 'deadline invalid state');
-        itShouldDisplayErrorForField('importance', 'priorityGroup', 'invalid priority');
-        itShouldDisplayErrorForField('details', 'detailsGroup', 'wrong details supplied');
+        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'due_date', 'dueDateGroup', 'invalid date');
+        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'value', 'valueGroup', 'invalid value');
+        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'description', 'descriptionGroup', 'invalid description');
+        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'category', 'categoryGroup', 'wrong category');
+        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'deadline', 'deadlineGroup', 'deadline invalid state');
+        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'importance', 'priorityGroup', 'invalid priority');
+        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'details', 'detailsGroup', 'wrong details supplied');
 
         const simulateChange = (input, name, value) => {
             input.simulate('change', { target: { name, value }});
         };
 
         const assertSubmitDisabled = (wrapper) => {
-            const submitButton = wrapper.find('button[type="submit"]');
-            expect(submitButton.props()['disabled']).to.be.true;
+            const submitButton = wrapper.find('Button[type="submit"]');
+            expect(submitButton.prop('disabled')).to.be.true;
         };
 
         const requiredFields = ["due_date", "value", "description", "category"];
 
         const itSubmitButtonShouldBeDisabledWhenFieldIsBlank = (field) => {
             it (`submit button should be disabled when ${field} is blank `, () => {
-                const wrapper = mount(<TransactionForm {...defaultProps} />);            
-                const input = wrapper.find('#descriptionGroup'); //any input can trigger change
+                const wrapper = shallow(<TransactionForm {...defaultProps} />);            
+                const input = wrapper.find('FormControl[name="description"]'); //any input can trigger change
 
                 for (let i = 0; i < requiredFields.length; i++) {
                     if (requiredFields[i] != field) {
@@ -91,8 +76,8 @@ describe('TransactionForm', () => {
         }
 
         it('submit button should be disabled when due_date is invalid', () => {
-            const wrapper = mount(<TransactionForm {...defaultProps} />);            
-            const input = wrapper.find('#descriptionGroup'); //any input can trigger change
+            const wrapper = shallow(<TransactionForm {...defaultProps} />);            
+            const input = wrapper.find('FormControl[name="description"]'); //any input can trigger change
             
             fillAllRequiredFields(input);
 
@@ -100,18 +85,18 @@ describe('TransactionForm', () => {
         })
 
         it('submit button should be enabled when required fields are correctly filled', () => {
-            const wrapper = mount(<TransactionForm {...defaultProps} />);            
-            const input = wrapper.find('#descriptionGroup'); //any input can trigger change
+            const wrapper = shallow(<TransactionForm {...defaultProps} />);            
+            const input = wrapper.find('FormControl[name="description"]'); //any input can trigger change
             
             fillAllRequiredFields(input, { due_date: moment(new Date())});
 
-            const submitButton = wrapper.find('button[type="submit"]');
-            expect(submitButton.props()['disabled']).to.be.false;
+            const submitButton = wrapper.find('Button[type="submit"]');
+            expect(submitButton.prop('disabled')).to.be.false;
         })
 
         it('submit button is disabled when isFetching', () => {
-            const wrapper = mount(<TransactionForm {...defaultProps} isFetching={true} />);            
-            const input = wrapper.find('#descriptionGroup'); //any input can trigger change
+            const wrapper = shallow(<TransactionForm {...defaultProps} isFetching={true} />);            
+            const input = wrapper.find('FormControl[name="description"]'); //any input can trigger change
 
             fillAllRequiredFields(input);
 

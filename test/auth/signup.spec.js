@@ -10,8 +10,43 @@ import * as apiModule from './../../src/services/api';
 import SignupForm from './../../src/auth/components/SignupForm';
 import { signupReducer } from './../../src/auth/reducers';
 import { SIGNUP, fetchSignup } from './../../src/auth/actions';
+import { itShouldDisplayErrorForField, itSubmitButtonShouldBeDisabledWhenFieldIsBlank } from './../testHelpers';
 
 describe('Signup', () => {
+
+    describe('SignupForm', () => {
+        
+        const defaultProps = {
+            onSubmit: () => {},
+            isFetching: false,
+            errors: {}
+        }
+
+        describe('renders ok', () => {
+            const wrapper = shallow(<SignupForm {...defaultProps} />);
+            expect(wrapper).to.be.ok;
+        })
+        
+        itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'username', 'usernameGroup', 'username already in use');
+        itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'first_name', 'firstNameGroup', 'first name is required');
+        itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'last_name', 'lastNameGroup', 'last name is required');
+        itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'email', 'emailAddressGroup', 'Email invalid. How we would send you spam?');
+        itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'password', 'passwordGroup', 'password is too short');
+
+        it('submit button should be disabled when isFetching', () => {
+            const wrapper = shallow(<SignupForm {...defaultProps} isFetching={true} />);
+            expect(wrapper.find('Button').prop('disabled')).to.be.true;
+        })
+
+        const requiredFields = ["username", "first_name", "last_name", "email", "password"];
+        const triggerReference = 'FormControl[name="username"]';
+
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'username');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'email');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'password');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'first_name');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'last_name');
+    })
 
     describe('Actions', () => {
         let sandbox, axiosInstance;
@@ -85,7 +120,6 @@ describe('Signup', () => {
         })
 
     })
-
 
     describe('Reducers', () => {
         const initialState = {

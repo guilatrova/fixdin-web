@@ -16,6 +16,7 @@ import {
   LoremIpsum,
   InputGroup,
   FormControl,
+  HelpBlock,
   ButtonGroup,
   ButtonToolbar,
   PanelContainer,
@@ -46,44 +47,69 @@ class SignupForm extends React.Component {
       this.setState({ [e.target.name]: e.target.value });
     }
 
+    isSubmitDisabled() {
+        if (this.props.isFetching) {
+            return true;
+        }
+
+        if (this.state.username && this.state.email && this.state.first_name && this.state.last_name && this.state.password)
+            return false;
+            
+        return true;
+    }
+
     render() {
+        const { errors } = this.props;
+
         return (
             <Form onSubmit={this.handleSubmit}>
 
-                <FormGroup controlId='username'>
-                <InputGroup bsSize='large'>
+                <FormGroup controlId='usernameGroup' validationState={'username' in errors ? 'error' : undefined}>
+                    <InputGroup bsSize='large'>
                     <InputGroup.Addon>
-                    <Icon glyph='icon-fontello-user' />
+                        <Icon glyph='icon-fontello-user' />
                     </InputGroup.Addon>
+
                     <FormControl autoFocus 
-                    type='text' 
-                    className='border-focus-blue' 
-                    placeholder='Username'
-                    name="username"
-                    onChange={this.handleChange}
-                    value={this.state.username} />
-                </InputGroup>
+                        type='text' 
+                        className='border-focus-blue' 
+                        placeholder='Username'
+                        name="username"
+                        onChange={this.handleChange}
+                        value={this.state.username} />
+
+                    </InputGroup>
+
+                    {errors.username &&
+                        <HelpBlock>{errors.username}</HelpBlock>
+                    }
+
                 </FormGroup>
 
-                <FormGroup controlId='first_name'>
-                <InputGroup bsSize='large'>
+                <FormGroup controlId='firstNameGroup' validationState={'first_name' in errors ? 'error' : undefined}>
+                    <InputGroup bsSize='large'>
                     <InputGroup.Addon>
-                    <Icon glyph='icon-fontello-user' />
+                        <Icon glyph='icon-fontello-user' />
                     </InputGroup.Addon>
                     <FormControl 
-                    type='text' 
-                    className='border-focus-blue' 
-                    placeholder='First name'
-                    name="first_name"
-                    onChange={this.handleChange}
-                    value={this.state.first_name} />
-                </InputGroup>
+                        type='text' 
+                        className='border-focus-blue' 
+                        placeholder='First name'
+                        name="first_name"
+                        onChange={this.handleChange}
+                        value={this.state.first_name} />
+                    </InputGroup>
+
+                    {errors.first_name &&
+                        <HelpBlock>{errors.first_name}</HelpBlock>
+                    }
+
                 </FormGroup>
 
-                <FormGroup controlId='last_name'>
+                <FormGroup controlId='lastNameGroup' validationState={'last_name' in errors ? 'error' : undefined}>
                 <InputGroup bsSize='large'>
                     <InputGroup.Addon>
-                    <Icon glyph='icon-fontello-user' />
+                        <Icon glyph='icon-fontello-user' />
                     </InputGroup.Addon>
                     <FormControl 
                     type='text' 
@@ -93,12 +119,16 @@ class SignupForm extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.last_name} />
                 </InputGroup>
+
+                {errors.last_name &&
+                    <HelpBlock>{errors.last_name}</HelpBlock>
+                }
                 </FormGroup>
 
-                <FormGroup controlId='emailaddress'>
+                <FormGroup controlId='emailAddressGroup' validationState={'email' in errors ? 'error' : undefined}>
                 <InputGroup bsSize='large'>
                     <InputGroup.Addon>
-                    <Icon glyph='icon-fontello-mail' />
+                        <Icon glyph='icon-fontello-mail' />
                     </InputGroup.Addon>
                     <FormControl 
                     type='email' 
@@ -108,9 +138,13 @@ class SignupForm extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.email} />
                 </InputGroup>
+
+                {errors.email &&
+                    <HelpBlock>{errors.email}</HelpBlock>
+                }
                 </FormGroup>
 
-                <FormGroup controlId='password'>
+                <FormGroup controlId='passwordGroup' validationState={'password' in errors ? 'error' : undefined}>
                 <InputGroup bsSize='large'>
                     <InputGroup.Addon>
                     <Icon glyph='icon-fontello-key' />
@@ -123,13 +157,17 @@ class SignupForm extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.password}  />
                 </InputGroup>
+
+                {errors.password &&
+                    <HelpBlock>{errors.password}</HelpBlock>
+                }
                 </FormGroup>
 
                 <FormGroup>
                 <Grid>
                     <Row>
                     <Col xs={12} collapseLeft collapseRight>
-                        <Button type='submit' outlined lg bsStyle='blue' block >Create account</Button>
+                        <Button type='submit' bsStyle='blue' disabled={this.isSubmitDisabled()} outlined lg block >Create account</Button>
                     </Col>
                     </Row>
                 </Grid>
