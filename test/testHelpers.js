@@ -18,6 +18,14 @@ export function itShouldDisplayErrorForField(wrapper, field, controlId, message)
     
 }
 
+export function fillAllRequiredFields(inputChangeTrigger, requiredFields, fieldsValue = {}) {
+    for (let i = 0; i < requiredFields.length; i++) {
+        const field = requiredFields[i]; 
+        const value = fieldsValue[field] || 'any';                
+        simulateChange(inputChangeTrigger, field, value);
+    }
+}
+
 export function itSubmitButtonShouldBeDisabledWhenFieldIsBlank(wrapper, triggerReference, requiredFields, field) {
 
     it (`submit button should be disabled when ${field} is blank `, () => {        

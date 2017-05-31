@@ -10,12 +10,18 @@ import * as apiModule from './../../src/services/api';
 import SignupForm from './../../src/auth/components/SignupForm';
 import { signupReducer } from './../../src/auth/reducers';
 import { SIGNUP, fetchSignup } from './../../src/auth/actions';
-import { itShouldDisplayErrorForField, itSubmitButtonShouldBeDisabledWhenFieldIsBlank } from './../testHelpers';
+import { 
+    itShouldDisplayErrorForField, 
+    itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
+    fillAllRequiredFields 
+} from './../testHelpers';
 
 describe('Signup', () => {
 
     describe('SignupForm', () => {
-        
+
+        const requiredFields = ["username", "first_name", "last_name", "email", "password"];
+        const triggerReference = 'FormControl[name="username"]';
         const defaultProps = {
             onSubmit: () => {},
             isFetching: false,
@@ -31,21 +37,41 @@ describe('Signup', () => {
         itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'first_name', 'firstNameGroup', 'first name is required');
         itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'last_name', 'lastNameGroup', 'last name is required');
         itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'email', 'emailAddressGroup', 'Email invalid. How we would send you spam?');
-        itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'password', 'passwordGroup', 'password is too short');
-
-        it('submit button should be disabled when isFetching', () => {
-            const wrapper = shallow(<SignupForm {...defaultProps} isFetching={true} />);
-            expect(wrapper.find('Button').prop('disabled')).to.be.true;
-        })
-
-        const requiredFields = ["username", "first_name", "last_name", "email", "password"];
-        const triggerReference = 'FormControl[name="username"]';
+        itShouldDisplayErrorForField(shallow(<SignupForm {...defaultProps} />), 'password', 'passwordGroup', 'password is too short');          
 
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'username');
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'email');
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'password');
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'first_name');
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<SignupForm {...defaultProps} />), triggerReference, requiredFields, 'last_name');
+
+        it('submit button should be disabled when isFetching', () => {
+            const wrapper = shallow(<SignupForm {...defaultProps} isFetching={true} />);
+            const input = wrapper.find(triggerReference);
+            
+            fillAllRequiredFields(input, requiredFields);
+
+            expect(wrapper.find('Button').prop('disabled')).to.be.true;
+        })
+
+        it('submit button should be enabled when required fields are correctly filled', () => {
+            const wrapper = shallow(<SignupForm {...defaultProps} />);            
+            const input = wrapper.find(triggerReference);
+            
+            fillAllRequiredFields(input, requiredFields);
+
+            const submitButton = wrapper.find('Button[type="submit"]');
+            expect(submitButton.prop('disabled')).to.be.false;
+        })
+
+        it('should calls OnSubmit', () => {
+            let submitSpy = sinon.spy();
+
+            const wrapper = mount(<SignupForm {...defaultProps} onSubmit={submitSpy} />);
+            wrapper.find('form').simulate('submit');
+
+            expect(submitSpy.called).to.be.true;
+        })
     })
 
     describe('Actions', () => {
