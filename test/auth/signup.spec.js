@@ -135,7 +135,6 @@ describe('Signup', () => {
                     response: errors
                 })
                 .then(() => {
-                    debugger;
                     expect(store.getActions()).to.deep.equal(expectedActions);
                     done();
                 })

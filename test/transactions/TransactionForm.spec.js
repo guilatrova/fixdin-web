@@ -9,17 +9,24 @@ import { Provider } from 'react-redux';
 import moment from 'moment';
 
 import TransactionForm from './../../src/transactions/components/TransactionForm';
-import { itShouldDisplayErrorForField } from './../testHelpers';
+import { 
+    itShouldDisplayErrorForField, 
+    itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
+    fillAllRequiredFields 
+} from './../testHelpers';
 
 describe('TransactionForm', () => {    
-
+    
     const defaultProps = { 
         onSubmit: () => {},
         isFetching: false,
-        kind: 'income'
     }
 
-    describe('in any mode', () => {
+    describe('in any mode', () => {        
+
+        const requiredFields = ["due_date", "value", "description", "category"];
+        const triggerReference = 'FormControl[name="description"]';
+
         it('renders ok', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);
             expect(wrapper).to.be.ok;
@@ -32,75 +39,38 @@ describe('TransactionForm', () => {
         itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'deadline', 'deadlineGroup', 'deadline invalid state');
         itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'importance', 'priorityGroup', 'invalid priority');
         itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'details', 'detailsGroup', 'wrong details supplied');
-
-        const simulateChange = (input, name, value) => {
-            input.simulate('change', { target: { name, value }});
-        };
-
-        const assertSubmitDisabled = (wrapper) => {
-            const submitButton = wrapper.find('Button[type="submit"]');
-            expect(submitButton.prop('disabled')).to.be.true;
-        };
-
-        const requiredFields = ["due_date", "value", "description", "category"];
-
-        const itSubmitButtonShouldBeDisabledWhenFieldIsBlank = (field) => {
-            it (`submit button should be disabled when ${field} is blank `, () => {
-                const wrapper = shallow(<TransactionForm {...defaultProps} />);            
-                const input = wrapper.find('FormControl[name="description"]'); //any input can trigger change
-
-                for (let i = 0; i < requiredFields.length; i++) {
-                    if (requiredFields[i] != field) {
-                        simulateChange(input, requiredFields[i], 'any');
-                    }
-                    else {
-                        simulateChange(input, requiredFields[i], '');
-                    }
-                }
-
-                assertSubmitDisabled(wrapper);
-            });
-        }
-
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank('due_date');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank('value');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank('description');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank('category');        
-
-        const fillAllRequiredFields = (inputChangeTrigger, fieldsValue = {}) => {
-            for (let i = 0; i < requiredFields.length; i++) {
-                const field = requiredFields[i]; 
-                const value = fieldsValue[field] || 'any';                
-                simulateChange(inputChangeTrigger, field, value);
-            }
-        }
+        
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'username');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'due_date');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'value');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'description');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'category');
 
         it('submit button should be disabled when due_date is invalid', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);            
-            const input = wrapper.find('FormControl[name="description"]'); //any input can trigger change
+            const input = wrapper.find(triggerReference);
             
-            fillAllRequiredFields(input);
+            fillAllRequiredFields(input, requiredFields);
 
-            assertSubmitDisabled(wrapper);
+            expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.true;
         })
 
         it('submit button should be enabled when required fields are correctly filled', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);            
-            const input = wrapper.find('FormControl[name="description"]'); //any input can trigger change
+            const input = wrapper.find(triggerReference);
             
-            fillAllRequiredFields(input, { due_date: moment(new Date())});
+            fillAllRequiredFields(input, requiredFields, { due_date: moment(new Date())});
 
-            const submitButton = wrapper.find('Button[type="submit"]');
-            expect(submitButton.prop('disabled')).to.be.false;
+            expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.false;
         })
 
         it('submit button is disabled when isFetching', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} isFetching={true} />);            
-            const input = wrapper.find('FormControl[name="description"]'); //any input can trigger change
+            const input = wrapper.find(triggerReference);
 
-            fillAllRequiredFields(input);
+            fillAllRequiredFields(input, requiredFields);
 
-            assertSubmitDisabled(wrapper);
+            expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.true;
         })
 
         it('should calls OnSubmit', () => {
