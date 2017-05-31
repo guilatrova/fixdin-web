@@ -12,57 +12,39 @@ import * as sessionModule from './../../src/services/session';
 import LoginForm from './../../src/auth/components/LoginForm';
 import { FETCH_TOKEN, fetchToken } from './../../src/auth/actions';
 import { loginReducer } from './../../src/auth/reducers';
+import { 
+    itShouldDisplayErrorForField, 
+    itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
+    fillAllRequiredFields 
+} from './../testHelpers';
 
 describe('Login', () => {
 
     describe('LoginForm', () => {
 
-        const assertSubmitDisabled = (wrapper) => {
-            const submitButton = wrapper.find('button[type="submit"]');
-            expect(submitButton.props()['disabled']).to.be.true;
-        };
-
-        const simulateChange = (input, name, value) => {
-            input.simulate('change', { target: { name, value }});
-        };
+        const requiredFields = ["email", "password"];
+        const triggerReference = 'FormControl[name="password"]';
     
         it('renders ok', () => {
             const wrapper = shallow(<LoginForm />);
             expect(wrapper).to.be.ok;
-        })
+        })        
+
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<LoginForm />), triggerReference, requiredFields, 'email');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<LoginForm />), triggerReference, requiredFields, 'password');        
 
         it("submit button should be disabled when isFetching", () => {
-            const wrapper = mount(<LoginForm isFetching={true} />);
-            assertSubmitDisabled(wrapper);
-        })
-
-        it("submit button should be disabled if email is blank", () => {
-            const wrapper = mount(<LoginForm />);
-            const passwordInput = wrapper.find('#password');
-            simulateChange(passwordInput, 'password', '123456');
-            //Email still blank
-
-            assertSubmitDisabled(wrapper);
-        })
-
-        it("submit button should be disabled if password is blank", () => {
-            const wrapper = mount(<LoginForm />);
-            const emailInput = wrapper.find('#emailaddress');
-            simulateChange(emailInput, 'email', 'guilherme@latrova.com');
-            //Password still blank
-
-            assertSubmitDisabled(wrapper);
+            const wrapper = shallow(<LoginForm isFetching={true} />);
+            expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.true;
         })
 
         it("submit button should be enabled when everything filled", () => {
-            const wrapper = mount(<LoginForm />);
-            const passwordInput = wrapper.find('#password');
-            const emailInput = wrapper.find('#emailaddress');
-            simulateChange(emailInput, 'email', 'guilherme@latrova.com');
-            simulateChange(passwordInput, 'password', '123456');
+            const wrapper = shallow(<LoginForm />);
+            const input = wrapper.find(triggerReference);
 
-            const submitButton = wrapper.find('button[type="submit"]');
-            expect(submitButton.props()['disabled']).to.be.false;
+            fillAllRequiredFields(input, requiredFields);
+            
+            expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.false;
         })
 
         it('should display error when any', () => {
@@ -72,6 +54,15 @@ describe('Login', () => {
             expect(wrapper.contains(
                 error
             )).to.be.true;
+        })
+
+        it('should calls onSubmit', () => {
+            let submitSpy = sinon.spy();
+
+            const wrapper = mount(<LoginForm onSubmit={submitSpy} />);
+            wrapper.find('form').simulate('submit');
+
+            expect(submitSpy.called).to.be.true;
         })
     });
 
