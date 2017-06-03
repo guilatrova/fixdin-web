@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 import {
   Row,
@@ -31,7 +31,11 @@ class LoginForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.onSubmit(this.state);
+        this.props.onSubmit(this.state).then((action) => {
+            if (action.result === 'success') {
+                browserHistory.push('/');
+            }
+        });
     }
 
     handleChange(e) {

@@ -2,6 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
+import sinonStubPromise from 'sinon-stub-promise';
 import moxios from 'moxios';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
@@ -17,6 +18,8 @@ import {
     itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
     fillAllRequiredFields 
 } from './../testHelpers';
+
+sinonStubPromise(sinon);
 
 describe('Login', () => {
 
@@ -56,13 +59,14 @@ describe('Login', () => {
             )).to.be.true;
         })
 
-        it('should calls onSubmit', () => {
-            let submitSpy = sinon.spy();
+        it('should calls onSubmit', () => {            
+            let submitPromise = sinon.stub().returnsPromise();
+            submitPromise.resolves({ result: 'success '});
 
-            const wrapper = mount(<LoginForm onSubmit={submitSpy} />);
+            const wrapper = mount(<LoginForm onSubmit={submitPromise} />);
             wrapper.find('form').simulate('submit');
 
-            expect(submitSpy.called).to.be.true;
+            expect(submitPromise.called).to.be.true;
         })
     });
 

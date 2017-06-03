@@ -37,7 +37,7 @@ export function fetchToken(loginData) {
       .then(data => data.token)
       .then(token => {
         saveToken(token);
-        dispatch(receiveToken('success', token));
+        return dispatch(receiveToken('success', token));
       })
       .catch(({response}) => dispatch(receiveToken('fail', response.data['detail'])));
   }
@@ -67,7 +67,7 @@ function receiveSignup(result, data) {
 }
 
 export function fetchSignup(signupData) {
-  return dispatch  => {
+  return dispatch => {
     dispatch(requestSignup())
     const api = createApi();
 
