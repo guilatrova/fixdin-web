@@ -65,12 +65,13 @@ describe('Signup', () => {
         })
 
         it('should calls OnSubmit', () => {
-            let submitSpy = sinon.spy();
+            let submitPromise = sinon.stub().returnsPromise();
+            submitPromise.resolves({ result: 'success '});
 
-            const wrapper = mount(<SignupForm {...defaultProps} onSubmit={submitSpy} />);
+            const wrapper = mount(<SignupForm {...defaultProps} onSubmit={submitPromise} />);
             wrapper.find('form').simulate('submit');
 
-            expect(submitSpy.called).to.be.true;
+            expect(submitPromise.called).to.be.true;
         })
     })
 
