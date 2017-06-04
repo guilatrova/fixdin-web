@@ -104,7 +104,8 @@ class TransactionPage extends React.Component {
     }
 
     handleConfirmDelete() {
-        this.props.deleteTransaction(this.state.toDeleteId);
+        const { kind } = this.props.route;        
+        this.props.deleteTransaction(this.state.toDeleteId, kind);
         this.setState({ 
             showTransactionDeleteModal: false, 
             toDeleteId: undefined 
@@ -190,7 +191,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetch: (kind) => dispatch(fetchTransactions(kind)),
         onTransactionFormSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
-        deleteTransaction: (id) => dispatch(deleteTransaction(id)),
+        deleteTransaction: (id, kind) => dispatch(deleteTransaction(id, kind)),
         editTransaction: (id) => dispatch(editTransaction(id)),        
         finishEditTransaction: () => dispatch(finishEditTransaction())
     }
