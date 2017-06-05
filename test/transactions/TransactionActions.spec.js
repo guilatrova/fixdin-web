@@ -50,7 +50,7 @@ describe('Transaction Actions', () => {
 				{ type: FETCH_TRANSACTIONS },
 				{ type: FETCH_TRANSACTIONS, result: 'success', transactions:transactions.map(item => ({
 						...item,
-						due_date: moment(item.due_date, 'YYYY-MM-dd'),
+						due_date: moment(item.due_date, 'YYYY-MM-DD'),
 						value: item.value.replace('.',',')
 					})) 
 				}

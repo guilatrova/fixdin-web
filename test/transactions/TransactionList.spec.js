@@ -21,9 +21,9 @@ describe('TransactionList', () => {
     }
 
     const transactions = [
-            { id: 1, value: '10' },
-            { id: 2, value: '11' },
-            { id: 3, value: '12' },
+            { id: 1, value: '10', due_date: moment(new Date()) },
+            { id: 2, value: '11', due_date: moment(new Date()) },
+            { id: 3, value: '12', due_date: moment(new Date()) },
         ]
 
     it('renders ok', () => {
