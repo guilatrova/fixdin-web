@@ -104,7 +104,7 @@ describe('Transaction Actions', () => {
 	})
 
 	describe('SAVE_TRANSACTION', () => {
-		const momentStub = { format: () => { return 'a' }}
+		const momentStub = moment(new Date(2017, 6, 1));
 		const transaction = { //only necessary fields...
 			value: '0',
 			due_date: momentStub,
@@ -130,7 +130,10 @@ describe('Transaction Actions', () => {
 					expect(store.getActions()).to.deep.equal(expectedActions);
 					done();
 				})
-				.catch((error) => done(error.message));
+				.catch((error) => {
+					debugger;
+					done(error.message);
+				});
 			});
 		})
 

@@ -15,6 +15,14 @@ function getCurrencyValue(value) {
     return Number(unformattedAmount);
 }
 
+function formatDateAndValue(transaction) {
+    return {
+        ...transaction,
+        due_date: moment(transaction.due_date, 'YYYY-MM-dd'),
+        value: transaction.value.replace('.', ',')
+    }
+}
+
 //FETCH
 function requestTransactions() {
     return {
@@ -27,11 +35,7 @@ function receiveTransactions(result, data) {
         return {
             type: FETCH_TRANSACTIONS,
             result,
-            transactions: data.map(e => ({
-                ...e,
-                due_date: moment(e.due_date, 'YYYY-MM-dd'),
-                value: e.value.replace('.', ',')
-            }))
+            transactions: data.map(transaction => formatDateAndValue(transaction))
         }
     }
 
@@ -68,7 +72,7 @@ function receiveSaveTransaction(result, data) {
         return {
             type: SAVE_TRANSACTION,
             result,
-            transaction: data
+            transaction: formatDateAndValue(data)
         }
     }
 

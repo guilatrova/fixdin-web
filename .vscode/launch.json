@@ -5,9 +5,9 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
-            "request": "launch",
             "name": "Launch via NPM",
+            "type": "node",
+            "request": "launch",            
             "runtimeExecutable": "npm",
             "windows": {
                 "runtimeExecutable": "npm.cmd"
@@ -17,7 +17,7 @@
                 "dev -s"
             ],
             "port": 8080
-                }, 
+        }, 
         { 
             "name": "Debug Mocha tests", 
             "type": "node", 
@@ -33,9 +33,9 @@
             "env": { 
                 "NODE_ENV": "development" 
             }, 
-            "externalConsole": false, 
-            "sourceMaps": false, 
-            "outFiles": null 
+            "console": "integratedTerminal", 
+            "sourceMaps": true, 
+            "outFiles": [] 
         } 
     ]
 }
