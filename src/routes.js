@@ -3,13 +3,14 @@ import classNames from 'classnames';
 import { IndexRoute, Route, Router } from 'react-router';
 
 import { isAuthenticated } from './services/session';
+import { INCOME, EXPENSE } from './transactions/kinds';
+
 import { App, Dashboard } from './app';
 import Home from './common/components/Home';
 import LoginPage from './auth/components/LoginPage';
 import SignupPage from './auth/components/SignupPage';
 import TransactionPage from './transactions/components/TransactionPage';
-import { INCOME, EXPENSE } from './transactions/kinds';
-
+import CategoryForm from  './transactions/components/CategoryForm';
 
 function isClient() {
    return typeof localStorage != 'undefined';
@@ -36,6 +37,7 @@ export default (
         <IndexRoute component={Home} />
         <Route path='/incomes' component={TransactionPage} kind={INCOME} />
         <Route path='/expenses' component={TransactionPage} kind={EXPENSE} />
+        <Route path='/categories' component={CategoryForm} />
       </Route>      
     </Router>
 );

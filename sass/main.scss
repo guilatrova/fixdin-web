@@ -21,7 +21,8 @@
 @import "fonts/Stroke-Gap-Icons/Stroke-Gap-Icons";
 
 /* Component styles */
-@import "components/react-datetime";
+@import '~react-datetime/css/react-datetime';
+@import '~react-select/dist/react-select';
 
 /* Page styles */
 @import "pages/home";
