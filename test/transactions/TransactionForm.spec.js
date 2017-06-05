@@ -11,6 +11,7 @@ import moment from 'moment';
 import TransactionForm from './../../src/transactions/components/TransactionForm';
 import { 
     itShouldDisplayErrorForField, 
+    itShouldPassErrorMessageTo,
     itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
     fillAllRequiredFields 
 } from './../testHelpers';
@@ -25,20 +26,20 @@ describe('TransactionForm', () => {
     describe('in any mode', () => {        
 
         const requiredFields = ["due_date", "value", "description", "category"];
-        const triggerReference = 'FormControl[name="description"]';
+        const triggerReference = 'HorizontalFormGroupError[id="description"]';
 
         it('renders ok', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);
             expect(wrapper).to.be.ok;
         })
 
-        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'due_date', 'dueDateGroup', 'invalid date');
-        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'value', 'valueGroup', 'invalid value');
-        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'description', 'descriptionGroup', 'invalid description');
-        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'category', 'categoryGroup', 'wrong category');
-        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'deadline', 'deadlineGroup', 'deadline invalid state');
-        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'importance', 'priorityGroup', 'invalid priority');
-        itShouldDisplayErrorForField(shallow(<TransactionForm {...defaultProps} />), 'details', 'detailsGroup', 'wrong details supplied');
+        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'due_date');
+        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'value');
+        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'description');
+        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'category');
+        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'deadline');
+        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'importance');
+        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'details');
         
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'username');
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'due_date');

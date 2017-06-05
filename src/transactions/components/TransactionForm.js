@@ -21,7 +21,7 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import { saveTransaction } from '../actions';
+import HorizontalFormGroupError from './../../common/components/forms/HorizontalFormGroupError';
 
 class TransactionForm extends React.Component {
     constructor(props) {
@@ -85,150 +85,60 @@ class TransactionForm extends React.Component {
         return (
         <Form horizontal onSubmit={this.handleSubmit}>
             
-            <FormGroup controlId='dueDateGroup' validationState={'due_date' in errors ? 'error' : undefined}>
-                <Col componentClass={ControlLabel} sm={2}>
-                    Vencimento
-                </Col>
-                <Col sm={10}>
-                    <DatetimeInput
-                        timeFormat={false}
-                        className='border-focus-blue'
-                        onChange={this.handleDueDateChange}                        
-                        value={this.state.due_date} />
+            <HorizontalFormGroupError id="due_date" label="Vencimento" error={errors.due_date} >
+                <DatetimeInput
+                    timeFormat={false}
+                    className='border-focus-blue'
+                    onChange={this.handleDueDateChange}
+                    value={this.state.due_date} />
+            </HorizontalFormGroupError>
 
-                    {errors.due_date &&
-                        <HelpBlock>{errors.due_date}</HelpBlock>
-                    }
-                </Col>
-            </FormGroup>
+            <HorizontalFormGroupError
+                id="description"
+                label="Descrição"
+                error={errors.description}
+                value={this.state.description}
+                onChange={this.handleChange} />
 
-            <FormGroup controlId='descriptionGroup' validationState={'description' in errors ? 'error' : undefined}>
-                <Col componentClass={ControlLabel} sm={2}>
-                    Descrição
-                </Col>
-                <Col sm={10}>
-                    <FormControl
-                        className='border-focus-blue'
-                        name="description"
-                        onChange={this.handleChange}
-                        value={this.state.description} />
-                    
-                    {errors.description &&
-                        <HelpBlock>{errors.description}</HelpBlock>
-                    }
-                </Col>
-            </FormGroup>
+            <HorizontalFormGroupError
+                id="category"
+                label="Categoria"
+                error={errors.category}
+                value={this.state.category}
+                onChange={this.handleChange} />
 
-            <FormGroup controlId='categoryGroup' validationState={'category' in errors ? 'error' : undefined}>
-                <Col componentClass={ControlLabel} sm={2}>
-                    Categoria
-                </Col>
-                <Col sm={10}>
-                    <FormControl
-                        className='border-focus-blue'
-                        name="category"
-                        onChange={this.handleChange}
-                        value={this.state.category} />
+            <HorizontalFormGroupError id="value" label="Valor" error={errors.value}>
+                <CurrencyInput 
+                    className='border-focus-blue form-control'
+                    onChange={this.handleValueChange}
+                    value={this.state.value}
+                    prefix="R$ "
+                    decimalSeparator=","
+                    thousandSeparator="." />
+            </HorizontalFormGroupError>
 
-                    {errors.category &&
-                        <HelpBlock>{errors.category}</HelpBlock>
-                    }
-                </Col>
-            </FormGroup>
+            <HorizontalFormGroupError
+                id="deadline"
+                label="Prazo"
+                error={errors.deadline}
+                value={this.state.deadline}
+                onChange={this.handleChange} />
 
-            <FormGroup controlId='valueGroup' validationState={'value' in errors ? 'error' : undefined}>
+            <HorizontalFormGroupError
+                id="importance"
+                label="Prioridade"
+                error={errors.importance}
+                value={this.state.importance}
+                onChange={this.handleChange} />
 
-                <Col componentClass={ControlLabel} sm={2}>
-                    Valor
-                </Col>
-
-                <Col sm={10}>
-                    <CurrencyInput 
-                        className='border-focus-blue form-control'
-                        onChange={this.handleValueChange}
-                        value={this.state.value}
-                        prefix="R$ "
-                        decimalSeparator=","
-                        thousandSeparator="." />
-
-                    {errors.value &&
-                        <HelpBlock>{errors.value}</HelpBlock>
-                    }
-                </Col>
-
-            </FormGroup>
-
-            <FormGroup controlId='deadlineGroup' validationState={'deadline' in errors ? 'error' : undefined}>
-
-                <Col componentClass={ControlLabel} sm={2}>
-                    Prazo
-                </Col>
-
-                <Col sm={10}>
-                    <FormControl
-                        className='border-focus-blue'
-                        name="deadline"
-                        onChange={this.handleChange}
-                        value={this.state.deadline} />
-                    
-                    {errors.deadline &&
-                        <HelpBlock>{errors.deadline}</HelpBlock>
-                    }
-                </Col>
-
-            </FormGroup>
-
-            <FormGroup controlId='priorityGroup' validationState={'importance' in errors ? 'error' : undefined}>
-
-                <Col componentClass={ControlLabel} sm={2}>
-                    Prioridade
-                </Col>
-
-                <Col sm={10}>
-                    <FormControl
-                        className='border-focus-blue'
-                        name="importance"
-                        onChange={this.handleChange}
-                        value={this.state.importance} />
-                    
-                    {errors.importance &&
-                        <HelpBlock>{errors.importance}</HelpBlock>
-                    }
-                </Col>
-
-            </FormGroup>
-
-            <FormGroup controlId='detailsGroup' validationState={'details' in errors ? 'error' : undefined}>
-
-                <Col componentClass={ControlLabel} sm={2}>
-                    Detalhes
-                </Col>
-
-                <Col sm={10}>
-                    <FormControl
-                        className='border-focus-blue'
-                        componentClass='textarea'
-                        name="details"
-                        onChange={this.handleChange}
-                        value={this.state.details} />
-
-                    {errors.details &&
-                        <HelpBlock>{errors.details}</HelpBlock>
-                    }
-                </Col>
-
-            </FormGroup>
-
-            {/*<FormGroup controlId='periodicCheckGroup'>
-                <Col smOffset={2} sm={10}>
-                    <Checkbox onChange={this.togglePeriodic} checked={this.state.periodic_visible}>
-                        Periódico
-                    </Checkbox>
-                </Col>
-            </FormGroup>
-
-            <FormGroup controlId='periodicGroup'>
-            </FormGroup>*/}
+            <HorizontalFormGroupError id="details" label="Detalhes" error={errors.details}>
+                <FormControl
+                    className='border-focus-blue'
+                    componentClass='textarea'
+                    name="details"
+                    onChange={this.handleChange}
+                    value={this.state.details} />
+            </HorizontalFormGroupError>
 
             <FormGroup>
                 <Col smOffset={2} sm={10} className='text-right'>

@@ -18,6 +18,18 @@ export function itShouldDisplayErrorForField(wrapper, field, controlId, message)
     
 }
 
+export function itShouldPassErrorMessageTo(wrapper, field) {
+    
+    it(`should pass error message to ${field}`, () => {
+        const errors = {
+            [field]: `invalid ${field}`
+        };
+        wrapper.setProps({errors});
+
+        expect((wrapper).find(`HorizontalFormGroupError[id="${field}"]`).prop('error')).to.be.equal(errors[field]);
+    })
+}
+
 export function fillAllRequiredFields(inputChangeTrigger, requiredFields, fieldsValue = {}) {
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i]; 
