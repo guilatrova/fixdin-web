@@ -18,7 +18,7 @@ function getCurrencyValue(value) {
 function formatDateAndValue(transaction) {
     return {
         ...transaction,
-        due_date: moment(transaction.due_date, 'YYYY-MM-dd'),
+        due_date: moment(transaction.due_date, 'YYYY-MM-DD'),
         value: transaction.value.replace('.', ',')
     }
 }

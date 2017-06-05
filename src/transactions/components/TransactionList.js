@@ -12,8 +12,8 @@ import {
 
 const TransactionList = ({ transactions, onEdit, onDelete }) => {
     const rows = transactions.map((transaction) => {            
-            const formattedDueDate = moment(transaction.due_date, 'yyyy-MM-dd').format('DD/MM/YYYY');
-            const formattedValue = `R$ ${transaction.value}`
+            const formattedDueDate = transaction.due_date.format('DD/MM/YYYY');
+            const formattedValue = `R$ ${transaction.value}`;
 
             return (
                 <tr key={transaction.id}>
