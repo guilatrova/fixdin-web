@@ -3,9 +3,8 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import CategoryForm from './../../src/transactions/components/CategoryForm';
-import { 
-    itShouldDisplayErrorForField, 
+import CategoryForm from './../../src/categories/components/CategoryForm';
+import {
     itShouldPassErrorMessageTo,
     itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
     fillAllRequiredFields 
@@ -33,7 +32,16 @@ describe('CategoryForm', () => {
         itShouldPassErrorMessageTo(shallow(<CategoryForm {...defaultProps} />), 'kind');
 
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<CategoryForm {...defaultProps} />), triggerReference, requiredFields, 'name');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<CategoryForm {...defaultProps} />), triggerReference, requiredFields, 'kind');            
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<CategoryForm {...defaultProps} />), triggerReference, requiredFields, 'kind');
+
+        it('submit button should be disabled when isFetching', () => {
+            const wrapper = shallow(<CategoryForm {...defaultProps} isFetching={true} />);
+            const input = wrapper.find(triggerReference);
+
+            fillAllRequiredFields(input, requiredFields);
+
+            expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.true;
+        })
     });
 
 })

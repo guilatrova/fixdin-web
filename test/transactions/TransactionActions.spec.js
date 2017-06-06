@@ -130,10 +130,7 @@ describe('Transaction Actions', () => {
 					expect(store.getActions()).to.deep.equal(expectedActions);
 					done();
 				})
-				.catch((error) => {
-					debugger;
-					done(error.message);
-				});
+				.catch((error) => done(error.message));
 			});
 		})
 

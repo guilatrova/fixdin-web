@@ -20,7 +20,7 @@ import {
 } from '@sketchpixy/rubix';
 
 import HorizontalFormGroupError from './../../common/components/forms/HorizontalFormGroupError';
-import { EXPENSE, INCOME } from './../kinds';
+import { EXPENSE, INCOME } from './../../transactions/kinds';
 
 class CategoryForm extends React.Component {
     constructor(props) {
@@ -46,18 +46,18 @@ class CategoryForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.onSubmit();
+        this.props.onSubmit(this.state.name, this.state.kind.value);
     }
 
     render() {
         const { errors } = this.props;
         const options = [
-            { value: EXPENSE.id, label: EXPENSE.text },
-            { value: INCOME.id, label: INCOME.text }
+            { value: EXPENSE, label: EXPENSE.text },
+            { value: INCOME, label: INCOME.text }
         ]
 
         let disabled = true;
-        if (this.state.kind && this.state.name) {
+        if (!this.props.isFetching && this.state.kind && this.state.name) {
             disabled = false;
         }
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import {    
   Row,
@@ -143,7 +141,7 @@ class TransactionPage extends React.Component {
                                 <Row>
 
                                     <Col xs={12}>
-                                        <TransactionList kind='income' 
+                                        <TransactionList
                                             transactions={transactions} 
                                             isFetching={isFetching}
                                             onEdit={this.handleEdit}

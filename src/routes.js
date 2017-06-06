@@ -10,7 +10,7 @@ import Home from './common/components/Home';
 import LoginPage from './auth/components/LoginPage';
 import SignupPage from './auth/components/SignupPage';
 import TransactionPage from './transactions/components/TransactionPage';
-import CategoryForm from  './transactions/components/CategoryForm';
+import CategoryPage from  './categories/components/CategoryPage';
 
 function isClient() {
    return typeof localStorage != 'undefined';
@@ -37,7 +37,7 @@ export default (
         <IndexRoute component={Home} />
         <Route path='/incomes' component={TransactionPage} kind={INCOME} />
         <Route path='/expenses' component={TransactionPage} kind={EXPENSE} />
-        <Route path='/categories' component={CategoryForm} />
+        <Route path='/categories' component={CategoryPage} />
       </Route>      
     </Router>
 );
