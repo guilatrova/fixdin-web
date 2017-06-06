@@ -159,7 +159,6 @@ class TransactionPage extends React.Component {
                     show={this.state.showTransactionFormModal}
                     onHide={this.handleHideTransactionFormModal}
                     title={this.props.editingTransaction.id ? `Editar ${kind.text}` : `Criar ${kind.text}`}
-                    kind={kind}
 
                     onSubmit={this.handleTransactionFormSubmit}
                     isFetching={isFetching}
