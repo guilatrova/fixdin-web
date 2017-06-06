@@ -1,6 +1,4 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
-import moment from 'moment';
+import React from 'react';
 
 import {    
   Icon,
@@ -11,7 +9,7 @@ import {
 } from '@sketchpixy/rubix';
 
 const TransactionList = ({ transactions, onEdit, onDelete }) => {
-    const rows = transactions.map((transaction) => {            
+    const rows = transactions.map((transaction) => {
             const formattedDueDate = transaction.due_date.format('DD/MM/YYYY');
             const formattedValue = `R$ ${transaction.value}`;
 

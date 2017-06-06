@@ -1,6 +1,44 @@
 import createApi from '../services/api';
 
+export const FETCH_TRANSACTION_CATEGORIES = 'FETCH_TRANSACTION_CATEGORIES';
 export const SAVE_TRANSACTION_CATEGORY = 'SAVE_TRANSACTION_CATEGORY';
+
+//FETCH
+function requestCategories() {
+    return {
+        type: FETCH_TRANSACTION_CATEGORIES
+    }    
+}
+
+function receiveCategories(result, data) {
+    if (result == 'success') {
+        return {
+            type: FETCH_TRANSACTION_CATEGORIES,
+            result,
+            categories: data
+        }
+    }
+
+    return {
+        type: FETCH_TRANSACTION_CATEGORIES,
+        result,
+        errors: data
+    }
+}
+
+export function fetchCategories(kind) {
+    return dispatch => {
+        dispatch(requestCategories());
+        const api = createApi();
+
+        return api.get(`categories/${kind.apiEndpoint}`)
+            .then(response => response.data)
+            .then((data) => {
+                dispatch(receiveCategories('success', data));
+            })
+            .catch(({response}) => dispatch(receiveCategories('fail', response.data)));
+    }
+}
 
 //SAVE
 function requestSaveCategory() {

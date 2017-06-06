@@ -37,7 +37,8 @@ export default (
         <IndexRoute component={Home} />
         <Route path='/incomes' component={TransactionPage} kind={INCOME} />
         <Route path='/expenses' component={TransactionPage} kind={EXPENSE} />
-        <Route path='/categories' component={CategoryPage} />
+        <Route path='/categories/incomes' component={CategoryPage} kind={INCOME} />
+        <Route path='/categories/expenses' component={CategoryPage} kind={EXPENSE} />
       </Route>      
     </Router>
 );

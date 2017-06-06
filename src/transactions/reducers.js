@@ -17,8 +17,7 @@ function saveReducer(state, action) {
     switch (action.result) {
         case 'success':
             const { transactions } = state;
-
-            const updatedTransaction = transactions.find(item => item.id == action.transaction.id)
+            const updatedTransaction = transactions.find(item => item.id == action.transaction.id);
 
             if (updatedTransaction) {
                 const index = transactions.indexOf(updatedTransaction);

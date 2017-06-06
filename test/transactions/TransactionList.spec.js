@@ -1,11 +1,7 @@
 import React from 'react';
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
 import sinon from 'sinon';
-import moxios from 'moxios'
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
 import moment from 'moment';
 
 import TransactionList from './../../src/transactions/components/TransactionList';

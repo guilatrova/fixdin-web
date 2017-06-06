@@ -23,9 +23,28 @@ import {
 } from '@sketchpixy/rubix';
 
 import CategoryForm from './CategoryForm';
-import { saveCategory } from './../actions';
+import CategoryList from './CategoryList';
+import { saveCategory, fetchCategories } from './../actions';
 
 class CategoryPage extends React.Component {
+
+    componentDidMount() {
+        this.props.fetch(this.props.route.kind);
+
+        this.handleRefresh = this.handleRefresh.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        //Necessary because DidMount isn't called again when we change between Incomes and Expenses
+        if (this.props.route.kind != nextProps.route.kind) {
+            this.props.fetch(nextProps.route.kind);
+        }
+    }
+
+    handleRefresh() {
+        this.props.fetch(this.props.route.kind);
+    }
+
     render() {
         return (
             <div className="category-page">
@@ -37,9 +56,15 @@ class CategoryPage extends React.Component {
                             <Grid>
                                 <Row>
                                     <Col xs={12}>
+                                        <CategoryList
+                                            categories={this.props.categories} />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={12}>
 
                                         <CategoryForm 
-                                            onSubmit={this.props.onSubmit} 
+                                            onSubmit={this.props.onCategoryFormSubmit} 
                                             errors={this.props.errors} 
                                             isFetching={this.props.isFetching} />
 
@@ -55,16 +80,18 @@ class CategoryPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { isFetching, errors } = state.categories;
+    const { isFetching, errors, categories } = state.categories;
     return {
         isFetching,
-        errors
+        errors,
+        categories
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSubmit: (name, kind) => dispatch(saveCategory(name, kind))
+        fetch: (kind) => dispatch(fetchCategories(kind)),
+        onCategoryFormSubmit: (name, kind) => dispatch(saveCategory(name, kind))
     }
 }
 

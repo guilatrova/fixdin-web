@@ -76,7 +76,10 @@ class CategoryForm extends React.Component {
                     <Select name="kind"
                             value={this.state.kind}
                             options={options}
-                            onChange={this.handleSelectChange} />
+                            onChange={this.handleSelectChange}
+                            placeholder="Escolher..."
+                            noResultsText="Nada encontrado"
+                            openOnFocus={true} />
                 </HorizontalFormGroupError>                
 
                 <FormGroup>
