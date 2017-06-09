@@ -2,7 +2,9 @@
   "private": true,
   "name": "node-seed",
   "version": "2.0.0",
-  "node": ">=4.3.0",
+  "engines": {
+    "node": ">=4.3.0"
+  },
   "description": "Rubix Node Starter Kit",
   "homepage": "https://rubix410.sketchpixy.com/",
   "watch": {
