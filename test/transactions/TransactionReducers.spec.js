@@ -5,14 +5,14 @@ import { expect } from 'chai';
 
 import * as apiModule from './../../src/services/api';
 import { EXPENSE, INCOME } from './../../src/transactions/kinds';
-import transactionReducer from './../../src/transactions/reducers';
+import transactionReducer from './../../src/transactions/transactions/reducers';
 import { 
     FETCH_TRANSACTIONS, 
     EDIT_TRANSACTION, 
     FINISH_EDIT_TRANSACTION, 
     SAVE_TRANSACTION,
     DELETE_TRANSACTION
- } from './../../src/transactions/actions';
+ } from './../../src/transactions/transactions/actions';
 
 describe('Transactions Reducers', () => {
 

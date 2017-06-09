@@ -10,9 +10,9 @@ import { Provider } from 'react-redux';
 
 import * as apiModule from './../../src/services/api';
 import * as sessionModule from './../../src/services/session';
-import LoginForm from './../../src/auth/components/LoginForm';
-import { FETCH_TOKEN, fetchToken } from './../../src/auth/actions';
-import { loginReducer } from './../../src/auth/reducers';
+import LoginForm from './../../src/users/components/LoginForm';
+import { FETCH_TOKEN, fetchToken } from './../../src/users/actions';
+import { loginReducer } from './../../src/users/reducers';
 import { 
     itShouldDisplayErrorForField, 
     itSubmitButtonShouldBeDisabledWhenFieldIsBlank,

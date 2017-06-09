@@ -19,8 +19,8 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import HorizontalFormGroupError from './../../common/components/forms/HorizontalFormGroupError';
-import { EXPENSE, INCOME } from './../../transactions/kinds';
+import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
+import { EXPENSE, INCOME } from './../../kinds';
 
 class CategoryForm extends React.Component {
     constructor(props) {

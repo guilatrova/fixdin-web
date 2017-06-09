@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import CategoryForm from './../../src/categories/components/CategoryForm';
+import CategoryForm from './../../src/transactions/categories/components/CategoryForm';
 import {
     itShouldPassErrorMessageTo,
     itSubmitButtonShouldBeDisabledWhenFieldIsBlank,

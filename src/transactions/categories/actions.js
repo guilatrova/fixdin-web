@@ -1,4 +1,4 @@
-import createApi from '../services/api';
+import createApi from '../../services/api';
 
 export const FETCH_TRANSACTION_CATEGORIES = 'FETCH_TRANSACTION_CATEGORIES';
 export const SAVE_TRANSACTION_CATEGORY = 'SAVE_TRANSACTION_CATEGORY';

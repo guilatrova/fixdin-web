@@ -13,7 +13,7 @@ import {
 	FETCH_TRANSACTION_CATEGORIES,
 	saveCategory,
 	fetchCategories
-} from './../../src/categories/actions';
+} from './../../src/transactions/categories/actions';
 
 describe('Category Actions', () => {
 	

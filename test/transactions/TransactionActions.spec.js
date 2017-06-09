@@ -10,7 +10,7 @@ import moment from 'moment';
 
 import * as apiModule from './../../src/services/api';
 import { EXPENSE, INCOME } from './../../src/transactions/kinds';
-import transactionReducer from './../../src/transactions/reducers';
+import transactionReducer from './../../src/transactions/transactions/reducers';
 import { 
 	FETCH_TRANSACTIONS, 
 	EDIT_TRANSACTION, 
@@ -19,7 +19,7 @@ import {
 	fetchTransactions, 
 	saveTransaction,
 	deleteTransaction
- } from './../../src/transactions/actions';
+ } from './../../src/transactions/transactions/actions';
 
 describe('Transaction Actions', () => {
 	

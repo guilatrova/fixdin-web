@@ -1,7 +1,7 @@
 import moment from 'moment';
 
-import { EXPENSE } from './kinds';
-import createApi from '../services/api';
+import { EXPENSE } from './../kinds';
+import createApi from '../../services/api';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
 export const SAVE_TRANSACTION = 'SAVE_TRANSACTION';

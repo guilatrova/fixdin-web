@@ -21,7 +21,7 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import HorizontalFormGroupError from './../../common/components/forms/HorizontalFormGroupError';
+import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
 
 class TransactionForm extends React.Component {
     constructor(props) {

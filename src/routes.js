@@ -7,10 +7,10 @@ import { INCOME, EXPENSE } from './transactions/kinds';
 
 import { App, Dashboard } from './app';
 import Home from './common/components/Home';
-import LoginPage from './auth/components/LoginPage';
-import SignupPage from './auth/components/SignupPage';
-import TransactionPage from './transactions/components/TransactionPage';
-import CategoryPage from  './categories/components/CategoryPage';
+import LoginPage from './users/components/LoginPage';
+import SignupPage from './users/components/SignupPage';
+import TransactionPage from './transactions/transactions/components/TransactionPage';
+import CategoryPage from  './transactions/categories/components/CategoryPage';
 
 function isClient() {
    return typeof localStorage != 'undefined';

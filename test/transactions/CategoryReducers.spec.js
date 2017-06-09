@@ -3,8 +3,8 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import categoryReducer from './../../src/categories/reducers';
-import { SAVE_TRANSACTION_CATEGORY, FETCH_TRANSACTION_CATEGORIES } from './../../src/categories/actions';
+import categoryReducer from './../../src/transactions/categories/reducers';
+import { SAVE_TRANSACTION_CATEGORY, FETCH_TRANSACTION_CATEGORIES } from './../../src/transactions/categories/actions';
 
 describe('Category Reducers', () => {
 

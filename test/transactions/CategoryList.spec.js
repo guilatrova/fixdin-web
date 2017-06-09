@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import CategoryList from './../../src/categories/components/CategoryList';
+import CategoryList from './../../src/transactions/categories/components/CategoryList';
 
 describe('CategoryList', () => {
 

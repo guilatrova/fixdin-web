@@ -22,7 +22,7 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import { EXPENSE } from '../kinds';
+import { EXPENSE } from '../../kinds';
 import TransactionList from './TransactionList';
 import TransactionFormModal from './TransactionFormModal';
 import ConfirmDeleteTransactionModal from './ConfirmDeleteTransactionModal';

@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import moment from 'moment';
 
-import TransactionForm from './../../src/transactions/components/TransactionForm';
+import TransactionForm from './../../src/transactions/transactions/components/TransactionForm';
 import { 
     itShouldDisplayErrorForField, 
     itShouldPassErrorMessageTo,

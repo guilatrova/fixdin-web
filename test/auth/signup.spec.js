@@ -7,9 +7,9 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import * as apiModule from './../../src/services/api';
-import SignupForm from './../../src/auth/components/SignupForm';
-import { signupReducer } from './../../src/auth/reducers';
-import { SIGNUP, fetchSignup } from './../../src/auth/actions';
+import SignupForm from './../../src/users/components/SignupForm';
+import { signupReducer } from './../../src/users/reducers';
+import { SIGNUP, fetchSignup } from './../../src/users/actions';
 import { 
     itShouldDisplayErrorForField, 
     itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
