@@ -43,7 +43,10 @@ module.exports = deepmerge({
     }),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({__CLIENT__: false, __SERVER__: true, __PRODUCTION__: false, __DEV__: true, "process.env.NODE_ENV": '"'+process.env.NODE_ENV+'"'}),
-    new webpack.IgnorePlugin(/vertx/)
+    new webpack.IgnorePlugin(/vertx/),
+    new webpack.DefinePlugin({
+      'process.env.API_BASE_URL': process.env.API_BASE_URL
+    })
   ],
   externals: nodeModules
 }, webpackCommonConfig);
