@@ -39,7 +39,7 @@
     "dist:watch": "run-s bundle:client && node tools/watch-dist.js",
     "test": "mocha --compilers :./tools/babel-setup.js --recursive ./test",
     "start": "node server.js",
-    "postinstall": "build:prod"
+    "postinstall": "cross-env NODE_ENV=production run-s bundle:client bundle:server"
   },  
   "devDependencies": {
     "@sketchpixy/just-wait": "^1.0.5",
