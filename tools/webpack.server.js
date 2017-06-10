@@ -47,8 +47,7 @@ module.exports = deepmerge({
       __SERVER__: true, 
       __PRODUCTION__: false, 
       __DEV__: true, 
-      "process.env.NODE_ENV": '"'+process.env.NODE_ENV+'"',
-      "process.env.API_BASE_URL": '"'+process.env.API_BASE_URL+'"'
+      "process.env.NODE_ENV": '"'+process.env.NODE_ENV+'"'      
     }),
     new webpack.IgnorePlugin(/vertx/),    
   ],
