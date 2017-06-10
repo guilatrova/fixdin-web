@@ -1,5 +1,6 @@
 require('source-map-support').install({environment: 'node'});
 
+var nodeStarterUrl = process.env.API_BASE_URL;
 
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
