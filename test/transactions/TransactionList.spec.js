@@ -35,7 +35,7 @@ describe('TransactionList', () => {
     it('should calls onEdit', () => {
         let editSpy = sinon.spy();
 
-        const wrapper = mount(<TransactionList {...defaultProps} transactions={transactions} onEdit={editSpy} />);
+        const wrapper = shallow(<TransactionList {...defaultProps} transactions={transactions} onEdit={editSpy} />);
 
         wrapper.find('.edit-button').first().simulate('click');
 
@@ -46,7 +46,7 @@ describe('TransactionList', () => {
     it('should calls onDelete', () => {
         let deleteSpy = sinon.spy();
 
-        const wrapper = mount(<TransactionList {...defaultProps} transactions={transactions} onDelete={deleteSpy} />);
+        const wrapper = shallow(<TransactionList {...defaultProps} transactions={transactions} onDelete={deleteSpy} />);
 
         wrapper.find('.delete-button').first().simulate('click');
 

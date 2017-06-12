@@ -8,11 +8,20 @@ import {
   Button,
 } from '@sketchpixy/rubix';
 
-const CategoryList = ({categories}) => {
+const CategoryList = ({categories, onEdit}) => {
     const rows = categories.map((category) => {
         return (
             <tr key={category.id}>
                 <td>{category.name}</td>
+                <td>
+                    <ButtonToolbar>
+                        <Button className="edit-button" outlined bsStyle="blue" onClick={() => onEdit(category.id)} >
+                            <Icon glyph='icon-fontello-pencil' />
+                            {' '}
+                            Editar
+                        </Button>
+                    </ButtonToolbar>
+                </td>
             </tr>
         )
     });
@@ -22,6 +31,7 @@ const CategoryList = ({categories}) => {
             <thead>
                 <tr>
                     <th>Nome</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>

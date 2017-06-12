@@ -27,9 +27,7 @@ class CategoryForm extends React.Component {
         super(props);
 
         this.state = {
-            id: this.props.category.id,
-            name: this.props.category.name,
-            kind: this.props.category.kind
+            ...this.props.category
         }
 
         this.handleChange = this.handleChange.bind(this);
