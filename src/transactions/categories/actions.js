@@ -2,6 +2,8 @@ import createApi from '../../services/api';
 
 export const FETCH_TRANSACTION_CATEGORIES = 'FETCH_TRANSACTION_CATEGORIES';
 export const SAVE_TRANSACTION_CATEGORY = 'SAVE_TRANSACTION_CATEGORY';
+export const EDIT_TRANSACTION_CATEGORY = 'EDIT_TRANSACTION_CATEGORY';
+export const FINISH_EDIT_TRANSACTION_CATEGORY = 'FINISH_EDIT_TRANSACTION_CATEGORY';
 
 //FETCH
 function requestCategories() {
@@ -63,7 +65,15 @@ function receiveSaveCategory(result, data) {
     }
 }
 
-export function saveCategory(name, kind) {
+function create(name, kind) {
+    return createApi().post(`categories/${kind.apiEndpoint}`, { name, kind });
+}
+
+function update(id, name, kind) {
+    return createApi().put(`categories/${kind.apiEndpoint}/${id}`, { name, kind });
+}
+
+export function saveCategory(name, kind, id) {
     return dispatch => {
         dispatch(requestSaveCategory());
 
@@ -72,11 +82,25 @@ export function saveCategory(name, kind) {
             kind: kind.id
         }
 
-        const api = createApi();
+        const apiPromise = (id) ? update(id, name, kind) : create(name, kind);
 
-        return api.post(`categories/${kind.apiEndpoint}`, data)
+        return apiPromise
             .then(response => response.data)
             .then(data => dispatch(receiveSaveCategory('success', data)))
             .catch(({response}) => dispatch(receiveSaveCategory('fail', response.data)));
+    }
+}
+
+//EDIT
+export function editCategory(id) {
+    return {
+        type: EDIT_TRANSACTION_CATEGORY,
+        id
+    }
+}
+
+export function finishEditCategory() {
+    return {
+        type: FINISH_EDIT_TRANSACTION_CATEGORY
     }
 }

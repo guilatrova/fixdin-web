@@ -42,7 +42,7 @@ describe('Transaction Actions', () => {
 		moxios.uninstall(axiosInstance);
 	})
 
-	describe('FETCH_TRANSACTIONS', () => {
+	describe(FETCH_TRANSACTIONS, () => {
 
 		it('should dispatch success action after FETCH_TRANSACTIONS', (done) => {
 			const transactions = [ { id: 1, value: '10', due_date: '2017-10-10' }, { id: 2, value: '11', due_date: '2017-10-10' }, { id: 3, value: '12', due_date: '2017-10-10' }]
@@ -103,7 +103,7 @@ describe('Transaction Actions', () => {
 		})		
 	})
 
-	describe('SAVE_TRANSACTION', () => {
+	describe(SAVE_TRANSACTION, () => {
 		const momentStub = moment(new Date(2017, 6, 1));
 		const transaction = { //only necessary fields...
 			value: '0',
@@ -164,7 +164,7 @@ describe('Transaction Actions', () => {
 			});
 		});
 
-		it('SAVE_TRANSACTION should use PUT when id is supplied', (done) => {
+		it('should use PUT when id is supplied', (done) => {
 			const editTransaction = {...transaction, id: 1}
 
 			store.dispatch(saveTransaction(editTransaction, INCOME));
@@ -178,7 +178,7 @@ describe('Transaction Actions', () => {
 		})
 	})
 
-	describe('DELETE_TRANSACTION', () => {
+	describe(DELETE_TRANSACTION, () => {
 
 		it('should dispatch success action after DELETE_TRANSACTION', (done) => {
 			const expectedActions = [

@@ -89,7 +89,20 @@ describe('Category Actions', () => {
 					done(`Actions arent equal: ${error}`)
 				});
 			});
-		});
+		})
+
+		it('should use PUT when id is supplied', (done) => {
+			const editCategory = {id: 2, name: 'eating out', kind: EXPENSE}
+
+			store.dispatch(saveCategory(editCategory.name, editCategory.kind, editCategory.id));
+
+			moxios.wait(() => {                
+				let request = moxios.requests.mostRecent();
+				expect(request.config.method).to.be.equal('put');
+				expect(request.url.indexOf(editCategory.id)).to.be.gt(-1);
+				done();
+			});
+		})
     })
 
 	describe(FETCH_TRANSACTION_CATEGORIES, () => {

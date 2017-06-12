@@ -27,8 +27,9 @@ class CategoryForm extends React.Component {
         super(props);
 
         this.state = {
-            name: '',
-            kind: EXPENSE.id            
+            id: this.props.category.id,
+            name: this.props.category.name,
+            kind: this.props.category.kind
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -46,14 +47,14 @@ class CategoryForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.onSubmit(this.state.name, this.state.kind.value);
+        this.props.onSubmit(this.state.id, this.state.name, this.state.kind);
     }
 
     render() {
         const { errors } = this.props;
         const options = [
-            { value: EXPENSE, label: EXPENSE.text },
-            { value: INCOME, label: INCOME.text }
+            { value: EXPENSE.id, label: EXPENSE.text },
+            { value: INCOME.id, label: INCOME.text }
         ]
 
         let disabled = true;
@@ -96,11 +97,16 @@ class CategoryForm extends React.Component {
 CategoryForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired
+    isFetching: PropTypes.bool.isRequired,
+    category: PropTypes.object.isRequired
 }
 
 CategoryForm.defaultProps = {
-    errors: {}    
+    errors: {},
+    category: {
+        name: '',
+        kind: EXPENSE.id
+    }
 }
 
 export default CategoryForm;
