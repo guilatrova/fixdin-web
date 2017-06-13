@@ -24,7 +24,26 @@
             "request": "launch", 
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha", 
             "stopOnEntry": false, 
-            "args": ["--compilers", "./tools/babel-setup.js", "--recursive", "--watch", "./test"], 
+            "args": ["--compilers", "./tools/babel-setup.js", "--recursive", "./test"], 
+            "cwd": "${workspaceRoot}", 
+            "preLaunchTask": null, 
+            "runtimeArgs": [ 
+                "--nolazy" 
+            ], 
+            "env": { 
+                "NODE_ENV": "development" 
+            }, 
+            "console": "integratedTerminal", 
+            "sourceMaps": true, 
+            "outFiles": [] 
+        },
+        { 
+            "name": "Debug Active Test File", 
+            "type": "node", 
+            "request": "launch", 
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha", 
+            "stopOnEntry": false, 
+            "args": ["--compilers", "./tools/babel-setup.js", "--recursive", "${relativeFile}"], 
             "cwd": "${workspaceRoot}", 
             "preLaunchTask": null, 
             "runtimeArgs": [ 

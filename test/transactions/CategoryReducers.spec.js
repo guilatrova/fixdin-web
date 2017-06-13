@@ -3,21 +3,28 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
+import { EXPENSE, INCOME } from './../../src/transactions/kinds';
 import categoryReducer from './../../src/transactions/categories/reducers';
-import { SAVE_TRANSACTION_CATEGORY, FETCH_TRANSACTION_CATEGORIES } from './../../src/transactions/categories/actions';
+import { 
+    SAVE_TRANSACTION_CATEGORY,
+    EDIT_TRANSACTION_CATEGORY,
+    FINISH_EDIT_TRANSACTION_CATEGORY,
+    FETCH_TRANSACTION_CATEGORIES 
+} from './../../src/transactions/categories/actions';
 
 describe('Category Reducers', () => {
 
     const initialState = {
         isFetching: false,
         errors: {},
-        categories: []
+        categories: [],
+        editingCategory: {}
     }
 
     const fetchingState = {
         ...initialState,
         isFetching: true,
-        errors: {}
+        errors: {},
     }
 
     it('should return the inital state', () => {
@@ -115,13 +122,14 @@ describe('Category Reducers', () => {
         })
 
         it('should add category result to categories when id NOT in list', () => {
+            debugger;
             const initialList = [ { id: 1, name: 'Car'}, { id: 2, name: 'Feeding' }]
             const categoryToSave = { id: 3, name: 'House' }
             const expectedList = [ ...initialList, ...categoryToSave ]
             const state = {
                 ...initialState,
                 categories: initialList
-            }            
+            }
 
             expect(
                 categoryReducer(state, {
@@ -132,7 +140,8 @@ describe('Category Reducers', () => {
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
-                categories: expectedList                
+                categories: expectedList,
+                editingCategory: {}
             });
         })
 
@@ -154,8 +163,56 @@ describe('Category Reducers', () => {
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
-                categories: expectedList
+                categories: expectedList,
+                editingCategory: {}
             });
+        })
+    })
+
+    describe(`${EDIT_TRANSACTION_CATEGORY} + ${FINISH_EDIT_TRANSACTION_CATEGORY}`, () => {
+
+        const categories = [
+            { id: 1, name: 'eating out', category: EXPENSE },
+            { id: 2, name: 'moneyyyy', category: INCOME }
+        ]
+
+        const state = {
+            categories,
+            errors: {},
+            isFetching: false
+        }
+
+        it(`should handle ${EDIT_TRANSACTION_CATEGORY}`, () => {
+            expect(
+                categoryReducer(state, {
+                    type: EDIT_TRANSACTION_CATEGORY,
+                    id: 1
+                })
+            ).to.deep.equal({
+                categories,
+                isFetching: false,
+                errors: {},
+                editingCategory: categories[0]
+            })
+
+        })
+
+        it(`should handle ${FINISH_EDIT_TRANSACTION_CATEGORY}`, () => {
+            const editingState = {
+                ...state,
+                editingCategory: state.categories[0]
+            }
+
+            expect(
+                categoryReducer(editingState, {
+                    type: FINISH_EDIT_TRANSACTION_CATEGORY                        
+                })
+            ).to.deep.equal({
+                categories,
+                isFetching: false,
+                errors: {},
+                editingCategory: {}
+            })
         })
     })
 })
