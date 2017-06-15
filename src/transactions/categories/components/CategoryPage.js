@@ -24,7 +24,14 @@ import {
 
 import CategoryList from './CategoryList';
 import CategoryFormModal from './CategoryFormModal';
-import { saveCategory, fetchCategories, editCategory, finishEditCategory } from './../actions';
+import ConfirmDeleteTransactionModal from './../transactions/components';
+import { 
+    saveCategory, 
+    fetchCategories, 
+    editCategory, 
+    finishEditCategory, 
+    deleteCategory
+} from './../actions';
 
 class CategoryPage extends React.Component {
 
@@ -32,11 +39,16 @@ class CategoryPage extends React.Component {
         super(props);
 
         this.state = {
-            showCategoryFormModal: false
+            showCategoryFormModal: false,
+            showCategoryDeleteModal: false,
+            toDeleteId: undefined
         }
 
         this.handleRefresh = this.handleRefresh.bind(this);
         this.handleCategoryFormSubmit = this.handleCategoryFormSubmit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
+        this.handleHideDeleteModal = this.handleHideDeleteModal.bind(this);
     }
 
     componentDidMount() {
@@ -57,7 +69,7 @@ class CategoryPage extends React.Component {
 
     handleCategoryFormSubmit(category) {
         const { kind } = this.props.route;
-        this.props.onCategoryFormSubmit({...category, kind});
+        this.props.onSubmit({...category, kind});
     }
 
     handleCreateCategory() {
@@ -65,7 +77,7 @@ class CategoryPage extends React.Component {
     }
 
     handleHideFormModal() {
-        this.props.finishEdit();
+        this.props.onFinishEdit();
         this.setState({ showCategoryFormModal: false });
     }
 
@@ -76,6 +88,29 @@ class CategoryPage extends React.Component {
     handleEdit(id) {
         this.setState({ showCategoryFormModal: true });
         this.props.onEdit(id);
+    }
+
+    handleDelete(id) {
+        this.setState({
+            showCategoryDeleteModal: true,
+            toDeleteId: id
+        })
+    }
+
+    handleConfirmDelete() {
+        const {kind} = this.props.route;
+        this.props.onDelete(this.state.toDeleteId, kind);
+        this.setState({
+            showCategoryDeleteModal: false,
+            toDeleteId: undefined
+        })
+    }
+
+    handleHideDeleteModal() {
+        this.setState({
+            showCategoryDeleteModal: false,
+            toDeleteId: undefined
+        })
     }
 
     render() {
@@ -104,7 +139,8 @@ class CategoryPage extends React.Component {
                                     <Col xs={12}>
                                         <CategoryList
                                             categories={categories}
-                                            onEdit={this.handleEdit} />
+                                            onEdit={this.handleEdit}
+                                            onDelete={this.handleDelete} />
                                     </Col>
                                 </Row>
                             </Grid>
@@ -123,6 +159,11 @@ class CategoryPage extends React.Component {
                     category={this.props.editingCategory}
                 />
 
+                <ConfirmDeleteTransactionModal 
+                    show={this.state.showCategoryDeleteModal} 
+                    onHide={this.handleHideDeleteModali} 
+                    onConfirmDelete={this.handleConfirmDelete} />
+
             </div>
         );
     }
@@ -137,9 +178,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetch: (kind) => dispatch(fetchCategories(kind)),
-        onCategoryFormSubmit: (name, kind) => dispatch(saveCategory(name, kind)),
-        onEdit: (id) => dispatch(editCategory(id)),
-        finishEdit: () => dispatch(finishEditCategory())
+        onSubmit: (name, kind) => dispatch(saveCategory(name, kind)),
+        onDelete: (id, kind) => dispatch(deleteCategory(id, kind)),
+        onEdit: (id) => dispatch(editCategory(id)),        
+        onFinishEdit: () => dispatch(finishEditCategory())
     }
 }
 

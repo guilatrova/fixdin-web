@@ -8,7 +8,7 @@ import {
   Button,
 } from '@sketchpixy/rubix';
 
-const CategoryList = ({categories, onEdit}) => {
+const CategoryList = ({categories, onEdit, onDelete}) => {
     const rows = categories.map((category) => {
         return (
             <tr key={category.id}>
@@ -19,6 +19,12 @@ const CategoryList = ({categories, onEdit}) => {
                             <Icon glyph='icon-fontello-pencil' />
                             {' '}
                             Editar
+                        </Button>
+
+                        <Button className="delete-button" outlined bsStyle="blue" onClick={() => onDelete(category.id)} >
+                            <Icon glyph='icon-fontello-trash-1' />
+                            {' '}
+                            Deletar
                         </Button>
                     </ButtonToolbar>
                 </td>
