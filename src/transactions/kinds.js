@@ -9,3 +9,16 @@ export const INCOME = {
     text: 'receita',
     apiEndpoint: 'incomes/'
 }
+
+export function getKind(id) {
+    switch(id) {
+        case 0:
+            return EXPENSE;
+
+        case 1:
+            return INCOME;
+
+        default:
+            return {};
+    }
+}

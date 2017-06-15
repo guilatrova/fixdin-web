@@ -21,7 +21,7 @@ describe('CategoryForm', () => {
 
     describe('in any mode', () => {
 
-        const requiredFields = ["name", "kind"];
+        const requiredFields = ["name"];
         const triggerReference = 'HorizontalFormGroupError[id="name"]';
 
         it('renders ok', () => {
@@ -30,10 +30,8 @@ describe('CategoryForm', () => {
         })
 
         itShouldPassErrorMessageTo(shallow(<CategoryForm {...defaultProps} />), 'name');
-        itShouldPassErrorMessageTo(shallow(<CategoryForm {...defaultProps} />), 'kind');
 
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<CategoryForm {...defaultProps} />), triggerReference, requiredFields, 'name');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<CategoryForm {...defaultProps} />), triggerReference, requiredFields, 'kind');
 
         it('submit button should be disabled when isFetching', () => {
             const wrapper = shallow(<CategoryForm {...defaultProps} isFetching={true} />);
@@ -57,11 +55,7 @@ describe('CategoryForm', () => {
 
             const state = wrapper.state();
 
-            for (let prop in editingCategory) {
-                if (editingCategory.hasOwnProperty(prop)) {
-                    expect(state[prop]).to.equal(editingCategory[prop]);
-                }
-            }
+            expect(wrapper.state('name')).to.equal(editingCategory.name);
         })
     })
 

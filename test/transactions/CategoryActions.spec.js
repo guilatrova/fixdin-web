@@ -45,7 +45,7 @@ describe('Category Actions', () => {
 				{ type: SAVE_TRANSACTION_CATEGORY, result: 'success', category }
 			]
 
-			store.dispatch(saveCategory(category.name, category.kind));
+			store.dispatch(saveCategory({...category, id: undefined}));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -71,7 +71,7 @@ describe('Category Actions', () => {
 				{ type: SAVE_TRANSACTION_CATEGORY, result: 'fail', errors: expectedResponse }
 			]
 
-			store.dispatch(saveCategory('Car', INCOME));
+			store.dispatch(saveCategory({name:'Car', kind:INCOME}));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -94,7 +94,7 @@ describe('Category Actions', () => {
 		it('should use PUT when id is supplied', (done) => {
 			const editCategory = {id: 2, name: 'eating out', kind: EXPENSE}
 
-			store.dispatch(saveCategory(editCategory.name, editCategory.kind, editCategory.id));
+			store.dispatch(saveCategory(editCategory));
 
 			moxios.wait(() => {                
 				let request = moxios.requests.mostRecent();

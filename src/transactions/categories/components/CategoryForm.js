@@ -20,7 +20,6 @@ import {
 } from '@sketchpixy/rubix';
 
 import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
-import { EXPENSE, INCOME } from './../../kinds';
 
 class CategoryForm extends React.Component {
     constructor(props) {
@@ -39,24 +38,20 @@ class CategoryForm extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    handleSelectChange(value) {
+    handleSelectChange({value}) {        
         this.setState({ kind: value });
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.onSubmit(this.state.id, this.state.name, this.state.kind);
+        this.props.onSubmit(this.state);
     }
 
     render() {
         const { errors } = this.props;
-        const options = [
-            { value: EXPENSE.id, label: EXPENSE.text },
-            { value: INCOME.id, label: INCOME.text }
-        ]
 
         let disabled = true;
-        if (!this.props.isFetching && this.state.kind && this.state.name) {
+        if (!this.props.isFetching && this.state.name) {
             disabled = false;
         }
 
@@ -69,17 +64,7 @@ class CategoryForm extends React.Component {
                     error={errors.name}
                     value={this.state.name}
                     onChange={this.handleChange}                    
-                />
-                
-                <HorizontalFormGroupError id="kind" label="Para" error={errors.kind}>
-                    <Select name="kind"
-                            value={this.state.kind}
-                            options={options}
-                            onChange={this.handleSelectChange}
-                            placeholder="Escolher..."
-                            noResultsText="Nada encontrado"
-                            openOnFocus={true} />
-                </HorizontalFormGroupError>                
+                />                     
 
                 <FormGroup>
                     <Col smOffset={2} sm={10} className='text-right'>
@@ -102,8 +87,8 @@ CategoryForm.propTypes = {
 CategoryForm.defaultProps = {
     errors: {},
     category: {
-        name: '',
-        kind: EXPENSE.id
+        id: 0,
+        name: ''
     }
 }
 

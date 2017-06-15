@@ -24,7 +24,7 @@ import {
 
 import CategoryList from './CategoryList';
 import CategoryFormModal from './CategoryFormModal';
-import { saveCategory, fetchCategories } from './../actions';
+import { saveCategory, fetchCategories, editCategory, finishEditCategory } from './../actions';
 
 class CategoryPage extends React.Component {
 
@@ -36,6 +36,7 @@ class CategoryPage extends React.Component {
         }
 
         this.handleRefresh = this.handleRefresh.bind(this);
+        this.handleCategoryFormSubmit = this.handleCategoryFormSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -44,6 +45,7 @@ class CategoryPage extends React.Component {
         this.handleRefresh = this.handleRefresh.bind(this);
         this.handleCreateCategory = this.handleCreateCategory.bind(this);
         this.handleHideFormModal = this.handleHideFormModal.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);        
     }
 
     componentWillReceiveProps(nextProps) {
@@ -53,16 +55,27 @@ class CategoryPage extends React.Component {
         }
     }
 
+    handleCategoryFormSubmit(category) {
+        const { kind } = this.props.route;
+        this.props.onCategoryFormSubmit({...category, kind});
+    }
+
     handleCreateCategory() {
         this.setState({ showCategoryFormModal: true });
     }
 
     handleHideFormModal() {
+        this.props.finishEdit();
         this.setState({ showCategoryFormModal: false });
     }
 
     handleRefresh() {
         this.props.fetch(this.props.route.kind);
+    }
+
+    handleEdit(id) {
+        this.setState({ showCategoryFormModal: true });
+        this.props.onEdit(id);
     }
 
     render() {
@@ -90,7 +103,8 @@ class CategoryPage extends React.Component {
                                 <Row>
                                     <Col xs={12}>
                                         <CategoryList
-                                            categories={categories} />
+                                            categories={categories}
+                                            onEdit={this.handleEdit} />
                                     </Col>
                                 </Row>
                             </Grid>
@@ -101,11 +115,12 @@ class CategoryPage extends React.Component {
                 <CategoryFormModal
                     show={this.state.showCategoryFormModal}
                     onHide={this.handleHideFormModal}
-                    title="Criar categoria"
+                    title={this.props.editingCategory ? "Editar categoria" : "Criar categoria"}
 
                     isFetching={isFetching}
                     errors={this.props.errors} 
-                    onSubmit={this.props.onCategoryFormSubmit} 
+                    onSubmit={this.handleCategoryFormSubmit} 
+                    category={this.props.editingCategory}
                 />
 
             </div>
@@ -114,18 +129,17 @@ class CategoryPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { isFetching, errors, categories } = state.categories;
     return {
-        isFetching,
-        errors,
-        categories
+        ...state.categories
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetch: (kind) => dispatch(fetchCategories(kind)),
-        onCategoryFormSubmit: (name, kind) => dispatch(saveCategory(name, kind))
+        onCategoryFormSubmit: (name, kind) => dispatch(saveCategory(name, kind)),
+        onEdit: (id) => dispatch(editCategory(id)),
+        finishEdit: () => dispatch(finishEditCategory())
     }
 }
 

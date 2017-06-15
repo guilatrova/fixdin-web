@@ -70,10 +70,10 @@ function create(name, kind) {
 }
 
 function update(id, name, kind) {
-    return createApi().put(`categories/${kind.apiEndpoint}/${id}`, { name, kind });
+    return createApi().put(`categories/${kind.apiEndpoint}${id}`, { name, kind });
 }
 
-export function saveCategory(name, kind, id) {
+export function saveCategory({id, name, kind}) {
     return dispatch => {
         dispatch(requestSaveCategory());
 
