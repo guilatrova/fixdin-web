@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from '@sketchpixy/rubix';
 
-const ConfirmDeleteTransactionModal = ({show, onHide, onConfirmDelete}) => {
+const ConfirmDeleteModal = ({children, show, onHide, onConfirmDelete}) => {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
@@ -9,7 +9,7 @@ const ConfirmDeleteTransactionModal = ({show, onHide, onConfirmDelete}) => {
             </Modal.Header>
 
             <Modal.Body>
-                Você tem certeza que deseja deletar esta transação?
+                {children}
             </Modal.Body>
 
             <Modal.Footer>
@@ -20,4 +20,4 @@ const ConfirmDeleteTransactionModal = ({show, onHide, onConfirmDelete}) => {
     );
 }
 
-export default ConfirmDeleteTransactionModal;
+export default ConfirmDeleteModal;

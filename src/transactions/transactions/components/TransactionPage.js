@@ -25,7 +25,7 @@ import {
 import { EXPENSE } from '../../kinds';
 import TransactionList from './TransactionList';
 import TransactionFormModal from './TransactionFormModal';
-import ConfirmDeleteTransactionModal from './ConfirmDeleteTransactionModal';
+import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
 import { 
     fetchTransactions, 
     saveTransaction, 
@@ -164,10 +164,13 @@ class TransactionPage extends React.Component {
                     isFetching={isFetching}
                     transaction={this.props.editingTransaction} />
 
-                <ConfirmDeleteTransactionModal 
+                <ConfirmDeleteModal 
                     show={this.state.showTransactionDeleteModal} 
                     onHide={this.handleHideDeleteModal} 
-                    onConfirmDelete={this.handleConfirmDelete} />
+                    onConfirmDelete={this.handleConfirmDelete} >
+
+                    Tem certeza que deseja deletar esta {kind.text}?
+                </ConfirmDeleteModal>
 
             </div>
         )

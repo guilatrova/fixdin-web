@@ -24,7 +24,7 @@ import {
 
 import CategoryList from './CategoryList';
 import CategoryFormModal from './CategoryFormModal';
-import ConfirmDeleteTransactionModal from './../transactions/components';
+import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
 import { 
     saveCategory, 
     fetchCategories, 
@@ -159,10 +159,13 @@ class CategoryPage extends React.Component {
                     category={this.props.editingCategory}
                 />
 
-                <ConfirmDeleteTransactionModal 
+                <ConfirmDeleteModal 
                     show={this.state.showCategoryDeleteModal} 
-                    onHide={this.handleHideDeleteModali} 
-                    onConfirmDelete={this.handleConfirmDelete} />
+                    onHide={(this.handleHideDeleteModal)} 
+                    onConfirmDelete={this.handleConfirmDelete} >
+
+                    Tem certeza que deseja deletar esta categoria?
+                </ConfirmDeleteModal>
 
             </div>
         );
