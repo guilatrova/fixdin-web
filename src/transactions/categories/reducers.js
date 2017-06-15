@@ -2,7 +2,8 @@ import {
     SAVE_TRANSACTION_CATEGORY, 
     FETCH_TRANSACTION_CATEGORIES,
     EDIT_TRANSACTION_CATEGORY,
-    FINISH_EDIT_TRANSACTION_CATEGORY
+    FINISH_EDIT_TRANSACTION_CATEGORY,
+    DELETE_TRANSACTION_CATEGORY
 } from './actions';
 
 const initialState = {
@@ -78,6 +79,30 @@ function fetchReducer(state, action) {
     }
 }
 
+function deleteReducer(state, action) {
+    switch(action.result) {
+        case 'success':
+            return {
+                ...state,
+                isFetching: false,
+                categories: state.categories.filter(category => category.id != action.id)
+            }
+
+        case 'fail':
+            return {
+                ...state,
+                isFetching: false,
+                errors: action.errors
+            }
+
+        default:
+            return {
+                ...state,
+                isFetching: true
+            }
+    }
+}
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         case SAVE_TRANSACTION_CATEGORY:
@@ -85,6 +110,9 @@ export default function reducer(state = initialState, action) {
 
         case FETCH_TRANSACTION_CATEGORIES:
             return fetchReducer(state, action);
+
+        case DELETE_TRANSACTION_CATEGORY:
+            return deleteReducer(state, action);
 
         case EDIT_TRANSACTION_CATEGORY:
             return {
@@ -96,7 +124,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 editingCategory: {}
-            }
+            }        
 
         default:
             return state;

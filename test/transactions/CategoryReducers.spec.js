@@ -9,7 +9,8 @@ import {
     SAVE_TRANSACTION_CATEGORY,
     EDIT_TRANSACTION_CATEGORY,
     FINISH_EDIT_TRANSACTION_CATEGORY,
-    FETCH_TRANSACTION_CATEGORIES 
+    FETCH_TRANSACTION_CATEGORIES,
+    DELETE_TRANSACTION_CATEGORY
 } from './../../src/transactions/categories/actions';
 
 describe('Category Reducers', () => {
@@ -213,6 +214,69 @@ describe('Category Reducers', () => {
                 errors: {},
                 editingCategory: {}
             })
+        })
+    })
+
+    describe(DELETE_TRANSACTION_CATEGORY, () => {
+        const categories = [
+                { id: 1, name: 'Eating out', kind: EXPENSE.id },
+                { id: 2, name: 'Rental', kind: INCOME.id }
+            ]
+
+        const initialDeleteState = {
+            ...initialState,
+            categories
+        }
+
+        const fetchingDeleteState = {
+            ...initialDeleteState,
+            isFetching: true
+        }
+
+		it('should be handled', () => {
+            expect(
+                categoryReducer(initialDeleteState, {
+                    type: DELETE_TRANSACTION_CATEGORY,
+                    id: 2
+                })
+            ).to.deep.equal({
+                isFetching: true,
+                errors: {},
+                categories,
+                editingCategory: {}
+            });
+        })
+
+        it('should be handled when successfull', () => {
+            expect(
+                categoryReducer(fetchingDeleteState, {
+                    type: DELETE_TRANSACTION_CATEGORY,
+                    id: 2,
+                    result: 'success'
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors: {},                
+                editingCategory: {},
+                categories: [ categories[0] ]
+            });
+        })
+
+        it('should be handled when failed', () => {
+            const errors = {'detail' : 'Cant delete this'};
+
+            expect(
+                categoryReducer(fetchingDeleteState, {
+                    type: DELETE_TRANSACTION_CATEGORY,
+                    result: 'fail',
+                    errors
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors,
+                editingCategory: {},
+                categories                
+            });
         })
     })
 })

@@ -11,8 +11,10 @@ import { EXPENSE, INCOME } from './../../src/transactions/kinds';
 import { 
 	SAVE_TRANSACTION_CATEGORY, 
 	FETCH_TRANSACTION_CATEGORIES,
+	DELETE_TRANSACTION_CATEGORY,
 	saveCategory,
-	fetchCategories
+	fetchCategories,
+	deleteCategory
 } from './../../src/transactions/categories/actions';
 
 describe('Category Actions', () => {
@@ -164,4 +166,49 @@ describe('Category Actions', () => {
 		});
 	})
 
+	describe(DELETE_TRANSACTION_CATEGORY, (done) => {
+		it('should dispatch success action after DELETE_TRANSACTION_CATEGORY', (done) => {
+			const expectedActions = [
+				{ type: DELETE_TRANSACTION_CATEGORY, id: 2 },
+				{ type: DELETE_TRANSACTION_CATEGORY, result: 'success', id: 2 }
+			]
+
+			store.dispatch(deleteCategory(2, INCOME));
+
+			moxios.wait(() => {
+				let request = moxios.requests.mostRecent();
+
+				request.respondWith({
+					status: 204
+				}).then(() => {
+					expect(store.getActions()).to.deep.equal(expectedActions);
+					done();
+				})
+				.catch((error) => done(error.message));
+			});
+		})
+
+		it('should dispatch fail action after DELETE_TRANSACTION_CATEGORY', (done) => {
+			const errors = { 'detail': 'Already in use' }
+			const expectedActions = [
+				{ type: DELETE_TRANSACTION_CATEGORY, id: 2 },
+				{ type: DELETE_TRANSACTION_CATEGORY, result: 'fail', errors }
+			]
+
+			store.dispatch(deleteCategory(2, INCOME));
+
+			moxios.wait(() => {
+				let request = moxios.requests.mostRecent();
+
+				request.respondWith({
+					status: 400,
+					response: errors
+				}).then(() => {
+					expect(store.getActions()).to.deep.equal(expectedActions);
+					done();
+				})
+				.catch((error) => done(error.message));
+			});
+		})
+	})
 })
