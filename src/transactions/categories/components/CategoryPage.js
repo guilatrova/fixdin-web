@@ -70,6 +70,7 @@ class CategoryPage extends React.Component {
     handleCategoryFormSubmit(category) {
         const { kind } = this.props.route;
         this.props.onSubmit({...category, kind});
+        this.setState({ showCategoryFormModal: false });
     }
 
     handleCreateCategory() {
@@ -161,7 +162,7 @@ class CategoryPage extends React.Component {
 
                 <ConfirmDeleteModal 
                     show={this.state.showCategoryDeleteModal} 
-                    onHide={(this.handleHideDeleteModal)} 
+                    onHide={this.handleHideDeleteModal} 
                     onConfirmDelete={this.handleConfirmDelete} >
 
                     Tem certeza que deseja deletar esta categoria?
