@@ -50,10 +50,11 @@ function requestSaveCategory() {
     }
 }
 
-function receiveSaveCategory(result, data) {
+function receiveSaveCategory(result, data, kind) {
     if (result === 'success') {
         return {
             type: SAVE_TRANSACTION_CATEGORY,
+            kind,
             result,
             category: data
         }
@@ -87,7 +88,7 @@ export function saveCategory({id, name, kind}) {
 
         return apiPromise
             .then(response => response.data)
-            .then(data => dispatch(receiveSaveCategory('success', data)))
+            .then(data => dispatch(receiveSaveCategory('success', data, kind)))
             .catch(({response}) => dispatch(receiveSaveCategory('fail', response.data)));
     }
 }

@@ -27,12 +27,16 @@ import TransactionList from './TransactionList';
 import TransactionFormModal from './TransactionFormModal';
 import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
 import { 
-    fetchTransactions, 
+    fetchTransactions,    
     saveTransaction, 
     editTransaction, 
     deleteTransaction, 
     finishEditTransaction 
 } from '../actions';
+
+import {
+    fetchCategories
+} from '../../categories/actions';
 
 class TransactionPage extends React.Component {
     constructor(props) {
@@ -181,19 +185,21 @@ class TransactionPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { categories } = state.categories;
     return {
         ...state.transactions,
-        categories
+        categories: state.categories.categories
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch: (kind) => dispatch(fetchTransactions(kind)),
+        fetch: (kind) => {
+            dispatch(fetchCategories(kind));
+            dispatch(fetchTransactions(kind));            
+        },
         onTransactionFormSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
         deleteTransaction: (id, kind) => dispatch(deleteTransaction(id, kind)),
-        editTransaction: (id) => dispatch(editTransaction(id)),        
+        editTransaction: (id) => dispatch(editTransaction(id)),
         finishEditTransaction: () => dispatch(finishEditTransaction())
     }
 };

@@ -13,7 +13,10 @@ describe('TransactionList', () => {
         onEdit: () => {},
         isFetching: false,
         kind: 'income',
-        transactions: [],            
+        transactions: [],
+        categories: [
+            { undefined: 'any' }
+        ]
     }
 
     const transactions = [

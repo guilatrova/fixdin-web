@@ -57,11 +57,14 @@ function saveReducer(state, action) {
 
 function fetchReducer(state, action) {    
     switch(action.result) {
-        case 'success':
+        case 'success':            
             return {
                 ...state,
-                isFetching: false,
-                categories: action.categories
+                isFetching: false,                
+                categories: [
+                    ...state.categories.filter(category => category.kind != action.kind.id),
+                    ...action.categories
+                ]
             }
 
         case 'fail':

@@ -44,7 +44,7 @@ describe('Category Actions', () => {
             const category = { id: 1, name: 'Car', kind: EXPENSE.id };
 			const expectedActions = [
 				{ type: SAVE_TRANSACTION_CATEGORY },
-				{ type: SAVE_TRANSACTION_CATEGORY, result: 'success', category }
+				{ type: SAVE_TRANSACTION_CATEGORY, kind: EXPENSE.id, result: 'success', category }
 			]
 
 			store.dispatch(saveCategory({...category, id: undefined}));
@@ -57,6 +57,7 @@ describe('Category Actions', () => {
 					response: category
 
 				}).then(() => {
+					debugger;
 					expect(store.getActions()).to.deep.equal(expectedActions);
 					done();
 				})
@@ -181,6 +182,7 @@ describe('Category Actions', () => {
 				request.respondWith({
 					status: 204
 				}).then(() => {
+					debugger;
 					expect(store.getActions()).to.deep.equal(expectedActions);
 					done();
 				})

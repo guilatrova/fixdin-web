@@ -77,6 +77,52 @@ describe('Category Reducers', () => {
                 errors
             });
         })
+
+        it('should add category result to categories when id NOT in list', () => {            
+            const initialList = [ { id: 1, name: 'Car'}, { id: 2, name: 'Feeding' }]
+            const categoryToSave = { id: 3, name: 'House' }
+            const expectedList = [ ...initialList, ...categoryToSave ]
+            const state = {
+                ...initialState,
+                categories: initialList
+            }
+
+            expect(
+                categoryReducer(state, {
+                    type: SAVE_TRANSACTION_CATEGORY,
+                    result: 'success',
+                    category: categoryToSave
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors: {},
+                categories: expectedList,
+                editingCategory: {}
+            });
+        })
+
+        it('should update category result to categories when id in list', () => {
+            const initialList = [ { id: 1, name: 'Car'}, { id: 2, name: 'Feeding' }]
+            const categoryToSave = { id: 2, name: 'Eating out' }
+            const expectedList = [ { id: 1, name: 'Car'}, ...categoryToSave ]
+            const state = {
+                ...initialState,
+                categories: initialList
+            }            
+
+            expect(
+                categoryReducer(state, {
+                    type: SAVE_TRANSACTION_CATEGORY,
+                    result: 'success',
+                    category: categoryToSave
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors: {},
+                categories: expectedList,
+                editingCategory: {}
+            });
+        })
     })
 
     describe(FETCH_TRANSACTION_CATEGORIES, () => {
@@ -122,51 +168,34 @@ describe('Category Reducers', () => {
             });
         })
 
-        it('should add category result to categories when id NOT in list', () => {
-            debugger;
-            const initialList = [ { id: 1, name: 'Car'}, { id: 2, name: 'Feeding' }]
-            const categoryToSave = { id: 3, name: 'House' }
-            const expectedList = [ ...initialList, ...categoryToSave ]
-            const state = {
+        it('should replace only categories from requested kind', () => {
+            const someCategoriesState = {
                 ...initialState,
-                categories: initialList
+                categories: [
+                    { id: 1, name: 'c1', kind: INCOME.id },
+                    { id: 2, name: 'c2', kind: EXPENSE.id },
+                ]
             }
+            const received = [
+                { id: 2, name: 'new c2', kind:EXPENSE.id },
+                { id: 3, name: 'c3', kind: EXPENSE.id }
+            ]
 
             expect(
-                categoryReducer(state, {
-                    type: SAVE_TRANSACTION_CATEGORY,
+                categoryReducer(someCategoriesState, {
+                    type: FETCH_TRANSACTION_CATEGORIES,
+                    kind: EXPENSE,
                     result: 'success',
-                    category: categoryToSave
+                    categories: received
                 })
             ).to.deep.equal({
-                isFetching: false,
-                errors: {},
-                categories: expectedList,
-                editingCategory: {}
-            });
-        })
-
-        it('should update category result to categories when id in list', () => {
-            const initialList = [ { id: 1, name: 'Car'}, { id: 2, name: 'Feeding' }]
-            const categoryToSave = { id: 2, name: 'Eating out' }
-            const expectedList = [ { id: 1, name: 'Car'}, ...categoryToSave ]
-            const state = {
-                ...initialState,
-                categories: initialList
-            }            
-
-            expect(
-                categoryReducer(state, {
-                    type: SAVE_TRANSACTION_CATEGORY,
-                    result: 'success',
-                    category: categoryToSave
-                })
-            ).to.deep.equal({
-                isFetching: false,
-                errors: {},
-                categories: expectedList,
-                editingCategory: {}
-            });
+                ...initialState,                
+                categories: [
+                    { id: 1, name: 'c1', kind: INCOME.id },
+                    { id: 2, name: 'new c2', kind: EXPENSE.id },
+                    { id: 3, name: 'c3', kind: EXPENSE.id }
+                ]
+            })
         })
     })
 
