@@ -74,11 +74,18 @@ describe('TransactionForm', () => {
             expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.true;
         })
 
-        xit('should calls onSubmit', () => {
+        it('should calls onSubmit', () => {
             let submitSpy = sinon.spy();
 
-            const wrapper = mount(<TransactionForm {...defaultProps} onSubmit={submitSpy} />);
-            wrapper.find('form').simulate('submit');
+            const wrapper = shallow(<TransactionForm {...defaultProps} onSubmit={submitSpy} />);
+            wrapper.setState({
+                category: {
+                    value: 1
+                }
+            })
+            wrapper.simulate('submit', {
+                preventDefault: () => {}
+            });
 
             expect(submitSpy.called).to.be.true;
         })
