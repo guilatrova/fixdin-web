@@ -44,7 +44,7 @@ describe('Category Actions', () => {
             const category = { id: 1, name: 'Car', kind: EXPENSE.id };
 			const expectedActions = [
 				{ type: SAVE_TRANSACTION_CATEGORY },
-				{ type: SAVE_TRANSACTION_CATEGORY, kind: EXPENSE.id, result: 'success', category }
+				{ type: SAVE_TRANSACTION_CATEGORY, result: 'success', category }
 			]
 
 			store.dispatch(saveCategory({...category, id: undefined}));
@@ -117,7 +117,7 @@ describe('Category Actions', () => {
 			];
 			const expectedActions = [
 				{ type: FETCH_TRANSACTION_CATEGORIES },
-				{ type: FETCH_TRANSACTION_CATEGORIES, result: 'success', categories }
+				{ type: FETCH_TRANSACTION_CATEGORIES, kind: EXPENSE, result: 'success', categories }
 			]
 
 			store.dispatch(fetchCategories(EXPENSE));

@@ -13,11 +13,12 @@ function requestCategories() {
     }    
 }
 
-function receiveCategories(result, data) {
+function receiveCategories(result, data, kind) {
     if (result == 'success') {
         return {
             type: FETCH_TRANSACTION_CATEGORIES,
             result,
+            kind,
             categories: data
         }
     }
@@ -37,7 +38,7 @@ export function fetchCategories(kind) {
         return api.get(`categories/${kind.apiEndpoint}`)
             .then(response => response.data)
             .then((data) => {
-                dispatch(receiveCategories('success', data));
+                dispatch(receiveCategories('success', data, kind));
             })
             .catch(({response}) => dispatch(receiveCategories('fail', response.data)));
     }
@@ -50,11 +51,10 @@ function requestSaveCategory() {
     }
 }
 
-function receiveSaveCategory(result, data, kind) {
+function receiveSaveCategory(result, data) {
     if (result === 'success') {
         return {
-            type: SAVE_TRANSACTION_CATEGORY,
-            kind,
+            type: SAVE_TRANSACTION_CATEGORY,            
             result,
             category: data
         }

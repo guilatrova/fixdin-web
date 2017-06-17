@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Creatable } from 'react-select';
 
@@ -25,7 +25,9 @@ class CategorySelectPicker extends React.Component {
     }
 
     render() {
-        const options = this.props.categories.map((category) => {
+        const { categories, isFetching, value, onChange, kind } = this.props;
+        
+        const options = categories.filter(category => category.kind == kind.id).map(category => {
             return {
                 value: category.id, 
                 label: category.name
@@ -33,17 +35,21 @@ class CategorySelectPicker extends React.Component {
         })
 
         return (
-            <Creatable 
-                options={options}
-                isLoading={this.props.isFetching}
-                disabled={this.props.isFetching}
-                value={this.props.value}
-                onChange={this.props.onChange}
-                onNewOptionClick={this.handleNewOptionClick}
+            <Creatable
                 placeholder="Escolha uma categoria..."
+                options={options}
+                isLoading={isFetching}
+                disabled={isFetching}
+                value={value}
+                onChange={onChange}
+                onNewOptionClick={this.handleNewOptionClick}
                 promptTextCreator={this.promptTextCreator} />
         );
     }
+}
+
+CategorySelectPicker.PropTypes = {
+    kind: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {

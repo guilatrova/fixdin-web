@@ -57,7 +57,7 @@ function saveReducer(state, action) {
 
 function fetchReducer(state, action) {    
     switch(action.result) {
-        case 'success':            
+        case 'success':
             return {
                 ...state,
                 isFetching: false,                
