@@ -113,7 +113,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: (signupData) => {
-      dispatch(fetchSignup(signupData))
+      return dispatch(fetchSignup(signupData))
     }
   }
 };
