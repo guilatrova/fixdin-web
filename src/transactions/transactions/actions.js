@@ -107,7 +107,7 @@ export function saveTransaction({ id, account, due_date, description, category, 
         const data = {
             due_date,
             description,
-            category: 1,
+            category,
             value,
             details,
             account: 1,

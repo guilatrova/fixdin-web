@@ -22,6 +22,7 @@ import {
 } from '@sketchpixy/rubix';
 
 import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
+import CategorySelectPicker from './../../categories/components/CategorySelectPicker';
 
 class TransactionForm extends React.Component {
     constructor(props) {
@@ -34,18 +35,26 @@ class TransactionForm extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleDueDateChange = this.handleDueDateChange.bind(this);
+        this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.togglePeriodic = this.togglePeriodic.bind(this);
     }
 
     handleSubmit(e) {
-        e.preventDefault();
-        this.props.onSubmit(this.state);
+        e.preventDefault();        
+        this.props.onSubmit({
+            ...this.state,
+            category: this.state.category.value
+        });
     }
 
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    handleCategoryChange(value) {
+        this.setState({ category: value });
     }
 
     handleDueDateChange(value) {
@@ -53,7 +62,7 @@ class TransactionForm extends React.Component {
     }
 
     handleValueChange(value) {
-        this.setState({ value: value });
+        this.setState({ value });
     }
 
     togglePeriodic(e) {
@@ -90,7 +99,9 @@ class TransactionForm extends React.Component {
                     timeFormat={false}
                     className='border-focus-blue'
                     onChange={this.handleDueDateChange}
-                    value={this.state.due_date} />
+                    value={this.state.due_date}
+                    closeOnSelect={true}
+                    closeOnTab={true} />
             </HorizontalFormGroupError>
 
             <HorizontalFormGroupError
@@ -100,12 +111,12 @@ class TransactionForm extends React.Component {
                 value={this.state.description}
                 onChange={this.handleChange} />
 
-            <HorizontalFormGroupError
-                id="category"
-                label="Categoria"
-                error={errors.category}
-                value={this.state.category}
-                onChange={this.handleChange} />
+            <HorizontalFormGroupError id="category" label="Categoria" error={errors.category}>
+                <CategorySelectPicker 
+                    kind={this.props.kind} 
+                    value={this.state.category}
+                    onChange={this.handleCategoryChange} />
+            </HorizontalFormGroupError>
 
             <HorizontalFormGroupError id="value" label="Valor" error={errors.value}>
                 <CurrencyInput 
@@ -155,7 +166,8 @@ TransactionForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    transaction: PropTypes.object.isRequired
+    transaction: PropTypes.object.isRequired,
+    kind: PropTypes.object.isRequired
 }
 
 TransactionForm.defaultProps = {
@@ -164,7 +176,7 @@ TransactionForm.defaultProps = {
         account: 0,
         due_date: moment(new Date()),
         description: '',
-        category: '',
+        category: undefined,
         value: '0,00',
         details: '',
     }

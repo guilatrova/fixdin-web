@@ -3,7 +3,7 @@ import { Modal, Button } from '@sketchpixy/rubix';
 
 import TransactionForm from './TransactionForm';
 
-const TransactionFormModal = ({show, onHide, title, onSubmit, isFetching, transaction}) => {
+const TransactionFormModal = ({show, onHide, title, onSubmit, isFetching, transaction, kind}) => {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
@@ -14,7 +14,8 @@ const TransactionFormModal = ({show, onHide, title, onSubmit, isFetching, transa
                 <TransactionForm 
                     onSubmit={onSubmit} 
                     isFetching={isFetching} 
-                    transaction={transaction} />
+                    transaction={transaction}
+                    kind={kind} />
             </Modal.Body>
         </Modal>
     );

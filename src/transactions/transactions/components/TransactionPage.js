@@ -121,6 +121,7 @@ class TransactionPage extends React.Component {
         const { isFetching } = this.props;
         const { kind } = this.props.route;
         const transactions = this.props.transactions.filter(transaction => transaction.kind === kind.id);
+        const categories = this.props.categories.filter(category => category.kind === kind.id);
 
         return (
             <div className="transaction-page">
@@ -143,6 +144,7 @@ class TransactionPage extends React.Component {
                                     <Col xs={12}>
                                         <TransactionList
                                             transactions={transactions} 
+                                            categories={categories}
                                             isFetching={isFetching}
                                             onEdit={this.handleEdit}
                                             onDelete={this.handleDelete}
@@ -159,6 +161,7 @@ class TransactionPage extends React.Component {
                     show={this.state.showTransactionFormModal}
                     onHide={this.handleHideTransactionFormModal}
                     title={this.props.editingTransaction.id ? `Editar ${kind.text}` : `Criar ${kind.text}`}
+                    kind={kind}
 
                     onSubmit={this.handleTransactionFormSubmit}
                     isFetching={isFetching}
@@ -178,12 +181,10 @@ class TransactionPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-
-    const { transactions, isFetching, editingTransaction } = state.transactions;    
+    const { categories } = state.categories;
     return {
-        transactions,
-        editingTransaction,
-        isFetching
+        ...state.transactions,
+        categories
     }
 };
 

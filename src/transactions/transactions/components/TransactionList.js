@@ -8,16 +8,17 @@ import {
   Button,
 } from '@sketchpixy/rubix';
 
-const TransactionList = ({ transactions, onEdit, onDelete }) => {
+const TransactionList = ({ transactions, categories, onEdit, onDelete }) => {
     const rows = transactions.map((transaction) => {
             const formattedDueDate = transaction.due_date.format('DD/MM/YYYY');
             const formattedValue = `R$ ${transaction.value}`;
+            const category = categories.find((category) => category.id == transaction.category).name;
 
             return (
                 <tr key={transaction.id}>
                     <td>{formattedDueDate}</td>
                     <td>{transaction.description}</td>
-                    <td>{transaction.category}</td>
+                    <td>{category}</td>
                     <td>{formattedValue}</td>
                     <td>
                         <ButtonToolbar>
