@@ -126,7 +126,8 @@ export default function reducer(state = initialState, action) {
         case FINISH_EDIT_TRANSACTION:
             return {
                 ...state,
-                editingTransaction: {}
+                editingTransaction: {},
+                errors: {}
             }
 
         case DELETE_TRANSACTION:

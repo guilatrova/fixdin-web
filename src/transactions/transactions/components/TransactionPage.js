@@ -82,20 +82,23 @@ class TransactionPage extends React.Component {
     }    
 
     handleHideTransactionFormModal() {
-        this.props.finishEditTransaction();
+        this.props.onFinishEdit();
         this.setState({ showTransactionFormModal: false });
     }
 
     handleTransactionFormSubmit(transaction) {
         const { kind } = this.props.route;
-        this.props.onTransactionFormSubmit(transaction, kind);
-        this.props.finishEditTransaction();
-        this.setState({ showTransactionFormModal: false });
+        this.props.onSubmit(transaction, kind).then(({result}) => {
+            if (result == 'success') {
+                this.props.onFinishEdit();
+                this.setState({ showTransactionFormModal: false });
+            }
+        });
     }
 
     handleEdit(id) {
         this.setState({ showTransactionFormModal: true });
-        this.props.editTransaction(id);        
+        this.props.onEdit(id);        
     }
 
     handleDelete(id) {
@@ -107,7 +110,7 @@ class TransactionPage extends React.Component {
 
     handleConfirmDelete() {
         const { kind } = this.props.route;        
-        this.props.deleteTransaction(this.state.toDeleteId, kind);
+        this.props.onDelete(this.state.toDeleteId, kind);
         this.setState({ 
             showTransactionDeleteModal: false, 
             toDeleteId: undefined 
@@ -169,6 +172,7 @@ class TransactionPage extends React.Component {
 
                     onSubmit={this.handleTransactionFormSubmit}
                     isFetching={isFetching}
+                    errors={this.props.errors}
                     transaction={this.props.editingTransaction} />
 
                 <ConfirmDeleteModal 
@@ -197,10 +201,10 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchCategories(kind));
             dispatch(fetchTransactions(kind));            
         },
-        onTransactionFormSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
-        deleteTransaction: (id, kind) => dispatch(deleteTransaction(id, kind)),
-        editTransaction: (id) => dispatch(editTransaction(id)),
-        finishEditTransaction: () => dispatch(finishEditTransaction())
+        onSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
+        onDelete: (id, kind) => dispatch(deleteTransaction(id, kind)),
+        onEdit: (id) => dispatch(editTransaction(id)),
+        onFinishEdit: () => dispatch(finishEditTransaction())
     }
 };
 

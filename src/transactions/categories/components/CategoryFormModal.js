@@ -3,7 +3,7 @@ import { Modal, Button } from '@sketchpixy/rubix';
 
 import CategoryForm from './CategoryForm';
 
-const CategoryFormModal = ({show, onHide, title, onSubmit, isFetching, category}) => {
+const CategoryFormModal = ({show, onHide, title, onSubmit, isFetching, errors, category}) => {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
@@ -14,7 +14,8 @@ const CategoryFormModal = ({show, onHide, title, onSubmit, isFetching, category}
                 <CategoryForm 
                     onSubmit={onSubmit} 
                     isFetching={isFetching}
-                    category={category} />
+                    category={category}
+                    errors={errors} />
             </Modal.Body>
         </Modal>
     );

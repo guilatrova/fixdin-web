@@ -126,7 +126,8 @@ export default function reducer(state = initialState, action) {
         case FINISH_EDIT_TRANSACTION_CATEGORY:
             return {
                 ...state,
-                editingCategory: {}
+                editingCategory: {},
+                errors: {}
             }        
 
         default:

@@ -69,8 +69,11 @@ class CategoryPage extends React.Component {
 
     handleCategoryFormSubmit(category) {
         const { kind } = this.props.route;
-        this.props.onSubmit({...category, kind});
-        this.setState({ showCategoryFormModal: false });
+        this.props.onSubmit({...category, kind}).then(({result}) => {
+            if (result == 'success') {
+                this.setState({ showCategoryFormModal: false });
+            }
+        });
     }
 
     handleCreateCategory() {
@@ -152,7 +155,7 @@ class CategoryPage extends React.Component {
                 <CategoryFormModal
                     show={this.state.showCategoryFormModal}
                     onHide={this.handleHideFormModal}
-                    title={this.props.editingCategory ? "Editar categoria" : "Criar categoria"}
+                    title={this.props.editingCategory.id ? "Editar categoria" : "Criar categoria"}
 
                     isFetching={isFetching}
                     errors={this.props.errors} 

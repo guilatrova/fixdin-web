@@ -62,7 +62,7 @@ class CategoryForm extends React.Component {
                     label="Nome" 
                     error={errors.name}
                     value={this.state.name}
-                    onChange={this.handleChange}                    
+                    onChange={this.handleChange}
                 />                     
 
                 <FormGroup>

@@ -100,7 +100,7 @@ export function saveTransaction({ id, account, due_date, description, category, 
         due_date = due_date.format('YYYY-MM-DD');
         value = getCurrencyValue(value);
 
-        if (kind == EXPENSE) {
+        if (kind == EXPENSE && value > 0) {
             value = -value;
         }
         
@@ -117,7 +117,7 @@ export function saveTransaction({ id, account, due_date, description, category, 
 
         let apiPromise = (id) ? update(id, data, kind) : create(data, kind);
         
-        apiPromise
+        return apiPromise
             .then(response => response.data)
             .then(data => dispatch(receiveSaveTransaction('success', data)))
             .catch(({response}) => dispatch(receiveSaveTransaction('fail', response.data)))            
