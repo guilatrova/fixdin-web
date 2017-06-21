@@ -17,7 +17,14 @@ class CategorySelectPicker extends React.Component {
     }
 
     handleNewOptionClick(option) {
-        this.props.create(option.label, this.props.kind);
+        this.props.create(option.label, this.props.kind).then((response) => {
+            if (response.result == 'success') {
+                this.props.onChange({
+                    label: option.label,
+                    value: response.category.id
+                })
+            }
+        });
     }
 
     promptTextCreator(label) {
