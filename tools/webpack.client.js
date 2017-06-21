@@ -38,7 +38,7 @@ var plugins = [
     __PRODUCTION__: isProduction, 
     __DEV__: !isProduction, 
     "process.env.NODE_ENV": '"'+process.env.NODE_ENV+'"',
-    "process.env.API_BASE_URL": '"'+process.env.API_BASE_URL+'"',
+    "process.env.API_BASE_URL": '"' + (process.env.API_BASE_URL || 'http://localhost:8000/api/v1') + '"',
     __DEVTOOLS__: true
   })
 ];

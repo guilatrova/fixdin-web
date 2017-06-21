@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { isAuthenticated, getToken } from './session';
 
-export const BASE_URL = process.env.API_BASE_URL;//'http://localhost:8000/api/v1/';
+export const BASE_URL = process.env.API_BASE_URL;
 
 export default function createAPI() {
     let auth = { }
