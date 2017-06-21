@@ -109,7 +109,8 @@ class TransactionForm extends React.Component {
                 label="Descrição"
                 error={errors.description}
                 value={this.state.description}
-                onChange={this.handleChange} />
+                onChange={this.handleChange}
+                maxLength="120" />
 
             <HorizontalFormGroupError id="category" label="Categoria" error={errors.category}>
                 <CategorySelectPicker 
@@ -148,7 +149,8 @@ class TransactionForm extends React.Component {
                     componentClass='textarea'
                     name="details"
                     onChange={this.handleChange}
-                    value={this.state.details} />
+                    value={this.state.details}
+                    maxLength="500" />
             </HorizontalFormGroupError>
 
             <FormGroup>

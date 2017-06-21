@@ -18,7 +18,7 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-const HorizontalFormGroupError = ({id, label, error, children, onChange, value}) => {
+const HorizontalFormGroupError = ({id, label, error, children, onChange, maxLength, value}) => {
     return (
         <FormGroup controlId={id} validationState={error ? 'error' : undefined}>
 
@@ -32,7 +32,8 @@ const HorizontalFormGroupError = ({id, label, error, children, onChange, value})
                         className='border-focus-blue'
                         name={id}
                         onChange={onChange}
-                        value={value} />
+                        value={value}
+                        maxLength={maxLength ? maxLength : undefined} />
                 }
 
                 {error &&

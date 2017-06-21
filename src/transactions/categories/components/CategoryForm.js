@@ -63,6 +63,7 @@ class CategoryForm extends React.Component {
                     error={errors.name}
                     value={this.state.name}
                     onChange={this.handleChange}
+                    maxLength="70"
                 />                     
 
                 <FormGroup>
