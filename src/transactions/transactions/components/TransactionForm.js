@@ -44,8 +44,7 @@ class TransactionForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();        
         this.props.onSubmit({
-            ...this.state,
-            category: this.state.category.value
+            ...this.state
         });
     }
 

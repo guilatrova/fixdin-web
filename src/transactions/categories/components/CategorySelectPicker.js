@@ -10,6 +10,7 @@ class CategorySelectPicker extends React.Component {
         super(props);
 
         this.handleNewOptionClick = this.handleNewOptionClick.bind(this);
+        this.handleOnChange = this.handleOnChange.bind(this);
     }
 
     componentDidMount() {        
@@ -19,12 +20,13 @@ class CategorySelectPicker extends React.Component {
     handleNewOptionClick(option) {
         this.props.create(option.label, this.props.kind).then((response) => {
             if (response.result == 'success') {
-                this.props.onChange({
-                    label: option.label,
-                    value: response.category.id
-                })
+                this.props.onChange(response.category.id)
             }
         });
+    }
+
+    handleOnChange({value}) {
+        this.props.onChange(value);
     }
 
     promptTextCreator(label) {
@@ -32,7 +34,7 @@ class CategorySelectPicker extends React.Component {
     }
 
     render() {
-        const { categories, isFetching, value, onChange, kind } = this.props;
+        const { categories, isFetching, value, kind } = this.props;
         
         const options = categories.filter(category => category.kind == kind.id).map(category => {
             return {
@@ -48,7 +50,7 @@ class CategorySelectPicker extends React.Component {
                 isLoading={isFetching}
                 disabled={isFetching}
                 value={value}
-                onChange={onChange}
+                onChange={this.handleOnChange}
                 onNewOptionClick={this.handleNewOptionClick}
                 promptTextCreator={this.promptTextCreator} />
         );
