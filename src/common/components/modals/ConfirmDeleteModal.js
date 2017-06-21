@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal, Button } from '@sketchpixy/rubix';
+import { Modal, Button, Alert } from '@sketchpixy/rubix';
 
-const ConfirmDeleteModal = ({children, show, onHide, onConfirmDelete}) => {
+const ConfirmDeleteModal = ({children, show, onHide, onConfirmDelete, error}) => {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
@@ -9,6 +9,12 @@ const ConfirmDeleteModal = ({children, show, onHide, onConfirmDelete}) => {
             </Modal.Header>
 
             <Modal.Body>
+                {error && 
+                    <Alert danger>
+                        <h4>Não foi possível deletar</h4>
+                        {error}
+                    </Alert>
+                    }
                 {children}
             </Modal.Body>
 

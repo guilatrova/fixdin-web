@@ -167,7 +167,7 @@ export function deleteTransaction(id, kind) {
         dispatch(requestDeleteTransaction(id));
 
         const api = createApi();
-        api.delete(kind.apiEndpoint + id)
+        return api.delete(kind.apiEndpoint + id)
             .then(() => dispatch(receiveDeleteTransaction(id, 'success')))
             .catch(({response}) => dispatch(receiveDeleteTransaction(id, 'fail', response.data)))
     }

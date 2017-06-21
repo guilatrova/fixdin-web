@@ -110,14 +110,18 @@ class TransactionPage extends React.Component {
 
     handleConfirmDelete() {
         const { kind } = this.props.route;        
-        this.props.onDelete(this.state.toDeleteId, kind);
-        this.setState({ 
-            showTransactionDeleteModal: false, 
-            toDeleteId: undefined 
+        this.props.onDelete(this.state.toDeleteId, kind).then(({result}) => {
+            if (result == 'success') {
+                this.setState({ 
+                    showTransactionDeleteModal: false, 
+                    toDeleteId: undefined 
+                });
+            }
         });
     }
 
     handleHideDeleteModal() {
+        this.props.onFinishEdit();
         this.setState({ 
             showTransactionDeleteModal: false, 
             toDeleteId: undefined 
@@ -177,7 +181,8 @@ class TransactionPage extends React.Component {
 
                 <ConfirmDeleteModal 
                     show={this.state.showTransactionDeleteModal} 
-                    onHide={this.handleHideDeleteModal} 
+                    onHide={this.handleHideDeleteModal}
+                    error={this.props.errors['detail']}
                     onConfirmDelete={this.handleConfirmDelete} >
 
                     Tem certeza que deseja deletar esta {kind.text}?

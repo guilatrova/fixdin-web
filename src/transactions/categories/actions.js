@@ -136,7 +136,7 @@ export function deleteCategory(id, kind) {
         dispatch(requestDeleteCategory(id));
 
         const api = createApi();
-        api.delete(`categories/${kind.apiEndpoint}${id}`)
+        return api.delete(`categories/${kind.apiEndpoint}${id}`)
             .then(() => dispatch(receiveDeleteCategory(id, 'success')))
             .catch(({response}) => dispatch(receiveDeleteCategory(id, 'fail', response.data)))
     }

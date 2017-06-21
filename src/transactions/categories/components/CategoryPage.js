@@ -103,14 +103,18 @@ class CategoryPage extends React.Component {
 
     handleConfirmDelete() {
         const {kind} = this.props.route;
-        this.props.onDelete(this.state.toDeleteId, kind);
-        this.setState({
-            showCategoryDeleteModal: false,
-            toDeleteId: undefined
-        })
+        this.props.onDelete(this.state.toDeleteId, kind).then(({result}) => {
+            if (result == 'success') {
+                this.setState({
+                    showCategoryDeleteModal: false,
+                    toDeleteId: undefined
+                })
+            }
+        });
     }
 
     handleHideDeleteModal() {
+        this.props.onFinishEdit();
         this.setState({
             showCategoryDeleteModal: false,
             toDeleteId: undefined
@@ -166,7 +170,8 @@ class CategoryPage extends React.Component {
                 <ConfirmDeleteModal 
                     show={this.state.showCategoryDeleteModal} 
                     onHide={this.handleHideDeleteModal} 
-                    onConfirmDelete={this.handleConfirmDelete} >
+                    onConfirmDelete={this.handleConfirmDelete}
+                    error={this.props.errors['detail']} >
 
                     Tem certeza que deseja deletar esta categoria?
                 </ConfirmDeleteModal>
