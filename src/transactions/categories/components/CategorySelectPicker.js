@@ -25,7 +25,8 @@ class CategorySelectPicker extends React.Component {
         });
     }
 
-    handleOnChange({value}) {
+    handleOnChange(option) {
+        const value = option ? option.value : null;
         this.props.onChange(value);
     }
 
