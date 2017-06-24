@@ -72,7 +72,7 @@ class CategoryPage extends React.Component {
         this.props.onSubmit({...category, kind}).then(({result}) => {
             if (result == 'success') {
                 this.setState({ showCategoryFormModal: false });
-                this.props.finishEditCategory();
+                this.props.onFinishEdit();
             }
         });
     }
