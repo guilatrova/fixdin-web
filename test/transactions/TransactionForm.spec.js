@@ -38,7 +38,7 @@ describe('TransactionForm', () => {
         itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'description');
         itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'category');
         itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'deadline');
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'importance');
+        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'priority');
         itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'details');
         
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'username');

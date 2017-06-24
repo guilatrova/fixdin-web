@@ -136,10 +136,10 @@ class TransactionForm extends React.Component {
                 onChange={this.handleChange} />
 
             <HorizontalFormGroupError
-                id="importance"
+                id="priority"
                 label="Prioridade"
-                error={errors.importance}
-                value={this.state.importance}
+                error={errors.priority}
+                value={this.state.priority}
                 onChange={this.handleChange} />
 
             <HorizontalFormGroupError id="details" label="Detalhes" error={errors.details}>
