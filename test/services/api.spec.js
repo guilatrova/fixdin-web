@@ -25,6 +25,12 @@ describe('API Service', () => {
             expect(axiosInstance.defaults.headers.Authorization).to.equal(`Token ${SAVED_TOKEN}`);
         })
 
+        it('should create AXIOS without header if false is passed', () => {
+            const axiosInstance = createAPI(false);
+
+            expect(axiosInstance.defaults.headers).to.not.have.property('Authorization');
+        })
+
     });
 
     describe('when session is empty', () => {
