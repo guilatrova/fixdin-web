@@ -51,6 +51,7 @@ class CategorySelectPicker extends React.Component {
                 isLoading={isFetching}
                 disabled={isFetching}
                 value={value}
+                autosize={false}
                 onChange={this.handleOnChange}
                 onNewOptionClick={this.handleNewOptionClick}
                 promptTextCreator={this.promptTextCreator} />

@@ -35,7 +35,8 @@ import {
 } from '../actions';
 
 import {
-    fetchCategories
+    fetchCategories,
+    finishEditCategory
 } from '../../categories/actions';
 
 class TransactionPage extends React.Component {
@@ -194,9 +195,16 @@ class TransactionPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    const categoriesState = state.categories;
+    const transactionsState = state.transactions;
+
     return {
-        ...state.transactions,
-        categories: state.categories.categories
+        ...transactionsState,
+        errors: {
+            ...transactionsState.errors,
+            category: categoriesState.errors.name
+        },
+        categories: categoriesState.categories
     }
 };
 
@@ -209,7 +217,10 @@ const mapDispatchToProps = (dispatch) => {
         onSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
         onDelete: (id, kind) => dispatch(deleteTransaction(id, kind)),
         onEdit: (id) => dispatch(editTransaction(id)),
-        onFinishEdit: () => dispatch(finishEditTransaction())
+        onFinishEdit: () => {
+            dispatch(finishEditTransaction()),
+            dispatch(finishEditCategory())
+        }
     }
 };
 
