@@ -30,7 +30,7 @@ function receiveToken(result, data) {
 export function fetchToken(loginData) {
   return dispatch => {
     dispatch(requestToken());
-    const api = createApi();
+    const api = createApi(false);
 
     return api.post('auth/', loginData)
       .then(response => response.data)
@@ -69,7 +69,7 @@ function receiveSignup(result, data) {
 export function fetchSignup(signupData) {
   return dispatch => {
     dispatch(requestSignup())
-    const api = createApi();
+    const api = createApi(false);
 
     return api.post('auth/users/', signupData)
       .then(response => response.data)
