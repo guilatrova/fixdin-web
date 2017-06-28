@@ -1,4 +1,5 @@
 import createApi from '../../services/api';
+import handleError from '../../services/genericErrorHandler';
 
 export const FETCH_TRANSACTION_CATEGORIES = 'FETCH_TRANSACTION_CATEGORIES';
 export const SAVE_TRANSACTION_CATEGORY = 'SAVE_TRANSACTION_CATEGORY';
@@ -40,7 +41,7 @@ export function fetchCategories(kind) {
             .then((data) => {
                 dispatch(receiveCategories('success', data, kind));
             })
-            .catch(({response}) => dispatch(receiveCategories('fail', response.data)));
+            .catch(err => dispatch(receiveCategories('fail', handleError(err))));
     }
 }
 
@@ -89,7 +90,7 @@ export function saveCategory({id, name, kind}) {
         return apiPromise
             .then(response => response.data)
             .then(data => dispatch(receiveSaveCategory('success', data, kind)))
-            .catch(({response}) => dispatch(receiveSaveCategory('fail', response.data)));
+            .catch(err => dispatch(receiveSaveCategory('fail', handleError(err))));
     }
 }
 
@@ -138,6 +139,6 @@ export function deleteCategory(id, kind) {
         const api = createApi();
         return api.delete(`categories/${kind.apiEndpoint}${id}`)
             .then(() => dispatch(receiveDeleteCategory(id, 'success')))
-            .catch(({response}) => dispatch(receiveDeleteCategory(id, 'fail', response.data)))
+            .catch(err => dispatch(receiveDeleteCategory(id, 'fail', handleError(err))))
     }
 }

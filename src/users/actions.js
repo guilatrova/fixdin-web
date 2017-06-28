@@ -1,5 +1,6 @@
 import createApi from '../services/api';
 import { saveToken } from '../services/session';
+import handleError from '../services/genericErrorHandler';
 
 export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
 export const SIGNUP = 'AUTH_REQUEST_SIGNUP';
@@ -39,7 +40,9 @@ export function fetchToken(loginData) {
         saveToken(token);
         return dispatch(receiveToken('success', token));
       })
-      .catch(({response}) => dispatch(receiveToken('fail', response.data['detail'])));
+      .catch(err => {
+        dispatch(receiveToken('fail', handleError(err)['detail'])) //Get as string, not object
+      });
   }
 }
 
@@ -74,6 +77,6 @@ export function fetchSignup(signupData) {
     return api.post('auth/users/', signupData)
       .then(response => response.data)
       .then(data => dispatch(receiveSignup('success', data)))
-      .catch(({response}) => dispatch(receiveSignup('fail', response.data)));        
+      .catch(err => dispatch(receiveSignup('fail', handleError(err))));
   }
 }

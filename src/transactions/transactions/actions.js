@@ -2,6 +2,7 @@ import moment from 'moment';
 
 import { EXPENSE } from './../kinds';
 import createApi from '../../services/api';
+import handleError from '../../services/genericErrorHandler';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
 export const SAVE_TRANSACTION = 'SAVE_TRANSACTION';
@@ -56,7 +57,7 @@ export function fetchTransactions(kind) {
             .then((data) => {
                 dispatch(receiveTransactions('success', data));
             })
-            .catch(({response}) => dispatch(receiveTransactions('fail', response.data)));
+            .catch(err => dispatch(receiveTransactions('fail', handleError(err))));
     }
 }
 
@@ -119,7 +120,7 @@ export function saveTransaction({ id, due_date, description, category, value, de
         return apiPromise
             .then(response => response.data)
             .then(data => dispatch(receiveSaveTransaction('success', data)))
-            .catch(({response}) => dispatch(receiveSaveTransaction('fail', response.data)))            
+            .catch(err => dispatch(receiveSaveTransaction('fail', handleError(err))))
     }
 }
 
@@ -168,6 +169,6 @@ export function deleteTransaction(id, kind) {
         const api = createApi();
         return api.delete(kind.apiEndpoint + id)
             .then(() => dispatch(receiveDeleteTransaction(id, 'success')))
-            .catch(({response}) => dispatch(receiveDeleteTransaction(id, 'fail', response.data)))
+            .catch(err => dispatch(receiveDeleteTransaction(id, 'fail', handleError(err))))
     }
 }
