@@ -93,7 +93,7 @@ function create(data, kind) {
     return api.post(kind.apiEndpoint, data);
 }
 
-export function saveTransaction({ id, account, due_date, description, category, value, details, importance, deadline }, kind) {
+export function saveTransaction({ id, due_date, description, category, value, details, importance, deadline }, kind) {
     return dispatch => {
         dispatch(requestSaveTransaction());        
         
@@ -110,7 +110,6 @@ export function saveTransaction({ id, account, due_date, description, category, 
             category,
             value,
             details,
-            account: 1,
             importance,
             deadline
         }
