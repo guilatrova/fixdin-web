@@ -178,7 +178,7 @@ class TransactionPage extends React.Component {
                     onSubmit={this.handleTransactionFormSubmit}
                     isFetching={isFetching}
                     errors={this.props.errors}
-                    transaction={this.props.editingTransaction} />
+                    transaction={Object.keys(this.props.editingTransaction).length > 0 ? this.props.editingTransaction : undefined} />
 
                 <ConfirmDeleteModal 
                     show={this.state.showTransactionDeleteModal} 

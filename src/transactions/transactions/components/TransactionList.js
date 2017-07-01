@@ -11,7 +11,13 @@ import {
 const TransactionList = ({ transactions, categories, onEdit, onDelete }) => {
     const rows = transactions.map((transaction) => {
             const formattedDueDate = transaction.due_date.format('DD/MM/YYYY');
-            const formattedValue = `R$ ${transaction.value}`;
+            const formattedPaymentDate = transaction.payment_date ? transaction.payment_date.format('DD/MM/YYYY') : 'NÃO';
+
+            let positiveValue = transaction.value;
+            if (positiveValue[0] == '-') {
+                positiveValue = transaction.value.substring(1);
+            }
+            const formattedValue = `R$ ${positiveValue}`;
             const category = categories.find((category) => category.id == transaction.category).name;
 
             return (
@@ -20,6 +26,9 @@ const TransactionList = ({ transactions, categories, onEdit, onDelete }) => {
                     <td>{transaction.description}</td>
                     <td>{category}</td>
                     <td>{formattedValue}</td>
+                    <td>{transaction.deadline}</td>
+                    <td>{transaction.priority}</td>
+                    <td>{formattedPaymentDate}</td>
                     <td>
                         <ButtonToolbar>
                             <Button className="edit-button" outlined bsStyle="blue" onClick={() => onEdit(transaction.id)}>
@@ -46,6 +55,9 @@ const TransactionList = ({ transactions, categories, onEdit, onDelete }) => {
                         <th>Descrição</th>
                         <th>Categoria</th>
                         <th>Valor</th>
+                        <th>Prazo</th>
+                        <th>Prioridade</th>
+                        <th>Pago em</th>                        
                         <th>Ações</th>
                     </tr>
                 </thead>

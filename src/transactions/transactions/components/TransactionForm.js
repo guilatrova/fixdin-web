@@ -30,15 +30,13 @@ class TransactionForm extends React.Component {
         this.state = { 
             ...this.props.transaction,            
             errors: {},
-            periodic_visible: false
         };
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleDueDateChange = this.handleDueDateChange.bind(this);
+        this.handleDateChange = this.handleDateChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.togglePeriodic = this.togglePeriodic.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);        
     }
 
     handleSubmit(e) {
@@ -56,16 +54,12 @@ class TransactionForm extends React.Component {
         this.setState({ category: value });
     }
 
-    handleDueDateChange(value) {
-        this.setState({ due_date: value });
+    handleDateChange(id, value) {
+        this.setState({ [id]: value });
     }
 
     handleValueChange(value) {
         this.setState({ value });
-    }
-
-    togglePeriodic(e) {
-        this.setState({ periodic_visible: !this.state.periodic_visible});
     }
 
     isSubmitDisabled() {
@@ -97,7 +91,7 @@ class TransactionForm extends React.Component {
                 <DatetimeInput
                     timeFormat={false}
                     className='border-focus-blue'
-                    onChange={this.handleDueDateChange}
+                    onChange={(value) => this.handleDateChange('due_date', value)}
                     value={this.state.due_date}
                     closeOnSelect={true}
                     closeOnTab={true} />
@@ -142,6 +136,16 @@ class TransactionForm extends React.Component {
                 value={this.state.priority}
                 onChange={this.handleChange} />
 
+            <HorizontalFormGroupError id="payment_date" label="Pago em" error={errors.payment_date} >
+                <DatetimeInput
+                    timeFormat={false}
+                    className='border-focus-blue'
+                    onChange={(value) => this.handleDateChange('payment_date', value)}
+                    value={this.state.payment_date}
+                    closeOnSelect={true}
+                    closeOnTab={true} />
+            </HorizontalFormGroupError>
+
             <HorizontalFormGroupError id="details" label="Detalhes" error={errors.details}>
                 <FormControl
                     className='border-focus-blue'
@@ -177,7 +181,6 @@ TransactionForm.defaultProps = {
         account: 0,
         due_date: moment(new Date()),
         description: '',
-        category: undefined,
         value: '0,00',
         details: '',
     }

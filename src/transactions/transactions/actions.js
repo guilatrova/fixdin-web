@@ -3,6 +3,7 @@ import moment from 'moment';
 import { EXPENSE } from './../kinds';
 import createApi from '../../services/api';
 import handleError from '../../services/genericErrorHandler';
+import { formatDate, formatCurrency } from '../../services/formatter';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
 export const SAVE_TRANSACTION = 'SAVE_TRANSACTION';
@@ -10,16 +11,11 @@ export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
 export const FINISH_EDIT_TRANSACTION = 'FINISH_EDIT_TRANSACTION';
 export const DELETE_TRANSACTION = 'DELETE_TRANSACTION';
 
-function getCurrencyValue(value) {
-    let unformattedAmount = value.replace(/[^0-9|,|-]+/g, "");
-    unformattedAmount = unformattedAmount.replace(",", ".");
-    return Number(unformattedAmount);
-}
-
 function formatDateAndValue(transaction) {
     return {
         ...transaction,
         due_date: moment(transaction.due_date, 'YYYY-MM-DD'),
+        payment_date: transaction.payment_date ? moment(transaction.payment_date, 'YYYY-MM-DD') : undefined,
         value: transaction.value.replace('.', ',')
     }
 }
@@ -94,12 +90,13 @@ function create(data, kind) {
     return api.post(kind.apiEndpoint, data);
 }
 
-export function saveTransaction({ id, due_date, description, category, value, details, importance, deadline }, kind) {
+export function saveTransaction({ id, due_date, description, category, value, details, importance, deadline, payment_date }, kind) {
     return dispatch => {
         dispatch(requestSaveTransaction());        
         
-        due_date = due_date.format('YYYY-MM-DD');
-        value = getCurrencyValue(value);
+        due_date = formatDate(due_date);
+        payment_date = formatDate(payment_date);
+        value = formatCurrency(value);
 
         if (kind == EXPENSE && value > 0) {
             value = -value;
@@ -112,7 +109,8 @@ export function saveTransaction({ id, due_date, description, category, value, de
             value,
             details,
             importance,
-            deadline
+            deadline,
+            payment_date
         }
 
         let apiPromise = (id) ? update(id, data, kind) : create(data, kind);
