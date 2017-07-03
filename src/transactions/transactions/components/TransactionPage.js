@@ -29,7 +29,8 @@ import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDelet
 import { 
     fetchTransactions,    
     saveTransaction, 
-    editTransaction, 
+    editTransaction,
+    copyTransaction,
     deleteTransaction, 
     finishEditTransaction 
 } from '../actions';
@@ -52,10 +53,11 @@ class TransactionPage extends React.Component {
         this.handleRefresh = this.handleRefresh.bind(this);
 
         //Create/Edit Modal
+        this.handleCopy = this.handleCopy.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleCreateTransaction = this.handleCreateTransaction.bind(this);
         this.handleHideTransactionFormModal = this.handleHideTransactionFormModal.bind(this);
-        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);                
+        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);        
 
         //Delete Modal
         this.handleDelete = this.handleDelete.bind(this);
@@ -95,6 +97,11 @@ class TransactionPage extends React.Component {
                 this.setState({ showTransactionFormModal: false });
             }
         });
+    }
+
+    handleCopy(id) {
+        this.setState({ showTransactionFormModal: true });
+        this.props.onCopy(id);        
     }
 
     handleEdit(id) {
@@ -160,6 +167,7 @@ class TransactionPage extends React.Component {
                                             isFetching={isFetching}
                                             onEdit={this.handleEdit}
                                             onDelete={this.handleDelete}
+                                            onCopy={this.handleCopy}
                                             />
                                     </Col>
 
@@ -217,6 +225,7 @@ const mapDispatchToProps = (dispatch) => {
         onSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
         onDelete: (id, kind) => dispatch(deleteTransaction(id, kind)),
         onEdit: (id) => dispatch(editTransaction(id)),
+        onCopy: (id) => dispatch(copyTransaction(id)),
         onFinishEdit: () => {
             dispatch(finishEditTransaction()),
             dispatch(finishEditCategory())

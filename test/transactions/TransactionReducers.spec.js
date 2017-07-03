@@ -8,8 +8,9 @@ import { EXPENSE, INCOME } from './../../src/transactions/kinds';
 import transactionReducer from './../../src/transactions/transactions/reducers';
 import { 
     FETCH_TRANSACTIONS, 
-    EDIT_TRANSACTION, 
-    FINISH_EDIT_TRANSACTION, 
+    EDIT_TRANSACTION,
+    FINISH_EDIT_TRANSACTION,
+    COPY_TRANSACTION,
     SAVE_TRANSACTION,
     DELETE_TRANSACTION
  } from './../../src/transactions/transactions/actions';
@@ -281,6 +282,30 @@ describe('Transactions Reducers', () => {
                 transactions,
                 editingTransaction: {}
             })
+        })
+    })
+
+    describe('COPY_TRANSACTION', () => {
+
+        const initialCopyState = {
+            ...initialState,
+            transactions
+        }
+
+        it('should be handled', () => {
+            expect(
+                transactionReducer(initialCopyState, {
+                    type: COPY_TRANSACTION,
+                    id: 1
+                })
+            ).to.deep.equal({
+                isFetching: false,
+                errors: {},
+                transactions,
+                editingTransaction: {
+                    value: '10'
+                }
+            });
         })
     })
 

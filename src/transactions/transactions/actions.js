@@ -7,6 +7,7 @@ import { formatDate, formatCurrency } from '../../services/formatter';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
 export const SAVE_TRANSACTION = 'SAVE_TRANSACTION';
+export const COPY_TRANSACTION = 'COPY_TRANSACTION';
 export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
 export const FINISH_EDIT_TRANSACTION = 'FINISH_EDIT_TRANSACTION';
 export const DELETE_TRANSACTION = 'DELETE_TRANSACTION';
@@ -119,6 +120,14 @@ export function saveTransaction({ id, due_date, description, category, value, de
             .then(response => response.data)
             .then(data => dispatch(receiveSaveTransaction('success', data)))
             .catch(err => dispatch(receiveSaveTransaction('fail', handleError(err))))
+    }
+}
+
+//COPY
+export function copyTransaction(id) {
+    return {
+        type: COPY_TRANSACTION,
+        id
     }
 }
 

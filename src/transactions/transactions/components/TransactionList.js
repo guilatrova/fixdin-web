@@ -39,10 +39,10 @@ class TransactionList extends React.Component {
     }
 
     formatActionButtons(cell, row) {
-        const { onEdit, onDelete } = this.props;
+        const { onEdit, onDelete, onCopy } = this.props;
         return (
             <ButtonToolbar>
-                <Button className="edit-button" outlined bsStyle="blue" onClick={() => onEdit(row.id)}>
+                <Button className="edit-button" outlined bsStyle="green" onClick={() => onEdit(row.id)}>
                     <Icon glyph='icon-fontello-pencil' />
                     {' '}
                     Editar
@@ -51,6 +51,11 @@ class TransactionList extends React.Component {
                     <Icon glyph='icon-fontello-trash-1' />
                     {' '}
                     Deletar
+                </Button>
+                <Button className="copy-button" outlined bsStyle="blue" onClick={() => onCopy(row.id)}>                                
+                    <Icon glyph='icon-ikons-copy-2' />
+                    {' '}
+                    Copiar
                 </Button>
             </ButtonToolbar>
         );

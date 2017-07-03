@@ -11,6 +11,7 @@ describe('TransactionList', () => {
     const defaultProps = {
         onRefresh: () => {},
         onEdit: () => {},
+        onCopy: () => {},
         isFetching: false,
         kind: 'income',
         transactions: [],
@@ -21,7 +22,7 @@ describe('TransactionList', () => {
 
     const transactions = [
             { id: 1, value: '10', due_date: moment(new Date()) },
-            { id: 2, value: '11', due_date: moment(new Date()) },
+            { id: 2, value: '-11', due_date: moment(new Date()) },
             { id: 3, value: '12', due_date: moment(new Date()) },
         ]
 
@@ -56,5 +57,15 @@ describe('TransactionList', () => {
         expect(deleteSpy.called).to.be.true;
         expect(deleteSpy.alwaysCalledWith(1)).to.be.true;
     })
-    
+
+    it('should calls onCopy', () => {
+        let copySpy = sinon.spy();
+
+        const wrapper = mount(<TransactionList {...defaultProps} transactions={transactions} onCopy={copySpy} />);
+
+        wrapper.find('.copy-button').first().simulate('click');
+
+        expect(copySpy.called).to.be.true;
+        expect(copySpy.alwaysCalledWith(1)).to.be.true;
+    })    
 })

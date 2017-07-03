@@ -1,6 +1,7 @@
 import { 
     SAVE_TRANSACTION, 
     FETCH_TRANSACTIONS, 
+    COPY_TRANSACTION,
     EDIT_TRANSACTION, 
     FINISH_EDIT_TRANSACTION,
     DELETE_TRANSACTION
@@ -108,6 +109,19 @@ function fetchReducer(state, action) {
     }
 }
 
+function copyTransaction(state, action) {
+    const originalTransaction = state.transactions.find(transaction => transaction.id == action.id);
+    const { id, ...transactionWithoutId } = originalTransaction;
+    const copy = {        
+        ...transactionWithoutId
+    };
+
+    return {
+        ...state,
+        editingTransaction: copy
+    };
+}
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
@@ -116,6 +130,9 @@ export default function reducer(state = initialState, action) {
 
         case FETCH_TRANSACTIONS:
             return fetchReducer(state, action);
+
+        case COPY_TRANSACTION:
+            return copyTransaction(state, action);
 
         case EDIT_TRANSACTION:
             return {
