@@ -14,6 +14,10 @@ class TransactionList extends React.Component {
     constructor(props) {
         super(props);
 
+        this.options = {
+            defaultSortName: 'due_date',
+            defaultSortOrder: 'asc'
+        }
         this.formatCategory = this.formatCategory.bind(this);
         this.formatActionButtons = this.formatActionButtons.bind(this);
     }
@@ -34,16 +38,16 @@ class TransactionList extends React.Component {
         return `R$ ${cell}`;
     }
 
-    formatActionButtons() {
+    formatActionButtons(cell, row) {
         const { onEdit, onDelete } = this.props;
         return (
             <ButtonToolbar>
-                <Button className="edit-button" outlined bsStyle="blue" onClick={() => onEdit(transaction.id)}>
+                <Button className="edit-button" outlined bsStyle="blue" onClick={() => onEdit(row.id)}>
                     <Icon glyph='icon-fontello-pencil' />
                     {' '}
                     Editar
                 </Button>
-                <Button className="delete-button" outlined bsStyle="red" onClick={() => onDelete(transaction.id)}>                                
+                <Button className="delete-button" outlined bsStyle="red" onClick={() => onDelete(row.id)}>                                
                     <Icon glyph='icon-fontello-trash-1' />
                     {' '}
                     Deletar
@@ -88,14 +92,21 @@ class TransactionList extends React.Component {
 
     render() {
         return (
-            <BootstrapTable data={this.props.transactions} keyField="id">
-                <TableHeaderColumn dataSort dataField='due_date' dataFormat={this.formatDate} sortFunc={this.sortDate}>Vencimento</TableHeaderColumn>
+            <BootstrapTable data={this.props.transactions} options={this.options} keyField="id">
+                <TableHeaderColumn dataField='due_date' dataFormat={this.formatDate} 
+                                   dataSort sortFunc={this.sortDate}>
+                    Vencimento
+                </TableHeaderColumn>
                 <TableHeaderColumn dataSort dataField='description'>Descrição</TableHeaderColumn>
                 <TableHeaderColumn dataSort dataField='category' dataFormat={this.formatCategory}>Categoria</TableHeaderColumn>
                 <TableHeaderColumn dataSort dataField='value' dataFormat={this.formatValue} sortFunc={this.sortValue}>Valor</TableHeaderColumn>
                 <TableHeaderColumn dataSort dataField='deadline'>Prazo</TableHeaderColumn>
                 <TableHeaderColumn dataSort dataField='priority'>Prioridade</TableHeaderColumn>
-                <TableHeaderColumn dataSort dataField='payment_date' dataFormat={this.formatDate} formatExtraData="NÃO" sortFunc={this.sortDate}>Pago em</TableHeaderColumn>
+                <TableHeaderColumn dataField='payment_date' 
+                                   dataFormat={this.formatDate} formatExtraData="NÃO" 
+                                   dataSort sortFunc={this.sortDate}>
+                    Pago em
+                </TableHeaderColumn>
                 <TableHeaderColumn dataFormat={this.formatActionButtons}>Ações</TableHeaderColumn>            
             </BootstrapTable>
         );

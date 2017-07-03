@@ -26,19 +26,19 @@ describe('TransactionList', () => {
         ]
 
     it('renders ok', () => {
-        const wrapper = shallow(<TransactionList {...defaultProps} />);
+        const wrapper = mount(<TransactionList {...defaultProps} />); //using mount to force render child table
         expect(wrapper).to.be.ok;
     })
 
     it('should render transactions in table', () => {
-        const wrapper = shallow(<TransactionList {...defaultProps} transactions={transactions} />);
+        const wrapper = mount(<TransactionList {...defaultProps} transactions={transactions} />);
         expect(wrapper.find('tr').length).to.equal(4); //1 TH + 3 TRs
     })
 
     it('should calls onEdit', () => {
         let editSpy = sinon.spy();
 
-        const wrapper = shallow(<TransactionList {...defaultProps} transactions={transactions} onEdit={editSpy} />);
+        const wrapper = mount(<TransactionList {...defaultProps} transactions={transactions} onEdit={editSpy} />);
 
         wrapper.find('.edit-button').first().simulate('click');
 
@@ -49,7 +49,7 @@ describe('TransactionList', () => {
     it('should calls onDelete', () => {
         let deleteSpy = sinon.spy();
 
-        const wrapper = shallow(<TransactionList {...defaultProps} transactions={transactions} onDelete={deleteSpy} />);
+        const wrapper = mount(<TransactionList {...defaultProps} transactions={transactions} onDelete={deleteSpy} />);
 
         wrapper.find('.delete-button').first().simulate('click');
 
