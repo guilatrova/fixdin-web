@@ -41,7 +41,7 @@
     "testw": "mocha --compilers :./tools/babel-setup.js --recursive --watch ./test",
     "postinstall": "npm run build:prod",
     "start": "node server.js"
-  },  
+  },
   "devDependencies": {
     "@sketchpixy/just-wait": "^1.0.5",
     "autoprefixer": "^6.3.6",
@@ -102,6 +102,7 @@
     "moment": "^2.18.1",
     "pug": "^2.0.0-beta3",
     "react": "^15.3.0",
+    "react-bootstrap-table": "^3.4.2",
     "react-currency-input": "^1.2.6",
     "react-datetime": "^2.8.10",
     "react-dom": "^15.3.0",
