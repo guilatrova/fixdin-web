@@ -27,7 +27,8 @@ class TransactionList extends React.Component {
     }
 
     formatCategory(cell, row) {
-        return this.props.categories.find((category) => category.id == cell).name;
+        const {categories} = this.props;
+        return categories.length === 0 ? '' : categories.find((category) => category.id == cell).name;
     }
 
     formatValue(cell, row) {

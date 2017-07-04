@@ -57,7 +57,6 @@ describe('Category Actions', () => {
 					response: category
 
 				}).then(() => {
-					debugger;
 					expect(store.getActions()).to.deep.equal(expectedActions);
 					done();
 				})
@@ -181,8 +180,7 @@ describe('Category Actions', () => {
 
 				request.respondWith({
 					status: 204
-				}).then(() => {
-					debugger;
+				}).then(() => {					
 					expect(store.getActions()).to.deep.equal(expectedActions);
 					done();
 				})
