@@ -23,6 +23,7 @@ import {
 
 import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
 import CategorySelectPicker from './../../categories/components/CategorySelectPicker';
+import TransactionDescription from './TransactionDescription';
 
 class TransactionForm extends React.Component {
     constructor(props) {
@@ -97,13 +98,14 @@ class TransactionForm extends React.Component {
                     closeOnTab={true} />
             </HorizontalFormGroupError>
 
-            <HorizontalFormGroupError
-                id="description"
-                label="Descrição"
-                error={errors.description}
-                value={this.state.description}
-                onChange={this.handleChange}
-                maxLength="120" />
+            <HorizontalFormGroupError id="description" label="Descrição" error={errors.description}>
+                <TransactionDescription
+                    name="description"
+                    value={this.state.description}
+                    onChange={this.handleChange}
+                    maxLength="120"
+                />
+            </HorizontalFormGroupError>
 
             <HorizontalFormGroupError id="category" label="Categoria" error={errors.category}>
                 <CategorySelectPicker 

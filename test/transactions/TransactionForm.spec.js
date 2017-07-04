@@ -26,7 +26,7 @@ describe('TransactionForm', () => {
     describe('in any mode', () => {        
 
         const requiredFields = ["due_date", "value", "description", "category"];
-        const triggerReference = 'HorizontalFormGroupError[id="description"]';
+        const triggerReference = 'HorizontalFormGroupError[id="deadline"]';
 
         it('renders ok', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);
@@ -60,7 +60,7 @@ describe('TransactionForm', () => {
         it('submit button should be enabled when required fields are correctly filled', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);            
             const input = wrapper.find(triggerReference);
-            
+
             fillAllRequiredFields(input, requiredFields, { due_date: moment(new Date())});
 
             expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.false;

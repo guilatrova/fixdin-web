@@ -102,6 +102,7 @@
     "moment": "^2.18.1",
     "pug": "^2.0.0-beta3",
     "react": "^15.3.0",
+    "react-autocomplete": "^1.5.9",    
     "react-bootstrap-table": "^3.4.2",
     "react-currency-input": "^1.2.6",
     "react-datetime": "^2.8.10",
