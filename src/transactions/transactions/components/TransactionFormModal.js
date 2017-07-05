@@ -5,7 +5,7 @@ import TransactionForm from './TransactionForm';
 
 const TransactionFormModal = ({show, onHide, title, onSubmit, isFetching, errors, transaction, kind}) => {
     return (
-        <Modal show={show} onHide={onHide}>
+        <Modal show={show} onHide={onHide} backdrop="static">
             <Modal.Header closeButton>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>

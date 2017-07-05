@@ -152,6 +152,15 @@ class CategoryPage extends React.Component {
                                             onDelete={this.handleDelete} />
                                     </Col>
                                 </Row>
+
+                                <Row>
+                                    <Col xs={12}>
+                                        <ButtonGroup>
+                                            <Button bsStyle='primary' onClick={this.handleCreateCategory}>Nova</Button>
+                                            <Button bsStyle='blue' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
+                                        </ButtonGroup>
+                                    </Col>
+                                </Row>
                             </Grid>
                         </PanelBody>
                     </Panel>
