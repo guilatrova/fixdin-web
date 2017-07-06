@@ -36,7 +36,7 @@ class TransactionList extends React.Component {
         if (positiveValue[0] == '-') {
             positiveValue = cell.substring(1);
         }
-        return `R$ ${cell}`;
+        return `R$ ${positiveValue}`;
     }
 
     formatActionButtons(cell, row) {
