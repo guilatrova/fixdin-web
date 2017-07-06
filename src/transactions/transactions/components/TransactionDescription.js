@@ -65,7 +65,7 @@ class TransactionDescription extends React.Component {
         const escapedValue = value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         
         if (escapedValue === '') {
-            return this.props.descriptions;
+            return [];
         }
 
         const regex = new RegExp('^' + escapedValue, 'i');

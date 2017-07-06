@@ -63,33 +63,33 @@ class TransactionList extends React.Component {
     }
 
     //SORT
-    sortValue(a, b, order) {
-        const aValue = Number(a.value.replace(',', '.'));
-        const bValue = Number(b.value.replace(',', '.'));
+    sortValue(transactionOne, transactionTwo, order) {
+        const transactionOneValue = Number(transactionOne.value.replace(',', '.'));
+        const transactionTwoValue = Number(transactionTwo.value.replace(',', '.'));
         if (order === 'desc') {
-            return aValue - bValue;
+            return transactionOneValue - transactionTwoValue;
         }
         else {
-            return bValue - aValue;
+            return transactionTwoValue - transactionOneValue;
         }
     }
 
-    sortDate(a, b, order, field) {
-        a = a[field];
-        b = b[field];
+    sortDate(transactionOneDate, transactionTwoDate, order, field) {
+        transactionOneDate = transactionOneDate[field];
+        transactionTwoDate = transactionTwoDate[field];
 
-        if (moment.isMoment(a) && moment.isMoment(b)) {
+        if (moment.isMoment(transactionOneDate) && moment.isMoment(transactionTwoDate)) {
             if (order === 'desc')
-                return a.unix() - b.unix();
+                return transactionOneDate.unix() - transactionTwoDate.unix();
             else
-                return b.unix() - a.unix();
+                return transactionTwoDate.unix() - transactionOneDate.unix();
         }
 
-        if (moment.isMoment(a)) {
+        if (moment.isMoment(transactionOneDate)) {
             return (order === 'desc') ? -1 : 1;
         }
 
-        if (moment.isMoment(b)) {
+        if (moment.isMoment(transactionTwoDate)) {
             return (order === 'desc') ? 1 : -1;
         }
 
