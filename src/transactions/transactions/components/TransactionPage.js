@@ -25,6 +25,7 @@ import {
 import { EXPENSE } from '../../kinds';
 import TransactionList from './TransactionList';
 import TransactionFormModal from './TransactionFormModal';
+import * as saveOptions from './TransactionForm';
 import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
 import { 
     fetchTransactions,    
@@ -89,12 +90,19 @@ class TransactionPage extends React.Component {
         this.setState({ showTransactionFormModal: false });
     }
 
-    handleTransactionFormSubmit(transaction) {
+    handleTransactionFormSubmit(option, transaction) {
         const { kind } = this.props.route;
         this.props.onSubmit(transaction, kind).then(({result}) => {
             if (result == 'success') {
-                this.props.onFinishEdit();
-                this.setState({ showTransactionFormModal: false });
+
+                switch(option) {
+                    case saveOptions.CLOSE:
+                        this.setState({ showTransactionFormModal: false });
+
+                    default:
+                        this.props.onFinishEdit();
+                        break;
+                }
             }
         });
     }

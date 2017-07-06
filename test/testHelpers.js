@@ -38,7 +38,7 @@ export function fillAllRequiredFields(inputChangeTrigger, requiredFields, fields
     }
 }
 
-export function itSubmitButtonShouldBeDisabledWhenFieldIsBlank(wrapper, triggerReference, requiredFields, field) {
+export function itSubmitButtonShouldBeDisabledWhenFieldIsBlank(wrapper, triggerReference, requiredFields, field, howToFindButton = 'Button[type="submit"]') {
 
     it (`submit button should be disabled when ${field} is blank `, () => {        
         const input = wrapper.find(triggerReference);
@@ -52,7 +52,7 @@ export function itSubmitButtonShouldBeDisabledWhenFieldIsBlank(wrapper, triggerR
             }
         }
 
-        expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.true;
+        expect(wrapper.find(howToFindButton).prop('disabled')).to.be.true;
     });
 
 }

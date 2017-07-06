@@ -13,6 +13,8 @@ import {
   Panel,
   Checkbox,
   Button,
+  SplitHoverButton,
+  MenuItem,
   HelpBlock,
   PanelBody,
   ControlLabel,
@@ -25,11 +27,26 @@ import HorizontalFormGroupError from './../../../common/components/forms/Horizon
 import CategorySelectPicker from './../../categories/components/CategorySelectPicker';
 import TransactionDescription from './TransactionDescription';
 
+export const CLOSE = "CLOSE";
+export const NEW = "NEW";
+export const NEW_SAME_CATEGORY = "NEW_SAME_CATEGORY";
+
+const emptyTransaction = {
+    due_date: moment(new Date()),
+    description: '',
+    category: undefined,
+    value: '0,00',
+    deadline: '',
+    priority: '',
+    payment_date: undefined,
+    details: ''
+}
+
 class TransactionForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            ...this.props.transaction,            
+            ...this.props.transaction,
             errors: {},
         };
 
@@ -37,14 +54,21 @@ class TransactionForm extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);        
+        this.handleOptionSelected = this.handleOptionSelected.bind(this);        
     }
 
-    handleSubmit(e) {
-        e.preventDefault();        
-        this.props.onSubmit({
-            ...this.state
-        });
+    handleOptionSelected(key, e) {
+        this.props.onSubmit(key, {...this.state});
+
+        switch(key) {
+            case NEW:
+                this.setState({ ...emptyTransaction, errors: {} })
+                break;
+
+            case NEW_SAME_CATEGORY:
+                this.setState({ ...emptyTransaction, errors: {}, category: this.state.category })
+                break;
+        }
     }
 
     handleChange(e) {
@@ -86,7 +110,7 @@ class TransactionForm extends React.Component {
         const disabled = this.isSubmitDisabled();
 
         return (
-        <Form horizontal onSubmit={this.handleSubmit}>
+        <Form horizontal>
             
             <HorizontalFormGroupError id="due_date" label="Vencimento" error={errors.due_date} >
                 <DatetimeInput
@@ -160,7 +184,15 @@ class TransactionForm extends React.Component {
 
             <FormGroup>
                 <Col smOffset={2} sm={10} className='text-right'>
-                    <Button lg type='submit' bsStyle='primary' disabled={disabled}>Salvar</Button>
+
+                    <SplitHoverButton id="transaction-form-save-dropdown" bsStyle='primary' title="Salvar" disabled={disabled} 
+                        onClick={(e) => this.handleOptionSelected(CLOSE, e)} 
+                        onSelect={this.handleOptionSelected}>
+
+                        <MenuItem eventKey={NEW} disabled={disabled}>Salvar e novo</MenuItem>
+                        <MenuItem eventKey={NEW_SAME_CATEGORY} disabled={disabled}>Salvar e novo (manter categoria)</MenuItem>
+
+                    </SplitHoverButton>
                 </Col>
             </FormGroup>
 
@@ -179,13 +211,7 @@ TransactionForm.propTypes = {
 
 TransactionForm.defaultProps = {
     errors: { },
-    transaction: {
-        account: 0,
-        due_date: moment(new Date()),
-        description: '',
-        value: '0,00',
-        details: '',
-    }
+    transaction: emptyTransaction
 }
 
 export default TransactionForm;

@@ -22,6 +22,7 @@ describe('TransactionForm', () => {
         onSubmit: () => {},
         isFetching: false,
     }
+    const submitButton = '#transaction-form-save-dropdown';
 
     describe('in any mode', () => {        
 
@@ -42,11 +43,11 @@ describe('TransactionForm', () => {
         itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'details');
         itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'payment_date');
         
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'username');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'due_date');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'value');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'description');
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'category');
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'username', submitButton);
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'due_date', submitButton);
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'value', submitButton);
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'description', submitButton);
+        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'category', submitButton);
 
         it('submit button should be disabled when due_date is invalid', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);            
@@ -54,7 +55,7 @@ describe('TransactionForm', () => {
             
             fillAllRequiredFields(input, requiredFields);
 
-            expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.true;
+            expect(wrapper.find(submitButton).prop('disabled')).to.be.true;
         })
 
         it('submit button should be enabled when required fields are correctly filled', () => {
@@ -63,7 +64,7 @@ describe('TransactionForm', () => {
 
             fillAllRequiredFields(input, requiredFields, { due_date: moment(new Date())});
 
-            expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.false;
+            expect(wrapper.find(submitButton).prop('disabled')).to.be.false;
         })
 
         it('submit button is disabled when isFetching', () => {
@@ -72,21 +73,15 @@ describe('TransactionForm', () => {
 
             fillAllRequiredFields(input, requiredFields);
 
-            expect(wrapper.find('Button[type="submit"]').prop('disabled')).to.be.true;
+            expect(wrapper.find(submitButton).prop('disabled')).to.be.true;
         })
 
         it('should calls onSubmit', () => {
             let submitSpy = sinon.spy();
 
             const wrapper = shallow(<TransactionForm {...defaultProps} onSubmit={submitSpy} />);
-            wrapper.setState({
-                category: {
-                    value: 1
-                }
-            })
-            wrapper.simulate('submit', {
-                preventDefault: () => {}
-            });
+            
+            wrapper.find(submitButton).simulate('click');
 
             expect(submitSpy.called).to.be.true;
         })
