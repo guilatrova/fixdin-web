@@ -7,7 +7,7 @@ class TransactionDescription extends React.Component {
         super(props);
 
         this.state = {
-            suggestions: this.props.descriptions
+            suggestions: []
         }
 
         this.handleSelect = this.handleSelect.bind(this);
@@ -64,7 +64,8 @@ class TransactionDescription extends React.Component {
     getSuggestions(value) {
         const escapedValue = value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         
-        if (escapedValue === '') {
+        console.log("ESCAPED",escapedValue);
+        if (escapedValue === '') {            
             return [];
         }
 
