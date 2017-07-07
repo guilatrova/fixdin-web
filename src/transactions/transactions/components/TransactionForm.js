@@ -36,7 +36,7 @@ const emptyTransaction = {
     description: '',
     category: undefined,
     value: '0,00',
-    deadline: '',
+    deadline: undefined,
     priority: '',
     payment_date: undefined,
     details: ''
