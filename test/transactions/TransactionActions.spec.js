@@ -101,7 +101,19 @@ describe('Transaction Actions', () => {
 					done(`Actions arent equal: ${error}`);
 				});
 			});
-		})		
+		})
+		
+		it('should add query params when filters is passed', (done) => {
+			debugger;
+			store.dispatch(fetchTransactions(INCOME, { 'due_date_from': '2017-10-01', 'category': 1 }));
+
+			moxios.wait(() => {
+				let request = moxios.requests.mostRecent();
+
+				expect(request.url).to.have.string('?due_date_from=2017-10-01&category=1');
+				done();
+			});
+		})
 	})
 
 	describe(SAVE_TRANSACTION, () => {

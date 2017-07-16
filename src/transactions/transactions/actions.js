@@ -4,6 +4,7 @@ import { EXPENSE } from './../kinds';
 import createApi from '../../services/api';
 import handleError from '../../services/genericErrorHandler';
 import { formatDate, formatCurrency } from '../../services/formatter';
+import getQueryParams from '../../services/query';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
 export const SAVE_TRANSACTION = 'SAVE_TRANSACTION';
@@ -44,12 +45,14 @@ function receiveTransactions(result, data) {
     }
 }
 
-export function fetchTransactions(kind) {
+export function fetchTransactions(kind, filters = undefined) {
     return dispatch => {
         dispatch(requestTransactions());
         const api = createApi();
+        
+        const queryParams = getQueryParams(filters);
 
-        return api.get(kind.apiEndpoint)
+        return api.get(kind.apiEndpoint + queryParams)
             .then(response => response.data)
             .then((data) => {
                 dispatch(receiveTransactions('success', data));
