@@ -3,7 +3,7 @@ import moment from 'moment';
 import { EXPENSE } from './../kinds';
 import createApi from '../../services/api';
 import handleError from '../../services/genericErrorHandler';
-import { formatDate, formatCurrency } from '../../services/formatter';
+import { formatTransaction, formatDate, formatCurrency } from '../../services/formatter';
 import getQueryParams from '../../services/query';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
@@ -12,15 +12,6 @@ export const COPY_TRANSACTION = 'COPY_TRANSACTION';
 export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
 export const FINISH_EDIT_TRANSACTION = 'FINISH_EDIT_TRANSACTION';
 export const DELETE_TRANSACTION = 'DELETE_TRANSACTION';
-
-function formatDateAndValue(transaction) {
-    return {
-        ...transaction,
-        due_date: moment(transaction.due_date, 'YYYY-MM-DD'),
-        payment_date: transaction.payment_date ? moment(transaction.payment_date, 'YYYY-MM-DD') : undefined,
-        value: transaction.value.replace('.', ',')
-    }
-}
 
 //FETCH
 function requestTransactions() {
@@ -34,7 +25,7 @@ function receiveTransactions(result, data) {
         return {
             type: FETCH_TRANSACTIONS,
             result,
-            transactions: data.map(transaction => formatDateAndValue(transaction))
+            transactions: data.map(transaction => formatTransaction(transaction))
         }
     }
 
@@ -56,6 +47,7 @@ export function fetchTransactions(kind, filters = undefined) {
             .then(response => response.data)
             .then((data) => {
                 dispatch(receiveTransactions('success', data));
+                return data;
             })
             .catch(err => dispatch(receiveTransactions('fail', handleError(err))));
     }
@@ -73,7 +65,7 @@ function receiveSaveTransaction(result, data) {
         return {
             type: SAVE_TRANSACTION,
             result,
-            transaction: formatDateAndValue(data)
+            transaction: formatTransaction(data)
         }
     }
 

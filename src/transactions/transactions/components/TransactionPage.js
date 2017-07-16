@@ -25,6 +25,7 @@ import {
 import { EXPENSE } from '../../kinds';
 import TransactionList from './TransactionList';
 import TransactionFormModal from './TransactionFormModal';
+import TransactionFilter from './TransactionFilter';
 import * as saveOptions from './TransactionForm';
 import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
 import { 
@@ -41,6 +42,8 @@ import {
     finishEditCategory
 } from '../../categories/actions';
 
+import { formatTransaction } from '../../../services/formatter';
+
 class TransactionPage extends React.Component {
     constructor(props) {
         super(props);
@@ -52,6 +55,7 @@ class TransactionPage extends React.Component {
 
         //Fetch
         this.handleRefresh = this.handleRefresh.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
 
         //Create/Edit Modal
         this.handleCopy = this.handleCopy.bind(this);
@@ -144,15 +148,32 @@ class TransactionPage extends React.Component {
         });
     }
 
+    handleFilter(filters) {
+        if (filters) {
+            this.props.filter(this.props.route.kind, filters)
+                .then(filteredTransactions => {
+                    console.log(filteredTransactions);
+                    this.setState({ 
+                        filteredTransactions: filteredTransactions.map(transaction => formatTransaction(transaction)) 
+                    });
+                });
+            }
+        else {
+            this.setState({ filteredTransactions: undefined });
+        }
+    }
+
     render() {
         const { isFetching } = this.props;
         const { kind } = this.props.route;
-        const transactions = this.props.transactions.filter(transaction => transaction.kind === kind.id);
+        const transactions = this.state.filteredTransactions || this.props.transactions.filter(transaction => transaction.kind === kind.id);
         const categories = this.props.categories.filter(category => category.kind === kind.id);
 
         return (
             <div className="transaction-page">
                 <h1>{kind.text}</h1>
+                <TransactionFilter onFilter={this.handleFilter} />
+
                 <PanelContainer controls={false}>
                     <Panel>
                         <PanelBody>
@@ -238,6 +259,9 @@ const mapDispatchToProps = (dispatch) => {
         fetch: (kind) => {
             dispatch(fetchCategories(kind));
             dispatch(fetchTransactions(kind));            
+        },
+        filter: (kind, filters) => {
+            return dispatch(fetchTransactions(kind, filters));
         },
         onSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
         onDelete: (id, kind) => dispatch(deleteTransaction(id, kind)),
