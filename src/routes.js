@@ -28,7 +28,7 @@ function requireAuth(nextState, replace) {
   }
 }
 
-export default (  
+export default (
     <Router component={App}>
       <Route path='/login' component={LoginPage} />
       <Route path='/signup' component={SignupPage} />

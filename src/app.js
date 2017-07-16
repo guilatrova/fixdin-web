@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { MuiThemeProvider } from 'material-ui/styles'
 
 import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 import store from './store';
@@ -10,9 +11,11 @@ import Sidebar from './common/components/Sidebar';
 export class App extends React.Component {
     render() {
         return (
+          <MuiThemeProvider>
             <Provider store={store}>
                 {this.props.children}
             </Provider>
+          </MuiThemeProvider>
         );
     }
 }
