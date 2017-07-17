@@ -29,7 +29,7 @@ import TransactionFilter from './TransactionFilter';
 import * as saveOptions from './TransactionForm';
 import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
 import { 
-    fetchTransactions,    
+    fetchTransactions,
     saveTransaction, 
     editTransaction,
     copyTransaction,
@@ -190,14 +190,13 @@ class TransactionPage extends React.Component {
                                 <Row>
 
                                     <Col xs={12}>
-                                        <TransactionList
+                                        <TransactionList 
                                             transactions={transactions} 
                                             categories={categories}
-                                            isFetching={isFetching}
                                             onEdit={this.handleEdit}
                                             onDelete={this.handleDelete}
-                                            onCopy={this.handleCopy}
-                                            />
+                                            onCopy={this.handleCopy} />
+                   
                                     </Col>
 
                                 </Row>
