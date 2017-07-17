@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Table, {
   TableBody,
@@ -28,8 +29,8 @@ const columnData = [
     { id: 'value', numeric: true, label: 'Valor' },
     { id: 'deadline', numeric: true, label: 'Prazo' },
     { id: 'priority', numeric: true, label: 'Prioridade' },
-    { id: 'payment_date', numeric: true, label: 'Pago em' },
-    { id: 'actions', numeric: true, label: 'Ações' }
+    { id: 'payment_date', numeric: false, label: 'Pago em' },
+    { id: 'actions', numeric: false, label: '', disablePadding: true }
 ];
 
 const styleSheet = createStyleSheet('TransactionList', theme => ({
@@ -39,6 +40,50 @@ const styleSheet = createStyleSheet('TransactionList', theme => ({
     overflowX: 'auto',
   },
 }));
+
+function sortAlphabetically(a, b, order) {
+    if (order === 'desc') 
+        return b > a;
+    
+    return a > b;
+}
+
+function sortNumeric(a, b, order) {
+    const transactionOneValue = Number(a.replace(',', '.'));
+    const transactionTwoValue = Number(b.replace(',', '.'));
+    if (order === 'desc') {
+        return transactionOneValue - transactionTwoValue;
+    }
+    else {
+        return transactionTwoValue - transactionOneValue;
+    }
+}
+
+function sortCategory(a, b, order, categories) {    
+    const catA = categories.find((category) => category.id == a).name;
+    const catB = categories.find((category) => category.id == b).name;
+
+    return sortAlphabetically(catA, catB, order);
+}
+
+function sortDate(transactionOneDate, transactionTwoDate, order) {
+    if (moment.isMoment(transactionOneDate) && moment.isMoment(transactionTwoDate)) {
+        if (order === 'desc')
+            return transactionOneDate.unix() - transactionTwoDate.unix();
+        else
+            return transactionTwoDate.unix() - transactionOneDate.unix();
+    }
+
+    if (moment.isMoment(transactionOneDate)) {
+        return (order === 'desc') ? -1 : 1;
+    }
+
+    if (moment.isMoment(transactionTwoDate)) {
+        return (order === 'desc') ? 1 : -1;
+    }
+
+    return 0;
+}
 
 class TransactionList extends React.Component {
     constructor(props) {
@@ -51,6 +96,7 @@ class TransactionList extends React.Component {
         };
 
         this.formatCategory = this.formatCategory.bind(this);
+        this.handleRequestSort = this.handleRequestSort.bind(this);
     }
 
     formatDate(cell) {
@@ -78,9 +124,25 @@ class TransactionList extends React.Component {
             order = 'asc';
         }
 
-        const sortedData = this.props.transactions.sort(
-            (a, b) => (order === 'desc' ? b[orderBy] > a[orderBy] : a[orderBy] > b[orderBy]),
-        );
+        let sortedData = [];
+        switch(orderBy) {
+            case 'due_date':
+            case 'payment_date':
+                sortedData = this.props.transactions.sort((a, b) => sortDate(a[orderBy], b[orderBy], order));
+                break;
+
+            case 'value':
+                sortedData = this.props.transactions.sort((a, b) => sortNumeric(a[orderBy], b[orderBy], order));
+                break;
+
+            case 'category':
+                sortedData = this.props.transactions.sort((a, b) => sortCategory(a[orderBy], b[orderBy], order, this.props.categories));
+                break;
+
+            default:
+                sortedData = this.props.transactions.sort((a, b) => sortAlphabetically(a[orderBy], b[orderBy], order));
+                break;
+        }         
 
         this.setState({ sortedData, order, orderBy });
     };
@@ -115,7 +177,7 @@ class TransactionList extends React.Component {
                     <TableCell>
                         {this.formatDate(transaction.payment_date)}
                     </TableCell>
-                    <TableCell disablePadding>
+                    <TableCell disablePadding={true}>
                         <CollapsibleMenu>
                             <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
                             <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
