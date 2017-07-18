@@ -13,7 +13,6 @@ import {
   PanelContainer,  
   Checkbox,
   Table,
-  Button,
   ButtonGroup,
   PanelBody,
   ControlLabel,
@@ -27,7 +26,7 @@ import TransactionTable from './TransactionTable';
 import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from './TransactionFilter';
 import * as saveOptions from './TransactionForm';
-import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from 'ConfirmDeleteModal';
 import { 
     fetchTransactions,
     saveTransaction, 
@@ -37,12 +36,17 @@ import {
     finishEditTransaction 
 } from '../actions';
 
+import Button from 'material-ui/Button';
+import AddIcon from 'material-ui-icons/Add';
+import FloatingActionButton from 'FloatingActionButton';
+
 import {
     fetchCategories,
     finishEditCategory
 } from '../../categories/actions';
 
-import { formatTransaction } from '../../../services/formatter';
+import { formatTransaction } from 'formatter';
+
 
 class TransactionPage extends React.Component {
     constructor(props) {
@@ -180,10 +184,7 @@ class TransactionPage extends React.Component {
                             <Grid>
                                 <Row>
                                     <Col xs={12}>
-                                        <ButtonGroup>
-                                            <Button bsStyle='primary' onClick={this.handleCreateTransaction}>Nova</Button>
-                                            <Button bsStyle='blue' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
-                                        </ButtonGroup>
+                                        <Button color='accent' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
                                     </Col>
                                 </Row>
                                 
@@ -203,10 +204,7 @@ class TransactionPage extends React.Component {
 
                                 <Row>
                                     <Col xs={12}>
-                                        <ButtonGroup>
-                                            <Button bsStyle='primary' onClick={this.handleCreateTransaction}>Nova</Button>
-                                            <Button bsStyle='blue' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
-                                        </ButtonGroup>
+                                        <Button color='accent' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
                                     </Col>
                                 </Row>
                             </Grid>
@@ -233,6 +231,10 @@ class TransactionPage extends React.Component {
 
                     Tem certeza que deseja deletar esta {kind.text}?
                 </ConfirmDeleteModal>
+
+                <FloatingActionButton color="primary" onClick={this.handleCreateTransaction}>                
+                    <AddIcon />
+                </FloatingActionButton>
 
             </div>
         )

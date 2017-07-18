@@ -43,7 +43,10 @@ module.exports = {
   resolve: {
     modulesDirectories: [
       "src",
+      "src/common/components",
       "src/common/components/material",
+      "src/common/components/modals",
+      "src/services",
       "sass",
       "public",
       "node_modules"
