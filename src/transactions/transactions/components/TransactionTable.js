@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Table, {
   TableBody,
@@ -13,22 +12,38 @@ import Table, {
   TableRow,
   TableSortLabel,
 } from 'material-ui/Table';
-import { MenuItem } from 'material-ui/Menu';
+
 import Paper from 'material-ui/Paper';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import { MenuItem } from 'material-ui/Menu';
+
+import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
+import FilterListIcon from 'material-ui-icons/FilterList';
+import RefreshIcon from 'material-ui-icons/Refresh';
 
 import TableSort from 'TableSort';
 import DataColumn from 'DataColumn';
 import CollapsibleMenu from 'CollapsibleMenu';
 
 const styleSheet = createStyleSheet('TransactionTable', theme => ({
-  paper: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
+    paper: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+        overflowX: 'auto',
+    },
+    spacer: {
+        flex: '1 1 50%',
+    },
+    actions: {
+        color: theme.palette.text.secondary,
+    },
+    title: {
+        flex: '0 0 auto',
+    }
 }));
 
 class TransactionTable extends React.Component {
@@ -97,10 +112,20 @@ class TransactionTable extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, title, children, onRefresh, onFilter } = this.props;
 
         return (
             <Paper className={classes.paper}>
+                <Toolbar>
+                    <div className={classes.title}>
+                        <Typography type="title">{title}</Typography>
+                    </div>
+                    <div className={classes.spacer} />
+                    <div className={classes.actions}>
+                        <IconButton aria-label="Refresh" onClick={onRefresh}><RefreshIcon /></IconButton>
+                        <IconButton aria-label="Filter list" onClick={onFilter}><FilterListIcon /></IconButton>
+                    </div>
+                </Toolbar>
                 <TableSort data={this.props.transactions}>
                     <DataColumn sortable field="due_date" onRender={this.formatDate}>Vencimento</DataColumn>
                     <DataColumn sortable field="description">Descrição</DataColumn>

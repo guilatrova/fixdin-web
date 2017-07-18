@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import MoreVertIcon from 'material-ui-icons/MoreVert';
 
@@ -29,9 +29,9 @@ class CollapsibleMenu extends React.Component {
 
         return (
             <div>
-                <Button aria-owns="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+                <IconButton aria-owns="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
                     <MoreVertIcon />
-                </Button>
+                </IconButton>
                 <Menu
                     anchorEl={this.state.anchorEl}
                     open={this.state.open}

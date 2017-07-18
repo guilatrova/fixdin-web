@@ -172,6 +172,7 @@ class TransactionPage extends React.Component {
         const { kind } = this.props.route;
         const transactions = this.state.filteredTransactions || this.props.transactions.filter(transaction => transaction.kind === kind.id);
         const categories = this.props.categories.filter(category => category.kind === kind.id);
+        const title = kind.id === EXPENSE.id ? 'Despesas' : 'Receitas';
 
         return (
             <div className="transaction-page">
@@ -181,32 +182,22 @@ class TransactionPage extends React.Component {
                 <PanelContainer controls={false}>
                     <Panel>
                         <PanelBody>
-                            <Grid>
-                                <Row>
-                                    <Col xs={12}>
-                                        <Button color='accent' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
-                                    </Col>
-                                </Row>
-                                
+                            <Grid>                                
                                 <Row>
 
                                     <Col xs={12}>
                                         <TransactionTable
+                                            title={title}
                                             transactions={transactions} 
                                             categories={categories}
+                                            onRefresh={this.handleRefresh}
                                             onEdit={this.handleEdit}
                                             onDelete={this.handleDelete}
                                             onCopy={this.handleCopy} />
-                   
                                     </Col>
 
                                 </Row>
-
-                                <Row>
-                                    <Col xs={12}>
-                                        <Button color='accent' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
-                                    </Col>
-                                </Row>
+                                
                             </Grid>
                         </PanelBody>
                     </Panel>
