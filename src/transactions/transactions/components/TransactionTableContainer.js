@@ -16,6 +16,8 @@ const styleSheet = createStyleSheet('TransactionTableContainer', theme => ({
         width: '100%',
         marginTop: theme.spacing.unit * 3,
         marginBottom: theme.spacing.unit * 6,
+    },
+    table: {
         overflowX: 'auto',
     },
     spacer: {
@@ -47,7 +49,9 @@ const TransactionTableContainer = ({ classes, title, children, onRefresh, onFilt
                 {children}
             </div>
 
-            <TransactionTable classes={classes} {...other} />
+            <div className={classes.table}>
+                <TransactionTable classes={classes} {...other} />
+            </div>
         </Paper>
     );
 }
