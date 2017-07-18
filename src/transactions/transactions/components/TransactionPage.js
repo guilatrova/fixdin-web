@@ -22,7 +22,7 @@ import {
 } from '@sketchpixy/rubix';
 
 import { EXPENSE } from '../../kinds';
-import TransactionTable from './TransactionTable';
+import TransactionTableContainer from './TransactionTableContainer';
 import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from './TransactionFilter';
 import * as saveOptions from './TransactionForm';
@@ -176,9 +176,6 @@ class TransactionPage extends React.Component {
 
         return (
             <div className="transaction-page">
-                <h1>{kind.text}</h1>
-                <TransactionFilter onFilter={this.handleFilter} />
-
                 <PanelContainer controls={false}>
                     <Panel>
                         <PanelBody>
@@ -186,14 +183,18 @@ class TransactionPage extends React.Component {
                                 <Row>
 
                                     <Col xs={12}>
-                                        <TransactionTable
+                                        <TransactionTableContainer
                                             title={title}
                                             transactions={transactions} 
                                             categories={categories}
                                             onRefresh={this.handleRefresh}
                                             onEdit={this.handleEdit}
                                             onDelete={this.handleDelete}
-                                            onCopy={this.handleCopy} />
+                                            onCopy={this.handleCopy}>
+
+                                            <TransactionFilter onFilter={this.handleFilter} />
+                                            
+                                        </TransactionTableContainer>
                                     </Col>
 
                                 </Row>
