@@ -19,7 +19,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
 
-import SortableColumns from '../../../common/components/material/SortableColumns';
+import { DataColumn, SortableTable } from '../../../common/components/material/SortableColumns';
 import CollapsibleMenu from '../../../common/components/material/CollapsibleMenu';
 
 const columnData = [
@@ -48,43 +48,6 @@ function sortAlphabetically(a, b, order) {
     return a > b;
 }
 
-function sortNumeric(a, b, order) {
-    const transactionOneValue = Number(a.replace(',', '.'));
-    const transactionTwoValue = Number(b.replace(',', '.'));
-    if (order === 'desc') {
-        return transactionOneValue - transactionTwoValue;
-    }
-    else {
-        return transactionTwoValue - transactionOneValue;
-    }
-}
-
-function sortCategory(a, b, order, categories) {    
-    const catA = categories.find((category) => category.id == a).name;
-    const catB = categories.find((category) => category.id == b).name;
-
-    return sortAlphabetically(catA, catB, order);
-}
-
-function sortDate(transactionOneDate, transactionTwoDate, order) {
-    if (moment.isMoment(transactionOneDate) && moment.isMoment(transactionTwoDate)) {
-        if (order === 'desc')
-            return transactionOneDate.unix() - transactionTwoDate.unix();
-        else
-            return transactionTwoDate.unix() - transactionOneDate.unix();
-    }
-
-    if (moment.isMoment(transactionOneDate)) {
-        return (order === 'desc') ? -1 : 1;
-    }
-
-    if (moment.isMoment(transactionTwoDate)) {
-        return (order === 'desc') ? 1 : -1;
-    }
-
-    return 0;
-}
-
 class TransactionList extends React.Component {
     constructor(props) {
         super(props);
@@ -96,19 +59,24 @@ class TransactionList extends React.Component {
         };
 
         this.formatCategory = this.formatCategory.bind(this);
-        this.handleRequestSort = this.handleRequestSort.bind(this);
+        this.formatOptions = this.formatOptions.bind(this);
+        this.sortCategory = this.sortCategory.bind(this);
     }
 
-    formatDate(cell) {
+    //Format
+    formatDate(row, field) {
+        const cell = row[field];
         return cell ? cell.format('DD/MM/YYYY') : 'NÃO PAGO';
     }
 
-    formatCategory(cell) {
-        const {categories} = this.props;
+    formatCategory(row, field) {
+        const cell = row[field];
+        const { categories } = this.props;
         return categories.length === 0 ? '' : categories.find((category) => category.id == cell).name;
     }
 
-    formatValue(cell) {
+    formatValue(row, field) {
+        const cell = row[field];
         let positiveValue = cell;
         if (positiveValue[0] == '-') {
             positiveValue = cell.substring(1);
@@ -116,97 +84,71 @@ class TransactionList extends React.Component {
         return `R$ ${positiveValue}`;
     }
 
-    handleRequestSort = (event, property) => {
-        const orderBy = property;
-        let order = 'desc';
+    formatOptions(transaction) {
+        const { onEdit, onDelete, onCopy } = this.props;
 
-        if (this.state.orderBy === property && this.state.order === 'desc') {
-            order = 'asc';
+        return (
+            <CollapsibleMenu>
+                <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
+                <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
+                <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
+            </CollapsibleMenu>
+        );
+    }
+
+    //Sort
+    sortValue(a, b, order) {
+        const transactionOneValue = Number(a.replace(',', '.'));
+        const transactionTwoValue = Number(b.replace(',', '.'));
+        if (order === 'desc') {
+            return transactionOneValue - transactionTwoValue;
         }
+        else {
+            return transactionTwoValue - transactionOneValue;
+        }
+    }
 
-        let sortedData = [];
-        switch(orderBy) {
-            case 'due_date':
-            case 'payment_date':
-                sortedData = this.props.transactions.sort((a, b) => sortDate(a[orderBy], b[orderBy], order));
-                break;
+    sortCategory(a, b, order) {
+        const { categories } = this.props;
+        const catA = categories.find((category) => category.id == a).name;
+        const catB = categories.find((category) => category.id == b).name;
 
-            case 'value':
-                sortedData = this.props.transactions.sort((a, b) => sortNumeric(a[orderBy], b[orderBy], order));
-                break;
-
-            case 'category':
-                sortedData = this.props.transactions.sort((a, b) => sortCategory(a[orderBy], b[orderBy], order, this.props.categories));
-                break;
-
-            default:
-                sortedData = this.props.transactions.sort((a, b) => sortAlphabetically(a[orderBy], b[orderBy], order));
-                break;
-        }         
-
-        this.setState({ sortedData, order, orderBy });
-    };
+        return sortAlphabetically(catA, catB, order);
+    }
 
     render() {
         const { onEdit, onDelete, onCopy, classes } = this.props;
-        const { order, orderBy } = this.state;
-        const data = this.props.transactions;
 
-        const rows = data.map(transaction => {
-            return (
-                <TableRow hover tabIndex="-1" key={transaction.id}>
+        return (
+            <Paper className={classes.paper}>
+                <SortableTable data={this.props.transactions}>
+                    <DataColumn field="due_date" onRender={this.formatDate}>Vencimento</DataColumn>
+                    <DataColumn field="description">Descrição</DataColumn>
 
-                    <TableCell>
-                        {this.formatDate(transaction.due_date)}
-                    </TableCell>
-                    <TableCell>
-                        {transaction.description}
-                    </TableCell>
-                    <TableCell>
-                        {this.formatCategory(transaction.category)}
-                    </TableCell>
-                    <TableCell numeric>
-                        {this.formatValue(transaction.value)}
-                    </TableCell>
-                    <TableCell numeric>
-                        {transaction.deadline}
-                    </TableCell>
-                    <TableCell numeric>
-                        {transaction.priority}
-                    </TableCell>
-                    <TableCell>
-                        {this.formatDate(transaction.payment_date)}
-                    </TableCell>
-                    <TableCell disablePadding={true}>
-                        <CollapsibleMenu>
-                            <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
-                            <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
-                            <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
-                        </CollapsibleMenu>
-                    </TableCell>
+                    <DataColumn 
+                        field="category" 
+                        onRender={this.formatCategory}
+                        onSort={this.sortCategory}>
+                        
+                        Categoria
+                    </DataColumn>
 
-                </TableRow>
+                    <DataColumn 
+                        field="value" 
+                        onRender={this.formatValue}
+                        onSort={this.sortValue}>
+                        
+                        Valor
+                    </DataColumn>
+
+                    <DataColumn field="deadline">Prazo</DataColumn>
+                    <DataColumn field="priority">Prioridade</DataColumn>
+                    <DataColumn field="payment_date" onRender={this.formatDate}>Pago em</DataColumn>
+                    <DataColumn onRender={this.formatOptions} disablePadding />
+                </SortableTable>
+            </Paper>
         );
-    });
-
-    return (
-      <Paper className={classes.paper}>
-        <Table>
-          <SortableColumns
-            columns={columnData}
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={this.handleRequestSort}
-          />
-
-          <TableBody>
-            {rows}
-          </TableBody>
-
-        </Table>
-      </Paper>
-    );
-  }
+    }
 }
 
 TransactionList.propTypes = {
