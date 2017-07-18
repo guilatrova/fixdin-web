@@ -54,11 +54,15 @@ class TransactionPage extends React.Component {
 
         this.state = {
             showTransactionFormModal: false,
-            showTransactionDeleteModal: false
+            showTransactionDeleteModal: false,
+            showFilterForm: false
         };            
 
         //Fetch
         this.handleRefresh = this.handleRefresh.bind(this);
+
+        //Filter
+        this.handleShowFilter = this.handleShowFilter.bind(this);
         this.handleFilter = this.handleFilter.bind(this);
 
         //Create/Edit Modal
@@ -152,6 +156,10 @@ class TransactionPage extends React.Component {
         });
     }
 
+    handleShowFilter() {
+        this.setState({ showFilterForm: !this.state.showFilterForm });
+    }
+
     handleFilter(filters) {
         if (filters) {
             this.props.filter(this.props.route.kind, filters)
@@ -187,13 +195,16 @@ class TransactionPage extends React.Component {
                                             title={title}
                                             transactions={transactions} 
                                             categories={categories}
+                                            isFetching={isFetching}
+                                            onFilter={this.handleShowFilter}
                                             onRefresh={this.handleRefresh}
                                             onEdit={this.handleEdit}
                                             onDelete={this.handleDelete}
                                             onCopy={this.handleCopy}>
 
-                                            <TransactionFilter onFilter={this.handleFilter} />
-                                            
+                                            {this.state.showFilterForm && 
+                                                <TransactionFilter onFilter={this.handleFilter} isFetching={isFetching} />}
+
                                         </TransactionTableContainer>
                                     </Col>
 

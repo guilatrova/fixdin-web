@@ -15,6 +15,7 @@ const styleSheet = createStyleSheet('TransactionTableContainer', theme => ({
     paper: {
         width: '100%',
         marginTop: theme.spacing.unit * 3,
+        marginBottom: theme.spacing.unit * 6,
         overflowX: 'auto',
     },
     spacer: {
@@ -28,7 +29,7 @@ const styleSheet = createStyleSheet('TransactionTableContainer', theme => ({
     }
 }));
 
-const TransactionTableContainer = ({ classes, title, children, onRefresh, onFilter, ...other }) => {
+const TransactionTableContainer = ({ classes, title, children, onRefresh, onFilter, isFetching, ...other }) => {
     return (
         <Paper className={classes.paper}>
             <Toolbar>
@@ -37,10 +38,15 @@ const TransactionTableContainer = ({ classes, title, children, onRefresh, onFilt
                 </div>
                 <div className={classes.spacer} />
                 <div className={classes.actions}>
-                    <IconButton aria-label="Refresh" onClick={onRefresh}><RefreshIcon /></IconButton>
+                    <IconButton aria-label="Refresh" onClick={onRefresh} disabled={isFetching}><RefreshIcon /></IconButton>
                     <IconButton aria-label="Filter list" onClick={onFilter}><FilterListIcon /></IconButton>
                 </div>
             </Toolbar>
+
+            <div>
+                {children}
+            </div>
+
             <TransactionTable classes={classes} {...other} />
         </Paper>
     );

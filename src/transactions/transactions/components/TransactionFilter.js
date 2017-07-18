@@ -52,19 +52,22 @@ class TransactionFilter extends React.Component {
     }
 
     handleClear(e) {
+        this.setState({
+            raw: {}
+        })
         this.props.onFilter(undefined);
     }
 
     render() {
         return (
             <Form inline>
-                <FormGroup controlId="due_date-filter">
+                <FormGroup controlId="due_date_from-filter">
                     <ControlLabel>Vencimento de</ControlLabel>
                     {' '}
                     <DatetimeInput
                         timeFormat={false}
-                        onChange={(value) => this.handleDateChange('due_date', value)}
-                        value={this.state.raw.due_date}
+                        onChange={(value) => this.handleDateChange('due_date_from', value)}
+                        value={this.state.raw.due_date_from}
                         closeOnSelect={true}
                         closeOnTab={true} />
                 </FormGroup>
@@ -83,7 +86,7 @@ class TransactionFilter extends React.Component {
                 </FormGroup>
 
 
-                <Button onClick={this.handleClick}>Filtrar</Button>
+                <Button onClick={this.handleClick} disabled={this.props.isFetching}>Filtrar</Button>
                 <Button onClick={this.handleClear}>Limpar</Button>
             </Form>
         );
@@ -91,7 +94,8 @@ class TransactionFilter extends React.Component {
 }
 
 TransactionFilter.propTypes = {
-    onFilter: PropTypes.func.isRequired
+    onFilter: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired
 }
 
 export default TransactionFilter;
