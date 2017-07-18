@@ -23,7 +23,7 @@ import {
 } from '@sketchpixy/rubix';
 
 import { EXPENSE } from '../../kinds';
-import TransactionList from './TransactionList';
+import TransactionTable from './TransactionTable';
 import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from './TransactionFilter';
 import * as saveOptions from './TransactionForm';
@@ -190,7 +190,7 @@ class TransactionPage extends React.Component {
                                 <Row>
 
                                     <Col xs={12}>
-                                        <TransactionList 
+                                        <TransactionTable
                                             transactions={transactions} 
                                             categories={categories}
                                             onEdit={this.handleEdit}

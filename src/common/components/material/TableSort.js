@@ -9,39 +9,7 @@ import Table, {
   TableSortLabel,
 } from 'material-ui/Table';
 
-function defaultOnRender(row, field) {
-    return row[field];
-}
-
-function defaultOnSort(a, b, order) {
-   if (order === 'desc') 
-        return b > a;
-    
-    return a > b;
-}
-
-export class DataColumn extends React.Component {
-    static propTypes = {
-        children: PropTypes.string,
-        field: PropTypes.string,
-        onRender: PropTypes.func.isRequired,
-
-        sortable: PropTypes.bool.isRequired,
-        onSort: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
-        sortable: false,
-        onRender: defaultOnRender,
-        onSort: defaultOnSort
-    }
-    
-    render () {
-        return null;
-    }
-}
-
-export class SortableTable extends React.Component {
+export default class TableSort extends React.Component {
     static propTypes = {
         data: PropTypes.array.isRequired,
         key: PropTypes.string.isRequired
@@ -69,26 +37,28 @@ export class SortableTable extends React.Component {
     }
 
     handleHeaderClick(column) {
-        const { field } = column.props;
-        let order = this.state.order;
+        const { field, sortable } = column.props;
 
-        if (field == this.state.orderBy) {
-            order = (order === 'asc' ? 'desc' : 'asc');
+        if (sortable) {
+            let order = this.state.order;
+
+            if (field == this.state.orderBy) {
+                order = (order === 'asc' ? 'desc' : 'asc');
+            }
+            else {
+                order = 'asc';
+            }
+
+            this.setState({
+                orderBy: field,
+                order
+            });
+            
+            this.sort(field, order);
         }
-        else {
-            order = 'asc';
-        }
-
-        this.setState({
-            orderBy: field,
-            order
-        });
-
-        this.sort();
     }
 
-    sort() {
-        const { orderBy, order } = this.state;
+    sort(orderBy, order) {
         if (orderBy) {
             const sortFunc = React.Children.toArray(this.props.children).find(column => column.props.field == orderBy).props.onSort;
 

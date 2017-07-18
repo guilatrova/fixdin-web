@@ -19,21 +19,11 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
 
-import { DataColumn, SortableTable } from '../../../common/components/material/SortableColumns';
-import CollapsibleMenu from '../../../common/components/material/CollapsibleMenu';
+import TableSort from 'TableSort';
+import DataColumn from 'DataColumn';
+import CollapsibleMenu from 'CollapsibleMenu';
 
-const columnData = [
-    { id: 'due_date', numeric: false, label: 'Vencimento' },
-    { id: 'description', numeric: false, label: 'Descrição' },
-    { id: 'category', numeric: false, label: 'Categoria' },
-    { id: 'value', numeric: true, label: 'Valor' },
-    { id: 'deadline', numeric: true, label: 'Prazo' },
-    { id: 'priority', numeric: true, label: 'Prioridade' },
-    { id: 'payment_date', numeric: false, label: 'Pago em' },
-    { id: 'actions', numeric: false, label: '', disablePadding: true }
-];
-
-const styleSheet = createStyleSheet('TransactionList', theme => ({
+const styleSheet = createStyleSheet('TransactionTable', theme => ({
   paper: {
     width: '100%',
     marginTop: theme.spacing.unit * 3,
@@ -41,22 +31,9 @@ const styleSheet = createStyleSheet('TransactionList', theme => ({
   },
 }));
 
-function sortAlphabetically(a, b, order) {
-    if (order === 'desc') 
-        return b > a;
-    
-    return a > b;
-}
-
-class TransactionList extends React.Component {
+class TransactionTable extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            order: 'asc',
-            orderBy: 'due_date',
-            sortedData: []
-        };
 
         this.formatCategory = this.formatCategory.bind(this);
         this.formatOptions = this.formatOptions.bind(this);
@@ -98,13 +75,13 @@ class TransactionList extends React.Component {
 
     //Sort
     sortValue(a, b, order) {
-        const transactionOneValue = Number(a.replace(',', '.'));
-        const transactionTwoValue = Number(b.replace(',', '.'));
+        const aValue = Number(a.replace(',', '.'));
+        const bValue = Number(b.replace(',', '.'));
         if (order === 'desc') {
-            return transactionOneValue - transactionTwoValue;
+            return aValue - bValue;
         }
         else {
-            return transactionTwoValue - transactionOneValue;
+            return bValue - aValue;
         }
     }
 
@@ -113,19 +90,23 @@ class TransactionList extends React.Component {
         const catA = categories.find((category) => category.id == a).name;
         const catB = categories.find((category) => category.id == b).name;
 
-        return sortAlphabetically(catA, catB, order);
+        if (order === 'desc') 
+            return catB > catA;
+    
+        return catA > catB;
     }
 
     render() {
-        const { onEdit, onDelete, onCopy, classes } = this.props;
+        const { classes } = this.props;
 
         return (
             <Paper className={classes.paper}>
-                <SortableTable data={this.props.transactions}>
-                    <DataColumn field="due_date" onRender={this.formatDate}>Vencimento</DataColumn>
-                    <DataColumn field="description">Descrição</DataColumn>
+                <TableSort data={this.props.transactions}>
+                    <DataColumn sortable field="due_date" onRender={this.formatDate}>Vencimento</DataColumn>
+                    <DataColumn sortable field="description">Descrição</DataColumn>
 
                     <DataColumn 
+                        sortable
                         field="category" 
                         onRender={this.formatCategory}
                         onSort={this.sortCategory}>
@@ -133,7 +114,8 @@ class TransactionList extends React.Component {
                         Categoria
                     </DataColumn>
 
-                    <DataColumn 
+                    <DataColumn
+                        sortable numeric 
                         field="value" 
                         onRender={this.formatValue}
                         onSort={this.sortValue}>
@@ -141,20 +123,23 @@ class TransactionList extends React.Component {
                         Valor
                     </DataColumn>
 
-                    <DataColumn field="deadline">Prazo</DataColumn>
-                    <DataColumn field="priority">Prioridade</DataColumn>
-                    <DataColumn field="payment_date" onRender={this.formatDate}>Pago em</DataColumn>
+                    <DataColumn sortable numeric field="deadline">Prazo</DataColumn>
+                    <DataColumn sortable numeric field="priority">Prioridade</DataColumn>
+                    <DataColumn sortable field="payment_date" onRender={this.formatDate}>Pago em</DataColumn>
                     <DataColumn onRender={this.formatOptions} disablePadding />
-                </SortableTable>
+                </TableSort>
             </Paper>
         );
     }
 }
 
-TransactionList.propTypes = {
+TransactionTable.propTypes = {
     classes: PropTypes.object.isRequired,
     transactions: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onCopy: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
 };
 
-export default withStyles(styleSheet)(TransactionList);
+export default withStyles(styleSheet)(TransactionTable);

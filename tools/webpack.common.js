@@ -36,10 +36,14 @@ module.exports = {
       },
     ]
   },
+  alias: {
+
+  },
   progress: true,
   resolve: {
     modulesDirectories: [
       "src",
+      "src/common/components/material",
       "sass",
       "public",
       "node_modules"
