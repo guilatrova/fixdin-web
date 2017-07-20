@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import DatetimeInput from 'react-datetime';
 import CurrencyInput from 'react-currency-input';
