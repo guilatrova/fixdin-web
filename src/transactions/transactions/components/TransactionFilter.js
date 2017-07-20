@@ -29,8 +29,10 @@ class TransactionFilter extends React.Component {
         super(props);
 
         this.state = {
+            payed: -1,
             raw: {}
         }
+        this.handleChange = this.handleChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleClear = this.handleClear.bind(this);
@@ -44,6 +46,10 @@ class TransactionFilter extends React.Component {
                 [id]: value
             }
         });
+    }
+
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     handleClick(e) {
@@ -85,6 +91,27 @@ class TransactionFilter extends React.Component {
                         closeOnTab={true} />
                 </FormGroup>
 
+                {' '}
+
+                <FormGroup controlId="category-filter">
+                    <ControlLabel>Categoria</ControlLabel>
+                    {' '}
+                    <FormControl                        
+                        name="category"
+                        onChange={this.handleChange}
+                        value={this.state.category} />
+                </FormGroup>
+
+                {' '}
+
+                <FormGroup controlId="payed-filter">
+                    <ControlLabel>Pago?</ControlLabel>
+                    <FormControl name="payed" componentClass="select" value={this.state.payed} onChange={this.handleChange}>
+                        <option value="-1">-</option>
+                        <option value="0">NÃO</option>
+                        <option value="1">SIM</option>
+                    </FormControl>
+                </FormGroup>
 
                 <Button onClick={this.handleClick} disabled={this.props.isFetching}>Filtrar</Button>
                 <Button onClick={this.handleClear}>Limpar</Button>

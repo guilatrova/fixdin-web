@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Table, {
   TableBody,
   TableCell,
@@ -82,10 +83,31 @@ class TransactionTable extends React.Component {
         return catA > catB;
     }
 
+    sortDate(transactionOneDate, transactionTwoDate, order) {
+        if (moment.isMoment(transactionOneDate) && moment.isMoment(transactionTwoDate)) { 
+        if (order === 'desc') 
+            return transactionOneDate.unix() - transactionTwoDate.unix(); 
+        else 
+            return transactionTwoDate.unix() - transactionOneDate.unix(); 
+    } 
+ 
+    if (moment.isMoment(transactionOneDate)) { 
+        return (order === 'desc') ? -1 : 1; 
+    } 
+ 
+    if (moment.isMoment(transactionTwoDate)) { 
+        return (order === 'desc') ? 1 : -1; 
+    } 
+ 
+    return 0; 
+    }
+
     render () {
         return (
             <TableSort data={this.props.transactions}>
-                <DataColumn sortable field="due_date" onRender={this.formatDate}>Vencimento</DataColumn>
+
+                <DataColumn sortable field="due_date" onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
+                <DataColumn sortable field="payment_date" onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
                 <DataColumn sortable field="description">Descrição</DataColumn>
 
                 <DataColumn 
@@ -108,7 +130,6 @@ class TransactionTable extends React.Component {
 
                 <DataColumn sortable numeric field="deadline">Prazo</DataColumn>
                 <DataColumn sortable numeric field="priority">Prioridade</DataColumn>
-                <DataColumn sortable field="payment_date" onRender={this.formatDate}>Pago em</DataColumn>
                 <DataColumn onRender={this.formatOptions} disablePadding />
             </TableSort>
         );
