@@ -164,9 +164,8 @@ class TransactionPage extends React.Component {
         if (filters) {
             this.props.filter(this.props.route.kind, filters)
                 .then(filteredTransactions => {
-                    console.log(filteredTransactions);
                     this.setState({ 
-                        filteredTransactions: filteredTransactions.map(transaction => formatTransaction(transaction)) 
+                        filteredTransactions: filteredTransactions.map(transaction => transaction.id) 
                     });
                 });
             }
@@ -178,7 +177,10 @@ class TransactionPage extends React.Component {
     render() {
         const { isFetching } = this.props;
         const { kind } = this.props.route;
-        const transactions = this.state.filteredTransactions || this.props.transactions.filter(transaction => transaction.kind === kind.id);
+        const { filteredTransactions } = this.state;
+        const transactions = filteredTransactions ? 
+            this.props.transactions.filter(transaction => filteredTransactions.includes(transaction.id)) : 
+            this.props.transactions.filter(transaction => transaction.kind === kind.id);
         const categories = this.props.categories.filter(category => category.kind === kind.id);
         const title = kind.id === EXPENSE.id ? 'Despesas' : 'Receitas';
 
