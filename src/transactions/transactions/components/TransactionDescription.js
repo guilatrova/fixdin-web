@@ -65,7 +65,6 @@ class TransactionDescription extends React.Component {
     getSuggestions(value) {
         const escapedValue = value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         
-        console.log("ESCAPED",escapedValue);
         if (escapedValue === '') {            
             return [];
         }
@@ -119,7 +118,6 @@ class TransactionDescription extends React.Component {
 
 TransactionDescription.propTypes = {
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string.isRequired,
     descriptions: PropTypes.array.isRequired
 }
 
