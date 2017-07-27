@@ -6,7 +6,12 @@ function defaultOnRender(row, field) {
 }
 
 function defaultOnSort(a, b, order) {
-   if (order === 'desc') 
+    if (typeof a === 'string' || a instanceof String && typeof b === 'string' || b instanceof String) {
+        a = a.toUpperCase();
+        b = b.toUpperCase();
+    }
+
+    if (order === 'desc') 
         return b > a;
     
     return a > b;
