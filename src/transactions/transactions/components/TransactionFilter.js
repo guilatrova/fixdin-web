@@ -106,8 +106,10 @@ class TransactionFilter extends React.Component {
     handleClear(e) {
         this.setState({
             payed: -1,
-            category: undefined,
-            description: undefined,
+            category: "",
+            description: "",
+            deadline: "",
+            priority: "",
             raw: {
                 multi_category: []
             }
