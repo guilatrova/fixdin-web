@@ -174,6 +174,30 @@ class TransactionFilter extends React.Component {
                     Pagamento
                 </DateInterval>}
 
+                {' '}
+
+                <FormGroup>
+                    <ControlLabel>Prioridade</ControlLabel>
+                    {' '}
+                    <FormControl
+                        name="priority"
+                        value={this.state.priority}
+                        onChange={this.handleChange}
+                    />
+                </FormGroup>
+
+                {' '}
+
+                <FormGroup>
+                    <ControlLabel>Prazo</ControlLabel>
+                    {' '}
+                    <FormControl
+                        name="deadline"
+                        value={this.state.deadline}
+                        onChange={this.handleChange}
+                    />
+                </FormGroup>
+
                 <Button onClick={this.handleClick} disabled={this.props.isFetching}>Filtrar</Button>
                 <Button onClick={this.handleClear}>Limpar</Button>
             </Form>
