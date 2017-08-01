@@ -52,7 +52,7 @@ describe('Transaction Actions', () => {
 						...item,
 						due_date: moment(item.due_date, 'YYYY-MM-DD'),
 						payment_date: moment(item.payment_date, 'YYYY-MM-DD'),
-						value: item.value.replace('.',',')
+						value: Number(item.value)
 					})) 
 				}
 			]
@@ -128,7 +128,11 @@ describe('Transaction Actions', () => {
 			const expectedResponse = transaction
 			const expectedActions = [
 				{ type: SAVE_TRANSACTION },
-				{ type: SAVE_TRANSACTION, result: 'success', transaction }
+				{ type: SAVE_TRANSACTION, result: 'success', transaction: {
+					...transaction,
+					value: 0
+					} 
+				}
 			]
 
 			store.dispatch(saveTransaction(transaction, INCOME));
