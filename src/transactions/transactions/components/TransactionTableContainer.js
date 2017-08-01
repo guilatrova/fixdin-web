@@ -31,12 +31,14 @@ const styleSheet = createStyleSheet('TransactionTableContainer', theme => ({
     }
 }));
 
-const TransactionTableContainer = ({ classes, title, children, onRefresh, onFilter, isFetching, ...other }) => {
+const TransactionTableContainer = ({ classes, title, children, onRefresh, onFilter, isFetching, transactions, ...other }) => {
+    const total = transactions.map(x => x.value).reduce((total, value) => total + value, 0).toString().replace('.', ',');
+
     return (
         <Paper className={classes.paper}>
             <Toolbar>
                 <div className={classes.title}>
-                    <Typography type="title">{title}</Typography>
+                    <Typography type="title">{title} | {`R$ ${total}`}</Typography>
                 </div>
                 <div className={classes.spacer} />
                 <div className={classes.actions}>
@@ -50,7 +52,7 @@ const TransactionTableContainer = ({ classes, title, children, onRefresh, onFilt
             </div>
 
             <div className={classes.table}>
-                <TransactionTable classes={classes} {...other} />
+                <TransactionTable classes={classes} transactions={transactions} {...other} />
             </div>
         </Paper>
     );

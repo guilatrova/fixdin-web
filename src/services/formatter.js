@@ -5,7 +5,7 @@ export function formatTransaction(transaction) {
         ...transaction,
         due_date: moment(transaction.due_date, 'YYYY-MM-DD'),
         payment_date: transaction.payment_date ? moment(transaction.payment_date, 'YYYY-MM-DD') : undefined,
-        value: transaction.value.replace('.', ',')
+        value: Number(transaction.value)
     }
 }
 

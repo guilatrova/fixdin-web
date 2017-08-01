@@ -42,9 +42,9 @@ class TransactionTable extends React.Component {
 
     formatValue(row, field) {
         const cell = row[field];
-        let positiveValue = cell;
+        let positiveValue = cell.toString().replace(".", ",");
         if (positiveValue[0] == '-') {
-            positiveValue = cell.substring(1);
+            positiveValue = positiveValue.substring(1);
         }
         return `R$ ${positiveValue}`;
     }
@@ -63,8 +63,8 @@ class TransactionTable extends React.Component {
 
     //Sort
     sortValue(a, b, order) {
-        const valueA = Number(a.replace(',', '.'));
-        const valueB = Number(b.replace(',', '.'));
+        const valueA = Number(a);
+        const valueB = Number(b);
 
         if (order === 'desc')
             return valueA - valueB;
