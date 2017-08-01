@@ -86,6 +86,7 @@ class TransactionPage extends React.Component {
         //Necessary because DidMount isn't called again when we change between Incomes and Expenses
         if (this.props.route.kind != nextProps.route.kind) {
             this.props.fetch(nextProps.route.kind);
+            this.handleFilter(undefined); //Remove filters
         }
     }
 
