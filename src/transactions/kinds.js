@@ -10,6 +10,11 @@ export const INCOME = {
     apiEndpoint: 'incomes/'
 }
 
+export const ALL = {
+    text: 'movimentações',
+    apiEndpoint: 'transactions/'
+}
+
 export function getKind(id) {
     switch(id) {
         case 0:

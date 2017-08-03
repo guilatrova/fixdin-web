@@ -85,24 +85,27 @@ class TransactionTable extends React.Component {
 
     sortDate(transactionOneDate, transactionTwoDate, order) {
         if (moment.isMoment(transactionOneDate) && moment.isMoment(transactionTwoDate)) { 
-        if (order === 'desc') 
-            return transactionOneDate.unix() - transactionTwoDate.unix(); 
-        else 
-            return transactionTwoDate.unix() - transactionOneDate.unix(); 
-    } 
+            if (order === 'desc') 
+                return transactionOneDate.unix() - transactionTwoDate.unix(); 
+            else 
+                return transactionTwoDate.unix() - transactionOneDate.unix(); 
+        } 
  
-    if (moment.isMoment(transactionOneDate)) { 
-        return (order === 'desc') ? -1 : 1; 
-    } 
- 
-    if (moment.isMoment(transactionTwoDate)) { 
-        return (order === 'desc') ? 1 : -1; 
-    } 
- 
-    return 0; 
+        if (moment.isMoment(transactionOneDate)) { 
+            return (order === 'desc') ? -1 : 1; 
+        } 
+    
+        if (moment.isMoment(transactionTwoDate)) { 
+            return (order === 'desc') ? 1 : -1; 
+        } 
+    
+        return 0; 
     }
 
     render () {
+        const { onEdit, onDelete, onCopy } = this.props;
+        const displayOptions = onEdit && onDelete && onCopy;
+
         return (
             <TableSort data={this.props.transactions}>
 
@@ -130,7 +133,7 @@ class TransactionTable extends React.Component {
 
                 <DataColumn sortable numeric field="deadline">Prazo</DataColumn>
                 <DataColumn sortable numeric field="priority">Prioridade</DataColumn>
-                <DataColumn onRender={this.formatOptions} disablePadding />
+                {displayOptions && <DataColumn onRender={this.formatOptions} disablePadding />}
             </TableSort>
         );
     }
@@ -140,9 +143,9 @@ TransactionTable.propTypes = {
     classes: PropTypes.object.isRequired,
     transactions: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onCopy: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func,
+    onCopy: PropTypes.func,
+    onDelete: PropTypes.func,
 };
 
 export default TransactionTable;

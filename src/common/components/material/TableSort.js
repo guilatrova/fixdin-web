@@ -76,23 +76,28 @@ export default class TableSort extends React.Component {
 
         const headers = React.Children.map(children,
             child => {
-                const { field, numeric } = child.props;                
+                if (child) {
 
-                return (
-                    <TableCell
-                        key={field}
-                        numeric={numeric} >
+                    const { field, numeric } = child.props;                
 
-                        <TableSortLabel
-                            active={orderBy === field}
-                            direction={order}
-                            onClick={() => handleHeaderClick(child)}>
+                    return (
+                        <TableCell
+                            key={field}
+                            numeric={numeric} >
 
-                            {child.props.children}
+                            <TableSortLabel
+                                active={orderBy === field}
+                                direction={order}
+                                onClick={() => handleHeaderClick(child)}>
 
-                        </TableSortLabel>
-                    </TableCell>
-                )
+                                {child.props.children}
+
+                            </TableSortLabel>
+                        </TableCell>
+                    )
+                }
+
+                return null;
             }
         );
                 
@@ -103,13 +108,17 @@ export default class TableSort extends React.Component {
 
                         {React.Children.map(children, 
                             column => {
-                                const { field, numeric, disablePadding, onRender } = column.props;
+                                if (column) {
+                                    const { field, numeric, disablePadding, onRender } = column.props;
 
-                                return (
-                                    <TableCell numeric={numeric} disablePadding={disablePadding}>
-                                        {onRender(row, field)}
-                                    </TableCell>
-                                );
+                                    return (
+                                        <TableCell numeric={numeric} disablePadding={disablePadding}>
+                                            {onRender(row, field)}
+                                        </TableCell>
+                                    );
+                                }
+
+                                return null;
                             }
                         )}
 
