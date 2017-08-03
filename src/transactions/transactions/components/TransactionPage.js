@@ -123,7 +123,8 @@ class TransactionPage extends React.Component {
                                             categories={categories}
                                             isFetching={isFetching}
                                             onFilter={this.handleShowFilter}
-                                            onRefresh={this.handleRefresh} >
+                                            onRefresh={this.handleRefresh}
+                                            displayKind={true} >
 
                                             {this.state.showFilterForm && 
                                                 <TransactionFilter onFilter={this.handleFilter} isFetching={isFetching} />}

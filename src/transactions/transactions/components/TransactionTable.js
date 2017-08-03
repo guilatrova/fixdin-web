@@ -18,6 +18,7 @@ import EditIcon from 'material-ui-icons/ModeEdit';
 import TableSort from 'TableSort';
 import DataColumn from 'DataColumn';
 import CollapsibleMenu from 'CollapsibleMenu';
+import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
 
 class TransactionTable extends React.Component {
     constructor(props) {
@@ -59,6 +60,10 @@ class TransactionTable extends React.Component {
                 <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
             </CollapsibleMenu>
         );
+    }
+
+    formatKind(transaction) {
+        return getKind(transaction.kind).text;
     }
 
     //Sort
@@ -103,12 +108,13 @@ class TransactionTable extends React.Component {
     }
 
     render () {
-        const { onEdit, onDelete, onCopy } = this.props;
+        const { onEdit, onDelete, onCopy, displayKind } = this.props;
         const displayOptions = onEdit && onDelete && onCopy;
 
         return (
             <TableSort data={this.props.transactions}>
 
+                {displayKind && <DataColumn sortable field="kind" onRender={this.formatKind}>Tipo</DataColumn>}
                 <DataColumn sortable field="due_date" onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
                 <DataColumn sortable field="payment_date" onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
                 <DataColumn sortable field="description">Descrição</DataColumn>
