@@ -5,16 +5,36 @@ function defaultOnRender(row, field) {
     return row[field];
 }
 
-function defaultOnSort(a, b, order) {
-    if (typeof a === 'string' || a instanceof String && typeof b === 'string' || b instanceof String) {
-        a = a.toUpperCase();
-        b = b.toUpperCase();
-    }
+function isNumeric(a) {
+    return !isNaN(a);
+}
 
-    if (order === 'desc') 
-        return b > a;
+function isString(a) {
+    return (typeof a === 'string' || a instanceof String);
+}
+
+function defaultOnSort(a, b, order) {
+    if(isNumeric(a) && isNumeric(b)) {
+        if (order === 'asc')
+            return a - b;
+        return b - a;
+    }
     
-    return a > b;
+    if (isNumeric(a)) {
+        return (order === 'asc' ? -1 : 1);
+    }
+    
+    if (isNumeric(b)) {
+        return (order === 'asc' ? 1 : -1);
+    }    
+
+    a = a.toUpperCase();
+    b = b.toUpperCase();
+
+    if (order === 'desc')
+        return (b > a) ? -1 : 1;
+    
+    return (a > b) ? 1 : -1;
 }
 
 export default class DataColumn extends React.Component {
