@@ -32,7 +32,7 @@ const styleSheet = createStyleSheet('TransactionTableContainer', theme => ({
 }));
 
 const TransactionTableContainer = ({ classes, title, children, onRefresh, onFilter, isFetching, transactions, ...other }) => {
-    const total = transactions.map(x => x.value).reduce((total, value) => total + value, 0).toString().replace('.', ',');
+    const total = transactions.map(x => x.value).reduce((total, value) => total + value, 0).toFixed(2).toString().replace('.', ',');
 
     return (
         <Paper className={classes.paper}>
