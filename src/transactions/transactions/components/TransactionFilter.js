@@ -104,7 +104,16 @@ class TransactionFilter extends React.Component {
     }
 
     handleKindChange(kind) {
-        this.setState({ kind });
+        const raw = this.state.raw;
+        const val = kind ? kind.value : ALL;
+
+        this.setState({
+            kind: val,
+            raw: {
+                ...raw,
+                kind
+            }
+         })
     }
 
     handleChange(e) {
@@ -123,11 +132,12 @@ class TransactionFilter extends React.Component {
             description: "",
             deadline: "",
             priority: "",
+            kind: this.props.kind,
             raw: {
-                multi_category: []
+                multi_category: []                
             }
         })
-        this.props.onFilter(undefined);
+        this.props.onFilter({});
     }
 
     render() {
@@ -149,7 +159,7 @@ class TransactionFilter extends React.Component {
                             
                             <Select 
                                 placeholder="Tipo"
-                                value={this.state.kind}
+                                value={this.state.raw.kind}
                                 onChange={this.handleKindChange}
                                 options={kindOptions}
                             />

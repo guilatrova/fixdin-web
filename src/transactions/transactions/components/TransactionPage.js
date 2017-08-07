@@ -87,8 +87,10 @@ class TransactionPage extends React.Component {
     }
 
     handleFilter(filters) {
+        const { kind, ...otherFilters } = filters;
+        
         if (filters) {
-            this.props.filter(filters)
+            this.props.filter(kind, otherFilters)
                 .then(filteredTransactions => {
                     this.setState({ 
                         filteredTransactions: filteredTransactions.map(transaction => transaction.id) 
@@ -165,8 +167,10 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchCategories(INCOME));
             dispatch(fetchTransactions(ALL));            
         },
-        filter: (filters) => {
-            return dispatch(fetchTransactions(ALL, filters));
+        filter: (kind, filters) => {
+            console.log(kind);
+            kind = kind || ALL;
+            return dispatch(fetchTransactions(kind, filters));
         }
     }
 };

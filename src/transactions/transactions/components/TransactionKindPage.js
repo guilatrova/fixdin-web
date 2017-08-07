@@ -162,8 +162,10 @@ class TransactionKindPage extends React.Component {
     }
 
     handleFilter(filters) {
-        if (filters) {
-            this.props.filter(this.props.route.kind, filters)
+        const { kind, ...otherFilters } = filters;
+
+        if (filters) {            
+            this.props.filter(kind, otherFilters)
                 .then(filteredTransactions => {
                     this.setState({ 
                         filteredTransactions: filteredTransactions.map(transaction => transaction.id) 
