@@ -189,7 +189,7 @@ class TransactionFilter extends React.Component {
                         onChange={this.handleDateChange}
                     >
                         Vencimento
-                    </DateInterval>                
+                    </DateInterval>
                 </Col>
             </Row>
 
@@ -199,6 +199,7 @@ class TransactionFilter extends React.Component {
                         <ControlLabel>Categorias</ControlLabel>
                         
                         <MultiCategorySelectPicker 
+                            kind={this.props.kind}
                             value={this.state.raw.multi_category}
                             onChange={this.handleCategoryChange} />
                     </FormGroup>

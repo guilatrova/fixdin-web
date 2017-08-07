@@ -168,7 +168,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchTransactions(ALL));            
         },
         filter: (kind, filters) => {
-            console.log(kind);
             kind = kind || ALL;
             return dispatch(fetchTransactions(kind, filters));
         }

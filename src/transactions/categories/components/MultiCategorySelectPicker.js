@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 
 import { fetchCategories } from './../actions';
+import { EXPENSE, INCOME, ALL } from '../../kinds';
 
 class MultiCategorySelectPicker extends React.Component {
 
@@ -18,7 +19,12 @@ class MultiCategorySelectPicker extends React.Component {
     }
 
     render() {
-        const { categories, isFetching, value } = this.props;
+        const { isFetching, value, kind } = this.props;
+
+        let categories = this.props.categories;
+        if (kind.id == EXPENSE.id || kind.id == INCOME.id) {
+            categories = this.props.categories.filter(category => category.kind === kind.id);
+        }
         
         const options = categories.map(category => {
             return {
