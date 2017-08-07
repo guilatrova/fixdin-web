@@ -206,7 +206,7 @@ class TransactionKindPage extends React.Component {
                                             onCopy={this.handleCopy}>
 
                                             {this.state.showFilterForm && 
-                                                <TransactionFilter onFilter={this.handleFilter} isFetching={isFetching} />}
+                                                <TransactionFilter kind={kind} onFilter={this.handleFilter} isFetching={isFetching} />}
 
                                         </TransactionTableContainer>
                                     </Col>
