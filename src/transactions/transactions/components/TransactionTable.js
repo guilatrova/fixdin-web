@@ -43,7 +43,7 @@ class TransactionTable extends React.Component {
 
     formatValue(row, field) {
         const cell = row[field];
-        let positiveValue = cell.toString().replace(".", ",");
+        let positiveValue = cell.toFixed(2).toString().replace(".", ",");
         if (positiveValue[0] == '-') {
             positiveValue = positiveValue.substring(1);
         }
@@ -68,10 +68,16 @@ class TransactionTable extends React.Component {
 
     //Sort
     sortValue(a, b, order) {
-        const valueA = Number(a);
-        const valueB = Number(b);
+        let valueA = Number(a);
+        let valueB = Number(b);
 
-        if (order === 'desc')
+        if (valueA < 0)
+            valueA = -valueA;
+
+        if (valueB < 0)
+            valueB = -valueB;
+
+        if (order === 'asc')
             return valueA - valueB;
 
         return valueB - valueA;
@@ -129,7 +135,7 @@ class TransactionTable extends React.Component {
                 </DataColumn>
 
                 <DataColumn
-                    sortable numeric 
+                    sortable 
                     field="value" 
                     onRender={this.formatValue}
                     onSort={this.sortValue}>
