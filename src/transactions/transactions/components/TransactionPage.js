@@ -129,7 +129,13 @@ class TransactionPage extends React.Component {
                                             displayKind={true} >
 
                                             {this.state.showFilterForm && 
-                                                <TransactionFilter kind={ALL} onFilter={this.handleFilter} isFetching={isFetching} />}
+                                                <TransactionFilter 
+                                                    kind={ALL} 
+                                                    onFilter={this.handleFilter} 
+                                                    isFetching={isFetching} 
+                                                    transactions={transactions}
+                                                    />
+                                                    }
 
                                         </TransactionTableContainer>
                                     </Col>

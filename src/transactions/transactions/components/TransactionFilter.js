@@ -6,6 +6,7 @@ import TransactionDescription from './TransactionDescription';
 import MultiCategorySelectPicker from './../../categories/components/MultiCategorySelectPicker';
 import DatetimeInput from 'react-datetime';
 import { EXPENSE, INCOME, ALL } from './../../kinds';
+import Autocomplete from 'FixedAutocomplete';
 
 import {    
   Row,
@@ -141,12 +142,14 @@ class TransactionFilter extends React.Component {
     }
 
     render() {
-        const { kind } = this.props;
+        const { kind, transactions } = this.props;
         const kindOptions = [ 
             { value: ALL, label: '-' },
             { value: INCOME, label: 'Receitas' },
             { value: EXPENSE, label: 'Despesas' }
         ];
+        const prioritySource = transactions.map(transaction => transaction.priority.toString());
+        const deadlineSource = transactions.map(transaction => transaction.deadline.toString());
 
         return (
             <div>
@@ -235,11 +238,11 @@ class TransactionFilter extends React.Component {
                     <FormGroup>
                         <ControlLabel>Prioridade</ControlLabel>
                         
-                        <FormControl
-                            name="priority"
-                            value={this.state.priority}
+                        <Autocomplete 
+                            name="priority" 
+                            value={this.state.priority} 
                             onChange={this.handleChange}
-                        />
+                            source={prioritySource} />
                     </FormGroup>
                 </Col>
 
@@ -247,11 +250,11 @@ class TransactionFilter extends React.Component {
                     <FormGroup>
                         <ControlLabel>Prazo</ControlLabel>
                         
-                        <FormControl
-                            name="deadline"
-                            value={this.state.deadline}
+                        <Autocomplete 
+                            name="deadline" 
+                            value={this.state.deadline} 
                             onChange={this.handleChange}
-                        />
+                            source={deadlineSource} />                        
                     </FormGroup>
                 </Col>
 
@@ -271,7 +274,8 @@ class TransactionFilter extends React.Component {
 TransactionFilter.propTypes = {
     onFilter: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    kind: PropTypes.object.isRequired
+    kind: PropTypes.object.isRequired,
+    transactions: PropTypes.array.isRequired
 }
 
 export default TransactionFilter;
