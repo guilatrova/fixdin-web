@@ -14,8 +14,6 @@ class FixedAutocomplete extends React.Component {
 
         this.handleSelect = this.handleSelect.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.filterSuggestions = this.filterSuggestions.bind(this);
-        //this.getSuggestions = this.getSuggestions.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -42,12 +40,6 @@ class FixedAutocomplete extends React.Component {
                 name: this.props.name
             }
         });        
-    }
-
-    filterSuggestions(value) {
-        this.setState({
-            suggestions: this.getSuggestions(value)
-        });
     }
 
     getSuggestions(value) {
@@ -111,7 +103,6 @@ class FixedAutocomplete extends React.Component {
                 getItemValue={(item) => item}
                 items={suggestions}
                 renderItem={this.handleRenderItem}
-                renderMenu={this.handleRenderMenu}
 
                 menuStyle={menuStyle}
                 wrapperStyle={wrapperStyle}
