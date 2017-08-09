@@ -50,7 +50,8 @@ class TransactionForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            ...this.props.transaction,
+            ...props.transaction,
+            payed: !!props.transaction.payment_date,
             errors: {},
         };
 

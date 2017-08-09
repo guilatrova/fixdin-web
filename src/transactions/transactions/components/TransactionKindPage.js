@@ -45,8 +45,6 @@ import {
     finishEditCategory
 } from '../../categories/actions';
 
-import { formatTransaction } from 'formatter';
-
 
 class TransactionKindPage extends React.Component {
     constructor(props) {

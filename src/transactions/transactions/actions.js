@@ -3,7 +3,7 @@ import moment from 'moment';
 import { EXPENSE } from './../kinds';
 import createApi from '../../services/api';
 import handleError from '../../services/genericErrorHandler';
-import { formatTransaction, formatDate, formatCurrency } from '../../services/formatter';
+import { formatTransactionReceived, formatTransactionToSend } from '../../services/formatter';
 import getQueryParams from '../../services/query';
 
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
@@ -25,7 +25,7 @@ function receiveTransactions(result, data) {
         return {
             type: FETCH_TRANSACTIONS,
             result,
-            transactions: data.map(transaction => formatTransaction(transaction))
+            transactions: data.map(transaction => formatTransactionReceived(transaction))
         }
     }
 
@@ -65,7 +65,7 @@ function receiveSaveTransaction(result, data) {
         return {
             type: SAVE_TRANSACTION,
             result,
-            transaction: formatTransaction(data)
+            transaction: formatTransactionReceived(data)
         }
     }
 
@@ -86,30 +86,13 @@ function create(data, kind) {
     return api.post(kind.apiEndpoint, data);
 }
 
-export function saveTransaction({ id, due_date, description, category, value, details, priority, deadline, payment_date }, kind) {
+export function saveTransaction(transaction, kind) {
     return dispatch => {
         dispatch(requestSaveTransaction());        
+                
+        const data = formatTransactionToSend(transaction);
         
-        due_date = formatDate(due_date);
-        payment_date = formatDate(payment_date);
-        value = formatCurrency(value);
-
-        if (kind == EXPENSE && value > 0) {
-            value = -value;
-        }
-        
-        const data = {
-            due_date,
-            description,
-            category,
-            value,
-            details,
-            priority,
-            deadline,
-            payment_date
-        }
-
-        let apiPromise = (id) ? update(id, data, kind) : create(data, kind);
+        let apiPromise = (transaction.id) ? update(transaction.id, data, kind) : create(data, kind);
         
         return apiPromise
             .then(response => response.data)

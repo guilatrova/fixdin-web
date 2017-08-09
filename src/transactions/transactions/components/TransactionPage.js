@@ -45,9 +45,6 @@ import {
     finishEditCategory
 } from '../../categories/actions';
 
-import { formatTransaction } from 'formatter';
-
-
 class TransactionPage extends React.Component {
     constructor(props) {
         super(props);
