@@ -18,13 +18,15 @@ export function itShouldDisplayErrorForField(wrapper, field, controlId, message)
     
 }
 
-export function itShouldPassErrorMessageTo(wrapper, field) {
+export function itShouldPassErrorMessageTo(wrapper, field, state = undefined) {
     
     it(`should pass error message to ${field}`, () => {
         const errors = {
             [field]: `invalid ${field}`
         };
         wrapper.setProps({errors});
+        if (state)
+            wrapper.setState(state);
 
         expect((wrapper).find(`HorizontalFormGroupError[id="${field}"]`).prop('error')).to.be.equal(errors[field]);
     })

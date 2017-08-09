@@ -41,7 +41,7 @@ describe('TransactionForm', () => {
         itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'deadline');
         itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'priority');
         itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'details');
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'payment_date');
+        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'payment_date', { payed: true});
         
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'username', submitButton);
         itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'due_date', submitButton);
