@@ -24,6 +24,9 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
+import { FormControlLabel } from 'material-ui/Form';
+import Switch from 'material-ui/Switch';
+
 import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
 import CategorySelectPicker from './../../categories/components/CategorySelectPicker';
 import TransactionDescription from './TransactionDescription';
@@ -55,6 +58,7 @@ class TransactionForm extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
+        this.handlePayedChange = this.handlePayedChange.bind(this);
         this.handleOptionSelected = this.handleOptionSelected.bind(this);        
     }
 
@@ -86,6 +90,21 @@ class TransactionForm extends React.Component {
 
     handleValueChange(value) {
         this.setState({ value });
+    }
+
+    handlePayedChange(e, checked) {
+        if (checked) {
+            this.setState({
+                payed: true,
+                payment_date: moment(new Date())
+            });
+        }
+        else {
+            this.setState({
+                payed: false,
+                payment_date: null
+            });
+        }
     }
 
     isSubmitDisabled() {
@@ -163,7 +182,17 @@ class TransactionForm extends React.Component {
                 value={this.state.priority}
                 onChange={this.handleChange} />
 
-            <HorizontalFormGroupError id="payment_date" label="Pago em" error={errors.payment_date} >
+            <FormControlLabel
+                control={
+                    <Switch
+                    checked={this.state.payed}
+                    onChange={this.handlePayedChange}
+                    />
+                }
+                label="Pago?"
+            />
+
+            {this.state.payed && <HorizontalFormGroupError id="payment_date" label="Pago em" error={errors.payment_date} >
                 <DatetimeInput
                     timeFormat={false}
                     className='border-focus-blue'
@@ -171,7 +200,7 @@ class TransactionForm extends React.Component {
                     value={this.state.payment_date}
                     closeOnSelect={true}
                     closeOnTab={true} />
-            </HorizontalFormGroupError>
+            </HorizontalFormGroupError>}
 
             <HorizontalFormGroupError id="details" label="Detalhes" error={errors.details}>
                 <FormControl
