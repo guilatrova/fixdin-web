@@ -90,7 +90,7 @@ export function saveTransaction(transaction, kind) {
     return dispatch => {
         dispatch(requestSaveTransaction());        
                 
-        const data = formatTransactionToSend(transaction);
+        const data = formatTransactionToSend(transaction, kind);
         
         let apiPromise = (transaction.id) ? update(transaction.id, data, kind) : create(data, kind);
         

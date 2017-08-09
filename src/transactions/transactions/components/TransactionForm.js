@@ -170,17 +170,17 @@ class TransactionForm extends React.Component {
             </HorizontalFormGroupError>
 
             <HorizontalFormGroupError
-                id="deadline"
-                label="Prazo"
-                error={errors.deadline}
-                value={this.state.deadline}
-                onChange={this.handleChange} />
-
-            <HorizontalFormGroupError
                 id="priority"
                 label="Prioridade"
                 error={errors.priority}
                 value={this.state.priority}
+                onChange={this.handleChange} />
+
+            <HorizontalFormGroupError
+                id="deadline"
+                label="Prazo"
+                error={errors.deadline}
+                value={this.state.deadline}
                 onChange={this.handleChange} />
 
             <FormControlLabel

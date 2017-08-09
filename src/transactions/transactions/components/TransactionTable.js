@@ -143,8 +143,8 @@ class TransactionTable extends React.Component {
                     Valor
                 </DataColumn>
 
-                <DataColumn sortable numeric field="deadline">Prazo</DataColumn>
                 <DataColumn sortable numeric field="priority">Prioridade</DataColumn>
+                <DataColumn sortable numeric field="deadline">Prazo</DataColumn>
                 {displayOptions && <DataColumn onRender={this.formatOptions} disablePadding />}
             </TableSort>
         );

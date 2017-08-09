@@ -11,16 +11,11 @@ export function formatTransactionReceived(transaction) {
 }
 
 export function formatTransactionToSend(transaction, kind) {
-    let value = transaction.value;
-    if (kind == EXPENSE && value > 0) {
-        value = -value;
-    }    
-
     return {
         ...transaction,
         due_date: formatDate(transaction.due_date),
         payment_date: formatDate(transaction.payment_date),
-        value: formatCurrency(value),
+        value: formatCurrency(transaction.value, kind),
         priority: transaction.priority ? transaction.priority : undefined,
     }
 }
@@ -31,12 +26,16 @@ export function formatDate(date) {
     return null;
 }
 
-export function formatCurrency(value) {
+export function formatCurrency(value, kind) {
     if (isNaN(value)) {
         let unformattedAmount = value.toString().replace(/[^0-9|,|-]+/g, "");
         unformattedAmount = unformattedAmount.replace(",", ".");
-        return Number(unformattedAmount);
+        value = Number(unformattedAmount);
     }
+
+    if (kind == EXPENSE && value > 0) {
+        value = -value;
+    }    
 
     return value;
 }
