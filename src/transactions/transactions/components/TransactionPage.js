@@ -20,6 +20,7 @@ import {
   InputGroup,
   FormControl
 } from '@sketchpixy/rubix';
+import Typography from 'material-ui/Typography';
 
 import { EXPENSE, INCOME, ALL } from '../../kinds';
 import TransactionTableContainer from './TransactionTableContainer';
@@ -99,13 +100,18 @@ class TransactionPage extends React.Component {
         }
     }
 
+    renderHeader(total, totalIncomes, totalExpenses) {
+        return (
+            <Typography type="title">Movimentações | Receitas: {`R$ ${totalIncomes}`} | Despesas: {`R$ ${totalExpenses}`} | Total: {`R$ ${total}`}</Typography>
+        );
+    }
+
     render() {
         const { isFetching, categories } = this.props;
         const { filteredTransactions } = this.state;
         const transactions = filteredTransactions ? 
             this.props.transactions.filter(transaction => filteredTransactions.includes(transaction.id)) : 
             this.props.transactions;
-        const title = 'Movimentações';
 
         return (
             <div className="transaction-page">
@@ -117,7 +123,7 @@ class TransactionPage extends React.Component {
 
                                     <Col xs={12}>
                                         <TransactionTableContainer
-                                            title={title}
+                                            renderHeader={this.renderHeader}
                                             transactions={transactions} 
                                             categories={categories}
                                             isFetching={isFetching}
@@ -132,7 +138,7 @@ class TransactionPage extends React.Component {
                                                     isFetching={isFetching} 
                                                     transactions={transactions}
                                                     />
-                                                    }
+                                                }
 
                                         </TransactionTableContainer>
                                     </Col>

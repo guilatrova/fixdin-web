@@ -20,6 +20,7 @@ import {
   InputGroup,
   FormControl
 } from '@sketchpixy/rubix';
+import Typography from 'material-ui/Typography';
 
 import { EXPENSE, INCOME, ALL } from '../../kinds';
 import TransactionTableContainer from './TransactionTableContainer';
@@ -55,6 +56,8 @@ class TransactionKindPage extends React.Component {
             showTransactionDeleteModal: false,
             showFilterForm: false
         };            
+
+        this.renderHeader = this.renderHeader.bind(this);
 
         //Fetch
         this.handleRefresh = this.handleRefresh.bind(this);
@@ -175,6 +178,14 @@ class TransactionKindPage extends React.Component {
         }
     }
 
+    renderHeader(total, incomesTotal, expensesTotal) {
+        const { kind } = this.props.route;
+        const title = kind.id === EXPENSE.id ? 'Despesas' : 'Receitas';
+        return (
+            <Typography type="title">{title} | {`R$ ${total}`}</Typography>
+        );
+    }
+
     render() {
         const { isFetching } = this.props;
         const { kind } = this.props.route;
@@ -183,8 +194,7 @@ class TransactionKindPage extends React.Component {
             this.props.transactions.filter(transaction => filteredTransactions.includes(transaction.id)) : 
             this.props.transactions.filter(transaction => transaction.kind === kind.id);
         const categories = this.props.categories.filter(category => category.kind === kind.id);
-        const title = kind.id === EXPENSE.id ? 'Despesas' : 'Receitas';
-
+        
         return (
             <div className="transaction-page">
                 <PanelContainer controls={false}>
@@ -195,7 +205,7 @@ class TransactionKindPage extends React.Component {
 
                                     <Col xs={12}>
                                         <TransactionTableContainer
-                                            title={title}
+                                            renderHeader={this.renderHeader}
                                             transactions={transactions} 
                                             categories={categories}
                                             isFetching={isFetching}

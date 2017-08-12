@@ -3,13 +3,13 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
 
 import IconButton from 'material-ui/IconButton';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import RefreshIcon from 'material-ui-icons/Refresh';
 
 import TransactionTable from './TransactionTable';
+import { EXPENSE, INCOME } from './../../kinds';
 
 const styleSheet = createStyleSheet('TransactionTableContainer', theme => ({
     paper: {
@@ -31,14 +31,17 @@ const styleSheet = createStyleSheet('TransactionTableContainer', theme => ({
     }
 }));
 
-const TransactionTableContainer = ({ classes, title, children, onRefresh, onFilter, isFetching, transactions, ...other }) => {
-    const total = transactions.map(x => x.value).reduce((total, value) => total + value, 0).toFixed(2).toString().replace('.', ',');
+const TransactionTableContainer = ({ classes, renderHeader, children, onRefresh, onFilter, isFetching, transactions, ...other }) => {
+    const sumAll = (transactions) => transactions.map(x => x.value).reduce((total, value) => total + value, 0).toFixed(2).toString().replace('.', ',');
+    const total = sumAll(transactions);
+    const totalIncomes = sumAll(transactions.filter(transaction => transaction.kind == INCOME.id));
+    const totalExpenses = sumAll(transactions.filter(transaction => transaction.kind == EXPENSE.id));
 
     return (
         <Paper className={classes.paper}>
             <Toolbar>
                 <div className={classes.title}>
-                    <Typography type="title">{title} | {`R$ ${total}`}</Typography>
+                    {renderHeader(total, totalIncomes, totalExpenses)}
                 </div>
                 <div className={classes.spacer} />
                 <div className={classes.actions}>
