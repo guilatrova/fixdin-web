@@ -15,9 +15,9 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
 
-import TableSort from 'TableSort';
-import DataColumn from 'DataColumn';
-import CollapsibleMenu from 'CollapsibleMenu';
+import TableSort from './../../../common/components/material/TableSort';
+import DataColumn from './../../../common/components/material/DataColumn';
+import CollapsibleMenu from './../../../common/components/material/CollapsibleMenu';
 import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
 
 class TransactionTable extends React.Component {
@@ -85,29 +85,29 @@ class TransactionTable extends React.Component {
 
     sortCategory(a, b, order) {
         const { categories } = this.props;
-        const catA = categories.find((category) => category.id == a).name;
-        const catB = categories.find((category) => category.id == b).name;
+        const catA = categories.find((category) => category.id == a).name.toUpperCase();
+        const catB = categories.find((category) => category.id == b).name.toUpperCase();
 
         if (order === 'desc') 
-            return catB > catA;
+            return catA > catB ? -1 : 1;
     
-        return catA > catB;
+        return catA > catB ? 1 : -1;
     }
 
-    sortDate(transactionOneDate, transactionTwoDate, order) {
-        if (moment.isMoment(transactionOneDate) && moment.isMoment(transactionTwoDate)) { 
+    sortDate(a, b, order) {
+        if (moment.isMoment(a) && moment.isMoment(b)) { 
             if (order === 'desc') 
-                return transactionOneDate.unix() - transactionTwoDate.unix(); 
+                return b.unix() - a.unix(); 
             else 
-                return transactionTwoDate.unix() - transactionOneDate.unix(); 
+                return a.unix() - b.unix(); 
         } 
  
-        if (moment.isMoment(transactionOneDate)) { 
-            return (order === 'desc') ? -1 : 1; 
+        if (moment.isMoment(a)) { 
+            return (order === 'desc') ? 1 : -1; 
         } 
     
-        if (moment.isMoment(transactionTwoDate)) { 
-            return (order === 'desc') ? 1 : -1; 
+        if (moment.isMoment(b)) { 
+            return (order === 'desc') ? -1 : 1; 
         } 
     
         return 0; 
