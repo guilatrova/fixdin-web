@@ -15,6 +15,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
 
+import { sort } from './../../../common/sorts';
 import TableSort from './../../../common/components/material/TableSort';
 import DataColumn from './../../../common/components/material/DataColumn';
 import CollapsibleMenu from './../../../common/components/material/CollapsibleMenu';
@@ -88,10 +89,7 @@ class TransactionTable extends React.Component {
         const catA = categories.find((category) => category.id == a).name.toUpperCase();
         const catB = categories.find((category) => category.id == b).name.toUpperCase();
 
-        if (order === 'desc') 
-            return catA > catB ? -1 : 1;
-    
-        return catA > catB ? 1 : -1;
+        return sort(catA, catB, order);
     }
 
     sortDate(a, b, order) {
