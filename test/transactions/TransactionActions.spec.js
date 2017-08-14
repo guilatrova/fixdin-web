@@ -103,8 +103,7 @@ describe('Transaction Actions', () => {
 			});
 		})
 		
-		it('should add query params when filters is passed', (done) => {
-			debugger;
+		it('should add query params when filters is passed', (done) => {			
 			store.dispatch(fetchTransactions(INCOME, { 'due_date_from': '2017-10-01', 'category': 1 }));
 
 			moxios.wait(() => {

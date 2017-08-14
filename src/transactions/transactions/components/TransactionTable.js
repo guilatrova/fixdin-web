@@ -116,7 +116,7 @@ class TransactionTable extends React.Component {
         const displayOptions = onEdit && onDelete && onCopy;
 
         return (
-            <TableSort data={this.props.transactions}>
+            <TableSort data={this.props.transactions} initialOrderBy="due_date">
 
                 {displayKind && <DataColumn sortable field="kind" onRender={this.formatKind}>Tipo</DataColumn>}
                 <DataColumn sortable field="due_date" onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>

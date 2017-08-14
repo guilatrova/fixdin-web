@@ -12,19 +12,24 @@ import Table, {
 export default class TableSort extends React.Component {
     static propTypes = {
         data: PropTypes.array.isRequired,
-        key: PropTypes.string.isRequired
+        key: PropTypes.string.isRequired,
+        children: PropTypes.node,
+        initialOrder: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
+        initialOrderBy: PropTypes.string.isRequired
     }
 
     static defaultProps = {
-        key: 'id'
+        key: 'id',
+        initialOrder: 'asc',
+        initialOrderBy: ''
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            order: 'asc',
-            orderBy: '',
+            order: props.initialOrder,
+            orderBy: props.initialOrderBy,
             data: props.data
         }
         this.handleHeaderClick = this.handleHeaderClick.bind(this);
@@ -60,6 +65,7 @@ export default class TableSort extends React.Component {
 
     sort(orderBy, order) {
         if (orderBy) {
+            debugger;
             const sortFunc = React.Children.toArray(this.props.children).find(column => column.props.field == orderBy).props.onSort;
 
             return this.state.data.slice().sort((a, b) => sortFunc(a[orderBy], b[orderBy], order));
