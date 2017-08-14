@@ -3,7 +3,6 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import TableSort from './../../src/common/components/material/TableSort';
-import DataColumn from './../../src/common/components/material/DataColumn';
 import { TableRow } from 'material-ui/Table';
 
 describe('TableSort', () => {
