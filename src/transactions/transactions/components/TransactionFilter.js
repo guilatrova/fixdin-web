@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import Select from 'react-select';
 import TransactionDescription from './TransactionDescription';
@@ -66,12 +67,19 @@ const DateInterval = ({id, children, value_from, value_until, onChange}) => {
 class TransactionFilter extends React.Component {
     constructor(props) {
         super(props);
+        const curDate = new Date();
+        const startMonth = moment([curDate.getFullYear(), curDate.getMonth()]);
+        const endMonth = moment().endOf('month');
 
         this.state = {
             payed: -1,
             kind: props.kind,
+            due_date_from: startMonth.format('YYYY-MM-DD'),
+            due_date_until: endMonth.format('YYYY-MM-DD'),
             raw: {
-                multi_category: []
+                multi_category: [],
+                due_date_from: startMonth,
+                due_date_until: endMonth
             }
         }
         this.handleChange = this.handleChange.bind(this);
@@ -83,13 +91,15 @@ class TransactionFilter extends React.Component {
     }
 
     handleDateChange(id, value) {
-        this.setState({ 
-            [id]: value.format('YYYY-MM-DD'),
-            raw: {
-                ...this.state.raw,
-                [id]: value
-            }
-        });
+        if (moment.isMoment(value)) {
+            this.setState({ 
+                [id]: value.format('YYYY-MM-DD'),
+                raw: {
+                    ...this.state.raw,
+                    [id]: value
+                }
+            });
+        }
     }
 
     handleCategoryChange(categories) {
@@ -275,7 +285,7 @@ TransactionFilter.propTypes = {
     onFilter: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     kind: PropTypes.object.isRequired,
-    transactions: PropTypes.array.isRequired
+    transactions: PropTypes.array.isRequired,
 }
 
 export default TransactionFilter;
