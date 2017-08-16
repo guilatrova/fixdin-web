@@ -24,13 +24,13 @@ describe('Transactions Reducers', () => {
         { id: 3, value: '12' },
     ]
 
-    const createTestTransaction = (transaction) => {
+    const createTransaction = (transaction) => {
         const due_date = transaction.due_date || '2017-08-16'; 
         return {
             send: {
                 value: 0,
+                ...transaction,
                 due_date,
-                ...transaction                
             },
             expect: {
                 payment_date: undefined,
@@ -66,7 +66,7 @@ describe('Transactions Reducers', () => {
                 isFetching: true
             };
 
-            const transaction = createTestTransaction({ id: 1 });
+            const transaction = createTransaction({ id: 1 });
 
             expect(
                 reducer(fetchingState, actions.receiveSaveTransaction('success', transaction.send))
@@ -99,8 +99,8 @@ describe('Transactions Reducers', () => {
         });
 
         it('should add transaction result to transactions when id NOT in list', () => {
-            const initialList = [ createTestTransaction({ id: 1 }).expect, createTestTransaction({ id: 2 }).expect ]
-            const transactionToSave = createTestTransaction({ id: 3 });
+            const initialList = [ createTransaction({ id: 1 }).expect, createTransaction({ id: 2 }).expect ]
+            const transactionToSave = createTransaction({ id: 3 });
             const expectedList = [ ...initialList, transactionToSave.expect ]
             const state = {
                 ...initialState,
@@ -118,9 +118,9 @@ describe('Transactions Reducers', () => {
         });
 
         it('should update transaction result to transactions when id in list', () => {
-            const initialList = [ createTestTransaction({ id: 1 }).expect, createTestTransaction({ id: 2, value: 100 }).expect ]
-            const transactionToSave = createTestTransaction({ id: 2, value: 200 });
-            const expectedList = [ createTestTransaction({ id: 1 }).expect, transactionToSave.expect ]
+            const initialList = [ createTransaction({ id: 1 }).expect, createTransaction({ id: 2, value: 100 }).expect ]
+            const transactionToSave = createTransaction({ id: 2, value: 200 });
+            const expectedList = [ createTransaction({ id: 1 }).expect, transactionToSave.expect ]
             const state = {
                 ...initialState,
                 transactions: initialList
@@ -152,7 +152,7 @@ describe('Transactions Reducers', () => {
         });
 
         it('should be handled when successful', () => {
-            const transactions = [ createTestTransaction({ id: 1}), createTestTransaction({ id: 2}) ]
+            const transactions = [ createTransaction({ id: 1}), createTransaction({ id: 2}) ]
 
             expect(
                 reducer(undefined, actions.receiveTransactions('success', transactions.map(t => t.send)))
@@ -178,8 +178,8 @@ describe('Transactions Reducers', () => {
         });
 
         it('should concat new transactions', () => {
-            const transactionsBefore = [ createTestTransaction({ id: 1, kind: INCOME.id }).expect, createTestTransaction({ id: 2, kind: INCOME.id }).expect ];
-            const newTransactions = [ createTestTransaction({ id: 3, kind: EXPENSE.id }).expect, createTestTransaction({ id:4, kind: EXPENSE.id }).expect ];
+            const transactionsBefore = [ createTransaction({ id: 1, kind: INCOME.id }).expect, createTransaction({ id: 2, kind: INCOME.id }).expect ];
+            const newTransactions = [ createTransaction({ id: 3, kind: EXPENSE.id }).expect, createTransaction({ id:4, kind: EXPENSE.id }).expect ];
             const transactionsAfter = [ ...transactionsBefore, ...newTransactions ]
             const initialState = {
                 transactions: transactionsBefore,
