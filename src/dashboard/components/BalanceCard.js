@@ -35,7 +35,7 @@ const BalanceCard = ({ children, title, classes }) => {
 }
 
 BalanceCard.propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     title: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired
 }
