@@ -25,6 +25,7 @@ import {
 
 import BalanceCard from './BalanceCard';
 import { operations } from './../ducks';
+import { formatCurrencyDisplay } from '../../services/formatter';
 
 class DashboardPage extends React.Component {
     componentDidMount() {
@@ -32,6 +33,8 @@ class DashboardPage extends React.Component {
     }
 
     render() {
+        const balance = formatCurrencyDisplay(this.props.balance);
+
         return (
             <div className="dashboard-page">
                 <PanelContainer controls={false}>
@@ -41,12 +44,12 @@ class DashboardPage extends React.Component {
                                 <Row>
                                     <Col xs={6} md={3}>
                                         <BalanceCard title="Saldo">
-                                            {this.props.balance}
+                                            {balance}
                                         </BalanceCard>                                    
                                     </Col>
-                                    
+
                                     <Col xs={6} md={3}>
-                                        <BalanceCard title="Saldo">
+                                        <BalanceCard title="Saldo real">
                                             {this.props.balance}
                                         </BalanceCard>                                    
                                     </Col>
@@ -69,7 +72,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchBalance: () => dispatch(operations.fetchBalance())
+        fetchBalance: () => {
+            dispatch(operations.fetchBalance());
+            //dispatch(operations.fetchBalance({ payed: 1}));
+        }
     }
 }
 
