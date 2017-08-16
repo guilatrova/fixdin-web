@@ -21,7 +21,23 @@ const receiveBalance = (result, data) => {
     }
 }
 
+const receiveRealBalance = (result, data) => {
+    if (result === 'success') {
+        return {
+            type: types.FETCH_REAL_BALANCE,
+            result,
+            balance: data
+        }
+    }
+
+    return {
+        type: types.FETCH_REAL_BALANCE,
+        errors: data
+    }
+}
+
 export default {
     requestBalance,
-    receiveBalance
+    receiveBalance,
+    receiveRealBalance
 }

@@ -3,11 +3,11 @@ import createApi from './../../services/api';
 import handleError from './../../services/genericErrorHandler';
 import getQueryParams from './../../services/query';
 
-const fetchBalance = (filters = {}) => (dispatch) => {
+const fetchBalance = () => (dispatch) => {
     dispatch(actions.requestBalance);
 
     const api = createApi();
-    api.get('balances/current' + getQueryParams(filters))
+    return api.get('balances/current')
         .then(response => response.data)
         .then((data) => {
             dispatch(actions.receiveBalance('success', data.balance));
@@ -16,6 +16,20 @@ const fetchBalance = (filters = {}) => (dispatch) => {
         .catch(err => dispatch(actions.receiveBalance('fail', handleError(err))));
 };
 
+const fetchRealBalance = () => (dispatch) => {
+    dispatch(actions.requestBalance);
+
+    const api = createApi();
+    return api.get('balances/current?payed=1')
+        .then(response => response.data)
+        .then((data) => {
+            dispatch(actions.receiveRealBalance('success', data.balance));
+            return data;
+        })
+        .catch(err => dispatch(actions.receiveRealBalance('fail', handleError(err))));
+};
+
 export default {
-    fetchBalance
+    fetchBalance,
+    fetchRealBalance
 };

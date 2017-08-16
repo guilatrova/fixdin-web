@@ -34,6 +34,7 @@ class DashboardPage extends React.Component {
 
     render() {
         const balance = formatCurrencyDisplay(this.props.balance);
+        const realBalance = formatCurrencyDisplay(this.props.realBalance);
 
         return (
             <div className="dashboard-page">
@@ -50,7 +51,7 @@ class DashboardPage extends React.Component {
 
                                     <Col xs={6} md={3}>
                                         <BalanceCard title="Saldo real">
-                                            {this.props.balance}
+                                            {realBalance}
                                         </BalanceCard>                                    
                                     </Col>
                                 </Row>
@@ -66,7 +67,8 @@ class DashboardPage extends React.Component {
 const mapStateToProps = (state) => {
     const balanceState = state.balances;
     return {
-        balance: balanceState.balance
+        balance: balanceState.balance,
+        realBalance: balanceState.realBalance
     };
 }
 
@@ -74,7 +76,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchBalance: () => {
             dispatch(operations.fetchBalance());
-            //dispatch(operations.fetchBalance({ payed: 1}));
+            dispatch(operations.fetchRealBalance());
         }
     }
 }
