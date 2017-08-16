@@ -33,7 +33,7 @@ class DashboardPage extends React.Component {
                         <PanelBody>
                             <Grid>
                                 <Row>
-                                    <Col xs="6" md="3">
+                                    <Col xs={6} md={3}>
                                         <BalanceCard title="Fake balance">
                                             R$ 1000,00
                                         </BalanceCard>                                    
