@@ -5,15 +5,7 @@ import { expect } from 'chai';
 
 import * as apiModule from './../../src/services/api';
 import { EXPENSE, INCOME } from './../../src/transactions/kinds';
-import transactionReducer from './../../src/transactions/transactions/reducers';
-import { 
-    FETCH_TRANSACTIONS, 
-    EDIT_TRANSACTION,
-    FINISH_EDIT_TRANSACTION,
-    COPY_TRANSACTION,
-    SAVE_TRANSACTION,
-    DELETE_TRANSACTION
- } from './../../src/transactions/transactions/actions';
+import transactionReducer, { actions, types } from './../../src/transactions/transactions/ducks';
 
 describe('Transactions Reducers', () => {
 
@@ -41,7 +33,7 @@ describe('Transactions Reducers', () => {
         it('should be handled', () => {
             expect(
                 transactionReducer(undefined, {
-                    type: SAVE_TRANSACTION,                    
+                    type: types.SAVE_TRANSACTION,                    
                 })
             ).to.deep.equal({
                 isFetching: true,
@@ -59,7 +51,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(fetchingState, {
-                    type: SAVE_TRANSACTION,
+                    type: types.SAVE_TRANSACTION,
                     result: 'success',
                     transaction: { id: 1 }
                 })
@@ -83,7 +75,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(fetchingState, {
-                    type: SAVE_TRANSACTION,
+                    type: types.SAVE_TRANSACTION,
                     result: 'fail',
                     errors
                 })
@@ -106,7 +98,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(state, {
-                    type: SAVE_TRANSACTION,
+                    type: types.SAVE_TRANSACTION,
                     result: 'success',
                     transaction: transactionToSave
                 })
@@ -129,7 +121,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(state, {
-                    type: SAVE_TRANSACTION,
+                    type: types.SAVE_TRANSACTION,
                     result: 'success',
                     transaction: transactionToSave
                 })
@@ -148,7 +140,7 @@ describe('Transactions Reducers', () => {
         it('should be handled', () => {
             expect(
                 transactionReducer(undefined, {
-                    type: FETCH_TRANSACTIONS,
+                    type: types.FETCH_TRANSACTIONS,
                 })
             ).to.deep.equal({
                 isFetching: true,
@@ -163,7 +155,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(undefined, {
-                    type: FETCH_TRANSACTIONS,
+                    type: types.FETCH_TRANSACTIONS,
                     result: 'success',
                     transactions
                 })
@@ -180,7 +172,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(undefined, {
-                    type: FETCH_TRANSACTIONS,
+                    type: types.FETCH_TRANSACTIONS,
                     result: 'fail',
                     errors
                 })
@@ -205,7 +197,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(initialState, {
-                    type: FETCH_TRANSACTIONS,
+                    type: types.FETCH_TRANSACTIONS,
                     result: 'success',
                     transactions: newTransactions
                 })
@@ -228,7 +220,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(initialState, {
-                    type: FETCH_TRANSACTIONS,
+                    type: types.FETCH_TRANSACTIONS,
                     result: 'success',
                     transactions: overrideTransactions
                 })
@@ -252,7 +244,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(state, {
-                    type: EDIT_TRANSACTION,
+                    type: types.EDIT_TRANSACTION,
                     id: 1
                 })
             ).to.deep.equal({
@@ -270,11 +262,11 @@ describe('Transactions Reducers', () => {
                 isFetching: false,
                 errors: {},
             }
-            state = transactionReducer(state, { type: EDIT_TRANSACTION, id: 1})
+            state = transactionReducer(state, { type: types.EDIT_TRANSACTION, id: 1})
 
             expect(
                 transactionReducer(state, {
-                    type: FINISH_EDIT_TRANSACTION
+                    type: types.FINISH_EDIT_TRANSACTION
                 })
             ).to.deep.equal({
                 isFetching: false,
@@ -295,7 +287,7 @@ describe('Transactions Reducers', () => {
         it('should be handled', () => {
             expect(
                 transactionReducer(initialCopyState, {
-                    type: COPY_TRANSACTION,
+                    type: types.COPY_TRANSACTION,
                     id: 1
                 })
             ).to.deep.equal({
@@ -320,7 +312,7 @@ describe('Transactions Reducers', () => {
         it('should be handled', () => {
             expect(
                 transactionReducer(initialDeleteState, {
-                    type: DELETE_TRANSACTION,
+                    type: types.DELETE_TRANSACTION,
                     id: 2
                 })
             ).to.deep.equal({
@@ -343,7 +335,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(fetchingState, {
-                    type: DELETE_TRANSACTION,
+                    type: types.DELETE_TRANSACTION,
                     id: 2,
                     result: 'success'
                 })
@@ -363,7 +355,7 @@ describe('Transactions Reducers', () => {
 
             expect(
                 transactionReducer(fetchingState, {
-                    type: DELETE_TRANSACTION,                    
+                    type: types.DELETE_TRANSACTION,                    
                     result: 'fail',
                     errors: { 'detail' : 'couldnt delete' }
                 })
