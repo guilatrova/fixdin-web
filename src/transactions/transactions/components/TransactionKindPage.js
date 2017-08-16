@@ -28,14 +28,7 @@ import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from './TransactionFilter';
 import * as saveOptions from './TransactionForm';
 import ConfirmDeleteModal from 'ConfirmDeleteModal';
-import { 
-    fetchTransactions,
-    saveTransaction, 
-    editTransaction,
-    copyTransaction,
-    deleteTransaction, 
-    finishEditTransaction 
-} from '../ducks/operations';
+import { operations } from '../ducks';
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
@@ -276,6 +269,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
+    const { fetchTransactions, deleteTransaction, copyTransaction, saveTransaction, editTransaction, finishEditTransaction } = operations;
     return {
         fetch: (kind) => {
             dispatch(fetchCategories(kind));

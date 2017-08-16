@@ -1,4 +1,4 @@
-import * as actions from './actions';
+import actions from './actions';
 import createApi from '../../../services/api';
 import handleError from '../../../services/genericErrorHandler';
 import { formatTransactionToSend } from '../../../services/formatter';
@@ -14,11 +14,11 @@ function create(data, kind) {
     return api.post(kind.apiEndpoint, data);
 }
 
-export const copyTransaction = actions.copyTransaction;
-export const editTransaction = actions.editTransaction;
-export const finishEditTransaction = actions.finishEditTransaction;
+const copyTransaction = actions.copyTransaction;
+const editTransaction = actions.editTransaction;
+const finishEditTransaction = actions.finishEditTransaction;
 
-export const fetchTransactions = (kind, filters = undefined) => (dispatch) => {    
+const fetchTransactions = (kind, filters = undefined) => (dispatch) => {    
     dispatch(actions.requestTransactions());
     const api = createApi();
     
@@ -31,9 +31,9 @@ export const fetchTransactions = (kind, filters = undefined) => (dispatch) => {
             return data;
         })
         .catch(err => dispatch(actions.receiveTransactions('fail', handleError(err))));    
-}
+};
 
-export const saveTransaction = (transaction, kind) => (dispatch) => {    
+const saveTransaction = (transaction, kind) => (dispatch) => {    
     dispatch(actions.requestSaveTransaction());
             
     const data = formatTransactionToSend(transaction, kind);
@@ -44,13 +44,22 @@ export const saveTransaction = (transaction, kind) => (dispatch) => {
         .then(response => response.data)
         .then(data => dispatch(actions.receiveSaveTransaction('success', data)))
         .catch(err => dispatch(actions.receiveSaveTransaction('fail', handleError(err))))    
-}
+};
 
-export const deleteTransaction = (id, kind) => (dispatch) => {
+const deleteTransaction = (id, kind) => (dispatch) => {
     dispatch(actions.requestDeleteTransaction(id));
 
     const api = createApi();
     return api.delete(kind.apiEndpoint + id)
         .then(() => dispatch(actions.receiveDeleteTransaction(id, 'success')))
         .catch(err => dispatch(actions.receiveDeleteTransaction(id, 'fail', handleError(err))))    
-}
+};
+
+export default {
+    copyTransaction,
+    editTransaction,
+    finishEditTransaction,
+    fetchTransactions,
+    saveTransaction,
+    deleteTransaction
+};

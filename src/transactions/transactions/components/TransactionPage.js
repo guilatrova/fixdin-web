@@ -170,6 +170,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
+    const { fetchTransactions } = operations;
     return {
         fetch: () => {
             dispatch(fetchCategories(EXPENSE));

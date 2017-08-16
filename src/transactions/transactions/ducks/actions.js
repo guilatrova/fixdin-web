@@ -1,14 +1,14 @@
-import * as types from './types';
+import types from './types';
 import { formatTransactionReceived } from '../../../services/formatter';
 
 //FETCH
-export function requestTransactions() {
+function requestTransactions() {
     return {
         type: types.FETCH_TRANSACTIONS
     }
 }
 
-export function receiveTransactions(result, data) {
+function receiveTransactions(result, data) {
     if (result === 'success') {
         return {
             type: types.FETCH_TRANSACTIONS,
@@ -25,13 +25,13 @@ export function receiveTransactions(result, data) {
 }
 
 //SAVE
-export function requestSaveTransaction() {
+function requestSaveTransaction() {
     return {
         type: types.SAVE_TRANSACTION
     }
 }
 
-export function receiveSaveTransaction(result, data) {
+function receiveSaveTransaction(result, data) {
     if (result === 'success') {
         return {
             type: types.SAVE_TRANSACTION,
@@ -48,7 +48,7 @@ export function receiveSaveTransaction(result, data) {
 }
 
 //COPY
-export function copyTransaction(id) {
+function copyTransaction(id) {
     return {
         type: types.COPY_TRANSACTION,
         id
@@ -56,28 +56,28 @@ export function copyTransaction(id) {
 }
 
 //EDIT
-export function editTransaction(id) {
+function editTransaction(id) {
     return {
         type: types.EDIT_TRANSACTION,
         id
     }
 }
 
-export function finishEditTransaction() {
+function finishEditTransaction() {
     return {
         type: types.FINISH_EDIT_TRANSACTION
     }
 }
 
 //DELETE
-export function requestDeleteTransaction(id) {
+function requestDeleteTransaction(id) {
     return {
         type: types.DELETE_TRANSACTION,
         id
     }
 }
 
-export function receiveDeleteTransaction(id, result, errors) {
+function receiveDeleteTransaction(id, result, errors) {
     if (result == 'success') {
         return {
             type: types.DELETE_TRANSACTION,
@@ -91,4 +91,16 @@ export function receiveDeleteTransaction(id, result, errors) {
         result,
         errors
     }
+}
+
+export default {
+    requestTransactions,
+    receiveTransactions,
+    requestSaveTransaction,
+    receiveSaveTransaction,
+    requestDeleteTransaction,
+    receiveDeleteTransaction,
+    copyTransaction,
+    editTransaction,
+    finishEditTransaction
 }
