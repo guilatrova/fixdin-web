@@ -35,7 +35,7 @@ import {
     copyTransaction,
     deleteTransaction, 
     finishEditTransaction 
-} from '../actions';
+} from '../ducks/operations';
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';

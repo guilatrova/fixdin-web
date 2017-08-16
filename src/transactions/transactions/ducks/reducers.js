@@ -1,11 +1,4 @@
-import { 
-    SAVE_TRANSACTION, 
-    FETCH_TRANSACTIONS, 
-    COPY_TRANSACTION,
-    EDIT_TRANSACTION, 
-    FINISH_EDIT_TRANSACTION,
-    DELETE_TRANSACTION
-} from './actions';
+import * as types from './types';
 
 const initialState = {
     transactions: [],
@@ -125,29 +118,29 @@ function copyTransaction(state, action) {
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
-        case SAVE_TRANSACTION:
+        case types.SAVE_TRANSACTION:
             return saveReducer(state, action);
 
-        case FETCH_TRANSACTIONS:
+        case types.FETCH_TRANSACTIONS:
             return fetchReducer(state, action);
 
-        case COPY_TRANSACTION:
+        case types.COPY_TRANSACTION:
             return copyTransaction(state, action);
 
-        case EDIT_TRANSACTION:
+        case types.EDIT_TRANSACTION:
             return {
                 ...state,
                 editingTransaction: state.transactions.find(transaction => transaction.id == action.id)
             }
 
-        case FINISH_EDIT_TRANSACTION:
+        case types.FINISH_EDIT_TRANSACTION:
             return {
                 ...state,
                 editingTransaction: {},
                 errors: {}
             }
 
-        case DELETE_TRANSACTION:
+        case types.DELETE_TRANSACTION:
             return deleteReducer(state, action);
 
         default:
