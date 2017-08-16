@@ -134,9 +134,9 @@ describe('Transactions Reducers', () => {
                 transactions: expectedList,
                 editingTransaction: {}
             });
-        })
+        });
 
-    })
+    });
 
     describe('FETCH_TRANSACTIONS', () => {
 
@@ -149,7 +149,7 @@ describe('Transactions Reducers', () => {
                 transactions: [],
                 editingTransaction: {}
             });
-        })
+        });
 
         it('should be handled when successful', () => {
             const transactions = [ createTestTransaction({ id: 1}), createTestTransaction({ id: 2}) ]
@@ -162,7 +162,7 @@ describe('Transactions Reducers', () => {
                 transactions: transactions.map(t => t.expect),
                 editingTransaction: {}
             })
-        })
+        });
 
         it('should be handled when failed', () => {
             const errors = { detail: 'unauthorized' };
@@ -175,11 +175,11 @@ describe('Transactions Reducers', () => {
                 transactions: [],
                 editingTransaction: {}
             })
-        })
+        });
 
         it('should concat new transactions', () => {
-            const transactionsBefore = [ { id: 1, kind: INCOME.id }, { id: 2, kind: INCOME.id } ];
-            const newTransactions = [ { id: 3, kind: EXPENSE.id }, { id:4, kind: EXPENSE.id } ];
+            const transactionsBefore = [ createTestTransaction({ id: 1, kind: INCOME.id }).expect, createTestTransaction({ id: 2, kind: INCOME.id }).expect ];
+            const newTransactions = [ createTestTransaction({ id: 3, kind: EXPENSE.id }).expect, createTestTransaction({ id:4, kind: EXPENSE.id }).expect ];
             const transactionsAfter = [ ...transactionsBefore, ...newTransactions ]
             const initialState = {
                 transactions: transactionsBefore,
@@ -189,17 +189,13 @@ describe('Transactions Reducers', () => {
             }
 
             expect(
-                reducer(initialState, {
-                    type: types.FETCH_TRANSACTIONS,
-                    result: 'success',
-                    transactions: newTransactions
-                })
+                reducer(initialState, actions.receiveTransactions('success', newTransactions))
             ).to.deep.equal({
                 ...initialState,
                 isFetching: false,
                 transactions: transactionsAfter
             })
-        })
+        });
 
         it('should override old transactions', () => {
             const transactionsBefore = [ { id: 1, value: '10' }, { id: 2, value: '20' } ];
@@ -223,7 +219,7 @@ describe('Transactions Reducers', () => {
                 transactions: overrideTransactions
             })
         })
-    })
+    });
 
     describe('EDIT_TRANSACTION + FINISH_EDIT_TRANSACTION', () => {
 
@@ -236,10 +232,7 @@ describe('Transactions Reducers', () => {
             }
 
             expect(
-                reducer(state, {
-                    type: types.EDIT_TRANSACTION,
-                    id: 1
-                })
+                reducer(state, actions.editTransaction(1))
             ).to.deep.equal({
                 transactions,
                 isFetching: false,
@@ -255,12 +248,10 @@ describe('Transactions Reducers', () => {
                 isFetching: false,
                 errors: {},
             }
-            state = reducer(state, { type: types.EDIT_TRANSACTION, id: 1})
+            state = reducer(state, actions.editTransaction(1))
 
             expect(
-                reducer(state, {
-                    type: types.FINISH_EDIT_TRANSACTION
-                })
+                reducer(state, actions.finishEditTransaction())
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -279,10 +270,7 @@ describe('Transactions Reducers', () => {
 
         it('should be handled', () => {
             expect(
-                reducer(initialCopyState, {
-                    type: types.COPY_TRANSACTION,
-                    id: 1
-                })
+                reducer(initialCopyState, actions.copyTransaction(1))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -304,10 +292,7 @@ describe('Transactions Reducers', () => {
 
         it('should be handled', () => {
             expect(
-                reducer(initialDeleteState, {
-                    type: types.DELETE_TRANSACTION,
-                    id: 2
-                })
+                reducer(initialDeleteState, actions.requestDeleteTransaction(2))
             ).to.deep.equal({
                 isFetching: true,
                 errors: {},
@@ -327,11 +312,7 @@ describe('Transactions Reducers', () => {
             ]
 
             expect(
-                reducer(fetchingState, {
-                    type: types.DELETE_TRANSACTION,
-                    id: 2,
-                    result: 'success'
-                })
+                reducer(fetchingState, actions.receiveDeleteTransaction(2, 'success', 2))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -344,17 +325,14 @@ describe('Transactions Reducers', () => {
             const fetchingState = {
                 ...initialDeleteState,
                 isFetching: true
-            }
+            };
+            const errors = { 'detail' : 'couldnt delete' };
 
             expect(
-                reducer(fetchingState, {
-                    type: types.DELETE_TRANSACTION,                    
-                    result: 'fail',
-                    errors: { 'detail' : 'couldnt delete' }
-                })
+                reducer(fetchingState, actions.receiveDeleteTransaction(2, 'fail', errors))
             ).to.deep.equal({
                 isFetching: false,
-                errors: { 'detail': 'couldnt delete' },
+                errors,
                 transactions,
                 editingTransaction: {}
             });
