@@ -5,8 +5,8 @@ import { IndexRoute, Route, Router } from 'react-router';
 import { isAuthenticated } from './services/session';
 import { INCOME, EXPENSE, ALL } from './transactions/kinds';
 
-import { App, Dashboard } from './app';
-import Home from './common/components/Home';
+import { App, DashboardContainer } from './app';
+import DashboardPage from './dashboard/components/DashboardPage';
 import LoginPage from './users/components/LoginPage';
 import SignupPage from './users/components/SignupPage';
 import TransactionKindPage from './transactions/transactions/components/TransactionKindPage';
@@ -34,8 +34,8 @@ export default (
       <Route path='/login' component={LoginPage} />
       <Route path='/signup' component={SignupPage} />
 
-      <Route path='/' component={Dashboard} onEnter={requireAuth} >
-        <IndexRoute component={Home} />
+      <Route path='/' component={DashboardContainer} onEnter={requireAuth} >
+        <IndexRoute component={DashboardPage} />
         <Route path='/incomes' component={TransactionKindPage} kind={INCOME} />
         <Route path='/expenses' component={TransactionKindPage} kind={EXPENSE} />
         <Route path='/categories/incomes' component={CategoryPage} kind={INCOME} />

@@ -20,7 +20,7 @@ export class App extends React.Component {
     }
 }
 
-export class Dashboard extends React.Component {
+export class DashboardContainer extends React.Component {
   render() {
     return (      
       <MainContainer {...this.props}>

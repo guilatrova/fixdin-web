@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
@@ -11,7 +11,7 @@ import RefreshIcon from 'material-ui-icons/Refresh';
 import TransactionTable from './TransactionTable';
 import { EXPENSE, INCOME } from './../../kinds';
 
-const styleSheet = createStyleSheet('TransactionTableContainer', theme => ({
+const styles = theme => ({
     paper: {
         width: '100%',
         marginTop: theme.spacing.unit * 3,
@@ -29,7 +29,7 @@ const styleSheet = createStyleSheet('TransactionTableContainer', theme => ({
     title: {
         flex: '0 0 auto',
     }
-}));
+});
 
 const TransactionTableContainer = ({ classes, renderHeader, children, onRefresh, onFilter, isFetching, transactions, ...other }) => {
     const sumAll = (transactions) => transactions.map(x => x.value).reduce((total, value) => total + value, 0).toFixed(2).toString().replace('.', ',');
@@ -61,4 +61,4 @@ const TransactionTableContainer = ({ classes, renderHeader, children, onRefresh,
     );
 }
 
-export default withStyles(styleSheet)(TransactionTableContainer);
+export default withStyles(styles)(TransactionTableContainer);
