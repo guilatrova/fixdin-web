@@ -17,6 +17,7 @@ const receiveBalance = (result, data) => {
 
     return {
         type: types.FETCH_BALANCE,
+        result,
         errors: data
     }
 }
