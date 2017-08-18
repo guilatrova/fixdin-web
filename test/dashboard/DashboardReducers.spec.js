@@ -60,4 +60,42 @@ describe('Dashboard Reducers', () => {
 
     });
 
+    describe('FETCH_REAL_BALANCE', () => {
+
+        it("should be handled", () => {
+            expect(
+                reducer(initialState, actions.requestRealBalance())
+            ).to.deep.equal({
+                balance: undefined,
+                realBalance: undefined,
+                isFetching: true,
+                errors: {},
+            });
+        });
+
+        it("should be handled when successful", () => {
+            expect(
+                reducer(initialState, actions.receiveRealBalance('success', 50))
+            ).to.deep.equal({
+                balance: undefined,
+                realBalance: 50,
+                isFetching: false,
+                errors: {},
+            });
+        });
+
+        it('should be handled when failed', () => {
+            const errors = { 'detail':'random error' }
+            expect(
+                reducer(initialState, actions.receiveRealBalance('fail', errors))
+            ).to.deep.equal({
+                balance: undefined,
+                realBalance: undefined,
+                isFetching: false,
+                errors,
+            });
+        });
+
+    });
+
 });
