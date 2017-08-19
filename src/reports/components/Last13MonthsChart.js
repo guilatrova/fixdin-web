@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import {
@@ -9,24 +11,38 @@ import {
     PanelContainer,
 } from '@sketchpixy/rubix';
 
+import { operations } from './../duck';
+
 class Last13MonthsChart extends React.Component {
+	static propTypes = {
+		data: PropTypes.array.isRequired
+	};
 
     componentDidMount() {
-      
+		this.props.fetch();      
     }
 
     render() {
+		const data = this.props.data.map(report => ({
+			period: report.period.slice(-2) + '/' + report.period.slice(0, 4),
+			expenses: -(Number(report.expenses)),
+			incomes: Number(report.incomes),
+			total: Number(report.total)
+		}));
+
         return (
           <PanelContainer>
             <Panel>
               <PanelBody style={{padding: 25}}>
                 
                 <BarChart width={600} height={300} data={data} margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-                  <XAxis dataKey="name"/>
-                  <YAxis/>
+					<XAxis dataKey="period"/>
+					<YAxis/>
 
-                  <Legend />
-                  <Bar dataKey="pv" fill="#8884d8" />
+					<Tooltip/>
+					<Legend />
+					<Bar dataKey="expenses" name="despesas" fill="#DB3340" />
+					<Bar dataKey="incomes" name="receitas" fill="#1FDA9A" />
                 </BarChart>
 
               </PanelBody>
@@ -36,4 +52,16 @@ class Last13MonthsChart extends React.Component {
     }
 }
 
-export default Last13MonthsChart;
+const mapStateToProps = (state) => {
+	return {
+		data: state.reports.data
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		fetch: () => dispatch(operations.fetchLast13MonthsReport())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Last13MonthsChart);

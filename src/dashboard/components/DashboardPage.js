@@ -25,7 +25,7 @@ import {
 
 import BalanceCard from './../../balances/components/BalanceCard';
 import { operations } from './../../balances/duck';
-import Chart from './../../common/components/charts/Last13MonthsChart';
+import Chart from './../../reports/components/Last13MonthsChart';
 import { formatCurrencyDisplay } from '../../services/formatter';
 
 class DashboardPage extends React.Component {

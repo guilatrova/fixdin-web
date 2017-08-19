@@ -3,13 +3,15 @@ import { loginReducer as login, signupReducer as signup } from './users/reducers
 import transactions from './transactions/transactions/duck';
 import categories from './transactions/categories/reducers';
 import balances from './balances/duck';
+import reports from './reports/duck';
 
 const rootReducer = combineReducers({  
   login,
   signup,
   transactions,
   balances,
-  categories
+  categories,
+  reports
 });
 
 export default rootReducer;
