@@ -4,7 +4,7 @@ import handleError from './../../services/genericErrorHandler';
 import getQueryParams from './../../services/query';
 
 const fetchBalance = () => (dispatch) => {
-    dispatch(actions.requestBalance);
+    dispatch(actions.requestBalance());
 
     const api = createApi();
     return api.get('balances/current')
@@ -17,7 +17,7 @@ const fetchBalance = () => (dispatch) => {
 };
 
 const fetchRealBalance = () => (dispatch) => {
-    dispatch(actions.requestBalance);
+    dispatch(actions.requestRealBalance());
 
     const api = createApi();
     return api.get('balances/current?payed=1')
