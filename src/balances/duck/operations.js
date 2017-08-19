@@ -1,7 +1,6 @@
 import actions from './actions.js';
 import createApi from './../../services/api';
 import handleError from './../../services/genericErrorHandler';
-import getQueryParams from './../../services/query';
 
 const fetchBalance = () => (dispatch) => {
     dispatch(actions.requestBalance());

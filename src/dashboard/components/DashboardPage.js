@@ -25,6 +25,7 @@ import {
 
 import BalanceCard from './../../balances/components/BalanceCard';
 import { operations } from './../../balances/duck';
+import Chart from './../../common/components/charts/Last13MonthsChart';
 import { formatCurrencyDisplay } from '../../services/formatter';
 
 class DashboardPage extends React.Component {
@@ -59,6 +60,8 @@ class DashboardPage extends React.Component {
                         </PanelBody>
                     </Panel>
                 </PanelContainer>
+
+                <Chart />
             </div>
         );
     }

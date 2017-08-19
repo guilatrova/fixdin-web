@@ -5,7 +5,7 @@ const initialState = {
     realBalance: undefined,
     isFetching: false,
     errors: {},
-}
+};
 
 function fetchBalanceReducer(state, action) {
     switch (action.result) {
