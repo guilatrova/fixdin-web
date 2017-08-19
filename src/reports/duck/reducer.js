@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
 import types from './types';
 
-const initialState = {    
+const initialState = {
+    isFetching: false,
     data: [],
     errors: {}
 };
@@ -11,6 +12,7 @@ function last13MonthsReducer(state, action) {
         case 'success':
             return {
                 ...state,
+                isFetching: false,
                 data: action.data,
                 errors: {}
             };
@@ -18,15 +20,19 @@ function last13MonthsReducer(state, action) {
         case 'fail':
             return {
                 ...state,
+                isFetching: false,
                 errors: action.errors
             };
 
         default:
-            return state;
+            return {
+                ...state,
+                isFetching: true
+            };
     }
 }
 
-function reducer(state = initialState, action) {
+export default function reducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCH_LAST_13_MONTHS:
             return last13MonthsReducer(state, action);

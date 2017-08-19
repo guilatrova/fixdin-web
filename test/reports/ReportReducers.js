@@ -10,50 +10,47 @@ import actions from './../../src/reports/duck/actions';
 describe('Reports Reducers', () => {
 
     const initialState = {
-        balance: undefined,
-        realBalance: undefined,
         isFetching: false,
+        data: [],
         errors: {},
     };
 
-    xit('should return the initial state', () => {
+    it('should return the initial state', () => {
         expect(
             reducer(undefined, {})
         ).to.deep.equal(initialState);
     });
 
-    xdescribe("FETCH_BALANCE", () => {
+    describe("FETCH_LAST_13_MONTHS", () => {
 
-        xit("should be handled", () => {
+        it("should be handled", () => {
             expect(
-                reducer(initialState, actions.requestBalance())
+                reducer(initialState, actions.requestLast13MonthsReport())
             ).to.deep.equal({
-                balance: undefined,
-                realBalance: undefined,
                 isFetching: true,
+                data: [],
                 errors: {},
             });
         });
 
-        xit("should be handled when successful", () => {
+        it("should be handled when successful", () => {
+            const data = [ { id: 1 }, { id: 2 } ];
             expect(
-                reducer(initialState, actions.receiveBalance('success', 50))
+                reducer(initialState, actions.receiveLast13MonthsReport('success', data))
             ).to.deep.equal({
-                balance: 50,
-                realBalance: undefined,
                 isFetching: false,
+                data,
                 errors: {},
             });
         });
 
-        xit('should be handled when failed', () => {
+        it('should be handled when failed', () => {
             const errors = { 'detail':'random error' }
             expect(
-                reducer(initialState, actions.receiveBalance('fail', errors))
-            ).to.deep.equal({
-                balance: undefined,
-                realBalance: undefined,
+                reducer(initialState, actions.receiveLast13MonthsReport('fail', errors))
+            ).to.deep.equal({                
                 isFetching: false,
+                data: [],
                 errors,
             });
         });
