@@ -28,7 +28,7 @@ import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from './TransactionFilter';
 import * as saveOptions from './TransactionForm';
 import ConfirmDeleteModal from 'ConfirmDeleteModal';
-import { operations } from '../ducks';
+import { operations } from '../duck';
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';

@@ -6,8 +6,8 @@ import moment from 'moment';
 
 import * as apiModule from './../../src/services/api';
 import { EXPENSE, INCOME } from './../../src/transactions/kinds';
-import reducer, { types } from './../../src/transactions/transactions/ducks';
-import actions from './../../src/transactions/transactions/ducks/actions';
+import reducer, { types } from './../../src/transactions/transactions/duck';
+import actions from './../../src/transactions/transactions/duck/actions';
 
 describe('Transactions Reducers', () => {
 
