@@ -3,28 +3,28 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {    
-  Row,
-  Col,
-  Icon,
-  Grid,
-  Form,
-  Badge,
-  Modal,
-  Panel,
-  PanelContainer,  
-  Checkbox,
-  Table,
-  Button,
-  ButtonGroup,
-  PanelBody,
-  ControlLabel,
-  FormGroup,
-  InputGroup,
-  FormControl
+    Row,
+    Col,
+    Icon,
+    Grid,
+    Form,
+    Badge,
+    Modal,
+    Panel,
+    PanelContainer,  
+    Checkbox,
+    Table,
+    Button,
+    ButtonGroup,
+    PanelBody,
+    ControlLabel,
+    FormGroup,
+    InputGroup,
+    FormControl
 } from '@sketchpixy/rubix';
 
-import BalanceCard from './BalanceCard';
-import { operations } from './../ducks';
+import BalanceCard from './../../balances/components/BalanceCard';
+import { operations } from './../../balances/duck';
 import { formatCurrencyDisplay } from '../../services/formatter';
 
 class DashboardPage extends React.Component {

@@ -4,10 +4,10 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import reducer, { types } from './../../src/dashboard/ducks';
-import actions from './../../src/dashboard/ducks/actions';
+import reducer, { types } from './../../src/balances/duck';
+import actions from './../../src/balances/duck/actions';
 
-describe('Dashboard Reducers', () => {
+describe('Balances Reducers', () => {
 
     const initialState = {
         balance: undefined,
