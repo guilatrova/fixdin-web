@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import moment from 'moment';
 
 import * as apiModule from './../../src/services/api';
-import transactionReducer, { operations, types } from './../../src/balances/duck';
+import { operations, types } from './../../src/balances/duck';
 
 describe('Balances Actions', () => {
 	
