@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import {
-    Row,
-    Col,
-    Panel,
-    PanelBody,
-    PanelContainer,
+	Row,
+	Col,
+	Panel,
+	PanelBody,
+	PanelContainer,
 } from '@sketchpixy/rubix';
 
+import Typography from 'material-ui/Typography';
 import { operations } from './../duck';
 
 class Last13MonthsChart extends React.Component {
@@ -18,11 +19,11 @@ class Last13MonthsChart extends React.Component {
 		data: PropTypes.array.isRequired
 	};
 
-    componentDidMount() {
+	componentDidMount() {
 		this.props.fetch();      
-    }
+	}
 
-    render() {
+	render() {
 		const data = this.props.data.map(report => ({
 			period: report.period.slice(-2) + '/' + report.period.slice(0, 4),
 			expenses: -(Number(report.expenses)),
@@ -30,26 +31,29 @@ class Last13MonthsChart extends React.Component {
 			total: Number(report.total)
 		}));
 
-        return (
-          <PanelContainer>
-            <Panel>
-              <PanelBody style={{padding: 25}}>
-                
-                <BarChart width={600} height={300} data={data} margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-					<XAxis dataKey="period"/>
-					<YAxis/>
+		return (
+			<PanelContainer>
+				<Panel>
+					<PanelBody style={{padding: 25}}>
+						<Typography type="title">
+							Últimos 13 meses
+						</Typography>
 
-					<Tooltip/>
-					<Legend />
-					<Bar dataKey="expenses" name="despesas" fill="#DB3340" />
-					<Bar dataKey="incomes" name="receitas" fill="#1FDA9A" />
-                </BarChart>
+						<BarChart width={600} height={300} data={data} margin={{top: 25, bottom: 5}}>
+							<XAxis dataKey="period"/>
+							<YAxis/>
 
-              </PanelBody>
-            </Panel>
-          </PanelContainer>
-        );
-    }
+							<Tooltip/>
+							<Legend />
+							<Bar dataKey="expenses" name="despesas" fill="#DB3340" />
+							<Bar dataKey="incomes" name="receitas" fill="#1FDA9A" />
+						</BarChart>
+
+			  		</PanelBody>
+				</Panel>
+		  	</PanelContainer>
+		);
+	}
 }
 
 const mapStateToProps = (state) => {
