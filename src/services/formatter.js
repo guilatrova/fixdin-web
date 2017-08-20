@@ -40,9 +40,9 @@ export function formatCurrency(value, kind) {
     return value;
 }
 
-export function formatCurrencyDisplay(value) {
-    if (isNaN(value))
-        value = Number(value);
+export function formatCurrencyDisplay(value) {    
+    if (!value || isNaN(value))
+        return "R$ 0,00";
 
     return `R$ ${value.toFixed(2).replace(".",",")}`;
 }
