@@ -1,32 +1,19 @@
 import actions from './actions.js';
-import createApi from './../../services/api';
-import handleError from './../../services/genericErrorHandler';
+import createOperation from './../../common/generic_duck/operations';
 
-const fetchBalance = () => (dispatch) => {
-    dispatch(actions.requestBalance());
+const fetchBalance = createOperation(
+    'balances/current', 
+    actions.requestBalance,
+    actions.receiveBalance, 
+    (data) => data.balance
+);
 
-    const api = createApi();
-    return api.get('balances/current')
-        .then(response => response.data)
-        .then((data) => {
-            dispatch(actions.receiveBalance('success', data.balance));
-            return data;
-        })
-        .catch(err => dispatch(actions.receiveBalance('fail', handleError(err))));
-};
-
-const fetchRealBalance = () => (dispatch) => {
-    dispatch(actions.requestRealBalance());
-
-    const api = createApi();
-    return api.get('balances/current?payed=1')
-        .then(response => response.data)
-        .then((data) => {
-            dispatch(actions.receiveRealBalance('success', data.balance));
-            return data;
-        })
-        .catch(err => dispatch(actions.receiveRealBalance('fail', handleError(err))));
-};
+const fetchRealBalance = createOperation(
+    'balances/current?payed=1', 
+    actions.requestRealBalance, 
+    actions.receiveRealBalance, 
+    (data) => data.balance
+);
 
 export default {
     fetchBalance,
