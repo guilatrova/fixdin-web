@@ -1,14 +1,14 @@
 import actions from './actions.js';
-import createOperation from './../../common/generic_duck/operations';
+import { createGetOperation } from './../../common/generic_duck/operations';
 
-const fetchBalance = createOperation(
+const fetchBalance = createGetOperation(
     'balances/current', 
     actions.requestBalance,
     actions.receiveBalance, 
     (data) => data.balance
 );
 
-const fetchRealBalance = createOperation(
+const fetchRealBalance = createGetOperation(
     'balances/current?payed=1', 
     actions.requestRealBalance, 
     actions.receiveRealBalance, 

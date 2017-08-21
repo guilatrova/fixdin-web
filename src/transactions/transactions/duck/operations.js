@@ -3,7 +3,7 @@ import createApi from '../../../services/api';
 import handleError from '../../../services/genericErrorHandler';
 import { formatTransactionToSend } from '../../../services/formatter';
 import getQueryParams from '../../../services/query';
-import createOperation, { Operation } from './../../../common/generic_duck/operations';
+import { Operation, createDeleteOperation } from './../../../common/generic_duck/operations';
 
 class FetchOperation extends Operation {
     constructor(kind, filters) {
@@ -17,32 +17,6 @@ class FetchOperation extends Operation {
     getApiPromise(api) {
         const queryParams = getQueryParams(this.filters);
         return api.get(this.kind.apiEndpoint + queryParams);
-    }
-}
-
-class DeleteOperation extends Operation {
-    constructor(id, kind) {
-        super(actions.requestDeleteTransaction, actions.receiveDeleteTransaction);
-        this.id = id;
-        this.kind = kind;
-
-        return this.dispatch();
-    }
-    
-    getApiPromise(api) {
-        return api.delete(this.kind.apiEndpoint + this.id);
-    }
-
-    onRequest(dispatch, requestAction) {
-        dispatch(requestAction(this.id));
-    }
-
-    onSucceed(dispatch, receiveAction, data) {
-        dispatch(receiveAction(this.id, 'success'));
-    }
-
-    onFailed(dispatch, receiveAction, errors) {
-        dispatch(receiveAction(this.id, 'fail', handleError(errors)));
     }
 }
 
@@ -70,8 +44,12 @@ const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
 const fetchTransactions = (kind, filters = undefined) => new FetchOperation(kind, filters);
-const deleteTransaction = (id, kind) => new DeleteOperation(id, kind);
 const saveTransaction = (transaction, kind) => new SaveOperation(transaction, kind);
+const deleteTransaction = createDeleteOperation(
+    actions.requestDeleteTransaction, 
+    actions.receiveDeleteTransaction, 
+    (id, extra) => extra[0].apiEndpoint + id //kind
+);
 
 export default {
     copyTransaction,

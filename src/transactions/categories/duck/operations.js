@@ -1,7 +1,7 @@
 import actions from './actions';
 import createApi from '../../../services/api';
 import handleError from '../../../services/genericErrorHandler';
-import createOperation, { Operation } from './../../../common/generic_duck/operations';
+import { Operation, createDeleteOperation } from './../../../common/generic_duck/operations';
 
 class FetchOperation extends Operation {
     constructor(kind) {
@@ -43,38 +43,15 @@ class SaveOperation extends Operation {
     }
 }
 
-class DeleteOperation extends Operation {
-    constructor(id, kind) {
-        super(actions.requestDeleteCategory, actions.receiveDeleteCategory);
-        this.id = id;
-        this.kind = kind;
-
-        return this.dispatch();
-    }
-
-    onRequest(dispatch, requestAction) {
-        dispatch(requestAction(this.id));
-    }
-
-    onSucceed(dispatch, receiveAction, data) {
-        dispatch(receiveAction(this.id, 'success'));
-    }
-
-    onFailed(dispatch, receiveAction, errors) {
-        dispatch(receiveAction(this.id, 'fail', handleError(errors)));
-    }
-
-    getApiPromise(api) {
-        const { id, kind } = this;
-        return api.delete(`categories/${kind.apiEndpoint}${id}`);
-    }
-}
-
 const editCategory = actions.editCategory;
 const finishEditCategory = actions.finishEditCategory;
 const fetchCategories = (kind) => new FetchOperation(kind);
 const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind);
-const deleteCategory = (id, kind) => new DeleteOperation(id, kind);
+const deleteCategory = createDeleteOperation(
+    actions.requestDeleteCategory, 
+    actions.receiveDeleteCategory, 
+    (id, extra) => `categories/${extra[0].apiEndpoint}${id}`
+);
 
 export default {
     fetchCategories,

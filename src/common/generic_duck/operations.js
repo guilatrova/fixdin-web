@@ -48,11 +48,47 @@ export class GetOperation extends Operation {
     }
 }
 
-const createGetOperation = (endpoint, requestAction, receiveAction, getData) => {
+export class DeleteOperation extends Operation {
+    dispatch = (id, ...extra) => (dispatch) => {
+        this.onRequest(dispatch, this.requestAction, id);
+        
+        const api = createApi();
+        return this.getApiPromise(api, id, extra)
+            .then(response => response.data)
+            .then(data => this.onSucceed(dispatch, this.receiveAction, this.getSucceedData(data), id))
+            .catch(err => this.onFailed(dispatch, this.receiveAction, err, id))
+    }
+
+    onRequest(dispatch, requestAction, id) {
+        dispatch(requestAction(id));
+    }
+
+    onSucceed(dispatch, receiveAction, data, id) {
+        dispatch(receiveAction(id, 'success'));
+    }
+
+    onFailed(dispatch, receiveAction, errors, id) {
+        dispatch(receiveAction(id, 'fail', handleError(errors)));
+    }
+
+    getEndpoint(id, extra) {
+    }
+
+    getApiPromise(api, id, extra) {
+        const endpoint = this.getEndpoint(id, extra);
+        return api.delete(endpoint);
+    }
+}
+
+export const createGetOperation = (endpoint, requestAction, receiveAction, getData) => {
     const operation = new GetOperation(endpoint, requestAction, receiveAction);
     if (getData)
         operation.getSucceedData = getData;
     return operation.dispatch;
 };
 
-export default createGetOperation;
+export const createDeleteOperation = (requestAction, receiveAction, getEndpoint) => {
+    const operation = new DeleteOperation(requestAction, receiveAction);
+    operation.getEndpoint = getEndpoint;
+    return operation.dispatch;
+};
