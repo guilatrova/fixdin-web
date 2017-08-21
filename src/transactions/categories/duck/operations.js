@@ -3,59 +3,83 @@ import createApi from '../../../services/api';
 import handleError from '../../../services/genericErrorHandler';
 import createOperation, { Operation } from './../../../common/generic_duck/operations';
 
-function fetchCategories(kind) {
-    return dispatch => {
-        dispatch(actions.requestCategories());
-        const api = createApi();
+class FetchOperation extends Operation {
+    constructor(kind) {
+        super(actions.requestCategories, actions.receiveCategories);
+        this.kind = kind;
 
-        return api.get(`categories/${kind.apiEndpoint}`)
-            .then(response => response.data)
-            .then((data) => {
-                dispatch(actions.receiveCategories('success', data, kind));
-            })
-            .catch(err => dispatch(actions.receiveCategories('fail', handleError(err))));
+        return this.dispatch();
+    }
+
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction('success', data, this.kind));
+    }
+
+    getApiPromise(api) {
+        return api.get(`categories/${this.kind.apiEndpoint}`);
     }
 }
 
-function create(name, kind) {
-    return createApi().post(`categories/${kind.apiEndpoint}`, { name, kind });
-}
+class SaveOperation extends Operation {
+    constructor(id, name, kind) {
+        super(actions.requestSaveCategory, actions.receiveSaveCategory);
+        this.id = id;
+        this.name = name;
+        this.kind = kind;
 
-function update(id, name, kind) {
-    return createApi().put(`categories/${kind.apiEndpoint}${id}`, { name, kind });
-}
+        return this.dispatch();
+    }
 
-function saveCategory({id, name, kind}) {
-    return dispatch => {
-        dispatch(actions.requestSaveCategory());
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction('success', data, this.kind));
+    }
 
-        const data = {
-            name,
-            kind: kind.id
-        }
+    getApiPromise(api) {
+        const { id, name, kind } = this;
+        if (id)
+            return api.put(`categories/${kind.apiEndpoint}${id}`, { name, kind });
 
-        const apiPromise = (id) ? update(id, name, kind) : create(name, kind);
-
-        return apiPromise
-            .then(response => response.data)
-            .then(data => dispatch(actions.receiveSaveCategory('success', data, kind)))
-            .catch(err => dispatch(actions.receiveSaveCategory('fail', handleError(err))));
+        return api.post(`categories/${kind.apiEndpoint}`, { name, kind });
     }
 }
 
-function deleteCategory(id, kind) {
-    return dispatch => {
-        dispatch(actions.requestDeleteCategory(id));
+class DeleteOperation extends Operation {
+    constructor(id, kind) {
+        super(actions.requestDeleteCategory, actions.receiveDeleteCategory);
+        this.id = id;
+        this.kind = kind;
 
-        const api = createApi();
-        return api.delete(`categories/${kind.apiEndpoint}${id}`)
-            .then(() => dispatch(actions.receiveDeleteCategory(id, 'success')))
-            .catch(err => dispatch(actions.receiveDeleteCategory(id, 'fail', handleError(err))))
+        return this.dispatch();
+    }
+
+    onRequest(dispatch, requestAction) {
+        dispatch(requestAction(this.id));
+    }
+
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction(this.id, 'success'));
+    }
+
+    onFailed(dispatch, receiveAction, errors) {
+        dispatch(receiveAction(this.id, 'fail', handleError(errors)));
+    }
+
+    getApiPromise(api) {
+        const { id, kind } = this;
+        return api.delete(`categories/${kind.apiEndpoint}${id}`);
     }
 }
+
+const editCategory = actions.editCategory;
+const finishEditCategory = actions.finishEditCategory;
+const fetchCategories = (kind) => new FetchOperation(kind);
+const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind);
+const deleteCategory = (id, kind) => new DeleteOperation(id, kind);
 
 export default {
     fetchCategories,
     saveCategory,
+    editCategory,
+    finishEditCategory,
     deleteCategory
 };
