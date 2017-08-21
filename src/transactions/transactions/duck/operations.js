@@ -5,6 +5,47 @@ import { formatTransactionToSend } from '../../../services/formatter';
 import getQueryParams from '../../../services/query';
 import createOperation, { Operation } from './../../../common/generic_duck/operations';
 
+class FetchOperation extends Operation {
+    constructor(kind, filters) {
+        super(actions.requestTransactions, actions.receiveTransactions);
+        this.kind = kind;
+        this.filters = filters;
+    }
+
+    getApiPromise(api) {
+        const queryParams = getQueryParams(this.filters);
+        return api.get(this.kind.apiEndpoint + queryParams);
+    }
+}
+
+class DeleteOperation extends Operation {
+    constructor(id, kind) {
+        super(actions.requestDeleteTransaction, actions.receiveDeleteTransaction);
+        this.id = id;
+        this.kind = kind;
+    }
+    
+    getApiPromise(api) {
+        return api.delete(this.kind.apiEndpoint + this.id);
+    }
+
+    onRequest(dispatch, requestAction) {
+        dispatch(requestAction(this.id));
+    }
+
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction(this.id, 'success'));
+    }
+
+    onFailed(dispatch, receiveAction, errors) {
+        dispatch(receiveAction(this.id, 'fail', handleError(errors)));
+    }
+}
+
+class SaveOperation extends Operation {
+
+}
+
 function update(id, data, kind) {
     const api = createApi();
     return api.put(kind.apiEndpoint + id, data);
@@ -18,21 +59,9 @@ function create(data, kind) {
 const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
+const fetchTransactions = (kind, filters = undefined) => new FetchOperation(kind, filters).dispatch();
+const deleteTransaction = (id, kind) => new DeleteOperation(id, kind).dispatch();
 
-const fetchTransactions = (kind, filters = undefined) => (dispatch) => {    
-    dispatch(actions.requestTransactions());
-    const api = createApi();
-    
-    const queryParams = getQueryParams(filters);
-
-    return api.get(kind.apiEndpoint + queryParams)
-        .then(response => response.data)
-        .then((data) => {
-            dispatch(actions.receiveTransactions('success', data));
-            return data;
-        })
-        .catch(err => dispatch(actions.receiveTransactions('fail', handleError(err))));    
-};
 
 const saveTransaction = (transaction, kind) => (dispatch) => {    
     dispatch(actions.requestSaveTransaction());
@@ -47,14 +76,15 @@ const saveTransaction = (transaction, kind) => (dispatch) => {
         .catch(err => dispatch(actions.receiveSaveTransaction('fail', handleError(err))))    
 };
 
-const deleteTransaction = (id, kind) => (dispatch) => {
-    dispatch(actions.requestDeleteTransaction(id));
 
-    const api = createApi();
-    return api.delete(kind.apiEndpoint + id)
-        .then(() => dispatch(actions.receiveDeleteTransaction(id, 'success')))
-        .catch(err => dispatch(actions.receiveDeleteTransaction(id, 'fail', handleError(err))))    
-};
+// (dispatch) => {
+//     dispatch(actions.requestDeleteTransaction(id));
+
+//     const api = createApi();
+//     return api.delete(kind.apiEndpoint + id)
+//         .then(() => dispatch(actions.receiveDeleteTransaction(id, 'success')))
+//         .catch(err => dispatch(actions.receiveDeleteTransaction(id, 'fail', handleError(err))))    
+// };
 
 export default {
     copyTransaction,

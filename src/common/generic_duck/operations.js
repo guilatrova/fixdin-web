@@ -8,22 +8,26 @@ export class Operation {
     }
 
     dispatch = () => (dispatch) => {
-        dispatch(this.requestAction());
+        this.onRequest(dispatch, this.requestAction);
         
         const api = createApi();
         return this.getApiPromise(api)
             .then(response => response.data)
-            .then(data => this.onSucceed(dispatch, this.getSucceedData(data)))
-            .catch(err => this.onFailed(dispatch, err))
+            .then(data => this.onSucceed(dispatch, this.receiveAction, this.getSucceedData(data)))
+            .catch(err => this.onFailed(dispatch, this.receiveAction, err))
+    }
+    
+    onRequest(dispatch, requestAction) {
+        dispatch(requestAction());
     }
 
-    onSucceed(dispatch, data) {
-        dispatch(this.receiveAction('success', data));
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction('success', data));
         return data;
     }
 
-    onFailed(dispatch, errors) {
-        dispatch(this.receiveAction('fail', handleError(errors)));
+    onFailed(dispatch, receiveAction, errors) {
+        dispatch(receiveAction('fail', handleError(errors)));
     }
 
     getSucceedData(raw) {
@@ -44,11 +48,11 @@ export class GetOperation extends Operation {
     }
 }
 
-const createOperation = (endpoint, requestAction, receiveAction, getData) => {
+const createGetOperation = (endpoint, requestAction, receiveAction, getData) => {
     const operation = new GetOperation(endpoint, requestAction, receiveAction);
     if (getData)
         operation.getSucceedData = getData;
     return operation.dispatch;
 };
 
-export default createOperation;
+export default createGetOperation;
