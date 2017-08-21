@@ -1,5 +1,5 @@
 import actions from './actions.js';
-import { createGetOperation } from './../../common/generic_duck/operations';
+import { createGetOperation } from './../../common/genericDuck/operations';
 
 const fetchBalance = createGetOperation(
     'balances/current', 

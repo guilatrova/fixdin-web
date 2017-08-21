@@ -3,7 +3,7 @@ import createApi from '../../../services/api';
 import handleError from '../../../services/genericErrorHandler';
 import { formatTransactionToSend } from '../../../services/formatter';
 import getQueryParams from '../../../services/query';
-import { Operation, createDeleteOperation } from './../../../common/generic_duck/operations';
+import { Operation, createDeleteOperation } from './../../../common/genericDuck/operations';
 
 class FetchOperation extends Operation {
     constructor(kind, filters) {

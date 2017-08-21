@@ -1,7 +1,7 @@
 import actions from './actions';
 import createApi from '../../../services/api';
 import handleError from '../../../services/genericErrorHandler';
-import { Operation, createDeleteOperation } from './../../../common/generic_duck/operations';
+import { Operation, createDeleteOperation } from './../../../common/genericDuck/operations';
 
 class FetchOperation extends Operation {
     constructor(kind) {
