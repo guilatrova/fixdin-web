@@ -44,7 +44,7 @@ import FloatingActionButton from 'FloatingActionButton';
 import {
     fetchCategories,
     finishEditCategory
-} from '../../categories/actions';
+} from '../../categories/duck/operations';
 
 class TransactionPage extends React.Component {
     constructor(props) {

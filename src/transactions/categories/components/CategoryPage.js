@@ -31,7 +31,7 @@ import {
     editCategory, 
     finishEditCategory, 
     deleteCategory
-} from './../actions';
+} from './../duck/operations';
 
 class CategoryPage extends React.Component {
 

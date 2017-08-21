@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 
-import { fetchCategories } from './../actions';
 import { EXPENSE, INCOME, ALL } from '../../kinds';
 
 class MultiCategorySelectPicker extends React.Component {

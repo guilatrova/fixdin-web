@@ -34,10 +34,7 @@ import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 import FloatingActionButton from 'FloatingActionButton';
 
-import {
-    fetchCategories,
-    finishEditCategory
-} from '../../categories/actions';
+import { operations as categoryOperations } from '../../categories/duck';
 
 
 class TransactionKindPage extends React.Component {
@@ -270,6 +267,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     const { fetchTransactions, deleteTransaction, copyTransaction, saveTransaction, editTransaction, finishEditTransaction } = operations;
+    const { finishEditCategory, fetchCategories } = categoryOperations;
     return {
         fetch: (kind) => {
             dispatch(fetchCategories(kind));
