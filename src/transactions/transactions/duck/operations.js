@@ -10,6 +10,8 @@ class FetchOperation extends Operation {
         super(actions.requestTransactions, actions.receiveTransactions);
         this.kind = kind;
         this.filters = filters;
+
+        return this.dispatch();
     }
 
     getApiPromise(api) {
@@ -23,6 +25,8 @@ class DeleteOperation extends Operation {
         super(actions.requestDeleteTransaction, actions.receiveDeleteTransaction);
         this.id = id;
         this.kind = kind;
+
+        return this.dispatch();
     }
     
     getApiPromise(api) {
@@ -43,48 +47,31 @@ class DeleteOperation extends Operation {
 }
 
 class SaveOperation extends Operation {
+    constructor(transaction, kind) {
+        super(actions.requestSaveTransaction, actions.receiveSaveTransaction);    
+        this.transaction = transaction;
+        this.kind = kind;
+        
+        return this.dispatch();
+    }
 
-}
+    getApiPromise(api) {
+        const { transaction, kind } = this;
+        const data = formatTransactionToSend(transaction, kind);
 
-function update(id, data, kind) {
-    const api = createApi();
-    return api.put(kind.apiEndpoint + id, data);
-}
+        if (transaction.id)
+            return api.put(kind.apiEndpoint + transaction.id, data);
 
-function create(data, kind) {
-    const api = createApi();
-    return api.post(kind.apiEndpoint, data);
+        return api.post(kind.apiEndpoint, data);
+    }
 }
 
 const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
-const fetchTransactions = (kind, filters = undefined) => new FetchOperation(kind, filters).dispatch();
-const deleteTransaction = (id, kind) => new DeleteOperation(id, kind).dispatch();
-
-
-const saveTransaction = (transaction, kind) => (dispatch) => {    
-    dispatch(actions.requestSaveTransaction());
-            
-    const data = formatTransactionToSend(transaction, kind);
-    
-    let apiPromise = (transaction.id) ? update(transaction.id, data, kind) : create(data, kind);
-    
-    return apiPromise
-        .then(response => response.data)
-        .then(data => dispatch(actions.receiveSaveTransaction('success', data)))
-        .catch(err => dispatch(actions.receiveSaveTransaction('fail', handleError(err))))    
-};
-
-
-// (dispatch) => {
-//     dispatch(actions.requestDeleteTransaction(id));
-
-//     const api = createApi();
-//     return api.delete(kind.apiEndpoint + id)
-//         .then(() => dispatch(actions.receiveDeleteTransaction(id, 'success')))
-//         .catch(err => dispatch(actions.receiveDeleteTransaction(id, 'fail', handleError(err))))    
-// };
+const fetchTransactions = (kind, filters = undefined) => new FetchOperation(kind, filters);
+const deleteTransaction = (id, kind) => new DeleteOperation(id, kind);
+const saveTransaction = (transaction, kind) => new SaveOperation(transaction, kind);
 
 export default {
     copyTransaction,
