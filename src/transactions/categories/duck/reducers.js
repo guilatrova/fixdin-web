@@ -1,10 +1,4 @@
-import { 
-    SAVE_TRANSACTION_CATEGORY, 
-    FETCH_TRANSACTION_CATEGORIES,
-    EDIT_TRANSACTION_CATEGORY,
-    FINISH_EDIT_TRANSACTION_CATEGORY,
-    DELETE_TRANSACTION_CATEGORY
-} from './actions';
+import types from './types';
 
 const initialState = {
     isFetching: false,
@@ -55,7 +49,7 @@ function saveReducer(state, action) {
     }
 }
 
-function fetchReducer(state, action) {    
+function fetchReducer(state, action) {
     switch(action.result) {
         case 'success':
             return {
@@ -106,24 +100,24 @@ function deleteReducer(state, action) {
     }
 }
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state = initialState, action) {    
     switch (action.type) {
-        case SAVE_TRANSACTION_CATEGORY:
+        case types.SAVE_TRANSACTION_CATEGORY:
             return saveReducer(state, action);
 
-        case FETCH_TRANSACTION_CATEGORIES:
+        case types.FETCH_TRANSACTION_CATEGORIES:
             return fetchReducer(state, action);
 
-        case DELETE_TRANSACTION_CATEGORY:
+        case types.DELETE_TRANSACTION_CATEGORY:
             return deleteReducer(state, action);
 
-        case EDIT_TRANSACTION_CATEGORY:
+        case types.EDIT_TRANSACTION_CATEGORY:
             return {
                 ...state,
                 editingCategory: state.categories.find(category => category.id == action.id)
             }
 
-        case FINISH_EDIT_TRANSACTION_CATEGORY:
+        case types.FINISH_EDIT_TRANSACTION_CATEGORY:
             return {
                 ...state,
                 editingCategory: {},

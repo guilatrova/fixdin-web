@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Creatable } from 'react-select';
 
-import { fetchCategories, saveCategory } from './../actions';
+import { operations } from './../duck';
 
 class CategorySelectPicker extends React.Component {
 
@@ -72,8 +72,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch: (kind) => dispatch(fetchCategories(kind)),
-        create: (name, kind) => dispatch(saveCategory({name, kind}))
+        fetch: (kind) => dispatch(operations.fetchCategories(kind)),
+        create: (name, kind) => dispatch(operations.saveCategory({name, kind}))
     }
 }
 

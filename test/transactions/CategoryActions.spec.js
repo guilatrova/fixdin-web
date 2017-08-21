@@ -8,14 +8,7 @@ import { expect } from 'chai';
 
 import * as apiModule from './../../src/services/api';
 import { EXPENSE, INCOME } from './../../src/transactions/kinds';
-import { 
-	SAVE_TRANSACTION_CATEGORY, 
-	FETCH_TRANSACTION_CATEGORIES,
-	DELETE_TRANSACTION_CATEGORY,
-	saveCategory,
-	fetchCategories,
-	deleteCategory
-} from './../../src/transactions/categories/actions';
+import reducers, { operations, types } from './../../src/transactions/categories/duck';
 
 describe('Category Actions', () => {
 	
@@ -38,16 +31,16 @@ describe('Category Actions', () => {
 		moxios.uninstall(axiosInstance);
 	})
 
-    describe(SAVE_TRANSACTION_CATEGORY, () => {
+    describe("SAVE_TRANSACTION_CATEGORY", () => {
 
         it('should dispatch success action after SAVE_TRANSACTION_CATEGORY', (done) => {
             const category = { id: 1, name: 'Car', kind: EXPENSE.id };
 			const expectedActions = [
-				{ type: SAVE_TRANSACTION_CATEGORY },
-				{ type: SAVE_TRANSACTION_CATEGORY, result: 'success', category }
+				{ type: types.SAVE_TRANSACTION_CATEGORY },
+				{ type: types.SAVE_TRANSACTION_CATEGORY, result: 'success', category }
 			]
 
-			store.dispatch(saveCategory({...category, id: undefined}));
+			store.dispatch(operations.saveCategory({...category, id: undefined}));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -69,11 +62,11 @@ describe('Category Actions', () => {
 				name: 'name already in use',				
 			}
 			const expectedActions = [
-				{ type: SAVE_TRANSACTION_CATEGORY },
-				{ type: SAVE_TRANSACTION_CATEGORY, result: 'fail', errors: expectedResponse }
+				{ type: types.SAVE_TRANSACTION_CATEGORY },
+				{ type: types.SAVE_TRANSACTION_CATEGORY, result: 'fail', errors: expectedResponse }
 			]
 
-			store.dispatch(saveCategory({name:'Car', kind:INCOME}));
+			store.dispatch(operations.saveCategory({name:'Car', kind:INCOME}));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -96,7 +89,7 @@ describe('Category Actions', () => {
 		it('should use PUT when id is supplied', (done) => {
 			const editCategory = {id: 2, name: 'eating out', kind: EXPENSE}
 
-			store.dispatch(saveCategory(editCategory));
+			store.dispatch(operations.saveCategory(editCategory));
 
 			moxios.wait(() => {                
 				let request = moxios.requests.mostRecent();
@@ -107,7 +100,7 @@ describe('Category Actions', () => {
 		})
     })
 
-	describe(FETCH_TRANSACTION_CATEGORIES, () => {
+	describe("FETCH_TRANSACTION_CATEGORIES", () => {
 
 		it('should dispatch success action after FETCH_TRANSACTION_CATEGORIES', (done) => {
             const categories = [
@@ -115,11 +108,11 @@ describe('Category Actions', () => {
 				{ id: 2, name: 'Feeding', kind: EXPENSE.id }
 			];
 			const expectedActions = [
-				{ type: FETCH_TRANSACTION_CATEGORIES },
-				{ type: FETCH_TRANSACTION_CATEGORIES, kind: EXPENSE, result: 'success', categories }
+				{ type: types.FETCH_TRANSACTION_CATEGORIES },
+				{ type: types.FETCH_TRANSACTION_CATEGORIES, kind: EXPENSE, result: 'success', categories }
 			]
 
-			store.dispatch(fetchCategories(EXPENSE));
+			store.dispatch(operations.fetchCategories(EXPENSE));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -141,11 +134,11 @@ describe('Category Actions', () => {
 				detail: 'failed connection'
 			}
 			const expectedActions = [
-				{ type: FETCH_TRANSACTION_CATEGORIES },
-				{ type: FETCH_TRANSACTION_CATEGORIES, result: 'fail', errors: expectedResponse }
+				{ type: types.FETCH_TRANSACTION_CATEGORIES },
+				{ type: types.FETCH_TRANSACTION_CATEGORIES, result: 'fail', errors: expectedResponse }
 			]
 
-			store.dispatch(fetchCategories(INCOME));
+			store.dispatch(operations.fetchCategories(INCOME));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -166,14 +159,14 @@ describe('Category Actions', () => {
 		});
 	})
 
-	describe(DELETE_TRANSACTION_CATEGORY, (done) => {
+	describe("DELETE_TRANSACTION_CATEGORY", (done) => {
 		it('should dispatch success action after DELETE_TRANSACTION_CATEGORY', (done) => {
 			const expectedActions = [
-				{ type: DELETE_TRANSACTION_CATEGORY, id: 2 },
-				{ type: DELETE_TRANSACTION_CATEGORY, result: 'success', id: 2 }
+				{ type: types.DELETE_TRANSACTION_CATEGORY, id: 2 },
+				{ type: types.DELETE_TRANSACTION_CATEGORY, result: 'success', id: 2 }
 			]
 
-			store.dispatch(deleteCategory(2, INCOME));
+			store.dispatch(operations.deleteCategory(2, INCOME));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();
@@ -191,11 +184,11 @@ describe('Category Actions', () => {
 		it('should dispatch fail action after DELETE_TRANSACTION_CATEGORY', (done) => {
 			const errors = { 'detail': 'Already in use' }
 			const expectedActions = [
-				{ type: DELETE_TRANSACTION_CATEGORY, id: 2 },
-				{ type: DELETE_TRANSACTION_CATEGORY, result: 'fail', errors }
+				{ type: types.DELETE_TRANSACTION_CATEGORY, id: 2 },
+				{ type: types.DELETE_TRANSACTION_CATEGORY, result: 'fail', errors }
 			]
 
-			store.dispatch(deleteCategory(2, INCOME));
+			store.dispatch(operations.deleteCategory(2, INCOME));
 
 			moxios.wait(() => {
 				let request = moxios.requests.mostRecent();

@@ -4,14 +4,8 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import { EXPENSE, INCOME } from './../../src/transactions/kinds';
-import categoryReducer from './../../src/transactions/categories/reducers';
-import { 
-    SAVE_TRANSACTION_CATEGORY,
-    EDIT_TRANSACTION_CATEGORY,
-    FINISH_EDIT_TRANSACTION_CATEGORY,
-    FETCH_TRANSACTION_CATEGORIES,
-    DELETE_TRANSACTION_CATEGORY
-} from './../../src/transactions/categories/actions';
+import categoryReducer, { operations, types } from './../../src/transactions/categories/duck';
+import actions from './../../src/transactions/categories/duck/actions';
 
 describe('Category Reducers', () => {
 
@@ -32,33 +26,29 @@ describe('Category Reducers', () => {
         expect(
             categoryReducer(undefined, {})            
         ).to.deep.equal(initialState);
-    })    
+    })
 
-    describe(SAVE_TRANSACTION_CATEGORY, () => {
+    describe("SAVE_TRANSACTION_CATEGORY", () => {
 
         it('should be handled', () => {
             expect(
-                categoryReducer(undefined, {
-                    type: SAVE_TRANSACTION_CATEGORY
-                })
+                categoryReducer(undefined, actions.requestSaveCategory())
             ).to.deep.equal({
-                ...initialState,
+                categories: [],
+                editingCategory: {},
                 isFetching: true,
                 errors: {}
             })
         })
 
         it('should be handled when successful', () => {
+            const data = { id: 1 };
             expect(
-                categoryReducer(fetchingState, {
-                    type: SAVE_TRANSACTION_CATEGORY,
-                    result: 'success',
-                    category: { id: 1 }
-                })
+                categoryReducer(fetchingState, actions.receiveSaveCategory('success', data))
             ).to.deep.equal({
-                ...initialState,
+                editingCategory: {},
                 isFetching: false,
-                categories: [{ id: 1}],
+                categories: [ data ],
                 errors: {}
             })
         })
@@ -66,13 +56,10 @@ describe('Category Reducers', () => {
         it('should be handled when failed', () => {
             const errors = { name: 'name under use' }
             expect(
-                categoryReducer(fetchingState, {
-                    type: SAVE_TRANSACTION_CATEGORY,
-                    result: 'fail',
-                    errors
-                })
+                categoryReducer(fetchingState, actions.receiveCategories('fail', errors))
             ).to.deep.equal({
-                ...initialState,
+                editingCategory: {},
+                categories: [],
                 isFetching: false,
                 errors
             });
@@ -88,11 +75,7 @@ describe('Category Reducers', () => {
             }
 
             expect(
-                categoryReducer(state, {
-                    type: SAVE_TRANSACTION_CATEGORY,
-                    result: 'success',
-                    category: categoryToSave
-                })
+                categoryReducer(state, actions.receiveSaveCategory('success', categoryToSave))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -101,7 +84,7 @@ describe('Category Reducers', () => {
             });
         })
 
-        it('should update category result to categories when id in list', () => {
+        it('should update category result when id in list', () => {
             const initialList = [ { id: 1, name: 'Car'}, { id: 2, name: 'Feeding' }]
             const categoryToSave = { id: 2, name: 'Eating out' }
             const expectedList = [ { id: 1, name: 'Car'}, ...categoryToSave ]
@@ -111,11 +94,7 @@ describe('Category Reducers', () => {
             }            
 
             expect(
-                categoryReducer(state, {
-                    type: SAVE_TRANSACTION_CATEGORY,
-                    result: 'success',
-                    category: categoryToSave
-                })
+                categoryReducer(state, actions.receiveSaveCategory('success', categoryToSave))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -125,14 +104,14 @@ describe('Category Reducers', () => {
         })
     })
 
-    describe(FETCH_TRANSACTION_CATEGORIES, () => {
+    describe("FETCH_TRANSACTION_CATEGORIES", () => {
         it('should be handled', () => {
             expect(
-                categoryReducer(undefined, {
-                    type: FETCH_TRANSACTION_CATEGORIES
-                })
+                categoryReducer(undefined, actions.requestCategories())
             ).to.deep.equal({
-                ...initialState,
+                categories: [],
+                errors: {},
+                editingCategory: {},
                 isFetching: true
             })
         })
@@ -141,13 +120,10 @@ describe('Category Reducers', () => {
             const categories = [ { id: 1 }, { id: 2} ];
 
             expect(
-                categoryReducer(fetchingState, {
-                    type: FETCH_TRANSACTION_CATEGORIES,
-                    result: 'success',
-                    categories
-                })
+                categoryReducer(fetchingState, actions.receiveCategories('success', categories))
             ).to.deep.equal({
-                ...initialState,
+                editingCategory: {},
+                errors: {},
                 isFetching: false,
                 categories
             })
@@ -156,13 +132,10 @@ describe('Category Reducers', () => {
         it('should be handled when failed', () => {
             const errors = { detail: 'you cant see those categories' }
             expect(
-                categoryReducer(fetchingState, {
-                    type: FETCH_TRANSACTION_CATEGORIES,
-                    result: 'fail',
-                    errors
-                })
+                categoryReducer(fetchingState, actions.receiveCategories('fail', errors))
             ).to.deep.equal({
-                ...initialState,
+                editingCategory: {},
+                categories: [],
                 isFetching: false,
                 errors
             });
@@ -182,14 +155,11 @@ describe('Category Reducers', () => {
             ]
 
             expect(
-                categoryReducer(someCategoriesState, {
-                    type: FETCH_TRANSACTION_CATEGORIES,
-                    kind: EXPENSE,
-                    result: 'success',
-                    categories: received
-                })
+                categoryReducer(someCategoriesState, actions.receiveCategories('success', received, EXPENSE))
             ).to.deep.equal({
-                ...initialState,                
+                isFetching: false,
+                errors: {},
+                editingCategory: {},
                 categories: [
                     { id: 1, name: 'c1', kind: INCOME.id },
                     { id: 2, name: 'new c2', kind: EXPENSE.id },
@@ -199,7 +169,7 @@ describe('Category Reducers', () => {
         })
     })
 
-    describe(`${EDIT_TRANSACTION_CATEGORY} + ${FINISH_EDIT_TRANSACTION_CATEGORY}`, () => {
+    describe('EDIT_TRANSACTION_CATEGORY + FINISH_EDIT_TRANSACTION_CATEGORY', () => {
 
         const categories = [
             { id: 1, name: 'eating out', category: EXPENSE },
@@ -212,12 +182,9 @@ describe('Category Reducers', () => {
             isFetching: false
         }
 
-        it(`should handle ${EDIT_TRANSACTION_CATEGORY}`, () => {
+        it('should handle EDIT_TRANSACTION_CATEGORY', () => {
             expect(
-                categoryReducer(state, {
-                    type: EDIT_TRANSACTION_CATEGORY,
-                    id: 1
-                })
+                categoryReducer(state, actions.editCategory(1))
             ).to.deep.equal({
                 categories,
                 isFetching: false,
@@ -227,16 +194,14 @@ describe('Category Reducers', () => {
 
         })
 
-        it(`should handle ${FINISH_EDIT_TRANSACTION_CATEGORY}`, () => {
+        it('should handle FINISH_EDIT_TRANSACTION_CATEGORY', () => {
             const editingState = {
                 ...state,
                 editingCategory: state.categories[0]
             }
 
             expect(
-                categoryReducer(editingState, {
-                    type: FINISH_EDIT_TRANSACTION_CATEGORY                        
-                })
+                categoryReducer(editingState, actions.finishEditCategory())
             ).to.deep.equal({
                 categories,
                 isFetching: false,
@@ -246,7 +211,7 @@ describe('Category Reducers', () => {
         })
     })
 
-    describe(DELETE_TRANSACTION_CATEGORY, () => {
+    describe("DELETE_TRANSACTION_CATEGORY", () => {
         const categories = [
                 { id: 1, name: 'Eating out', kind: EXPENSE.id },
                 { id: 2, name: 'Rental', kind: INCOME.id }
@@ -264,10 +229,7 @@ describe('Category Reducers', () => {
 
 		it('should be handled', () => {
             expect(
-                categoryReducer(initialDeleteState, {
-                    type: DELETE_TRANSACTION_CATEGORY,
-                    id: 2
-                })
+                categoryReducer(initialDeleteState, actions.requestDeleteCategory(2))
             ).to.deep.equal({
                 isFetching: true,
                 errors: {},
@@ -278,14 +240,10 @@ describe('Category Reducers', () => {
 
         it('should be handled when successfull', () => {
             expect(
-                categoryReducer(fetchingDeleteState, {
-                    type: DELETE_TRANSACTION_CATEGORY,
-                    id: 2,
-                    result: 'success'
-                })
+                categoryReducer(fetchingDeleteState, actions.receiveDeleteCategory(2, 'success'))
             ).to.deep.equal({
                 isFetching: false,
-                errors: {},                
+                errors: {},
                 editingCategory: {},
                 categories: [ categories[0] ]
             });
@@ -295,11 +253,7 @@ describe('Category Reducers', () => {
             const errors = {'detail' : 'Cant delete this'};
 
             expect(
-                categoryReducer(fetchingDeleteState, {
-                    type: DELETE_TRANSACTION_CATEGORY,
-                    result: 'fail',
-                    errors
-                })
+                categoryReducer(fetchingDeleteState, actions.receiveDeleteCategory(2, 'fail', errors))
             ).to.deep.equal({
                 isFetching: false,
                 errors,
