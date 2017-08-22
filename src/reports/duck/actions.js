@@ -22,7 +22,32 @@ const receiveLast13MonthsReport = (result, data) => {
     }
 };
 
+const requestPendingTransactionsReport = (kind) => {
+    return {
+        type: types.FETCH_PENDING_EXPENSES,
+        kind
+    }
+};
+
+const receivePendingTransactionsReport = (result, data, kind) => {
+    if (result === 'success') {
+        return {
+            type: types.FETCH_PENDING_EXPENSES,
+            kind,
+            data
+        }
+    }
+
+    return {
+        type: types.FETCH_PENDING_EXPENSES,
+        result,
+        errors: data
+    }
+};
+
 export default {
     requestLast13MonthsReport,
-    receiveLast13MonthsReport
+    receiveLast13MonthsReport,
+    requestPendingTransactionsReport,
+    receivePendingTransactionsReport
 }
