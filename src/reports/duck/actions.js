@@ -1,16 +1,18 @@
 import types from './types';
 
-const requestLast13MonthsReport = () => {
+const requestLast13MonthsReport = (real) => {
     return {
-        type: types.FETCH_LAST_13_MONTHS
+        type: types.FETCH_LAST_13_MONTHS,
+        real
     }
 };
 
-const receiveLast13MonthsReport = (result, data) => {
+const receiveLast13MonthsReport = (result, data, real) => {
     if (result === 'success') {
         return {
             type: types.FETCH_LAST_13_MONTHS,
             result,
+            real,
             data
         }
     }

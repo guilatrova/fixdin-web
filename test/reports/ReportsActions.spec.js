@@ -11,7 +11,7 @@ import moment from 'moment';
 import * as apiModule from './../../src/services/api';
 import { operations, types } from './../../src/reports/duck';
 
-describe('Reports Actions', () => {
+xdescribe('Reports Actions', () => {
 	
 	let sandbox, axiosInstance;
 	const middlewares = [ thunk ];

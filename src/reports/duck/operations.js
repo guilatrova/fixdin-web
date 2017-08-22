@@ -17,11 +17,30 @@ class FetchPendingTransactionsOperation extends GetOperation {
     }
 }
 
-const fetchLast13MonthsReport = createGetOperation(
-    'reports/last-13-months',
-    actions.requestLast13MonthsReport,
-    actions.receiveLast13MonthsReport
-);
+class FetchLast13MonthsReport extends GetOperation {
+    constructor(real = false) {
+        super('reports/last-13-months/',
+            actions.requestLast13MonthsReport,
+            actions.receiveLast13MonthsReport);
+
+        this.real = real;
+
+        return this.dispatch();
+    }
+
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction('success', data, this.real));
+        return data;
+    }
+
+    getApiPromise(api) {
+        const filter = this.real ? '?payed=1' : '';
+        return api.get(this.endpoint + filter);
+    }
+}
+
+const fetchLast13MonthsReport = 
+    (real) => new FetchLast13MonthsReport(real);
 
 const fetchPendingTransactionsReport = 
     (kind) => new FetchPendingTransactionsOperation(kind);

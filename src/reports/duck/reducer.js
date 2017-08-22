@@ -4,7 +4,10 @@ import { EXPENSE } from '../../transactions/kinds';
 
 const last13MonthsInitialState = {
     isFetching: false,
-    data: [],
+    data: {
+        expected: [],
+        real: [],
+    },    
     errors: {}
 };
 
@@ -12,12 +15,17 @@ function last13MonthsReducer(state = last13MonthsInitialState, action) {
     if (action.type != types.FETCH_LAST_13_MONTHS) 
         return state;
 
+    const dataKey = action.real ? 'real' : 'expected';
+
     switch (action.result) {
         case 'success':
             return {
                 ...state,
                 isFetching: false,
-                data: action.data,
+                data: {
+                    ...state.data,
+                    [dataKey]: action.data
+                },
                 errors: {}
             };
 

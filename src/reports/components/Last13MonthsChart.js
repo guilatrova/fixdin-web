@@ -11,20 +11,31 @@ import {
 	PanelContainer,
 } from '@sketchpixy/rubix';
 
+import { FormControlLabel } from 'material-ui/Form';
+import Switch from 'material-ui/Switch';
 import Typography from 'material-ui/Typography';
-import { operations } from './../duck';
+import { operations, selectors } from './../duck';
 
 class Last13MonthsChart extends React.Component {
 	static propTypes = {
 		data: PropTypes.array.isRequired
 	};
 
+	state = {
+		displayReal: true
+	}
+
 	componentDidMount() {
 		this.props.fetch();      
 	}
 
+	toggleDisplay(event, checked) {
+		;
+	}	
+
 	render() {
-		const data = this.props.data.map(report => ({
+		const source = this.state.displayReal ? this.props.realData : this.props.data;
+		const data = source.map(report => ({
 			period: report.period.slice(-2) + '/' + report.period.slice(0, 4),
 			expenses: -(Number(report.expenses)),
 			incomes: Number(report.incomes),
@@ -38,6 +49,15 @@ class Last13MonthsChart extends React.Component {
 						<Typography type="title">
 							Últimos 13 meses
 						</Typography>
+
+						<FormControlLabel label="Exibir real"
+							control={
+								<Switch
+									checked={this.state.displayReal}
+									onChange={(e, checked) => this.setState({ displayReal: checked })}
+								/>
+							}
+						/>
 
 						<BarChart width={600} height={300} data={data} margin={{top: 25, bottom: 5}}>
 							<XAxis dataKey="period"/>
@@ -58,13 +78,17 @@ class Last13MonthsChart extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		data: state.reports.last13Months.data
+		data: selectors.getLast13Months(state),
+		realData: selectors.getRealLast13Months(state)
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetch: () => dispatch(operations.fetchLast13MonthsReport())
+		fetch: () => {
+			dispatch(operations.fetchLast13MonthsReport());
+			dispatch(operations.fetchLast13MonthsReport(true));
+		}
 	};
 };
 
