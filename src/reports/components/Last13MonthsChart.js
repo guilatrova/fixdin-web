@@ -58,7 +58,7 @@ class Last13MonthsChart extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		data: state.reports.data
+		data: state.reports.last13Months.data
 	};
 };
 

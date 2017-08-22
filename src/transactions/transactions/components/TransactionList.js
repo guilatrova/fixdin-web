@@ -6,6 +6,8 @@ import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 
+import { formatCurrencyDisplay } from '../../../services/formatter';
+
 const styles = theme => ({
     root: {
         width: '100%',
@@ -41,15 +43,16 @@ class TransactionList extends React.Component {
 
     render() {
         const transactionItems = this.props.transactions.map(transaction => {
-            return (
-                <ListItem dense button key={transaction.id}>
-                    <ListItemText primary={`${transaction.description} (${transaction.value})`} />
+            const { id, description } = transaction;
+            const value = formatCurrencyDisplay(transaction.value);
 
-                    <ListItemSecondaryAction>
-                        <Checkbox
-                            onClick={e => this.handleToggle(transaction.id)}
-                            checked={this.state.checked.indexOf(value) !== -1} />
-                    </ListItemSecondaryAction>
+            return (
+                <ListItem dense button key={id}>
+                    <Checkbox
+                        onClick={e => this.handleToggle(id)}
+                        checked={this.state.checked.indexOf(id) !== -1} />                        
+                    <ListItemText primary={description} />
+                    <ListItemText primary={value} />
 
                 </ListItem>
             );

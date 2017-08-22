@@ -23,14 +23,19 @@ import {
     FormControl
 } from '@sketchpixy/rubix';
 
+import { operations as balanceOperations, selectors as balanceSelectors } from './../../balances/duck';
+import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
+import { EXPENSE, INCOME } from './../../transactions/kinds';
+
 import BalanceCard from './../../balances/components/BalanceCard';
-import { operations } from './../../balances/duck';
 import Chart from './../../reports/components/Last13MonthsChart';
+import TransactionList from './../../transactions/transactions/components/TransactionList';
 import { formatCurrencyDisplay } from '../../services/formatter';
 
 class DashboardPage extends React.Component {
     componentDidMount() {
         this.props.fetchBalance();
+        this.props.fetchPendingTransactions();
     }
 
     render() {
@@ -47,13 +52,13 @@ class DashboardPage extends React.Component {
                                     <Col xs={6} md={3}>
                                         <BalanceCard title="Saldo">
                                             {balance}
-                                        </BalanceCard>                                    
+                                        </BalanceCard>
                                     </Col>
 
                                     <Col xs={6} md={3}>
                                         <BalanceCard title="Saldo real">
                                             {realBalance}
-                                        </BalanceCard>                                    
+                                        </BalanceCard>
                                     </Col>
                                 </Row>
                             </Grid>
@@ -62,24 +67,45 @@ class DashboardPage extends React.Component {
                 </PanelContainer>
 
                 <Chart />
+
+                <PanelContainer>
+                    <Panel>
+                        <PanelBody>
+                            <Grid>
+                                <Row>
+                                    <Col xs={12} md={6}>
+                                        <TransactionList transactions={this.props.overdueExpenses} />
+                                    </Col>
+
+                                    <Col xs={12} md={6}>
+                                    </Col>
+                                </Row>
+                            </Grid>
+                        </PanelBody>
+                    </Panel>
+                </PanelContainer>
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    const balanceState = state.balances;
     return {
-        balance: balanceState.balance,
-        realBalance: balanceState.realBalance
+        balance: balanceSelectors.getBalance(state),
+        realBalance: balanceSelectors.getRealBalance(state),
+        nextPendingExpenses: reportSelectors.getNextPendingExpenses(state),
+        overdueExpenses: reportSelectors.getOverdueExpenses(state)
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchBalance: () => {
-            dispatch(operations.fetchBalance());
-            dispatch(operations.fetchRealBalance());
+            dispatch(balanceOperations.fetchBalance());
+            dispatch(balanceOperations.fetchRealBalance());
+        },
+        fetchPendingTransactions: () => {
+            dispatch(reportOperations.fetchPendingTransactionsReport(EXPENSE));
         }
     }
 }

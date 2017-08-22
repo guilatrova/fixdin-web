@@ -33,6 +33,7 @@ const receivePendingTransactionsReport = (result, data, kind) => {
     if (result === 'success') {
         return {
             type: types.FETCH_PENDING_EXPENSES,
+            result,
             kind,
             data
         }
@@ -41,6 +42,7 @@ const receivePendingTransactionsReport = (result, data, kind) => {
     return {
         type: types.FETCH_PENDING_EXPENSES,
         result,
+        kind,
         errors: data
     }
 };

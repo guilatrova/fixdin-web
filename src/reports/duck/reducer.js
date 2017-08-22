@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import types from './types';
+import { EXPENSE } from '../../transactions/kinds';
 
 const last13MonthsInitialState = {
     isFetching: false,
@@ -55,11 +56,13 @@ function pendingTransactionsReducer(state = pendingTransactionsInitialState, act
 
     switch(action.result) {
         case 'success':
+            const kind = (action.kind.id == EXPENSE.id) ? 'expenses' : 'incomes';
+
             return {
                 ...state,
                 isFetching: false,
                 errors: {},
-                [action.kind.apiEndpoint]: action.data
+                [kind]: action.data
             }
 
         case 'fail':

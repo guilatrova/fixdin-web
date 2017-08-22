@@ -44,5 +44,6 @@ export function formatCurrencyDisplay(value) {
     if (!value || isNaN(value))
         return "R$ 0,00";
 
+    value = Number(value);
     return `R$ ${value.toFixed(2).replace(".",",")}`;
 }
