@@ -22,6 +22,7 @@ import {
     InputGroup,
     FormControl
 } from '@sketchpixy/rubix';
+import Typography from 'material-ui/Typography';
 
 import { operations as balanceOperations, selectors as balanceSelectors } from './../../balances/duck';
 import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
@@ -73,11 +74,42 @@ class DashboardPage extends React.Component {
                         <PanelBody>
                             <Grid>
                                 <Row>
+                                    <Col xs={12}>
+                                        <Typography type="title">Próximas despesas</Typography>
+                                    </Col>
+
                                     <Col xs={12} md={6}>
+                                        <Typography type="subheading">Despesas vencidas</Typography>
                                         <TransactionList transactions={this.props.overdueExpenses} />
                                     </Col>
 
                                     <Col xs={12} md={6}>
+                                        <Typography type="subheading">Despesas pendentes</Typography>
+                                        <TransactionList transactions={this.props.nextPendingExpenses} />
+                                    </Col>
+                                </Row>
+                            </Grid>
+                        </PanelBody>
+                    </Panel>
+                </PanelContainer>
+
+                <PanelContainer>
+                    <Panel>
+                        <PanelBody>
+                            <Grid>
+                                <Row>
+                                    <Col xs={12}>
+                                        <Typography type="title">Próximas receitas</Typography>
+                                    </Col>
+
+                                    <Col xs={12} md={6}>
+                                        <Typography type="subheading">Receitas vencidas</Typography>
+                                        <TransactionList transactions={this.props.overdueIncomes} />
+                                    </Col>
+
+                                    <Col xs={12} md={6}>
+                                        <Typography type="subheading">Receitas pendentes</Typography>
+                                        <TransactionList transactions={this.props.nextPendingIncomes} />
                                     </Col>
                                 </Row>
                             </Grid>
@@ -94,7 +126,9 @@ const mapStateToProps = (state) => {
         balance: balanceSelectors.getBalance(state),
         realBalance: balanceSelectors.getRealBalance(state),
         nextPendingExpenses: reportSelectors.getNextPendingExpenses(state),
-        overdueExpenses: reportSelectors.getOverdueExpenses(state)
+        overdueExpenses: reportSelectors.getOverdueExpenses(state),
+        nextPendingIncomes: reportSelectors.getNextPendingIncomes(state),
+        overdueIncomes: reportSelectors.getOverdueIncomes(state)
     };
 }
 
@@ -106,6 +140,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchPendingTransactions: () => {
             dispatch(reportOperations.fetchPendingTransactionsReport(EXPENSE));
+            dispatch(reportOperations.fetchPendingTransactionsReport(INCOME));
         }
     }
 }

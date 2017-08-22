@@ -50,7 +50,7 @@ const pendingTransactionsInitialState = {
 };
 
 function pendingTransactionsReducer(state = pendingTransactionsInitialState, action) {
-    if (action.type != types.FETCH_PENDING_EXPENSES) {
+    if (action.type != types.FETCH_PENDING_TRANSACTIONS) {
         return state;
     }
 
