@@ -64,11 +64,11 @@ export class DeleteOperation extends Operation {
     }
 
     onSucceed(dispatch, receiveAction, data, id) {
-        dispatch(receiveAction(id, 'success'));
+        return dispatch(receiveAction(id, 'success'));
     }
 
     onFailed(dispatch, receiveAction, errors, id) {
-        dispatch(receiveAction(id, 'fail', handleError(errors)));
+        return dispatch(receiveAction(id, 'fail', handleError(errors)));
     }
 
     getEndpoint(id, extra) {

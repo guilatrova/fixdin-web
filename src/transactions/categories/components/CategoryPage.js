@@ -25,13 +25,7 @@ import {
 import CategoryList from './CategoryList';
 import CategoryFormModal from './CategoryFormModal';
 import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
-import { 
-    saveCategory, 
-    fetchCategories, 
-    editCategory, 
-    finishEditCategory, 
-    deleteCategory
-} from './../duck/operations';
+import { operations } from './../duck';
 
 class CategoryPage extends React.Component {
 
@@ -199,11 +193,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch: (kind) => dispatch(fetchCategories(kind)),
-        onSubmit: (name, kind) => dispatch(saveCategory(name, kind)),
-        onDelete: (id, kind) => dispatch(deleteCategory(id, kind)),
-        onEdit: (id) => dispatch(editCategory(id)),        
-        onFinishEdit: () => dispatch(finishEditCategory())
+        fetch: (kind) => dispatch(operations.fetchCategories(kind)),
+        onSubmit: (name, kind) => dispatch(operations.saveCategory(name, kind)),
+        onDelete: (id, kind) => dispatch(operations.deleteCategory(id, kind)),
+        onEdit: (id) => dispatch(operations.editCategory(id)),        
+        onFinishEdit: () => dispatch(operations.finishEditCategory())
     }
 }
 
