@@ -31,7 +31,7 @@ class SaveOperation extends Operation {
     }
 
     onSucceed(dispatch, receiveAction, data) {
-        dispatch(receiveAction('success', data, this.kind));
+        return dispatch(receiveAction('success', data, this.kind));
     }
 
     getApiPromise(api) {
