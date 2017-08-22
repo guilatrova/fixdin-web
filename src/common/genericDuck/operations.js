@@ -22,12 +22,11 @@ export class Operation {
     }
 
     onSucceed(dispatch, receiveAction, data) {
-        dispatch(receiveAction('success', data));
-        return data;
+        return dispatch(receiveAction('success', data));        
     }
 
     onFailed(dispatch, receiveAction, errors) {
-        dispatch(receiveAction('fail', handleError(errors)));
+        return dispatch(receiveAction('fail', handleError(errors)));
     }
 
     getSucceedData(raw) {
@@ -41,6 +40,11 @@ export class GetOperation extends Operation {
     constructor(endpoint, requestAction, receiveAction) {
         super(requestAction, receiveAction);
         this.endpoint = endpoint;
+    }
+
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction('success', data));
+        return data;
     }
 
     getApiPromise(api) {
