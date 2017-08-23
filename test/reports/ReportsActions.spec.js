@@ -11,7 +11,7 @@ import moment from 'moment';
 import * as apiModule from './../../src/services/api';
 import { operations, types } from './../../src/reports/duck';
 
-xdescribe('Reports Actions', () => {
+describe('Reports Actions', () => {
 	
 	let sandbox, axiosInstance;
 	const middlewares = [ thunk ];
@@ -37,8 +37,8 @@ xdescribe('Reports Actions', () => {
 		it('should dispatch success action after FETCH_LAST_13_MONTHS', (done) => {
             const data = [ { id: 1 }, { id: 2 } ];
 			const expectedActions = [
-				{ type: types.FETCH_LAST_13_MONTHS },
-				{ type: types.FETCH_LAST_13_MONTHS, result: 'success', data }
+				{ type: types.FETCH_LAST_13_MONTHS, real: undefined },
+				{ type: types.FETCH_LAST_13_MONTHS, real: false, result: 'success', data }
 			]
 
 			store.dispatch(operations.fetchLast13MonthsReport());
@@ -49,8 +49,7 @@ xdescribe('Reports Actions', () => {
 				request.respondWith({
 					status: 200,
 					response: data
-
-				}).then(() => {
+				}).then(() => {					
 					expect(store.getActions()).to.deep.equal(expectedActions);					
 					done();
 				})
@@ -63,7 +62,7 @@ xdescribe('Reports Actions', () => {
 				detail: 'data unavailable',
 			}
 			const expectedActions = [
-				{ type: types.FETCH_LAST_13_MONTHS },
+				{ type: types.FETCH_LAST_13_MONTHS, real: undefined },
 				{ type: types.FETCH_LAST_13_MONTHS, result: 'fail', errors: expectedResponse }
 			]
 

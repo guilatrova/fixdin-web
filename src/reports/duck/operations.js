@@ -40,7 +40,7 @@ class FetchLast13MonthsReport extends GetOperation {
 }
 
 const fetchLast13MonthsReport = 
-    (real) => new FetchLast13MonthsReport(real);
+    (real = false) => new FetchLast13MonthsReport(real);
 
 const fetchPendingTransactionsReport = 
     (kind) => new FetchPendingTransactionsOperation(kind);
