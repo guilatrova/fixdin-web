@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
+import Paper from 'material-ui/Paper';
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
@@ -64,7 +65,7 @@ class TransactionList extends React.Component {
         });
 
         return (
-            <div>
+            <div style={{maxHeight: 300, overflow: 'auto'}}>
                 {transactionItems.length == 0 && <Typography type="body2">Não há nada aqui</Typography>}
                 <List>
                     {transactionItems}
