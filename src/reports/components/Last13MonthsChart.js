@@ -29,12 +29,24 @@ class Last13MonthsChart extends React.Component {
 		this.props.fetch();      
 	}
 
-	toggleDisplay(event, checked) {
-		;
-	}	
+	getYAxisDomain() {
+		const { realData, data } = this.props;
+
+		const getMax = (a, b) => Math.max(a, b);
+		const getGreaterValue = (item) => getMax(item.expenses, item.incomes);
+
+		const maxReal = realData.map(getGreaterValue).reduce(getMax, 0);
+		const maxRegular  = data.map(getGreaterValue).reduce(getMax, 0);
+		const max = getMax(maxReal, maxRegular);
+		const result = Math.ceil(max * 1.25); //Give some margin
+		
+		return [0, result];
+	}
 
 	render() {
 		const source = this.state.displayReal ? this.props.realData : this.props.data;
+		const yDomain = this.getYAxisDomain();
+
 		const data = source.map(report => ({
 			period: report.period.slice(-2) + '/' + report.period.slice(0, 4),
 			expenses: -(Number(report.expenses)),
@@ -61,7 +73,7 @@ class Last13MonthsChart extends React.Component {
 
 						<BarChart width={600} height={300} data={data} margin={{top: 25, bottom: 5}}>
 							<XAxis dataKey="period"/>
-							<YAxis/>
+							<YAxis domain={yDomain} />
 
 							<Tooltip/>
 							<Legend />
