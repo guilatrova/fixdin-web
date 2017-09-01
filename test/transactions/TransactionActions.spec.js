@@ -1,16 +1,9 @@
-import React from 'react';
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import sinon from 'sinon';
 import moxios from 'moxios'
-import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
 import moment from 'moment';
 
-import * as apiModule from './../../src/services/api';
 import { EXPENSE, INCOME } from './../../src/transactions/kinds';
-import transactionReducer, { operations, types } from './../../src/transactions/transactions/duck';
+import { operations, types } from './../../src/transactions/transactions/duck';
 import { ActionsTestHelper } from './../reduxTestHelpers';
 
 
@@ -63,22 +56,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.fetchTransactions(INCOME));
 
-			moxios.wait(() => {
-				let request = moxios.requests.mostRecent()
-
-				request.respondWith({
-					status: 400,
-					response: expectedResponse
-
-				})
-				.then((response) => {                    
-					expect(store.getActions()).to.deep.equal(expectedActions);                    
-					done();
-				})
-				.catch((error) => {
-					done(`Actions arent equal: ${error}`);
-				});
-			});
+			actionsTestHelper.apiRespondsWith({
+				status: 400,
+				response: expectedResponse
+			})
+			.assertAsyncActions(done, expectedActions);
 		})
 		
 		it('should add query params when filters is passed', (done) => {			
@@ -114,19 +96,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.saveTransaction(transaction, INCOME));
 
-			moxios.wait(() => {
-				let request = moxios.requests.mostRecent();
-
-				request.respondWith({
-					status: 201,
-					response: expectedResponse
-
-				}).then(() => {
-					expect(store.getActions()).to.deep.equal(expectedActions);
-					done();
-				})
-				.catch((error) => done(error.message));
-			});
+			actionsTestHelper.apiRespondsWith({
+				status: 201,
+				response: expectedResponse
+			})
+			.assertAsyncActions(done, expectedActions);
 		})
 
 		it('should dispatch fail action after SAVE_TRANSACTION when something goes wrong', (done) => {
@@ -141,22 +115,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.saveTransaction(transaction, INCOME));
 
-			moxios.wait(() => {
-				let request = moxios.requests.mostRecent();
-				
-				request.respondWith({
-					status: 400,
-					response: expectedResponse
-
-				})
-				.then((response) => {                    
-					expect(store.getActions()).to.deep.equal(expectedActions);                    
-					done();
-				})
-				.catch((error) => {
-					done(`Actions arent equal: ${error}`)
-				});
-			});
+			actionsTestHelper.apiRespondsWith({
+				status: 400,
+				response: expectedResponse
+			})
+			.assertAsyncActions(done, expectedActions);
 		});
 
 		it('should use PUT when id is supplied', (done) => {
@@ -183,17 +146,10 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.deleteTransaction(2, INCOME));
 
-			moxios.wait(() => {
-				let request = moxios.requests.mostRecent();
-
-				request.respondWith({
-					status: 204
-				}).then(() => {
-					expect(store.getActions()).to.deep.equal(expectedActions);
-					done();
-				})
-				.catch((error) => done(error.message));
-			});
+			actionsTestHelper.apiRespondsWith({
+				status: 204
+			})
+			.assertAsyncActions(done, expectedActions);			
 		})
 
 		it('should dispatch fail action after DELETE_TRANSACTION when something goes wrong', (done) => {
@@ -205,18 +161,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.deleteTransaction(2, INCOME));
 
-			moxios.wait(() => {
-				let request = moxios.requests.mostRecent();
-
-				request.respondWith({
-					status: 404,
-					response: errors
-				}).then(() => {
-					expect(store.getActions()).to.deep.equal(expectedActions);
-					done();
-				})
-				.catch((error) => done(error.message));
-			});
+			actionsTestHelper.apiRespondsWith({
+				status: 404,
+				response: errors
+			})
+			.assertAsyncActions(done, expectedActions);
 		})
 
 	})
