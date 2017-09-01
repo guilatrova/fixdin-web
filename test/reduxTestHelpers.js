@@ -11,7 +11,7 @@ class AssertContextHelper {
         this.store = store;
     }
 
-    assertAsyncActions(done, expectedActions) {
+    expectActionsAsync(done, expectedActions) {
         const { store, respondWith } = this;
 
         moxios.wait(() => {

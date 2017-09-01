@@ -9,16 +9,16 @@ import { ActionsTestHelper } from './../reduxTestHelpers';
 
 describe('Transaction Actions', () => {
 	
-	const actionsTestHelper = new ActionsTestHelper();
+	const testHelper = new ActionsTestHelper();
 	let store;
 
 	beforeEach(() => {
-		actionsTestHelper.mock();
-		store = actionsTestHelper.createStore();
+		testHelper.mock();
+		store = testHelper.createStore();
 	})
 
 	afterEach(() => {
-		actionsTestHelper.clearMock();
+		testHelper.clearMock();
 	})
 
 	describe('FETCH_TRANSACTIONS', () => {
@@ -38,11 +38,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.fetchTransactions(INCOME));
 
-			actionsTestHelper.apiRespondsWith({
+			testHelper.apiRespondsWith({
 				status: 201,
 				response: transactions
 			})
-			.assertAsyncActions(done, expectedActions);
+			.expectActionsAsync(done, expectedActions);
 		})
 
 		it('should dispatch fail action after FETCH_TRANSACTION when something goes wrong', (done) => {
@@ -56,11 +56,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.fetchTransactions(INCOME));
 
-			actionsTestHelper.apiRespondsWith({
+			testHelper.apiRespondsWith({
 				status: 400,
 				response: expectedResponse
 			})
-			.assertAsyncActions(done, expectedActions);
+			.expectActionsAsync(done, expectedActions);
 		})
 		
 		it('should add query params when filters is passed', (done) => {			
@@ -96,11 +96,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.saveTransaction(transaction, INCOME));
 
-			actionsTestHelper.apiRespondsWith({
+			testHelper.apiRespondsWith({
 				status: 201,
 				response: expectedResponse
 			})
-			.assertAsyncActions(done, expectedActions);
+			.expectActionsAsync(done, expectedActions);
 		})
 
 		it('should dispatch fail action after SAVE_TRANSACTION when something goes wrong', (done) => {
@@ -115,11 +115,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.saveTransaction(transaction, INCOME));
 
-			actionsTestHelper.apiRespondsWith({
+			testHelper.apiRespondsWith({
 				status: 400,
 				response: expectedResponse
 			})
-			.assertAsyncActions(done, expectedActions);
+			.expectActionsAsync(done, expectedActions);
 		});
 
 		it('should use PUT when id is supplied', (done) => {
@@ -146,10 +146,10 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.deleteTransaction(2, INCOME));
 
-			actionsTestHelper.apiRespondsWith({
+			testHelper.apiRespondsWith({
 				status: 204
 			})
-			.assertAsyncActions(done, expectedActions);			
+			.expectActionsAsync(done, expectedActions);			
 		})
 
 		it('should dispatch fail action after DELETE_TRANSACTION when something goes wrong', (done) => {
@@ -161,11 +161,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.deleteTransaction(2, INCOME));
 
-			actionsTestHelper.apiRespondsWith({
+			testHelper.apiRespondsWith({
 				status: 404,
 				response: errors
 			})
-			.assertAsyncActions(done, expectedActions);
+			.expectActionsAsync(done, expectedActions);
 		})
 
 	})
