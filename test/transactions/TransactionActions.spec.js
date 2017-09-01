@@ -11,26 +11,21 @@ import moment from 'moment';
 import * as apiModule from './../../src/services/api';
 import { EXPENSE, INCOME } from './../../src/transactions/kinds';
 import transactionReducer, { operations, types } from './../../src/transactions/transactions/duck';
+import { ActionsTestHelper } from './../reduxTestHelpers';
+
 
 describe('Transaction Actions', () => {
 	
-	let sandbox, axiosInstance;
-	const middlewares = [ thunk ];
-	const mockStore = configureMockStore(middlewares);
+	const actionsTestHelper = new ActionsTestHelper();
 	let store;
 
 	beforeEach(() => {
-		sandbox = sinon.sandbox.create();
-		axiosInstance = apiModule.default();
-
-		sandbox.stub(apiModule, 'default').returns(axiosInstance);
-		moxios.install(axiosInstance);
-		store = mockStore();
+		actionsTestHelper.mock();
+		store = actionsTestHelper.createStore();
 	})
 
 	afterEach(() => {
-		sandbox.restore();
-		moxios.uninstall(axiosInstance);
+		actionsTestHelper.clearMock();
 	})
 
 	describe('FETCH_TRANSACTIONS', () => {
@@ -50,19 +45,11 @@ describe('Transaction Actions', () => {
 
 			store.dispatch(operations.fetchTransactions(INCOME));
 
-			moxios.wait(() => {
-				let request = moxios.requests.mostRecent()
-
-				request.respondWith({
-					status: 201,
-					response: transactions
-
-				}).then(() => {
-					expect(store.getActions()).to.deep.equal(expectedActions);					
-					done();
-				})
-				.catch((error) => done(error.message));
-			});
+			actionsTestHelper.apiRespondsWith({
+				status: 201,
+				response: transactions
+			})
+			.assertAsyncActions(done, expectedActions);
 		})
 
 		it('should dispatch fail action after FETCH_TRANSACTION when something goes wrong', (done) => {
