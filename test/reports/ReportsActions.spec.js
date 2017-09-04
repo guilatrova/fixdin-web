@@ -33,7 +33,7 @@ describe('Reports Actions', () => {
 				response: data
 			})
 			.expectActionsAsync(done, expectedActions);
-		});
+		})
 
 		it('should dispatch fail action after FETCH_LAST_13_MONTHS when something goes wrong', (done) => {
 			const expectedResponse = {
@@ -51,7 +51,18 @@ describe('Reports Actions', () => {
 				response: expectedResponse
 			})
 			.expectActionsAsync(done, expectedActions);
-		})		
-    })
+		})
+	})
+	
+	xdescribe('FETCH_PENDING_TRANSACTIONS', () => {
+		
+		it('should dispatch success action after FETCH_LAST_13_MONTHS', (done) => {
+			
+		})
+
+		it('should dispatch fail action after FETCH_LAST_13_MONTHS when something goes wrong', (done) => {
+
+		})
+	})
     
 })
