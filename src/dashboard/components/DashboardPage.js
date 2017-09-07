@@ -29,7 +29,8 @@ import { operations as reportOperations, selectors as reportSelectors } from './
 import { EXPENSE, INCOME } from './../../transactions/kinds';
 
 import BalanceCard from './../../balances/components/BalanceCard';
-import Chart from './../../reports/components/Last13MonthsChart';
+import Last13MonthsChart from './../../reports/components/Last13MonthsChart';
+import ValuesByCategoryPieChartContainer from './../../reports/components/ValuesByCategoryPieChartContainer';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
 import { formatCurrencyDisplay } from '../../services/formatter';
 
@@ -67,7 +68,9 @@ class DashboardPage extends React.Component {
                     </Panel>
                 </PanelContainer>
 
-                <Chart />
+                <ValuesByCategoryPieChartContainer />
+
+                <Last13MonthsChart />
 
                 <PanelContainer>
                     <Panel>
