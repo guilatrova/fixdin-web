@@ -49,9 +49,38 @@ const receivePendingTransactionsReport = (result, data, kind) => {
     }
 };
 
+const requestValuesByCategoryReport = (kind) => {
+    return {
+        type: types.FETCH_VALUES_BY_CATEGORY,
+        kind
+    }
+};
+
+const receiveValuesByCategoryReport = (result, data, kind) => {
+    if (result === 'success') {
+        return {
+            type: types.FETCH_VALUES_BY_CATEGORY,
+            kind,
+            result,
+            data
+        }
+    }
+
+    return {
+        type: types.FETCH_VALUES_BY_CATEGORY,
+        kind,
+        result,
+        errors: data
+    }
+};
+
 export default {
     requestLast13MonthsReport,
     receiveLast13MonthsReport,
+    
     requestPendingTransactionsReport,
-    receivePendingTransactionsReport
+    receivePendingTransactionsReport,
+
+    requestValuesByCategoryReport,
+    receiveValuesByCategoryReport
 }

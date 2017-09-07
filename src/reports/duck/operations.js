@@ -17,7 +17,7 @@ class FetchPendingTransactionsOperation extends GetOperation {
     }
 }
 
-class FetchLast13MonthsReport extends GetOperation {
+class FetchLast13MonthsOperation extends GetOperation {
     constructor(real = false) {
         super('reports/last-13-months/',
             actions.requestLast13MonthsReport,
@@ -39,13 +39,33 @@ class FetchLast13MonthsReport extends GetOperation {
     }
 }
 
+class FetchValuesByCategoryOperation extends GetOperation {
+    constructor(kind) {
+        super('reports/values-by-category/' + kind.apiEndpoint,
+            actions.requestValuesByCategoryReport,
+            actions.receiveValuesByCategoryReport);
+
+        this.kind = kind;
+        return this.dispatch();
+    }
+
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction('success', data, this.kind));
+        return data;
+    }
+}
+
 const fetchLast13MonthsReport = 
-    (real = false) => new FetchLast13MonthsReport(real);
+    (real = false) => new FetchLast13MonthsOperation(real);
 
 const fetchPendingTransactionsReport = 
     (kind) => new FetchPendingTransactionsOperation(kind);
 
+const fetchValuesByCategoryReport = 
+    (kind) => new FetchValuesByCategoryOperation(kind);
+
 export default {
     fetchLast13MonthsReport,
-    fetchPendingTransactionsReport
+    fetchPendingTransactionsReport,
+    fetchValuesByCategoryReport
 };

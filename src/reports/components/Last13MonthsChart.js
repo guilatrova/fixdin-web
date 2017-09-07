@@ -48,7 +48,7 @@ class Last13MonthsChart extends React.Component {
 		const yDomain = this.getYAxisDomain();
 
 		const data = source.map(report => ({
-			period: report.period.slice(-2) + '/' + report.period.slice(0, 4),
+			period: report.period.slice(-2) + '/' + report.period.slice(0, 4),//2017-01 becomes 01/2017
 			expenses: -(Number(report.expenses)),
 			incomes: Number(report.incomes),
 			total: Number(report.total)

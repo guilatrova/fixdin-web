@@ -22,11 +22,18 @@ function getOverdueIncomes(state) {
     return state.reports.pendingTransactions.incomes.overdue;
 }
 
+function getValuesByCategory(state) {
+    return state.reports.valuesByCategory;
+}
+
 export default {
     getLast13Months,
     getRealLast13Months,
+
     getNextPendingExpenses,
     getOverdueExpenses,
     getNextPendingIncomes,
-    getOverdueIncomes
+    getOverdueIncomes,
+
+    getValuesByCategory
 };

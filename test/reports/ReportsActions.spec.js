@@ -56,13 +56,25 @@ describe('Reports Actions', () => {
 	
 	xdescribe('FETCH_PENDING_TRANSACTIONS', () => {
 		
-		it('should dispatch success action after FETCH_LAST_13_MONTHS', (done) => {
+		it('should dispatch success action after FETCH_PENDING_TRANSACTIONS', (done) => {
 			
 		})
 
-		it('should dispatch fail action after FETCH_LAST_13_MONTHS when something goes wrong', (done) => {
+		it('should dispatch fail action after FETCH_PENDING_TRANSACTIONS when something goes wrong', (done) => {
 
 		})
+	})
+
+	xdescribe('FETCH_VALUES_BY_CATEGORY', () => {
+		
+		it('should dispatch success action after FETCH_VALUES_BY_CATEGORY', (done) => {
+			
+		})
+
+		it('should dispatch fail action after FETCH_VALUES_BY_CATEGORY when something goes wrong', (done) => {
+
+		})
+
 	})
     
 })

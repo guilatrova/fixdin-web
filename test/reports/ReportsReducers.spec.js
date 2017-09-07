@@ -39,7 +39,7 @@ describe('Reports Reducers', () => {
             });
         });
 
-        describe("should be handled when successful", () => {
+        xdescribe("should be handled when successful", () => {
 
             it('with "REAL" data', () => {
                 const data = [ { id: 1 }, { id: 2 } ];
@@ -90,6 +90,53 @@ describe('Reports Reducers', () => {
 
     xdescribe('FETCH_PENDING_TRANSACTIONS', () => {
 
+        it("should be handled", () => {
+            expect(
+                
+            ).to.deep.equal({
+
+            });
+        });
+
+        describe("should be handled when successful", () => {
+
+            it('with "expenses" data', () => {
+                const data = [ { id: 1 }, { id: 2 } ];
+                expect(
+                ).to.deep.equal({
+                    isFetching: false,
+                    data: { 
+                        expected: [],
+                        real: data
+                    },
+                    errors: {},
+                });
+            });
+
+            it('with "incomes" data', () => {
+                const data = [ { id: 1 }, { id: 2 } ];
+                expect(
+
+                ).to.deep.equal({
+
+                });
+            });
+
+        });
+
+
+        it('should be handled when failed', () => {
+            const errors = { 'detail':'random error' }
+            expect(
+                
+            ).to.deep.equal({                
+                
+            });
+        });
+    });
+
+    xdescribe('FETCH_VALUES_BY_CATEGORY', () => {
+        
         it("should be handled", () => {
             expect(
                 
