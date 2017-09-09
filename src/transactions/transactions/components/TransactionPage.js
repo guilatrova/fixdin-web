@@ -28,23 +28,12 @@ import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from './TransactionFilter';
 import * as saveOptions from './TransactionForm';
 import ConfirmDeleteModal from 'ConfirmDeleteModal';
-import { 
-    fetchTransactions,
-    saveTransaction, 
-    editTransaction,
-    copyTransaction,
-    deleteTransaction, 
-    finishEditTransaction 
-} from '../duck/operations';
+import { operations } from '../duck';
+import { operations as categoryOperations } from '../../categories/duck';
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 import FloatingActionButton from 'FloatingActionButton';
-
-import {
-    fetchCategories,
-    finishEditCategory
-} from '../../categories/duck/operations';
 
 class TransactionPage extends React.Component {
     constructor(props) {
@@ -171,6 +160,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     const { fetchTransactions } = operations;
+    const { fetchCategories } = categoryOperations;
     return {
         fetch: () => {
             dispatch(fetchCategories(EXPENSE));
