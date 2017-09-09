@@ -4797,7 +4797,7 @@ Rubix.ColumnSeries.prototype.draw = function(forced) {
                             });
                         }
                     }
-                }
+                }                
             }
         }
 

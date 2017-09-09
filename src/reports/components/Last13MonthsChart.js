@@ -1,107 +1,79 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import {
-	Row,
-	Col,
-	Panel,
-	PanelBody,
-	PanelContainer,
-} from '@sketchpixy/rubix';
-
-import { FormControlLabel } from 'material-ui/Form';
-import Switch from 'material-ui/Switch';
-import Typography from 'material-ui/Typography';
-import { operations, selectors } from './../duck';
-
-class Last13MonthsChart extends React.Component {
+export default class Last13MonthsChart extends React.Component {
 	static propTypes = {
+		id: PropTypes.string.isRequired,
 		data: PropTypes.array.isRequired
 	};
-
-	state = {
-		displayReal: true
-	}
-
-	componentDidMount() {
-		this.props.fetch();      
-	}
-
-	getYAxisDomain() {
-		const { realData, data } = this.props;
-
-		const getMax = (a, b) => Math.max(a, b);
-		const getGreaterValue = (item) => getMax(item.expenses, item.incomes);
-
-		const maxReal = realData.map(getGreaterValue).reduce(getMax, 0);
-		const maxRegular  = data.map(getGreaterValue).reduce(getMax, 0);
-		const max = getMax(maxReal, maxRegular);
-		const result = Math.ceil(max * 1.25); //Give some margin
 		
-		return [0, result];
+	componentWillReceiveProps(nextProps) {
+		this.updateData(nextProps.data);
 	}
+	
+	updateData(data) {
+		if (data.length > 0) {
+			$('#' + this.props.id).empty();
+			this.chart = new Rubix('#' + this.props.id, {
+				title: 'Últimos 13 meses',
+				subtitle: 'Receives/Despesas',
+				titleColor: '#0080FF',
+				subtitleColor: '#0080FF',
+				height: 300,
+				axis: {
+					x: {
+						type: 'ordinal',
+						label: 'Mês/ano'
+					},
+					y:  {
+						type: 'linear',
+						tickFormat: '$.2f',
+						label: 'Saldo'
+					}
+				},
+				tooltip: {
+					color: 'white',
+					format: {
+						y: ',.0f'
+					}
+				},
+				grouped: true,
+				show_markers: true,
+				noSort: true
+			});
 
+			this.incomesCol = this.chart.column_series({
+				name: 'Receitas',
+				color: '#0080FF'
+			});
+
+			this.expensesCol = this.chart.column_series({
+				name: 'Despesas',
+				color: '#FF6666'
+			});
+			
+			const incomesData = data.map(entry => {
+				return {
+					x: entry.period, 
+					y: Number(entry.incomes)
+				}
+			});
+
+			const expensesData = data.map(entry => {
+				return {
+					x: entry.period,
+					y: -(Number(entry.expenses))
+				}
+			});
+		
+			this.incomesCol.addData(incomesData);
+			this.expensesCol.addData(expensesData);
+		}
+	}
+	
 	render() {
-		const source = this.state.displayReal ? this.props.realData : this.props.data;
-		const yDomain = this.getYAxisDomain();
-
-		const data = source.map(report => ({
-			period: report.period.slice(-2) + '/' + report.period.slice(0, 4),//2017-01 becomes 01/2017
-			expenses: -(Number(report.expenses)),
-			incomes: Number(report.incomes),
-			total: Number(report.total)
-		}));
-
 		return (
-			<PanelContainer>
-				<Panel>
-					<PanelBody style={{padding: 25}}>
-						<Typography type="title">
-							Últimos 13 meses
-						</Typography>
-
-						<FormControlLabel label="Exibir real"
-							control={
-								<Switch
-									checked={this.state.displayReal}
-									onChange={(e, checked) => this.setState({ displayReal: checked })}
-								/>
-							}
-						/>
-
-						<BarChart width={600} height={300} data={data} margin={{top: 25, bottom: 5}}>
-							<XAxis dataKey="period"/>
-							<YAxis domain={yDomain} />
-
-							<Tooltip/>
-							<Legend />
-							<Bar dataKey="expenses" name="despesas" fill="#DB3340" />
-							<Bar dataKey="incomes" name="receitas" fill="#1FDA9A" />
-						</BarChart>
-
-			  		</PanelBody>
-				</Panel>
-		  	</PanelContainer>
+			<div id={this.props.id}></div>
 		);
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		data: selectors.getLast13Months(state),
-		realData: selectors.getRealLast13Months(state)
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		fetch: () => {
-			dispatch(operations.fetchLast13MonthsReport());
-			dispatch(operations.fetchLast13MonthsReport(true));
-		}
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Last13MonthsChart);
