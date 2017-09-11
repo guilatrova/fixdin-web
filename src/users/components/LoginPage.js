@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchToken } from '../actions';
+import { operations, selectors } from '../duck';
 
 import LoginForm from './LoginForm';
 
@@ -94,16 +94,12 @@ LoginPage.defaultProps = {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        ...state.login
-    }
+    return selectors.getLoginState(state);
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSubmit: (loginData) => {
-            return dispatch(fetchToken(loginData));
-        }
+        onSubmit: (data) => dispatch(operations.fetchToken(data))
     }
 };
 

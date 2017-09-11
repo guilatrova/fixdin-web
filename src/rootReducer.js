@@ -1,13 +1,12 @@
 import { combineReducers } from 'redux';
-import { loginReducer as login, signupReducer as signup } from './users/reducers';
+import users from './users/duck';
 import transactions from './transactions/transactions/duck';
 import categories from './transactions/categories/duck';
 import balances from './balances/duck';
 import reports from './reports/duck';
 
 const rootReducer = combineReducers({  
-  login,
-  signup,
+  users,
   transactions,
   balances,
   categories,
