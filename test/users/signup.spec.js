@@ -8,15 +8,14 @@ import { expect } from 'chai';
 
 import * as apiModule from './../../src/services/api';
 import SignupForm from './../../src/users/components/SignupForm';
-import { signupReducer } from './../../src/users/reducers';
-import { SIGNUP, fetchSignup } from './../../src/users/actions';
+import signupReducer, { operations, types } from './../../src/users/duck';
 import { 
     itShouldDisplayErrorForField, 
     itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
     fillAllRequiredFields 
 } from './../testHelpers';
 
-describe('Signup', () => {
+xdescribe('Signup', () => {
 
     describe('SignupForm', () => {
 

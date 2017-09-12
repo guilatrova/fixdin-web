@@ -21,7 +21,7 @@ import {
 
 sinonStubPromise(sinon);
 
-describe('Login', () => {
+xdescribe('Login', () => {
 
     describe('LoginForm', () => {
 
