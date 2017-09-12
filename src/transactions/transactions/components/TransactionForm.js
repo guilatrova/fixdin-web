@@ -15,17 +15,20 @@ import {
   Checkbox,
   Button,
   SplitHoverButton,
-  MenuItem,
+  MenuItem as RbxMenuItem,
   HelpBlock,
   PanelBody,
   ControlLabel,
   FormGroup,
   InputGroup,
-  FormControl
+  FormControl as RbxFormControl
 } from '@sketchpixy/rubix';
 
-import { FormControlLabel } from 'material-ui/Form';
+import { FormControl, FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
+import Input, { InputLabel } from 'material-ui/Input';
+import Select from 'material-ui/Select';
+import { MenuItem } from 'material-ui/Menu';
 
 import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
 import CategorySelectPicker from './../../categories/components/CategorySelectPicker';
@@ -59,6 +62,8 @@ class TransactionForm extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
+        this.handleIsPeriodicChange = this.handleIsPeriodicChange.bind(this);
+        this.handlePeriodicChange = this.handlePeriodicChange.bind(this);
         this.handlePayedChange = this.handlePayedChange.bind(this);
         this.handleOptionSelected = this.handleOptionSelected.bind(this);        
     }
@@ -79,6 +84,15 @@ class TransactionForm extends React.Component {
 
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    handlePeriodicChange(e, index = null) {
+        const name = index || e.target.name;
+        this.setState({ periodic: {
+            ...this.state.periodic,
+            [name]: e.target.value
+        }
+        });
     }
 
     handleCategoryChange(value) {
@@ -106,6 +120,20 @@ class TransactionForm extends React.Component {
                 payment_date: null
             });
         }
+    }
+
+    handleIsPeriodicChange(e, checked) {
+        if (checked) {
+            this.setState({ 
+                periodic: {
+                    period: "daily"
+                } 
+            });
+        }
+        else {
+            this.setState({ periodic: null })
+        }
+        this.setState({ isPeriodic: checked });
     }
 
     isSubmitDisabled() {
@@ -204,7 +232,7 @@ class TransactionForm extends React.Component {
             </HorizontalFormGroupError>}
 
             <HorizontalFormGroupError id="details" label="Detalhes" error={errors.details}>
-                <FormControl
+                <RbxFormControl
                     className='border-focus-blue'
                     componentClass='textarea'
                     name="details"
@@ -213,6 +241,48 @@ class TransactionForm extends React.Component {
                     maxLength="500" />
             </HorizontalFormGroupError>
 
+            <FormControlLabel
+                control={
+                    <Switch
+                    checked={this.state.isPeriodic}
+                    onChange={this.handleIsPeriodicChange}
+                    />
+                }
+                label="Periódico"
+            />
+
+            {this.state.isPeriodic &&
+                <div>
+                    <HorizontalFormGroupError
+                        id="distance"
+                        label="A cada"
+                        value={this.state.periodic.distance}
+                        onChange={this.handlePeriodicChange} />
+                    
+                    <FormControl>
+                        <InputLabel htmlFor="input-frequency">Frequência</InputLabel>
+                        <Select
+                            name="period"
+                            value={this.state.periodic.period}
+                            onChange={(e) => this.handlePeriodicChange(e, 'period')}
+                            input={<Input id="input-frequency" />}
+                        >
+                            <MenuItem value={'daily'}>dias</MenuItem>
+                            <MenuItem value={'weekly'}>semanas</MenuItem>
+                            <MenuItem value={'monthly'}>meses</MenuItem>
+                            <MenuItem value={'yearly'}>anos</MenuItem>
+                        </Select>
+                    </FormControl>
+
+                    <HorizontalFormGroupError
+                        id="how_many"
+                        label="vezes"                        
+                        value={this.state.periodic.how_many}
+                        onChange={this.handlePeriodicChange} />
+
+                </div>
+            }
+
             <FormGroup>
                 <Col smOffset={2} sm={10} className='text-right'>
 
@@ -220,12 +290,12 @@ class TransactionForm extends React.Component {
                         onClick={(e) => this.handleOptionSelected(CLOSE, e)} 
                         onSelect={this.handleOptionSelected}>
 
-                        <MenuItem eventKey={NEW} disabled={disabled}>Salvar e novo</MenuItem>
-                        <MenuItem eventKey={NEW_SAME_CATEGORY} disabled={disabled}>Salvar e novo (manter categoria)</MenuItem>
+                        <RbxMenuItem eventKey={NEW} disabled={disabled}>Salvar e novo</RbxMenuItem>
+                        <RbxMenuItem eventKey={NEW_SAME_CATEGORY} disabled={disabled}>Salvar e novo (manter categoria)</RbxMenuItem>
 
                     </SplitHoverButton>
                 </Col>
-            </FormGroup>
+            </FormGroup>            
 
             </Form>
         );

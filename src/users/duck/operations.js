@@ -1,6 +1,6 @@
 import actions from './actions.js';
-import { saveToken } from '../services/session';
-import handleError from '../services/genericErrorHandler';
+import { saveToken } from '../../services/session';
+import handleError from '../../services/genericErrorHandler';
 import { createGetOperation, Operation } from './../../common/genericDuck/operations';
 
 class FetchTokenOperation extends Operation {
