@@ -38,6 +38,13 @@ class SaveOperation extends Operation {
 
         return api.post(kind.apiEndpoint, data);
     }
+
+    getSucceedData(raw) {
+        if (Array.isArray(raw))
+            return raw;
+
+        return [raw];
+    }
 }
 
 const copyTransaction = actions.copyTransaction;

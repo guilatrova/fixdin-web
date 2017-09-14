@@ -280,6 +280,16 @@ class TransactionForm extends React.Component {
                         value={this.state.periodic.how_many}
                         onChange={this.handlePeriodicChange} />
 
+                    <HorizontalFormGroupError id="until" label="Até" >
+                        <DatetimeInput
+                            timeFormat={false}
+                            className='border-focus-blue'
+                            onChange={(value) => setState({ periodic: { until: value} })}
+                            value={this.state.periodic.until}
+                            closeOnSelect={true}
+                            closeOnTab={true} />
+                    </HorizontalFormGroupError>
+
                 </div>
             }
 

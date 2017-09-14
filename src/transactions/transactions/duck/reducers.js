@@ -7,32 +7,42 @@ const initialState = {
     errors: {}
 }
 
+function updateTransactions(state, transaction) {
+    const { transactions } = state;
+    const updatedTransaction = transactions.find(item => item.id == transaction.id);
+    
+    if (updatedTransaction) {
+        const index = transactions.indexOf(updatedTransaction);
+        
+        return {
+            ...state,
+            isFetching: false,
+            transactions: [
+                ...transactions.slice(0, index),
+                transaction,
+                ...transactions.slice(index + 1)
+            ]
+        }
+    }
+
+    return {
+        ...state,
+        isFetching: false,
+        transactions: state.transactions.concat(transaction)
+    }
+    
+}
+
 function saveReducer(state, action) {
     switch (action.result) {
         case 'success':
-            const { transactions } = state;
-            const updatedTransaction = transactions.find(item => item.id == action.transaction.id);
-
-            if (updatedTransaction) {
-                const index = transactions.indexOf(updatedTransaction);
-                
-                return {
-                    ...state,
-                    isFetching: false,
-                    transactions: [
-                        ...transactions.slice(0, index),
-                        action.transaction,
-                        ...transactions.slice(index + 1)
-                    ]
-                }
+            console.log('red', action);
+            let newState = { ...state };
+            for (let i = 0; i < action.transactions.length; i++) {
+                newState = updateTransactions(newState, action.transactions[i]);
             }
-
-            return {
-                ...state,
-                isFetching: false,
-                transactions: state.transactions.concat(action.transaction)
-            }
-
+            return newState;
+            
         case 'fail':
             return {
                 ...state,

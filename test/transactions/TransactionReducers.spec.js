@@ -65,7 +65,7 @@ describe('Transactions Reducers', () => {
             const transaction = createTransaction({ id: 1 });
 
             expect(
-                reducer(fetchingState, actions.receiveSaveTransaction('success', transaction.send))
+                reducer(fetchingState, actions.receiveSaveTransaction('success', [transaction.send]))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -104,7 +104,7 @@ describe('Transactions Reducers', () => {
             }            
 
             expect(
-                reducer(state, actions.receiveSaveTransaction('success', transactionToSave.send))
+                reducer(state, actions.receiveSaveTransaction('success', [transactionToSave.send]))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -123,7 +123,30 @@ describe('Transactions Reducers', () => {
             }            
 
             expect(
-                reducer(state, actions.receiveSaveTransaction('success', transactionToSave.send))
+                reducer(state, actions.receiveSaveTransaction('success', [transactionToSave.send]))
+            ).to.deep.equal({
+                isFetching: false,
+                errors: {},
+                transactions: expectedList,
+                editingTransaction: {}
+            });
+        });
+
+        it('should handle lists of transactions', () => {
+            const initialList = [ createTransaction({ id: 1 }).expect, createTransaction({ id: 2 }).expect ]
+            
+            const generatedTransactions = [ createTransaction({ id: 3 }), createTransaction({ id: 4}) ];
+            const transactionsExpected = generatedTransactions.map(t => t.expect);
+            const transactionsSent = generatedTransactions.map(t => t.send);
+
+            const expectedList = [ ...initialList, ...transactionsExpected ]
+            const state = {
+                ...initialState,
+                transactions: initialList
+            }            
+
+            expect(
+                reducer(state, actions.receiveSaveTransaction('success', transactionsSent))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},

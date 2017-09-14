@@ -36,7 +36,7 @@ function receiveSaveTransaction(result, data) {
         return {
             type: types.SAVE_TRANSACTION,
             result,
-            transaction: formatTransactionReceived(data)
+            transactions: data.map(raw => formatTransactionReceived(raw))
         }
     }
 
