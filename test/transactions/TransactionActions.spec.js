@@ -87,10 +87,10 @@ describe('Transaction Actions', () => {
 			const expectedResponse = transaction
 			const expectedActions = [
 				{ type: types.SAVE_TRANSACTION },
-				{ type: types.SAVE_TRANSACTION, result: 'success', transaction: {
+				{ type: types.SAVE_TRANSACTION, result: 'success', transactions: [{
 					...transaction,
 					value: 0
-					} 
+					}]
 				}
 			]
 
