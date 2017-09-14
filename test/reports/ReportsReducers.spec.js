@@ -7,7 +7,7 @@ import moment from 'moment';
 import reducer, { types } from './../../src/reports/duck';
 import actions from './../../src/reports/duck/actions';
 
-describe('Reports Reducers', () => {
+xdescribe('Reports Reducers', () => {
 
     const initialState = {
         isFetching: false,

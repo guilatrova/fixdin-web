@@ -36,7 +36,6 @@ function updateTransactions(state, transaction) {
 function saveReducer(state, action) {
     switch (action.result) {
         case 'success':
-            console.log('red', action);
             let newState = { ...state };
             for (let i = 0; i < action.transactions.length; i++) {
                 newState = updateTransactions(newState, action.transactions[i]);
