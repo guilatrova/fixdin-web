@@ -37,24 +37,61 @@ describe('Transaction Formatter', () => {
 
     describe('formats transactions', () => {
 
-        it('before sending it to API', () => {
-            const dueDate = moment(new Date(2017, 0, 1));
-            const transactionPreFormatted = {
-                id: 1,
-                due_date: dueDate,
-                payment_date: undefined,
-                value: "R$ 15,00",
-                priority: ""
-            };
-            const transactionPostFormatted = {
-                id: 1,
-                due_date: '2017-01-01',
-                payment_date: null,
-                value: -15,
-                priority: undefined
-            }
+        describe('before sending it to API', () => {
 
-            expect(formatTransactionToSend(transactionPreFormatted, EXPENSE)).to.be.deep.equal(transactionPostFormatted);
+            it('without periodic', () => {
+                const dueDate = moment(new Date(2017, 0, 1));
+                const transactionPreFormatted = {
+                    id: 1,
+                    due_date: dueDate,
+                    payment_date: undefined,
+                    value: "R$ 15,00",
+                    priority: ""
+                };
+                const transactionPostFormatted = {
+                    id: 1,
+                    due_date: '2017-01-01',
+                    payment_date: null,
+                    value: -15,
+                    periodic: undefined,
+                    priority: undefined
+                }
+
+                expect(formatTransactionToSend(transactionPreFormatted, EXPENSE)).to.be.deep.equal(transactionPostFormatted);
+            });
+
+            it('with periodic and until defined', () => {
+                const dueDate = moment(new Date(2017, 0, 1));
+                const until = moment(new Date(2017, 0, 7));
+                const transactionPreFormatted = {
+                    id: 1,
+                    due_date: dueDate,
+                    payment_date: undefined,
+                    value: "R$ 15,00",
+                    priority: "",
+                    periodic: {
+                        period: 'daily',
+                        how_many: "",
+                        until,
+                        distance: 1
+                    }
+                };
+                const transactionPostFormatted = {
+                    id: 1,
+                    due_date: '2017-01-01',
+                    payment_date: null,
+                    value: -15,
+                    priority: undefined,
+                    periodic: {
+                        period: 'daily',
+                        until: '2017-01-07',
+                        how_many: undefined,
+                        distance: 1
+                    }
+                }
+
+                expect(formatTransactionToSend(transactionPreFormatted, EXPENSE)).to.be.deep.equal(transactionPostFormatted);
+            });
 
         });
 
