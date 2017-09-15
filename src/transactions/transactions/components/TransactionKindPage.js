@@ -27,8 +27,8 @@ import TransactionTableContainer from './TransactionTableContainer';
 import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from './TransactionFilter';
 import * as saveOptions from './TransactionForm';
-import ConfirmDeleteModal from 'ConfirmDeleteModal';
-import { operations } from '../duck';
+import ConfirmDeleteDialog from './ConfirmDeleteDialog';
+import { operations, types } from '../duck';
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
@@ -122,19 +122,23 @@ class TransactionKindPage extends React.Component {
     }
 
     handleDelete(id) {
+        const toDeletePeriodicTransaction = this.props.transactions.find(transaction => transaction.id == id).periodic_transaction;
         this.setState({ 
             showTransactionDeleteModal: true,
-            toDeleteId: id 
+            toDeleteId: id,
+            toDeletePeriodicTransaction 
         });
     }
 
-    handleConfirmDelete() {
-        const { kind } = this.props.route;        
-        this.props.onDelete(this.state.toDeleteId, kind).then(({result}) => {
+    handleConfirmDelete(type) {
+        const { kind } = this.props.route;
+        const id = (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) ? this.state.toDeletePeriodicTransaction : this.state.toDeleteId;
+        this.props.onDelete(id, kind, type).then(({result}) => {
             if (result == 'success') {
                 this.setState({ 
                     showTransactionDeleteModal: false, 
-                    toDeleteId: undefined 
+                    toDeleteId: undefined,
+                    toDeletePeriodicTransaction: undefined
                 });
             }
         });
@@ -144,7 +148,8 @@ class TransactionKindPage extends React.Component {
         this.props.onFinishEdit();
         this.setState({ 
             showTransactionDeleteModal: false, 
-            toDeleteId: undefined 
+            toDeleteId: undefined,
+            toDeletePeriodicTransaction: undefined
         });
     }
 
@@ -233,14 +238,15 @@ class TransactionKindPage extends React.Component {
                     errors={this.props.errors}
                     transaction={Object.keys(this.props.editingTransaction).length > 0 ? this.props.editingTransaction : undefined} />
 
-                <ConfirmDeleteModal 
-                    show={this.state.showTransactionDeleteModal} 
-                    onHide={this.handleHideDeleteModal}
-                    error={this.props.errors['detail']}
-                    onConfirmDelete={this.handleConfirmDelete} >
+                <ConfirmDeleteDialog
+                    open={this.state.showTransactionDeleteModal} 
+                    onRequestClose={this.handleHideDeleteModal}
+                    onConfirm={this.handleConfirmDelete}
+                    isPeriodic={this.state.toDeletePeriodicTransaction}
+                    error={this.props.errors['detail']}>
 
                     Tem certeza que deseja deletar esta {kind.text}?
-                </ConfirmDeleteModal>
+                </ConfirmDeleteDialog>
 
                 <FloatingActionButton color="primary" onClick={this.handleCreateTransaction}>                
                     <AddIcon />
@@ -277,7 +283,7 @@ const mapDispatchToProps = (dispatch) => {
             return dispatch(fetchTransactions(kind, filters));
         },
         onSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
-        onDelete: (id, kind) => dispatch(deleteTransaction(id, kind)),
+        onDelete: (id, kind, type) => dispatch(deleteTransaction(id, kind, type)),
         onEdit: (id) => dispatch(editTransaction(id)),
         onCopy: (id) => dispatch(copyTransaction(id)),
         onFinishEdit: () => {

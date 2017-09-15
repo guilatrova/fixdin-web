@@ -70,24 +70,24 @@ function finishEditTransaction() {
 }
 
 //DELETE
-function requestDeleteTransaction(id) {
+function requestDeleteTransaction(id, type) {
     return {
-        type: types.DELETE_TRANSACTION,
+        type,
         id
     }
 }
 
-function receiveDeleteTransaction(id, result, errors) {
+function receiveDeleteTransaction(result, id, type, errors) {
     if (result == 'success') {
         return {
-            type: types.DELETE_TRANSACTION,
+            type,
             id,
             result
         }
     }
 
     return {
-        type: types.DELETE_TRANSACTION,
+        type,
         result,
         errors
     }

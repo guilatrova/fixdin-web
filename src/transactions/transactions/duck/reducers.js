@@ -150,6 +150,8 @@ export default function reducer(state = initialState, action) {
             }
 
         case types.DELETE_TRANSACTION:
+        case types.DELETE_THIS_AND_NEXT_TRANSACTIONS:
+        case types.DELETE_ALL_PERIODIC_TRANSACTIONS:
             return deleteReducer(state, action);
 
         default:
