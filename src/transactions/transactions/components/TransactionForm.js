@@ -24,15 +24,13 @@ import {
   FormControl as RbxFormControl
 } from '@sketchpixy/rubix';
 
-import { FormControl, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
-import Input, { InputLabel } from 'material-ui/Input';
-import Select from 'material-ui/Select';
-import { MenuItem } from 'material-ui/Menu';
 
 import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
 import CategorySelectPicker from './../../categories/components/CategorySelectPicker';
 import TransactionDescription from './TransactionDescription';
+import Periodic from './Periodic';
 
 export const CLOSE = "CLOSE";
 export const NEW = "NEW";
@@ -46,7 +44,8 @@ const emptyTransaction = {
     deadline: undefined,
     priority: '',
     payment_date: undefined,
-    details: ''
+    details: '',
+    periodic: {}
 }
 
 class TransactionForm extends React.Component {
@@ -63,8 +62,7 @@ class TransactionForm extends React.Component {
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
         this.handleIsPeriodicChange = this.handleIsPeriodicChange.bind(this);
-        this.handlePeriodicChange = this.handlePeriodicChange.bind(this);
-        this.handlePayedChange = this.handlePayedChange.bind(this);
+        this.handlePeriodicChange = this.handlePeriodicChange.bind(this);        
         this.handleOptionSelected = this.handleOptionSelected.bind(this);        
     }
 
@@ -84,15 +82,6 @@ class TransactionForm extends React.Component {
 
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
-    }
-
-    handlePeriodicChange(e, index = null) {
-        const name = index || e.target.name;
-        this.setState({ periodic: {
-            ...this.state.periodic,
-            [name]: e.target.value
-        }
-        });
     }
 
     handleCategoryChange(value) {
@@ -120,7 +109,7 @@ class TransactionForm extends React.Component {
                 payment_date: null
             });
         }
-    }
+    }    
 
     handleIsPeriodicChange(e, checked) {
         if (checked) {
@@ -134,6 +123,10 @@ class TransactionForm extends React.Component {
             this.setState({ periodic: null })
         }
         this.setState({ isPeriodic: checked });
+    }
+
+    handlePeriodicChange(periodic) {
+        this.setState({ periodic });
     }
 
     isSubmitDisabled() {
@@ -251,47 +244,9 @@ class TransactionForm extends React.Component {
                 label="Periódico"
             />
 
-            {this.state.isPeriodic &&
-                <div>
-                    <HorizontalFormGroupError
-                        id="distance"
-                        label="A cada"
-                        value={this.state.periodic.distance}
-                        onChange={this.handlePeriodicChange} />
-                    
-                    <FormControl>
-                        <InputLabel htmlFor="input-frequency">Frequência</InputLabel>
-                        <Select
-                            name="period"
-                            value={this.state.periodic.period}
-                            onChange={(e) => this.handlePeriodicChange(e, 'period')}
-                            input={<Input id="input-frequency" />}
-                        >
-                            <MenuItem value={'daily'}>dias</MenuItem>
-                            <MenuItem value={'weekly'}>semanas</MenuItem>
-                            <MenuItem value={'monthly'}>meses</MenuItem>
-                            <MenuItem value={'yearly'}>anos</MenuItem>
-                        </Select>
-                    </FormControl>
-
-                    <HorizontalFormGroupError
-                        id="how_many"
-                        label="vezes"                        
-                        value={this.state.periodic.how_many}
-                        onChange={this.handlePeriodicChange} />
-
-                    <HorizontalFormGroupError id="until" label="Até" >
-                        <DatetimeInput
-                            timeFormat={false}
-                            className='border-focus-blue'
-                            onChange={(value) => setState({ periodic: { until: value} })}
-                            value={this.state.periodic.until}
-                            closeOnSelect={true}
-                            closeOnTab={true} />
-                    </HorizontalFormGroupError>
-
-                </div>
-            }
+            <Periodic 
+                visible={this.state.isPeriodic}
+                onChange={this.handlePeriodicChange} />
 
             <FormGroup>
                 <Col smOffset={2} sm={10} className='text-right'>

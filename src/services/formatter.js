@@ -17,7 +17,20 @@ export function formatTransactionToSend(transaction, kind) {
         payment_date: formatDate(transaction.payment_date),
         value: formatCurrency(transaction.value, kind),
         priority: transaction.priority ? transaction.priority : undefined,
+        periodic: formatPeriodic(transaction.periodic)
     }
+}
+
+function formatPeriodic(periodic) {
+    if (periodic && periodic.until) {
+        return {
+            ...periodic,
+            how_many: undefined,
+            until: formatDate(periodic.until)
+        }        
+    }
+
+    return periodic;
 }
 
 export function formatDate(date) {
