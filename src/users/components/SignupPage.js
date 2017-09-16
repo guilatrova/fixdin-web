@@ -27,7 +27,15 @@ import {
 } from '@sketchpixy/rubix';
 
 class SignupPage extends React.Component {
+	static propTypes = {
+		onSubmit: PropTypes.func.isRequired,
+		errors: PropTypes.object.isRequired
+	}
 	
+	static defaultProps = {
+		errors: {}
+	}
+		
 	componentDidMount() {
 		var html = document.getElementsByTagName('html')[0];
 		html.classList.add('authentication');
@@ -94,15 +102,6 @@ class SignupPage extends React.Component {
 			</div>
 		);
 	}
-}
-
-SignupPage.propTypes = {
-	onSubmit: PropTypes.func.isRequired,
-	errors: PropTypes.object.isRequired
-}
-
-SignupPage.defaultProps = {
-	errors: {}
 }
 
 const mapStateToProps = (state) => {  
