@@ -46,14 +46,14 @@ const emptyTransaction = {
     priority: '',
     payment_date: undefined,
     details: '',
-    periodic: {}
+    periodic: undefined
 }
 
-const regularActions = () => {
+const regularActions = (onClick, disabled) => {
     return (
         <SplitHoverButton id="transaction-form-save-dropdown" bsStyle='primary' title="Salvar" disabled={disabled} 
-            onClick={(e) => this.handleOptionSelected(CLOSE, e)} 
-            onSelect={this.handleOptionSelected}>
+            onClick={(e) => onClick(CLOSE, e)} 
+            onSelect={onClick}>
 
             <RbxMenuItem eventKey={NEW} disabled={disabled}>Salvar e novo</RbxMenuItem>
             <RbxMenuItem eventKey={NEW_SAME_CATEGORY} disabled={disabled}>Salvar e novo (manter categoria)</RbxMenuItem>
@@ -62,20 +62,33 @@ const regularActions = () => {
     );
 }
 
-const editingPeriodicActions = (onClick) => {
+const editingPeriodicActions = (onClick, disabled) => {
     return (
         <div>
-            <Button onClick={() => onClick(types.EDIT_TRANSACTION)}>
+            <Button onClick={() => onClick(types.EDIT_TRANSACTION)} disabled={disabled}>
                 Somenta esta</Button>
-            <Button onClick={() => onClick(types.EDIT_THIS_AND_NEXT_TRANSACTIONS)}>
+            <Button onClick={() => onClick(types.EDIT_THIS_AND_NEXT_TRANSACTIONS)} disabled={disabled}>
                 Esta e futuras</Button>
-            <Button onClick={() => onClick(types.EDIT_ALL_PERIODIC_TRANSACTIONS)}>
+            <Button onClick={() => onClick(types.EDIT_ALL_PERIODIC_TRANSACTIONS)} disabled={disabled}>
                 Todas as recorrências</Button>
         </div>
     );
 }
 
-class TransactionForm extends React.Component {
+export default class TransactionForm extends React.Component {
+    static propTypes = {
+        onSubmit: PropTypes.func.isRequired,
+        errors: PropTypes.object.isRequired,
+        isFetching: PropTypes.bool.isRequired,
+        transaction: PropTypes.object.isRequired,
+        kind: PropTypes.object.isRequired
+    }
+    
+    static defaultProps = {
+        errors: { },
+        transaction: emptyTransaction
+    }
+
     constructor(props) {
         super(props);
         this.state = { 
@@ -156,8 +169,11 @@ class TransactionForm extends React.Component {
     }
     
     render() {
-        const { errors } = this.props;
+        const { errors, onSubmit } = this.props;
         const disabled = this.isSubmitDisabled();
+        const actions = (this.state.periodic_transaction) ? 
+            (disabled) => editingPeriodicActions(onSubmit, disabled) : 
+            (disabled) => regularActions(this.handleOptionSelected, disabled);
 
         return (
         <Form horizontal>
@@ -258,8 +274,7 @@ class TransactionForm extends React.Component {
 
             <FormGroup>
                 <Col smOffset={2} sm={10} className='text-right'>
-
-                    
+                    {actions(disabled)}
                 </Col>
             </FormGroup>            
 
@@ -267,18 +282,3 @@ class TransactionForm extends React.Component {
         );
     }
 }
-
-TransactionForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    errors: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    transaction: PropTypes.object.isRequired,
-    kind: PropTypes.object.isRequired
-}
-
-TransactionForm.defaultProps = {
-    errors: { },
-    transaction: emptyTransaction
-}
-
-export default TransactionForm;

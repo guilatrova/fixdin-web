@@ -115,4 +115,8 @@ describe('Transaction Formatter', () => {
 
     });
 
+    xdescribe('formats periocs', () => {
+        it('null periodics should not be formatted');
+    });
+
 });
