@@ -94,9 +94,10 @@ class TransactionKindPage extends React.Component {
         this.setState({ showTransactionFormModal: false });
     }
 
-    handleTransactionFormSubmit(option, transaction) {
+    handleTransactionFormSubmit(type, option, transaction) {
         const { kind } = this.props.route;
-        this.props.onSubmit(transaction, kind).then(({result}) => {
+
+        this.props.onSubmit(transaction, kind, type).then(({result}) => {
             if (result == 'success') {
 
                 switch(option) {
@@ -282,7 +283,7 @@ const mapDispatchToProps = (dispatch) => {
         filter: (kind, filters) => {
             return dispatch(fetchTransactions(kind, filters));
         },
-        onSubmit: (transaction, kind) => dispatch(saveTransaction(transaction, kind)),
+        onSubmit: (transaction, kind, type) => dispatch(saveTransaction(transaction, kind, type)),
         onDelete: (id, kind, type) => dispatch(deleteTransaction(id, kind, type)),
         onEdit: (id) => dispatch(editTransaction(id)),
         onCopy: (id) => dispatch(copyTransaction(id)),

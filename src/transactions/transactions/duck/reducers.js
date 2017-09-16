@@ -145,6 +145,8 @@ export default function reducer(state = initialState, action) {
     switch (action.type) {
 
         case types.SAVE_TRANSACTION:
+        case types.SAVE_ALL_PERIODIC_TRANSACTIONS:
+        case types.SAVE_THIS_AND_NEXT_TRANSACTIONS:
             return saveReducer(state, action);
 
         case types.FETCH_TRANSACTIONS:
@@ -167,8 +169,8 @@ export default function reducer(state = initialState, action) {
             }
 
         case types.DELETE_TRANSACTION:
-        case types.DELETE_THIS_AND_NEXT_TRANSACTIONS:
         case types.DELETE_ALL_PERIODIC_TRANSACTIONS:
+        case types.DELETE_THIS_AND_NEXT_TRANSACTIONS:
             return deleteReducer(state, action);
 
         default:

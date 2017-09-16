@@ -25,23 +25,23 @@ function receiveTransactions(result, data) {
 }
 
 //SAVE
-function requestSaveTransaction() {
+function requestSaveTransaction(type) {
     return {
-        type: types.SAVE_TRANSACTION
+        type
     }
 }
 
-function receiveSaveTransaction(result, data) {
+function receiveSaveTransaction(result, data, type) {
     if (result === 'success') {
         return {
-            type: types.SAVE_TRANSACTION,
+            type,
             result,
             transactions: data.map(raw => formatTransactionReceived(raw))
         }
     }
 
     return {
-        type: types.SAVE_TRANSACTION,
+        type,
         result,
         errors: data
     }

@@ -65,11 +65,11 @@ const regularActions = (onClick, disabled) => {
 const editingPeriodicActions = (onClick, disabled) => {
     return (
         <div>
-            <Button onClick={() => onClick(types.EDIT_TRANSACTION)} disabled={disabled}>
+            <Button onClick={() => onClick(types.SAVE_TRANSACTION)} disabled={disabled}>
                 Somenta esta</Button>
-            <Button onClick={() => onClick(types.EDIT_THIS_AND_NEXT_TRANSACTIONS)} disabled={disabled}>
+            <Button onClick={() => onClick(types.SAVE_THIS_AND_NEXT_TRANSACTIONS)} disabled={disabled}>
                 Esta e futuras</Button>
-            <Button onClick={() => onClick(types.EDIT_ALL_PERIODIC_TRANSACTIONS)} disabled={disabled}>
+            <Button onClick={() => onClick(types.SAVE_ALL_PERIODIC_TRANSACTIONS)} disabled={disabled}>
                 Todas as recorrências</Button>
         </div>
     );
@@ -100,13 +100,18 @@ export default class TransactionForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handlePayedChange = this.handlePayedChange.bind(this);
         this.handleIsPeriodicChange = this.handleIsPeriodicChange.bind(this);
-        this.handleOptionSelected = this.handleOptionSelected.bind(this);        
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOptionSelected = this.handleOptionSelected.bind(this);
     }
 
-    handleOptionSelected(key, e) {
-        this.props.onSubmit(key, {...this.state});
+    handleSubmit(type, postSaveOption = CLOSE) {
+        this.props.onSubmit(type, postSaveOption, { ...this.state });
+    }
 
-        switch(key) {
+    handleOptionSelected(postSaveOption) {
+        this.handleSubmit(types.SAVE_TRANSACTION, postSaveOption);
+
+        switch(postSaveOption) {
             case NEW:
                 this.setState({ ...emptyTransaction, errors: {} })
                 break;
@@ -169,10 +174,10 @@ export default class TransactionForm extends React.Component {
     }
     
     render() {
-        const { errors, onSubmit } = this.props;
+        const { errors } = this.props;
         const disabled = this.isSubmitDisabled();
         const actions = (this.state.periodic_transaction) ? 
-            (disabled) => editingPeriodicActions(onSubmit, disabled) : 
+            (disabled) => editingPeriodicActions(this.handleSubmit, disabled) : 
             (disabled) => regularActions(this.handleOptionSelected, disabled);
 
         return (
