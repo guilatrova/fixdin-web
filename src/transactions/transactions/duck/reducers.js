@@ -60,6 +60,14 @@ function saveReducer(state, action) {
 function deleteReducer(state, action) {
     switch (action.result) {
         case 'success':
+            if (action.type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) {
+                return {
+                    ...state,
+                    isFetching: false,
+                    transactions: state.transactions.filter(transaction => transaction.periodic_transaction != action.id)
+                }
+            }
+
             return {
                 ...state,
                 isFetching: false,

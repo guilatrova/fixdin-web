@@ -320,25 +320,57 @@ describe('Transactions Reducers', () => {
             });
         })
 
-        it('should be handled when successful', () => {
-            const fetchingState = {
-                ...initialDeleteState,
-                isFetching: true
-            }
-            const expectedTransactions = [
-                { id: 1, value: '10' },
-                { id: 3, value: '12' },
-            ]
+        describe('when successful', () => {
 
-            expect(
-                reducer(fetchingState, actions.receiveDeleteTransaction('success', 2, types.DELETE_TRANSACTION))
-            ).to.deep.equal({
-                isFetching: false,
-                errors: {},
-                transactions: expectedTransactions,
-                editingTransaction: {}
-            });
-        })
+            it('should be handled with type DELETE_TRANSACTION', () => {
+                const fetchingState = {
+                    ...initialDeleteState,
+                    isFetching: true
+                }
+                const expectedTransactions = [
+                    { id: 1, value: '10' },
+                    { id: 3, value: '12' },
+                ]
+
+                expect(
+                    reducer(fetchingState, actions.receiveDeleteTransaction('success', 2, types.DELETE_TRANSACTION))
+                ).to.deep.equal({
+                    isFetching: false,
+                    errors: {},
+                    transactions: expectedTransactions,
+                    editingTransaction: {}
+                });
+            })
+
+            it('should be handled with type DELETE_ALL_PERIODIC_TRANSACTIONS', () => {
+                const transactions = [
+                    { id: 1, value: '10' },
+                    { id: 2, value: '11', periodic_transaction: 2 },
+                    { id: 3, value: '12', periodic_transaction: 2 },
+                    { id: 4, value: '12', periodic_transaction: 2 },
+                    { id: 5, value: '12', periodic_transaction: 2 },
+                ]
+                const fetchingState = {
+                    ...initialDeleteState,
+                    transactions,
+                    isFetching: true
+                }
+                const expectedTransactions = [
+                    { id: 1, value: '10' }
+                ]
+
+                expect(
+                    reducer(fetchingState, actions.receiveDeleteTransaction('success', 2, types.DELETE_ALL_PERIODIC_TRANSACTIONS))
+                ).to.deep.equal({
+                    isFetching: false,
+                    errors: {},
+                    transactions: expectedTransactions,
+                    editingTransaction: {}
+                });
+            })
+
+
+        });
 
         it('should be handled when failed', () => {
             const fetchingState = {

@@ -159,7 +159,7 @@ describe('Transaction Actions', () => {
 				{ type: types.DELETE_TRANSACTION, result: 'fail', errors, type: types.DELETE_TRANSACTION }
 			]
 
-			store.dispatch(operations.deleteTransaction(2, INCOME,, types.DELETE_TRANSACTION));
+			store.dispatch(operations.deleteTransaction(2, INCOME, types.DELETE_TRANSACTION));
 
 			testHelper.apiRespondsWith({
 				status: 404,
