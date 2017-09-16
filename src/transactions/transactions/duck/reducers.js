@@ -57,7 +57,7 @@ function saveReducer(state, action) {
     }
 }
 
-const filterTransactions = (transactions, action) => {
+const filterDeletedTransactions = (transactions, action) => {
     switch (action.type) {
         case types.DELETE_ALL_PERIODIC_TRANSACTIONS:
             return transactions.filter(transaction => transaction.periodic_transaction != action.id);
@@ -80,7 +80,7 @@ function deleteReducer(state, action) {
             return {
                 ...state,
                 isFetching: false,
-                transactions: filterTransactions(state.transactions, action)
+                transactions: filterDeletedTransactions(state.transactions, action)
             }
 
         case 'fail':

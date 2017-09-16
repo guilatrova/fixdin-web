@@ -61,6 +61,7 @@ class TransactionForm extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
+        this.handlePayedChange = this.handlePayedChange.bind(this);
         this.handleIsPeriodicChange = this.handleIsPeriodicChange.bind(this);
         this.handlePeriodicChange = this.handlePeriodicChange.bind(this);        
         this.handleOptionSelected = this.handleOptionSelected.bind(this);        
