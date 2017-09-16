@@ -54,24 +54,33 @@ function saveReducer(state, action) {
                 ...state,
                 isFetching: true
             };
-    }            
+    }
+}
+
+const filterTransactions = (transactions, action) => {
+    switch (action.type) {
+        case types.DELETE_ALL_PERIODIC_TRANSACTIONS:
+            return transactions.filter(transaction => transaction.periodic_transaction != action.id);
+
+        case types.DELETE_THIS_AND_NEXT_TRANSACTIONS:
+            const afterThis = transactions.find(transaction => transaction.id == action.id);
+            return transactions.filter(transaction => !(transaction.periodic_transaction == afterThis.periodic_transaction && transaction.id >= afterThis.id));
+
+        case types.DELETE_TRANSACTION:
+            return transactions.filter(transaction => transaction.id != action.id);
+
+        default:
+            return transactions;
+    }
 }
 
 function deleteReducer(state, action) {
     switch (action.result) {
-        case 'success':
-            if (action.type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) {
-                return {
-                    ...state,
-                    isFetching: false,
-                    transactions: state.transactions.filter(transaction => transaction.periodic_transaction != action.id)
-                }
-            }
-
+        case 'success':            
             return {
                 ...state,
                 isFetching: false,
-                transactions: state.transactions.filter(transaction => transaction.id != action.id)
+                transactions: filterTransactions(state.transactions, action)
             }
 
         case 'fail':
