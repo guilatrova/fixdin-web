@@ -47,7 +47,7 @@ describe('Transactions Reducers', () => {
 
         it('should be handled', () => {
             expect(
-                reducer(undefined, actions.requestTransactions())
+                reducer(undefined, actions.requestTransactions(types.SAVE_TRANSACTION))
             ).to.deep.equal({
                 isFetching: true,
                 errors: {},
@@ -65,7 +65,7 @@ describe('Transactions Reducers', () => {
             const transaction = createTransaction({ id: 1 });
 
             expect(
-                reducer(fetchingState, actions.receiveSaveTransaction('success', [transaction.send]))
+                reducer(fetchingState, actions.receiveSaveTransaction('success', [transaction.send], types.SAVE_TRANSACTION))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -104,7 +104,7 @@ describe('Transactions Reducers', () => {
             }            
 
             expect(
-                reducer(state, actions.receiveSaveTransaction('success', [transactionToSave.send]))
+                reducer(state, actions.receiveSaveTransaction('success', [transactionToSave.send], types.SAVE_TRANSACTION))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -123,7 +123,7 @@ describe('Transactions Reducers', () => {
             }            
 
             expect(
-                reducer(state, actions.receiveSaveTransaction('success', [transactionToSave.send]))
+                reducer(state, actions.receiveSaveTransaction('success', [transactionToSave.send], types.SAVE_TRANSACTION))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -146,7 +146,7 @@ describe('Transactions Reducers', () => {
             }            
 
             expect(
-                reducer(state, actions.receiveSaveTransaction('success', transactionsSent))
+                reducer(state, actions.receiveSaveTransaction('success', transactionsSent, types.SAVE_TRANSACTION))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},

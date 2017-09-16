@@ -94,7 +94,7 @@ describe('Transaction Actions', () => {
 				}
 			]
 
-			store.dispatch(operations.saveTransaction(transaction, INCOME));
+			store.dispatch(operations.saveTransaction(transaction, INCOME, types.SAVE_TRANSACTION));
 
 			testHelper.apiRespondsWith({
 				status: 201,
@@ -113,7 +113,7 @@ describe('Transaction Actions', () => {
 				{ type: types.SAVE_TRANSACTION, result: 'fail', errors: expectedResponse }
 			]
 
-			store.dispatch(operations.saveTransaction(transaction, INCOME));
+			store.dispatch(operations.saveTransaction(transaction, INCOME, types.SAVE_TRANSACTION));
 
 			testHelper.apiRespondsWith({
 				status: 400,
@@ -125,7 +125,7 @@ describe('Transaction Actions', () => {
 		it('should use PUT when id is supplied', (done) => {
 			const editTransaction = {...transaction, id: 1}
 
-			store.dispatch(operations.saveTransaction(editTransaction, INCOME));
+			store.dispatch(operations.saveTransaction(editTransaction, INCOME, types.SAVE_TRANSACTION));
 
 			moxios.wait(() => {                
 				let request = moxios.requests.mostRecent();
