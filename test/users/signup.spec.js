@@ -5,17 +5,19 @@ import sinon from 'sinon';
 import moxios from 'moxios';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
+import { ActionsTestHelper } from './../reduxTestHelpers';
 
 import * as apiModule from './../../src/services/api';
 import SignupForm from './../../src/users/components/SignupForm';
-import signupReducer, { operations, types } from './../../src/users/duck';
+import reducer, { operations, types } from './../../src/users/duck';
+import actions from './../../src/users/duck/actions';
 import { 
     itShouldDisplayErrorForField, 
     itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
     fillAllRequiredFields 
 } from './../testHelpers';
 
-xdescribe('Signup', () => {
+describe('Signup', () => {
 
     describe('SignupForm', () => {
 
@@ -75,73 +77,48 @@ xdescribe('Signup', () => {
     })
 
     describe('Actions', () => {
-        let sandbox, axiosInstance;
-        const middlewares = [ thunk ];
-        const mockStore = configureMockStore(middlewares);
+        const testHelper = new ActionsTestHelper();
         let store;
 
         beforeEach(() => {
-            sandbox = sinon.sandbox.create();
-            axiosInstance = apiModule.default();
-
-            sandbox.stub(apiModule, 'default').returns(axiosInstance);
-            moxios.install(axiosInstance);
-            store =  mockStore();
+            testHelper.mock();
+            store = testHelper.createStore();
         })
 
         afterEach(() => {
-            sandbox.restore();
-            moxios.uninstall(axiosInstance);
+            testHelper.clearMock();
         })
 
         it('should dispatch actions before and after signup when successful', (done) => {
             const user = { id: 2 };
             const expectedActions = [
-                { type: SIGNUP },
-                { type: SIGNUP, result: 'success', user }
+                { type: types.SIGNUP },
+                { type: types.SIGNUP, result: 'success', user }
             ]
 
-            store.dispatch(fetchSignup({}));
+            store.dispatch(operations.requestSignup({}));
 
-            moxios.wait(() => {
-                let request = moxios.requests.mostRecent()
-
-                request.respondWith({
-                    status: 200,
-                    response: user
-                })
-                .then(() => {                    
-                    expect(store.getActions()).to.deep.equal(expectedActions);
-                    done();
-                })
-                .catch((error) => done(error.message));                
-            });            
+            testHelper.apiRespondsWith({
+                status: 200,
+                response: user
+            })
+            .expectActionsAsync(done, expectedActions);
         })
 
         it('should dispatch finished with error when signup fails', (done) => {
             const errors = { email: 'You shall not pass'}
             const expectedActions = [
-                { type: SIGNUP },
-                { type: SIGNUP, result: 'fail', errors }
+                { type: types.SIGNUP },
+                { type: types.SIGNUP, result: 'fail', errors }
             ]
 
-            store.dispatch(fetchSignup({}));
+            store.dispatch(operations.requestSignup({}));
 
-            moxios.wait(() => {
-                let request = moxios.requests.mostRecent()
-
-                request.respondWith({
-                    status: 400,
-                    response: errors
-                })
-                .then(() => {
-                    expect(store.getActions()).to.deep.equal(expectedActions);
-                    done();
-                })
-                .catch(error => {
-                    done(`Actions arent equal: ${error}`);
-                });
-            });
+            testHelper.apiRespondsWith({
+                status: 400,
+                response: errors
+            })
+            .expectActionsAsync(done, expectedActions);
         })
 
     })
@@ -154,15 +131,13 @@ xdescribe('Signup', () => {
 
         it('should return the initial state', () => {
             expect(
-                signupReducer(undefined, {})
+                reducer(undefined, {}).signup
             ).to.deep.equal(initialState);
         })
 
         it('should handle SIGNUP', () => {
             expect(
-                signupReducer(undefined, {
-                    type: SIGNUP                    
-                })
+                reducer(undefined, actions.requestSignup()).signup
             ).to.deep.equal({
                 isFetching: true,
                 errors: {}
@@ -171,10 +146,7 @@ xdescribe('Signup', () => {
 
         it('should handle successful SIGNUP', () => {
             expect(
-                signupReducer(undefined, {
-                    type: SIGNUP,
-                    result: 'success'
-                })
+                reducer(undefined, actions.receiveSignup('success', {})).signup
             ).to.deep.equal({
                 isFetching: false,
                 errors: {}
@@ -188,11 +160,7 @@ xdescribe('Signup', () => {
             }
 
             expect(
-                signupReducer(undefined, {
-                    type: SIGNUP,
-                    result: 'fail',
-                    errors
-                })
+                reducer(undefined, actions.receiveSignup('fail', errors)).signup
             ).to.deep.equal({
                 isFetching: false,                
                 errors

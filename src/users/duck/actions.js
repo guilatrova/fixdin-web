@@ -2,21 +2,21 @@ import types from './types';
 
 const requestToken = () => {
     return {
-        type: FETCH_TOKEN
+        type: types.FETCH_TOKEN
     }
 }
 
 const receiveToken = (result, data) => {
     if (result === 'success') {
         return {
-            type: FETCH_TOKEN,
+            type: types.FETCH_TOKEN,
             result,
             token: data
         }
     }
     
     return {
-        type: FETCH_TOKEN,
+        type: types.FETCH_TOKEN,
         result,
         error: data
     }
@@ -24,21 +24,21 @@ const receiveToken = (result, data) => {
 
 const requestSignup = () => {
     return {
-        type: SIGNUP
+        type: types.SIGNUP
     }
 }
 
 const receiveSignup = (result, data) => {
     if (result === 'success') {
         return {
-            type: SIGNUP,
+            type: types.SIGNUP,
             result,
             user: data
         }
     }
     
     return {
-        type: SIGNUP,
+        type: types.SIGNUP,
         result,
         errors: data
     }
