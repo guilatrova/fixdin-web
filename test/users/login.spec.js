@@ -1,17 +1,13 @@
 import React from 'react';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import sinon from 'sinon';
 import sinonStubPromise from 'sinon-stub-promise';
-import moxios from 'moxios';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
 
-import * as apiModule from './../../src/services/api';
 import * as sessionModule from './../../src/services/session';
 import LoginForm from './../../src/users/components/LoginForm';
-import  loginReducer, { operations, types } from './../../src/users/duck';
+import  reducer, { operations, types } from './../../src/users/duck';
+import  actions from './../../src/users/duck/actions';
 import { ActionsTestHelper } from './../reduxTestHelpers';
 import { 
     itShouldDisplayErrorForField, 
@@ -21,7 +17,7 @@ import {
 
 sinonStubPromise(sinon);
 
-xdescribe('Login', () => {
+describe('Login', () => {
 
     describe('LoginForm', () => {
 
@@ -71,93 +67,62 @@ xdescribe('Login', () => {
     });
 
     describe('Actions', () => {
-        let sandbox, axiosInstance;
-        const middlewares = [ thunk ];
-        const mockStore = configureMockStore(middlewares);
+        const testHelper = new ActionsTestHelper();
         const token = 'abc123456';
         let store;
 
         beforeEach(() => {
-            sandbox = sinon.sandbox.create();
-            axiosInstance = apiModule.default();
-
-            sandbox.stub(apiModule, 'default').returns(axiosInstance);
-            moxios.install(axiosInstance);
-            store =  mockStore();
+            testHelper.mock();
+            store = testHelper.createStore();
         })
 
         afterEach(() => {
-            sandbox.restore();
-            moxios.uninstall(axiosInstance);
+            testHelper.clearMock();
         })
 
         it('should call save token when login request is successful', (done) => {
             let expectedResponse = { token };
             let sessionSpy = sinon.spy(sessionModule, 'saveToken');
             
-            store.dispatch(fetchToken({ email:'any', password:'any' }));
+            store.dispatch(operations.fetchToken({ email:'any', password:'any' }));
 
-            moxios.wait(() => {
-                let request = moxios.requests.mostRecent()
-
-                request.respondWith({
-                    status: 200,
-                    response: expectedResponse
-
-                }).then(() => {
-                    expect(sessionSpy.calledWith(expectedResponse.token)).to.be.true;
-                    done();
-                })
-                .catch((error) => done(error.message));
+            testHelper.apiRespondsWith({
+                status: 200,
+                response: expectedResponse
+            })
+            .expectAsync(done, () => {
+                expect(sessionSpy.calledWith(expectedResponse.token)).to.be.true;
             });
         })
 
         it('should dispatch actions before and after fetching token when successful', (done) => {
             const expectedActions = [
-                { type: FETCH_TOKEN },
-                { type: FETCH_TOKEN, result: 'success', token }
+                { type: types.FETCH_TOKEN },
+                { type: types.FETCH_TOKEN, result: 'success', token }
             ]
 
-            store.dispatch(fetchToken({ email:'any', password:'any' }));                
+            store.dispatch(operations.fetchToken({ email:'any', password:'any' }));
 
-            moxios.wait(() => {
-                let request = moxios.requests.mostRecent()
-
-                request.respondWith({
-                    status: 200,
-                    response: { token }
-                })
-                .then(() => {
-                    expect(store.getActions()).to.deep.equal(expectedActions);
-                    done();
-                })
-                .catch((error) => done(error.message));                
-            });            
+            testHelper.apiRespondsWith({
+                status: 200,
+                response: { token }
+            })
+            .expectActionsAsync(done, expectedActions);
         })
 
         it('should dispatch finished with error when fetching token fails', (done) => {
             const expectedActions = [
-                { type: FETCH_TOKEN },
-                { type: FETCH_TOKEN, result: 'fail', error: 'You shall not pass' }
+                { type: types.FETCH_TOKEN },
+                { type: types.FETCH_TOKEN, result: 'fail', error: 'You shall not pass' }
             ]
 
-            store.dispatch(fetchToken({ email:'any', password:'any' }));
+            store.dispatch(operations.fetchToken({ email:'any', password:'any' }));
 
-            moxios.wait(() => {
-                let request = moxios.requests.mostRecent()
-
-                request.respondWith({
-                    status: 400,
-                    response: { detail: 'You shall not pass' }
-                })
-                .then(() => {
-                    expect(store.getActions()).to.deep.equal(expectedActions);
-                    done();
-                })
-                .catch(error => {
-                    done(`Actions arent equal: ${error}`);
-                });
-            });
+            testHelper.apiRespondsWith({
+                status: 400,
+                response: { detail: 'You shall not pass' }
+            })
+            .expectActionsAsync(done, expectedActions);
         })
 
     });
@@ -171,15 +136,13 @@ xdescribe('Login', () => {
 
         it('should return the initial state', () => {
             expect(
-                loginReducer(undefined, {})
+                reducer(undefined, {}).login
             ).to.deep.equal(initialState);
         })
 
         it('should handle FETCH_TOKEN', () => {
             expect(
-                loginReducer(undefined, {
-                    type: FETCH_TOKEN                    
-                })
+                reducer(undefined, actions.requestToken({})).login
             ).to.deep.equal({                
                 isFetching: true,
                 error: '',
@@ -189,12 +152,9 @@ xdescribe('Login', () => {
 
         it('should handle successful FETCH_TOKEN', () => {
             expect(
-                loginReducer(undefined, {
-                    type: FETCH_TOKEN,
-                    result: 'success',
-                    token: 'abc123'
-                })
-            ).to.deep.equal({
+                reducer(undefined, actions.receiveToken('success', 'abc123')).login
+            )
+            .to.deep.equal({
                 isFetching: false,
                 error: '',
                 token: 'abc123'
@@ -203,11 +163,7 @@ xdescribe('Login', () => {
 
         it('should handle failed FETCH_TOKEN', () => {
             expect(
-                loginReducer(undefined, {
-                    type: FETCH_TOKEN,
-                    result: 'fail',
-                    error: 'General error'
-                })
+                reducer(undefined, actions.receiveToken('fail', 'General error')).login
             ).to.deep.equal({
                 isFetching: false,
                 error: 'General error',

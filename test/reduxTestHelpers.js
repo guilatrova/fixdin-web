@@ -19,7 +19,22 @@ class AssertContextHelper {
 
             request.respondWith(respondWith)
             .then(() => {
-                expect(store.getActions()).to.deep.equal(expectedActions);					
+                expect(store.getActions()).to.deep.equal(expectedActions);
+                done();
+            })
+            .catch((error) => done(error.message));
+        });
+    }
+
+    expectAsync(done, callback) {
+        const { store, respondWith } = this;
+
+        moxios.wait(() => {
+            let request = moxios.requests.mostRecent()
+
+            request.respondWith(respondWith)
+            .then(() => {
+                callback();
                 done();
             })
             .catch((error) => done(error.message));

@@ -1,13 +1,9 @@
 import React from 'react';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import sinon from 'sinon';
-import moxios from 'moxios';
-import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
+import { mount, shallow } from 'enzyme';
 import { ActionsTestHelper } from './../reduxTestHelpers';
 
-import * as apiModule from './../../src/services/api';
 import SignupForm from './../../src/users/components/SignupForm';
 import reducer, { operations, types } from './../../src/users/duck';
 import actions from './../../src/users/duck/actions';

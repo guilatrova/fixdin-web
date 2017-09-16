@@ -27,6 +27,15 @@ import {
 
 class LoginPage extends React.Component {
 
+    static propTypes = {
+        onSubmit: PropTypes.func.isRequired,
+        error: PropTypes.string.isRequired
+    }
+    
+    static defaultProps = {
+        error: ''
+    }
+
     componentDidMount() {
         var html = document.getElementsByTagName('html')[0];
         html.classList.add('authentication');
@@ -82,15 +91,6 @@ class LoginPage extends React.Component {
             </div>
         )
     }
-}
-
-LoginPage.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    error: PropTypes.string.isRequired
-}
-
-LoginPage.defaultProps = {
-    error: ''
 }
 
 const mapStateToProps = (state) => {
