@@ -291,8 +291,6 @@ describe('Transactions Reducers', () => {
             ]
         }
 
-        debugger;
-        const r = reducer(initialCopyState, actions.copyTransaction(3));
         it('should be handled', () => {
             expect(
                 reducer(initialCopyState, actions.copyTransaction(3))
