@@ -176,6 +176,7 @@ export default class TransactionForm extends React.Component {
     render() {
         const { errors } = this.props;
         const disabled = this.isSubmitDisabled();
+        const canSetPeriodic = (this.state.id) ? false : true;
         const actions = (this.state.periodic_transaction) ? 
             (disabled) => editingPeriodicActions(this.handleSubmit, disabled) : 
             (disabled) => regularActions(this.handleOptionSelected, disabled);
@@ -263,7 +264,7 @@ export default class TransactionForm extends React.Component {
                     maxLength="500" />
             </HorizontalFormGroupError>
 
-            <FormControlLabel
+            {canSetPeriodic && <FormControlLabel
                 control={
                     <Switch
                     checked={this.state.isPeriodic}
@@ -271,7 +272,7 @@ export default class TransactionForm extends React.Component {
                     />
                 }
                 label="Periódico"
-            />
+            />}
 
             <Periodic 
                 visible={this.state.isPeriodic}

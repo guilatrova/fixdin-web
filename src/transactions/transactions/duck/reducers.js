@@ -130,10 +130,7 @@ function fetchReducer(state, action) {
 
 function copyTransaction(state, action) {
     const originalTransaction = state.transactions.find(transaction => transaction.id == action.id);
-    const { id, ...transactionWithoutId } = originalTransaction;
-    const copy = {        
-        ...transactionWithoutId
-    };
+    const { id, periodic_transaction, ...copy } = originalTransaction;
 
     return {
         ...state,
