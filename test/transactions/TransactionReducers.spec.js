@@ -311,7 +311,7 @@ describe('Transactions Reducers', () => {
 
         it('should be handled', () => {
             expect(
-                reducer(initialDeleteState, actions.requestDeleteTransaction(2))
+                reducer(initialDeleteState, actions.requestDeleteTransaction(2, types.DELETE_TRANSACTION))
             ).to.deep.equal({
                 isFetching: true,
                 errors: {},
@@ -331,7 +331,7 @@ describe('Transactions Reducers', () => {
             ]
 
             expect(
-                reducer(fetchingState, actions.receiveDeleteTransaction(2, 'success', 2))
+                reducer(fetchingState, actions.receiveDeleteTransaction('success', 2, types.DELETE_TRANSACTION))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
@@ -348,7 +348,7 @@ describe('Transactions Reducers', () => {
             const errors = { 'detail' : 'couldnt delete' };
 
             expect(
-                reducer(fetchingState, actions.receiveDeleteTransaction(2, 'fail', errors))
+                reducer(fetchingState, actions.receiveDeleteTransaction('fail', 2, types.DELETE_TRANSACTION, errors))
             ).to.deep.equal({
                 isFetching: false,
                 errors,

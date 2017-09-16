@@ -140,11 +140,11 @@ describe('Transaction Actions', () => {
 
 		it('should dispatch success action after DELETE_TRANSACTION', (done) => {
 			const expectedActions = [
-				{ type: types.DELETE_TRANSACTION, id: 2 },
-				{ type: types.DELETE_TRANSACTION, result: 'success', id: 2 }
+				{ type: types.DELETE_TRANSACTION, id: 2, type: types.DELETE_TRANSACTION },
+				{ type: types.DELETE_TRANSACTION, result: 'success', id: 2, type: types.DELETE_TRANSACTION }
 			]
 
-			store.dispatch(operations.deleteTransaction(2, INCOME));
+			store.dispatch(operations.deleteTransaction(2, INCOME, types.DELETE_TRANSACTION));
 
 			testHelper.apiRespondsWith({
 				status: 204
@@ -155,11 +155,11 @@ describe('Transaction Actions', () => {
 		it('should dispatch fail action after DELETE_TRANSACTION when something goes wrong', (done) => {
 			const errors = { 'detail': 'not found'}			
 			const expectedActions = [
-				{ type: types.DELETE_TRANSACTION, id: 2 },
-				{ type: types.DELETE_TRANSACTION, result: 'fail', errors }
+				{ type: types.DELETE_TRANSACTION, id: 2, type: types.DELETE_TRANSACTION },
+				{ type: types.DELETE_TRANSACTION, result: 'fail', errors, type: types.DELETE_TRANSACTION }
 			]
 
-			store.dispatch(operations.deleteTransaction(2, INCOME));
+			store.dispatch(operations.deleteTransaction(2, INCOME,, types.DELETE_TRANSACTION));
 
 			testHelper.apiRespondsWith({
 				status: 404,
