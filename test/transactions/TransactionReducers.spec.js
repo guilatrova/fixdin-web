@@ -284,18 +284,24 @@ describe('Transactions Reducers', () => {
 
         const initialCopyState = {
             ...initialState,
-            transactions
+            transactions: [
+                { id: 1, value: '10' },
+                { id: 2, value: '11', periodic_transaction: 2 },
+                { id: 3, value: '12', periodic_transaction: 2 },
+            ]
         }
 
+        debugger;
+        const r = reducer(initialCopyState, actions.copyTransaction(3));
         it('should be handled', () => {
             expect(
-                reducer(initialCopyState, actions.copyTransaction(1))
+                reducer(initialCopyState, actions.copyTransaction(3))
             ).to.deep.equal({
                 isFetching: false,
                 errors: {},
-                transactions,
+                transactions: initialCopyState.transactions,
                 editingTransaction: {
-                    value: '10'
+                    value: '12'
                 }
             });
         })
@@ -349,7 +355,7 @@ describe('Transactions Reducers', () => {
                 });
             })
 
-            it('should be handled with type DELETE_ALL_PERIODIC_TRANSACTIONS', () => {                
+            it('should be handled with type DELETE_ALL_PERIODIC_TRANSACTIONS', () => {
                 const fetchingState = {
                     ...initialDeleteState,
                     transactions: periodicTransactions,
