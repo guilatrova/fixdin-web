@@ -31,6 +31,7 @@ import HorizontalFormGroupError from './../../../common/components/forms/Horizon
 import CategorySelectPicker from './../../categories/components/CategorySelectPicker';
 import TransactionDescription from './TransactionDescription';
 import Periodic from './Periodic';
+import { types } from '../duck';
 
 export const CLOSE = "CLOSE";
 export const NEW = "NEW";
@@ -48,6 +49,32 @@ const emptyTransaction = {
     periodic: {}
 }
 
+const regularActions = () => {
+    return (
+        <SplitHoverButton id="transaction-form-save-dropdown" bsStyle='primary' title="Salvar" disabled={disabled} 
+            onClick={(e) => this.handleOptionSelected(CLOSE, e)} 
+            onSelect={this.handleOptionSelected}>
+
+            <RbxMenuItem eventKey={NEW} disabled={disabled}>Salvar e novo</RbxMenuItem>
+            <RbxMenuItem eventKey={NEW_SAME_CATEGORY} disabled={disabled}>Salvar e novo (manter categoria)</RbxMenuItem>
+
+        </SplitHoverButton>
+    );
+}
+
+const editingPeriodicActions = (onClick) => {
+    return (
+        <div>
+            <Button onClick={() => onClick(types.EDIT_TRANSACTION)}>
+                Somenta esta</Button>
+            <Button onClick={() => onClick(types.EDIT_THIS_AND_NEXT_TRANSACTIONS)}>
+                Esta e futuras</Button>
+            <Button onClick={() => onClick(types.EDIT_ALL_PERIODIC_TRANSACTIONS)}>
+                Todas as recorrências</Button>
+        </div>
+    );
+}
+
 class TransactionForm extends React.Component {
     constructor(props) {
         super(props);
@@ -56,14 +83,10 @@ class TransactionForm extends React.Component {
             payed: !!props.transaction.payment_date,
             errors: {},
         };
-
+        
         this.handleChange = this.handleChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleCategoryChange = this.handleCategoryChange.bind(this);
-        this.handleValueChange = this.handleValueChange.bind(this);
         this.handlePayedChange = this.handlePayedChange.bind(this);
         this.handleIsPeriodicChange = this.handleIsPeriodicChange.bind(this);
-        this.handlePeriodicChange = this.handlePeriodicChange.bind(this);        
         this.handleOptionSelected = this.handleOptionSelected.bind(this);        
     }
 
@@ -83,18 +106,6 @@ class TransactionForm extends React.Component {
 
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
-    }
-
-    handleCategoryChange(value) {
-        this.setState({ category: value });
-    }
-
-    handleDateChange(id, value) {
-        this.setState({ [id]: value });
-    }
-
-    handleValueChange(value) {
-        this.setState({ value });
     }
 
     handlePayedChange(e, checked) {
@@ -126,10 +137,6 @@ class TransactionForm extends React.Component {
         this.setState({ isPeriodic: checked });
     }
 
-    handlePeriodicChange(periodic) {
-        this.setState({ periodic });
-    }
-
     isSubmitDisabled() {
         let disabled = false;
         if (this.props.isFetching) {
@@ -159,7 +166,7 @@ class TransactionForm extends React.Component {
                 <DatetimeInput
                     timeFormat={false}
                     className='border-focus-blue'
-                    onChange={(value) => this.handleDateChange('due_date', value)}
+                    onChange={ (due_date) => this.setState({ due_date }) }
                     value={this.state.due_date}
                     closeOnSelect={true}
                     closeOnTab={true} />
@@ -178,13 +185,13 @@ class TransactionForm extends React.Component {
                 <CategorySelectPicker 
                     kind={this.props.kind} 
                     value={this.state.category}
-                    onChange={this.handleCategoryChange} />
+                    onChange={ (category) => this.setState({ category }) } />
             </HorizontalFormGroupError>
 
             <HorizontalFormGroupError id="value" label="Valor" error={errors.value}>
                 <CurrencyInput 
                     className='border-focus-blue form-control'
-                    onChange={this.handleValueChange}
+                    onChange={ (value) => this.setState({ value }) }
                     value={this.state.value}
                     prefix="R$ "
                     decimalSeparator=","
@@ -219,7 +226,7 @@ class TransactionForm extends React.Component {
                 <DatetimeInput
                     timeFormat={false}
                     className='border-focus-blue'
-                    onChange={(value) => this.handleDateChange('payment_date', value)}
+                    onChange={ (payment_date) => this.setState({ payment_date }) }
                     value={this.state.payment_date}
                     closeOnSelect={true}
                     closeOnTab={true} />
@@ -247,19 +254,12 @@ class TransactionForm extends React.Component {
 
             <Periodic 
                 visible={this.state.isPeriodic}
-                onChange={this.handlePeriodicChange} />
+                onChange={ (periodic) => this.setState({ periodic }) } />
 
             <FormGroup>
                 <Col smOffset={2} sm={10} className='text-right'>
 
-                    <SplitHoverButton id="transaction-form-save-dropdown" bsStyle='primary' title="Salvar" disabled={disabled} 
-                        onClick={(e) => this.handleOptionSelected(CLOSE, e)} 
-                        onSelect={this.handleOptionSelected}>
-
-                        <RbxMenuItem eventKey={NEW} disabled={disabled}>Salvar e novo</RbxMenuItem>
-                        <RbxMenuItem eventKey={NEW_SAME_CATEGORY} disabled={disabled}>Salvar e novo (manter categoria)</RbxMenuItem>
-
-                    </SplitHoverButton>
+                    
                 </Col>
             </FormGroup>            
 
