@@ -30,7 +30,7 @@ function formatPeriodic(periodic) {
         }        
     }
 
-    return periodic;
+    return periodic || undefined;
 }
 
 export function formatDate(date) {
