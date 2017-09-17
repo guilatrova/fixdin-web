@@ -1,13 +1,7 @@
-import React from 'react';
-import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
-import { expect } from 'chai';
-import moment from 'moment';
+import reducer from './reducers';
+import actions from './actions';
 
-import reducer, { types } from './../../src/balances/duck';
-import actions from './../../src/balances/duck/actions';
-
-describe('Balances Reducers', () => {
+describe('balances/duck/reducers', () => {
 
     const initialState = {
         balance: undefined,

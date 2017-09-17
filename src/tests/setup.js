@@ -1,6 +1,7 @@
 import jsdom from 'jsdom';
 import React from 'react';
 import sinon from 'sinon';
+import moment from 'moment';
 import sinonStubPromise from 'sinon-stub-promise';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
@@ -17,6 +18,7 @@ import {
 sinonStubPromise(sinon);
 
 global.React = React;
+global.moment = moment;
 global.expect = expect;
 global.sinon = sinon;
 global.shallow = shallow;
