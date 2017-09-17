@@ -1,22 +1,13 @@
-var jsdom = require('jsdom');
+import jsdom from 'jsdom';
+import sinon from 'sinon';
+import { expect } from 'chai';
 
-class LocalStorageMock { 
-	constructor() { 
-		this.store = {}; 
-	} 
-	
-	clear() { 
-		this.store = {}; 
-	} 
-	
-	getItem(key) { 
-		return this.store[key]; 
-	} 
-	
-	setItem(key, value) { 
-		this.store[key] = value;
-	} 
-}; 
+import { LocalStorageMock } from './LocalStorageMock';
+import { ActionsTestHelper } from './reduxTestHelpers';
+
+global.expect = expect;
+global.sinon = sinon;
+global.ActionsTestHelper = ActionsTestHelper;
 
 if(!global.document) {
 	global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');

@@ -1,14 +1,8 @@
-import { expect } from 'chai';
-import sinon from 'sinon';
-import sinonStubPromise from 'sinon-stub-promise';
-
 import * as sessionModule from '../../services/session';
 import reducer from './reducers';
 import operations from './operations';
 import types from './types';
 import actions from './actions';
-
-import { ActionsTestHelper } from '../../tests/reduxTestHelpers';
 
 describe('users/duck/actions', () => {
 
