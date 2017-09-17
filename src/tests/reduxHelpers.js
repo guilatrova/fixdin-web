@@ -34,7 +34,7 @@ class AssertContextHelper {
 
             request.respondWith(respondWith)
             .then(() => {
-                callback();
+                callback(request);
                 done();
             })
             .catch((error) => done(error.message));
