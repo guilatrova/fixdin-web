@@ -8,6 +8,7 @@ import { mount, shallow } from 'enzyme';
 import { LocalStorageMock } from './LocalStorageMock';
 import { ActionsTestHelper } from './reduxHelpers';
 import { 
+	ComponentsTestHelper,
     itShouldDisplayErrorForField, 
     itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
     fillAllRequiredFields 
@@ -21,6 +22,7 @@ global.sinon = sinon;
 global.shallow = shallow;
 global.mount = mount;
 global.ActionsTestHelper = ActionsTestHelper;
+global.ComponentsTestHelper = ComponentsTestHelper;
 global.itShouldDisplayErrorForField = itShouldDisplayErrorForField;
 global.itSubmitButtonShouldBeDisabledWhenFieldIsBlank = itSubmitButtonShouldBeDisabledWhenFieldIsBlank;
 global.fillAllRequiredFields = fillAllRequiredFields;

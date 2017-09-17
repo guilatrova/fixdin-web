@@ -1,3 +1,32 @@
+export class ComponentsTestHelper {
+    constructor(createComponent, requiredFields, triggerReference) {
+        this.createComponent = createComponent;
+        this.requiredFields = requiredFields;
+        this.triggerReference = triggerReference;
+    }
+
+    itSubmitButtonShouldBeDisabledWhenFieldIsBlank(field, howToFindButton = 'Button[type="submit"]') {
+        const wrapper = this.createComponent();
+        const requiredFields = this.requiredFields;
+        const triggerReference = this.triggerReference;
+
+        it (`submit button should be disabled when ${field} is blank `, () => {        
+            const input = wrapper.find(triggerReference);
+    
+            for (let i = 0; i < requiredFields.length; i++) {
+                if (requiredFields[i] != field) {
+                    simulateChange(input, requiredFields[i], 'any');
+                }
+                else {
+                    simulateChange(input, requiredFields[i], '');
+                }
+            }
+    
+            expect(wrapper.find(howToFindButton).prop('disabled')).to.be.true;
+        });
+    }
+}
+
 export function itShouldDisplayErrorForField(wrapper, field, controlId, message) {
 
     it(`should display error for ${field}`, () => {
