@@ -1,10 +1,6 @@
-import React from 'react';
-import { mount, shallow } from 'enzyme';
-import { expect } from 'chai';
+import { sort } from './sorts';
 
-import { sort } from './../../src/common/sorts';
-
-describe('Sorts', () => {
+describe('sorts', () => {
     
     describe('alpha', () => {
 
