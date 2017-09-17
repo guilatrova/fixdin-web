@@ -44,6 +44,21 @@ export class ComponentsTestHelper {
         })
         
     }
+
+    itShouldPassErrorMessageTo(field, state = undefined) {
+        const wrapper = this.createComponent();
+
+        it(`should pass error message to ${field}`, () => {
+            const errors = {
+                [field]: `invalid ${field}`
+            };
+            wrapper.setProps({errors});
+            if (state)
+                wrapper.setState(state);
+    
+            expect((wrapper).find(`HorizontalFormGroupError[id="${field}"]`).prop('error')).to.be.equal(errors[field]);
+        })
+    }
 }
 
 export function itShouldDisplayErrorForField(wrapper, field, controlId, message) {

@@ -25,9 +25,9 @@ import Typography from 'material-ui/Typography';
 import { EXPENSE, INCOME, ALL } from '../../kinds';
 import TransactionTableContainer from './TransactionTableContainer';
 import TransactionFormModal from './TransactionFormModal';
-import TransactionFilter from './TransactionFilter';
-import * as saveOptions from './TransactionForm';
-import ConfirmDeleteDialog from './ConfirmDeleteDialog';
+import TransactionFilter from './../components/TransactionFilter';
+import * as saveOptions from './../components/TransactionForm';
+import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types } from '../duck';
 
 import Button from 'material-ui/Button';

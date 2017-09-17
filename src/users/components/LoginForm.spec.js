@@ -13,7 +13,7 @@ describe('<LoginForm />', () => {
         () => shallow(<LoginForm {...defaultProps} />),
         requiredFields,
         triggerReference
-    )
+    );
     
     it('renders ok', () => {
         const wrapper = shallow(<LoginForm {...defaultProps} />);

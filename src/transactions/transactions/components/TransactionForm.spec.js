@@ -1,22 +1,6 @@
-import React from 'react';
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import sinon from 'sinon';
-import moxios from 'moxios'
-import { mount, shallow } from 'enzyme';
-import { expect } from 'chai';
-import { Provider } from 'react-redux';
-import moment from 'moment';
+import TransactionForm from './TransactionForm';
 
-import TransactionForm from './../../src/transactions/transactions/components/TransactionForm';
-import { 
-    itShouldDisplayErrorForField, 
-    itShouldPassErrorMessageTo,
-    itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
-    fillAllRequiredFields 
-} from './../testHelpers';
-
-describe('TransactionForm', () => {    
+describe('<TransactionForm />', () => {    
     
     const defaultProps = { 
         onSubmit: () => {},
@@ -28,26 +12,31 @@ describe('TransactionForm', () => {
 
         const requiredFields = ["due_date", "value", "description", "category"];
         const triggerReference = 'HorizontalFormGroupError[id="deadline"]';
+        const form = new ComponentsTestHelper(
+            () => shallow(<TransactionForm {...defaultProps} />),
+            requiredFields,
+            triggerReference
+        );
 
         it('renders ok', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);
             expect(wrapper).to.be.ok;
         })
 
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'due_date');
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'value');
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'description');
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'category');
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'deadline');
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'priority');
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'details');
-        itShouldPassErrorMessageTo(shallow(<TransactionForm {...defaultProps} />), 'payment_date', { payed: true});
+        form.itShouldPassErrorMessageTo('due_date');
+        form.itShouldPassErrorMessageTo('value');
+        form.itShouldPassErrorMessageTo('description');
+        form.itShouldPassErrorMessageTo('category');
+        form.itShouldPassErrorMessageTo('deadline');
+        form.itShouldPassErrorMessageTo('priority');
+        form.itShouldPassErrorMessageTo('details');
+        form.itShouldPassErrorMessageTo('payment_date', { payed: true});
         
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'username', submitButton);
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'due_date', submitButton);
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'value', submitButton);
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'description', submitButton);
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<TransactionForm {...defaultProps} />), triggerReference, requiredFields, 'category', submitButton);
+        form.itSubmitButtonShouldBeDisabledWhenFieldIsBlank('username', submitButton);
+        form.itSubmitButtonShouldBeDisabledWhenFieldIsBlank('due_date', submitButton);
+        form.itSubmitButtonShouldBeDisabledWhenFieldIsBlank('value', submitButton);
+        form.itSubmitButtonShouldBeDisabledWhenFieldIsBlank('description', submitButton);
+        form.itSubmitButtonShouldBeDisabledWhenFieldIsBlank('category', submitButton);
 
         it('submit button should be disabled when due_date is invalid', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);            

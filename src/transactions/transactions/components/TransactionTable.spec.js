@@ -1,12 +1,6 @@
-import React from 'react';
-import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
-import { expect } from 'chai';
-import moment from 'moment';
+import TransactionTable from './TransactionTable';
 
-import TransactionTable from './../../src/transactions/transactions/components/TransactionTable';
-
-describe('TransactionTable', () => {
+describe('<TransactionTable />', () => {
 
     const defaultProps = {
         onRefresh: () => {},

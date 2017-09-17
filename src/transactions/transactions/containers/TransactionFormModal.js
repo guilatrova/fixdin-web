@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from '@sketchpixy/rubix';
 
-import TransactionForm from './TransactionForm';
+import TransactionForm from '../components/TransactionForm';
 
 const TransactionFormModal = ({show, onHide, title, onSubmit, isFetching, errors, transaction, kind}) => {
     return (
