@@ -25,6 +25,25 @@ export class ComponentsTestHelper {
             expect(wrapper.find(howToFindButton).prop('disabled')).to.be.true;
         });
     }
+
+    itShouldDisplayErrorForField(field, controlId, message) {
+        const wrapper = this.createComponent();
+
+        it(`should display error for ${field}`, () => {
+    
+            const errors = {
+                [field]: message
+            }
+            wrapper.setProps({errors});
+            const formGroup = wrapper.find(`FormGroup[controlId="${controlId}"]`);
+    
+            expect(formGroup.props().validationState).to.be.equal('error');
+            expect(wrapper.contains(
+                message
+            )).to.be.true;
+        })
+        
+    }
 }
 
 export function itShouldDisplayErrorForField(wrapper, field, controlId, message) {
