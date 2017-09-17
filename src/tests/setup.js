@@ -5,6 +5,7 @@ import moment from 'moment';
 import sinonStubPromise from 'sinon-stub-promise';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
+import moxios from 'moxios'
 
 import { LocalStorageMock } from './LocalStorageMock';
 import { ActionsTestHelper } from './reduxHelpers';
@@ -22,6 +23,7 @@ global.moment = moment;
 global.expect = expect;
 global.sinon = sinon;
 global.shallow = shallow;
+global.moxios = moxios;
 global.mount = mount;
 global.ActionsTestHelper = ActionsTestHelper;
 global.ComponentsTestHelper = ComponentsTestHelper;

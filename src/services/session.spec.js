@@ -1,14 +1,10 @@
-import React from 'react';
-import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
-import { expect } from 'chai';
+import createAPI from './api';
+import * as sessionModule from './session';
 
-import createAPI from './../../src/services/api';
-import * as sessionModule from './../../src/services/session';
+describe('services/session', () => {
 
-const SAVED_TOKEN = 'abc123456';
+    const SAVED_TOKEN = 'abc123456';
 
-describe('Session Service', () => {
     beforeEach(() => {
         localStorage.clear();
     })

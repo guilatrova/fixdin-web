@@ -1,16 +1,9 @@
-import React from 'react';
-import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
-import { expect } from 'chai';
 import axios from 'axios'
-import moxios from 'moxios'
+import createAPI from './api';
+import * as sessionModule from './session';
 
-import createAPI from './../../src/services/api';
-import * as sessionModule from './../../src/services/session';
-
-const SAVED_TOKEN = 'abc123456';
-
-describe('API Service', () => {
+describe('services/API', () => {
+    const SAVED_TOKEN = 'abc123456';
 
     describe('when session has token', () => {    
 

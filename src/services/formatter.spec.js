@@ -1,18 +1,15 @@
-import React from 'react';
-import sinon from 'sinon';
-import { expect } from 'chai';
 import axios from 'axios'
-import moment from 'moment';
 
-import { EXPENSE, INCOME } from './../../src/transactions/kinds';
+import { EXPENSE, INCOME } from '../transactions/kinds';
+
 import {
     formatCurrency, 
     formatDate, 
     formatTransactionReceived, 
     formatTransactionToSend
-} from './../../src/services/formatter';
+} from './formatter';
 
-describe('Transaction Formatter', () => {
+describe('services/formatter', () => {
 
     it('formats date', () => {
         const date = moment(new Date(2014, 7, 22)); //Month index starts in 0 (until 11)
