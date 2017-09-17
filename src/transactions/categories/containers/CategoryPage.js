@@ -22,10 +22,10 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import CategoryList from './CategoryList';
+import CategoryList from '../components/CategoryList';
 import CategoryFormModal from './CategoryFormModal';
 import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
-import { operations } from './../duck';
+import { operations } from '../duck';
 
 class CategoryPage extends React.Component {
 
