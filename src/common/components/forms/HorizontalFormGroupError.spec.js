@@ -1,9 +1,4 @@
-import React from 'react';
-import { mount, shallow } from 'enzyme';
-import { expect } from 'chai';
-import { FormControl } from '@sketchpixy/rubix';
-
-import HorizontalFormGroupError from './../../src/common/components/forms/HorizontalFormGroupError';
+import HorizontalFormGroupError from './HorizontalFormGroupError';
 
 describe('HorizontalFormGroupError', () => {
     const defaultProps = {
