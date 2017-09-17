@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from '@sketchpixy/rubix';
 
-import CategoryForm from './components/CategoryForm';
+import CategoryForm from '../components/CategoryForm';
 
 const CategoryFormModal = ({show, onHide, title, onSubmit, isFetching, errors, category}) => {
     return (

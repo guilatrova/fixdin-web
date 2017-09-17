@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import RefreshIcon from 'material-ui-icons/Refresh';
 
-import TransactionTable from './TransactionTable';
+import TransactionTable from '../components/TransactionTable';
 import { EXPENSE, INCOME } from './../../kinds';
 
 const styles = theme => ({

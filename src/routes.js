@@ -6,12 +6,12 @@ import { isAuthenticated } from './services/session';
 import { INCOME, EXPENSE, ALL } from './transactions/kinds';
 
 import { App, DashboardContainer } from './app';
-import DashboardPage from './dashboard/components/DashboardPage';
-import LoginPage from './users/components/LoginPage';
-import SignupPage from './users/components/SignupPage';
-import TransactionKindPage from './transactions/transactions/components/TransactionKindPage';
-import TransactionPage from './transactions/transactions/components/TransactionPage';
-import CategoryPage from  './transactions/categories/components/CategoryPage';
+import DashboardPage from './dashboard/containers/DashboardPage';
+import LoginPage from './users/containers/LoginPage';
+import SignupPage from './users/containers/SignupPage';
+import TransactionKindPage from './transactions/transactions/containers/TransactionKindPage';
+import TransactionPage from './transactions/transactions/containers/TransactionPage';
+import CategoryPage from  './transactions/categories/containers/CategoryPage';
 
 function isClient() {
    return typeof localStorage != 'undefined';
