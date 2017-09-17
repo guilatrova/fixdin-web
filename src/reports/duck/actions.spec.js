@@ -1,9 +1,7 @@
-import { expect } from 'chai';
+import operations from './operations';
+import types from './types';
 
-import { operations, types } from './../../src/reports/duck';
-import { ActionsTestHelper } from './../reduxTestHelpers';
-
-describe('Reports Actions', () => {
+describe('reports/duck/actions', () => {
 	
 	const testHelper = new ActionsTestHelper();
 	let store;
