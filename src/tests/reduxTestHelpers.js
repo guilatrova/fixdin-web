@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import moxios from 'moxios'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import sinon from 'sinon';
-import * as apiModule from './../src/services/api';
-import { expect } from 'chai';
+import * as apiModule from './../services/api';
 
 class AssertContextHelper {
     constructor(respondWith, store) {
