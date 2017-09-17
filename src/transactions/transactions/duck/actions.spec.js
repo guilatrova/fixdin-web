@@ -1,13 +1,8 @@
-import moxios from 'moxios'
-import { expect } from 'chai';
-import moment from 'moment';
+import { EXPENSE, INCOME } from '../../kinds';
+import operations from './operations';
+import types from './types';
 
-import { EXPENSE, INCOME } from './../../src/transactions/kinds';
-import { operations, types } from './../../src/transactions/transactions/duck';
-import { ActionsTestHelper } from './../reduxTestHelpers';
-
-
-describe('Transaction Actions', () => {
+describe('transaction/duck/actions', () => {
 	
 	const testHelper = new ActionsTestHelper();
 	let store;
