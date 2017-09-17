@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 export function itShouldDisplayErrorForField(wrapper, field, controlId, message) {
 
     it(`should display error for ${field}`, () => {

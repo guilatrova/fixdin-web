@@ -18,7 +18,13 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-class LoginForm extends React.Component {
+export default class LoginForm extends React.Component {
+    static propTypes = {
+        onSubmit: PropTypes.func.isRequired,
+        isFetching: PropTypes.bool.isRequired,
+        error: PropTypes.string.isRequired
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -107,11 +113,3 @@ class LoginForm extends React.Component {
         );
     }
 }
-
-LoginForm.prototypes = {
-    onSubmit: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired
-}
-
-export default LoginForm;
