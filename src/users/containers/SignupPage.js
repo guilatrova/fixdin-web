@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import SignupForm from './SignupForm';
+import SignupForm from '../components/SignupForm';
 import { operations, selectors } from '../duck';
 
 import {

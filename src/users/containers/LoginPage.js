@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { operations, selectors } from '../duck';
 
-import LoginForm from './LoginForm';
+import LoginForm from '../components/LoginForm';
 
 import {
   Row,
