@@ -1,12 +1,6 @@
-import React from 'react';
-import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
-import { expect } from 'chai';
-import moment from 'moment';
+import CategoryList from './CategoryList';
 
-import CategoryList from './../../src/transactions/categories/components/CategoryList';
-
-describe('CategoryList', () => {
+describe('<CategoryList />', () => {
 
     const defaultProps = {
         categories: [

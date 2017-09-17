@@ -1,17 +1,7 @@
-import React from 'react';
-import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
-import { expect } from 'chai';
+import { EXPENSE } from '../../kinds';
+import CategoryForm from './CategoryForm';
 
-import { EXPENSE } from './../../src/transactions/kinds';
-import CategoryForm from './../../src/transactions/categories/components/CategoryForm';
-import {
-    itShouldPassErrorMessageTo,
-    itSubmitButtonShouldBeDisabledWhenFieldIsBlank,
-    fillAllRequiredFields 
-} from './../testHelpers';
-
-describe('CategoryForm', () => {
+describe('<CategoryForm />', () => {
     
     const defaultProps = { 
         onSubmit: () => {},
@@ -23,15 +13,20 @@ describe('CategoryForm', () => {
 
         const requiredFields = ["name"];
         const triggerReference = 'HorizontalFormGroupError[id="name"]';
+        const form = new ComponentsTestHelper(
+            () => shallow(<CategoryForm {...defaultProps} />),
+            requiredFields,
+            triggerReference
+        );
 
         it('renders ok', () => {
             const wrapper = shallow(<CategoryForm {...defaultProps} />);
             expect(wrapper).to.be.ok;
         })
 
-        itShouldPassErrorMessageTo(shallow(<CategoryForm {...defaultProps} />), 'name');
+        form.itShouldPassErrorMessageTo('name');
 
-        itSubmitButtonShouldBeDisabledWhenFieldIsBlank(shallow(<CategoryForm {...defaultProps} />), triggerReference, requiredFields, 'name');
+        form.itSubmitButtonShouldBeDisabledWhenFieldIsBlank('name');
 
         it('submit button should be disabled when isFetching', () => {
             const wrapper = shallow(<CategoryForm {...defaultProps} isFetching={true} />);
