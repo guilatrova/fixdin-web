@@ -28,8 +28,8 @@ import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from '../components/TransactionFilter';
 import * as saveOptions from '../components/TransactionForm';
 import ConfirmDeleteModal from 'ConfirmDeleteModal';
-import { operations } from '../duck';
-import { operations as categoryOperations } from '../../categories/duck';
+import { operations, selectors } from '../duck';
+import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
@@ -145,16 +145,13 @@ class TransactionPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const categoriesState = state.categories;
-    const transactionsState = state.transactions;
-
     return {
-        ...transactionsState,
+        ...state.transactions,
+        categories: categorySelectors.getCategories(state),
         errors: {
-            ...transactionsState.errors,
-            category: categoriesState.errors.name
-        },
-        categories: categoriesState.categories
+            ...selectors.getErrors(state),
+            category: categorySelectors.getNameError(state)
+        }
     }
 };
 

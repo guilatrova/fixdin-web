@@ -1,3 +1,7 @@
+const getNameError = (state) => state.categories.errors.name;
+
+const getCategories = (state) => state.categories.categories;
+
 const getCategoryNameById = (state) => (id, whenMissing = 'Carregando nome...') => {
     const found = state.categories.categories.find(category => category.id == id);
 
@@ -7,5 +11,7 @@ const getCategoryNameById = (state) => (id, whenMissing = 'Carregando nome...') 
 }
 
 export default {
+    getNameError,
+    getCategories,
     getCategoryNameById
 };

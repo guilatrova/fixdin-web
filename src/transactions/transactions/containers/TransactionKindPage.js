@@ -28,14 +28,12 @@ import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from './../components/TransactionFilter';
 import * as saveOptions from './../components/TransactionForm';
 import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
-import { operations, types } from '../duck';
+import { operations, types, selectors } from '../duck';
+import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 import FloatingActionButton from 'FloatingActionButton';
-
-import { operations as categoryOperations } from '../../categories/duck';
-
 
 class TransactionKindPage extends React.Component {
     constructor(props) {
@@ -259,16 +257,13 @@ class TransactionKindPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const categoriesState = state.categories;
-    const transactionsState = state.transactions;
-
     return {
-        ...transactionsState,
+        ...state.transactions,
+        categories: categorySelectors.getCategories,
         errors: {
-            ...transactionsState.errors,
-            category: categoriesState.errors.name
+            ...selectors.getErrors(state),
+            category: categorySelectors.getNameError(state)
         },
-        categories: categoriesState.categories
     }
 };
 
