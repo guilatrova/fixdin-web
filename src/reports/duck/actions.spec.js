@@ -1,5 +1,7 @@
 import operations from './operations';
 import types from './types';
+import { EXPENSE } from '../../transactions/kinds';
+import * as apiModule from '../../services/api';
 
 describe('reports/duck/actions', () => {
 	
@@ -7,7 +9,7 @@ describe('reports/duck/actions', () => {
 	let store;
 
 	beforeEach(() => {
-		testHelper.mock();
+		testHelper.mock(apiModule);
 		store = testHelper.createStore();
 	})
 
@@ -18,6 +20,7 @@ describe('reports/duck/actions', () => {
 	describe('FETCH_LAST_13_MONTHS', () => {
 
 		it('should dispatch success action after FETCH_LAST_13_MONTHS', (done) => {
+			debugger;
             const data = [ { id: 1 }, { id: 2 } ];
 			const expectedActions = [
 				{ type: types.FETCH_LAST_13_MONTHS, real: undefined },
@@ -52,15 +55,31 @@ describe('reports/duck/actions', () => {
 		})
 	})
 	
-	xdescribe('FETCH_PENDING_TRANSACTIONS', () => {
+	describe('FETCH_PENDING_TRANSACTIONS', () => {
 		
 		it('should dispatch success action after FETCH_PENDING_TRANSACTIONS', (done) => {
-			
+			const data = [
+				{ id: 1 },
+				{ id: 2 }
+			];
+			const expectedActions = [
+				{ type: types.FETCH_PENDING_TRANSACTIONS, kind: EXPENSE },
+				{ type: types.FETCH_PENDING_TRANSACTIONS, data, kind: EXPENSE }
+			]
+
+			store.dispatch(operations.fetchPendingTransactionsReport(EXPENSE));
+
+			testHelper.apiRespondsWith({
+				status: 400,
+				response: data
+			})
+			.expectActionsAsync(done, expectedActions);
 		})
 
-		it('should dispatch fail action after FETCH_PENDING_TRANSACTIONS when something goes wrong', (done) => {
+		xit('should dispatch fail action after FETCH_PENDING_TRANSACTIONS when something goes wrong', (done) => {
 
 		})
+
 	})
 
 	xdescribe('FETCH_VALUES_BY_CATEGORY', () => {

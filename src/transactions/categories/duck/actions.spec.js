@@ -1,6 +1,7 @@
 import { EXPENSE, INCOME } from '../../kinds';
 import operations from './operations';
 import types from './types';
+import * as apiModule from '../../../services/api';
 
 describe('categories/duck/actions', () => {
 	
@@ -8,7 +9,7 @@ describe('categories/duck/actions', () => {
 	let store;
 
 	beforeEach(() => {
-		testHelper.mock();
+		testHelper.mock(apiModule);
 		store = testHelper.createStore();
 	})
 

@@ -1,9 +1,5 @@
-import { expect } from 'chai';
-import moxios from 'moxios'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import sinon from 'sinon';
-import * as apiModule from './../services/api';
 
 class AssertContextHelper {
     constructor(respondWith, store) {
@@ -22,7 +18,7 @@ class AssertContextHelper {
                 expect(store.getActions()).to.deep.equal(expectedActions);
                 done();
             })
-            .catch((error) => done(error.message));
+            .catch((error) => { var acts = store.getActions(); debugger; done(error.message); });
         });
     }
 
@@ -45,12 +41,12 @@ class AssertContextHelper {
 
 export class ActionsTestHelper {
 
-    mock() {
+    mock(apiModule) {        
         this.sandbox = sinon.sandbox.create();
         this.axiosInstance = apiModule.default();
+        moxios.install(this.axiosInstance);
         
         this.sandbox.stub(apiModule, 'default').returns(this.axiosInstance);        
-        moxios.install(this.axiosInstance);
     }
 
     clearMock() {

@@ -1,6 +1,7 @@
 import * as sessionModule from '../../services/session';
 import operations from './operations';
 import types from './types';
+import * as apiModule from '../../services/api';
 
 describe('users/duck/actions', () => {
     
@@ -9,7 +10,7 @@ describe('users/duck/actions', () => {
     let store;
     
     beforeEach(() => {
-        testHelper.mock();
+        testHelper.mock(apiModule);
         store = testHelper.createStore();
     })
     
