@@ -10,11 +10,17 @@ export class Operation {
     dispatch = () => (dispatch) => {
         this.onRequest(dispatch, this.requestAction);
         
-        const api = createApi();
+        console.log(this, 'will call api service');
+        const api = this.createApiService();
         return this.getApiPromise(api)
             .then(response => response.data)
             .then(data => this.onSucceed(dispatch, this.receiveAction, this.getSucceedData(data)))
             .catch(err => this.onFailed(dispatch, this.receiveAction, err))
+    }
+
+    createApiService() {
+        console.log('original Create API called')
+        return createApi();
     }
     
     onRequest(dispatch, requestAction) {
@@ -32,7 +38,7 @@ export class Operation {
     getSucceedData(raw) {
         return raw;
     }
-
+    
     getApiPromise(api) { }
 }
 

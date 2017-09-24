@@ -20,7 +20,6 @@ describe('reports/duck/actions', () => {
 	describe('FETCH_LAST_13_MONTHS', () => {
 
 		it('should dispatch success action after FETCH_LAST_13_MONTHS', (done) => {
-			debugger;
             const data = [ { id: 1 }, { id: 2 } ];
 			const expectedActions = [
 				{ type: types.FETCH_LAST_13_MONTHS, real: undefined },
