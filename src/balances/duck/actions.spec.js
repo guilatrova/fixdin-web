@@ -18,10 +18,10 @@ describe('balances/duck/actions', () => {
 
 	describe('FETCH_BALANCE', () => {
 
-		it('should dispatch success action after FETCH_BALANCE', (done) => {
+		it('should dispatch success action after successful request', (done) => {
 			const expectedActions = [
-				{ type: types.FETCH_BALANCE },
-				{ type: types.FETCH_BALANCE, result: 'success', balance: 50 }
+				{ type: types.FETCH_BALANCE, key: 'balance' },
+				{ type: types.FETCH_BALANCE, key: 'balance', result: 'success', balance: 50 }
 			]
 
 			store.dispatch(operations.fetchBalance());
@@ -33,13 +33,13 @@ describe('balances/duck/actions', () => {
             .expectActionsAsync(done, expectedActions);
 		});
 
-		it('should dispatch fail action after FETCH_BALANCE when something goes wrong', (done) => {
+		it('should dispatch fail action after failed request', (done) => {
 			const expectedResponse = {
 				detail: 'invalid token',
 			}
 			const expectedActions = [
-				{ type: types.FETCH_BALANCE },
-				{ type: types.FETCH_BALANCE, result: 'fail', errors: expectedResponse }
+				{ type: types.FETCH_BALANCE, key: 'balance' },
+				{ type: types.FETCH_BALANCE, key: 'balance', result: 'fail', errors: expectedResponse }
 			]
 
             store.dispatch(operations.fetchBalance());
@@ -52,39 +52,4 @@ describe('balances/duck/actions', () => {
 		})		
     })
     
-	describe('FETCH_REAL_BALANCE', () => {
-
-		it('should dispatch success action after FETCH_REAL_BALANCE', (done) => {
-			const expectedActions = [
-				{ type: types.FETCH_REAL_BALANCE },
-				{ type: types.FETCH_REAL_BALANCE, result: 'success', balance: 50 }
-			]
-
-			store.dispatch(operations.fetchRealBalance());
-
-            testHelper.apiRespondsWith({
-                status: 200,
-                response: { 'balance': 50 }
-            })
-            .expectActionsAsync(done, expectedActions);            
-		});
-
-		it('should dispatch fail action after FETCH_REAL_BALANCE when something goes wrong', (done) => {
-			const expectedResponse = {
-				detail: 'invalid token',
-			}
-			const expectedActions = [
-				{ type: types.FETCH_REAL_BALANCE },
-				{ type: types.FETCH_REAL_BALANCE, result: 'fail', errors: expectedResponse }
-			]
-
-			store.dispatch(operations.fetchRealBalance());
-
-            testHelper.apiRespondsWith({
-                status: 400,
-                response: expectedResponse
-            })
-            .expectActionsAsync(done, expectedActions);
-		})		
-	})
 })

@@ -8,7 +8,11 @@ const initialState = {
     errors: {},
 };
 
-function fetchBalanceReducer(state, action) {
+export default function reducer(state = initialState, action) {
+    if (action.type != types.FETCH_BALANCE) {
+        return state;
+    }
+
     switch (action.result) {
         case 'success':
             return {
@@ -30,43 +34,5 @@ function fetchBalanceReducer(state, action) {
                 ...state,
                 isFetching: true
             };
-    }
-}
-
-function fetchRealBalanceReducer(state, action) {
-    switch (action.result) {
-        case 'success':
-            return {
-                ...state,
-                realBalance: action.balance,
-                errors: {},
-                isFetching: false
-            };
-
-        case 'fail':
-            return {
-                ...state,
-                errors: action.errors,
-                isFetching: false
-            }
-
-        default:
-            return {
-                ...state,
-                isFetching: true
-            };
-    }
-}
-
-export default function reducer(state = initialState, action) {
-    switch (action.type) {
-        case types.FETCH_BALANCE:
-            return fetchBalanceReducer(state, action);
-
-        case types.FETCH_REAL_BALANCE:
-            return fetchRealBalanceReducer(state, action);
-
-        default:
-            return state;
     }
 }

@@ -1,6 +1,7 @@
 import moment from 'moment';
 import actions from './actions.js';
 import { formatDate } from './../../services/formatter';
+import handleError from '../../services/genericErrorHandler';
 import { GetOperation } from '../../common/genericDuck/operations';
 import getQueryParams from '../../services/query';
 
@@ -27,12 +28,12 @@ class GetBalanceOperation extends GetOperation {
     }    
 
     onFailed(dispatch, receiveAction, errors) {
+        console.log('***************************** failed');
         return dispatch(receiveAction('fail', handleError(errors), this.storeKey));
     }    
 
     getApiPromise(api) {
         const queryParams = getQueryParams(this.filters);
-        console.log(queryParams, this.filters);
         return api.get(this.endpoint + queryParams);
     }
 }

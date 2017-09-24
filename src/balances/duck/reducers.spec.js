@@ -6,6 +6,7 @@ describe('balances/duck/reducers', () => {
     const initialState = {
         balance: undefined,
         realBalance: undefined,
+        expectedBalance: undefined,
         isFetching: false,
         errors: {},
     };
@@ -24,6 +25,7 @@ describe('balances/duck/reducers', () => {
             ).to.deep.equal({
                 balance: undefined,
                 realBalance: undefined,
+                expectedBalance: undefined,
                 isFetching: true,
                 errors: {},
             });
@@ -31,10 +33,11 @@ describe('balances/duck/reducers', () => {
 
         it("should be handled when successful", () => {
             expect(
-                reducer(initialState, actions.receiveBalance('success', 50))
+                reducer(initialState, actions.receiveBalance('success', 50, 'balance'))
             ).to.deep.equal({
                 balance: 50,
                 realBalance: undefined,
+                expectedBalance: undefined,
                 isFetching: false,
                 errors: {},
             });
@@ -43,48 +46,11 @@ describe('balances/duck/reducers', () => {
         it('should be handled when failed', () => {
             const errors = { 'detail':'random error' }
             expect(
-                reducer(initialState, actions.receiveBalance('fail', errors))
+                reducer(initialState, actions.receiveBalance('fail', errors, 'balance'))
             ).to.deep.equal({
                 balance: undefined,
                 realBalance: undefined,
-                isFetching: false,
-                errors,
-            });
-        });
-
-    });
-
-    describe('FETCH_REAL_BALANCE', () => {
-
-        it("should be handled", () => {
-            expect(
-                reducer(initialState, actions.requestRealBalance())
-            ).to.deep.equal({
-                balance: undefined,
-                realBalance: undefined,
-                isFetching: true,
-                errors: {},
-            });
-        });
-
-        it("should be handled when successful", () => {
-            expect(
-                reducer(initialState, actions.receiveRealBalance('success', 50))
-            ).to.deep.equal({
-                balance: undefined,
-                realBalance: 50,
-                isFetching: false,
-                errors: {},
-            });
-        });
-
-        it('should be handled when failed', () => {
-            const errors = { 'detail':'random error' }
-            expect(
-                reducer(initialState, actions.receiveRealBalance('fail', errors))
-            ).to.deep.equal({
-                balance: undefined,
-                realBalance: undefined,
+                expectedBalance: undefined,
                 isFetching: false,
                 errors,
             });
