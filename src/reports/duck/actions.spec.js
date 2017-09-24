@@ -1,6 +1,6 @@
 import operations from './operations';
 import types from './types';
-import { EXPENSE } from '../../transactions/kinds';
+import { EXPENSE, INCOME } from '../../transactions/kinds';
 import * as apiModule from '../../services/api';
 
 describe('reports/duck/actions', () => {
@@ -19,7 +19,7 @@ describe('reports/duck/actions', () => {
 
 	describe('FETCH_LAST_13_MONTHS', () => {
 
-		it('should dispatch success action after FETCH_LAST_13_MONTHS', (done) => {
+		it('should dispatch success action after successful request', (done) => {
             const data = [ { id: 1 }, { id: 2 } ];
 			const expectedActions = [
 				{ type: types.FETCH_LAST_13_MONTHS, real: undefined },
@@ -35,7 +35,7 @@ describe('reports/duck/actions', () => {
 			.expectActionsAsync(done, expectedActions);
 		})
 
-		it('should dispatch fail action after FETCH_LAST_13_MONTHS when something goes wrong', (done) => {
+		it('should dispatch fail action after failed request', (done) => {
 			const expectedResponse = {
 				detail: 'data unavailable',
 			}
@@ -54,7 +54,7 @@ describe('reports/duck/actions', () => {
 		})
 	})
 	
-	xdescribe('FETCH_PENDING_TRANSACTIONS', () => {
+	describe('FETCH_PENDING_TRANSACTIONS', () => {
 		
 		it('should dispatch success action after successful request', (done) => {
 			const data = [
@@ -63,20 +63,34 @@ describe('reports/duck/actions', () => {
 			];
 			const expectedActions = [
 				{ type: types.FETCH_PENDING_TRANSACTIONS, kind: EXPENSE },
-				{ type: types.FETCH_PENDING_TRANSACTIONS, data, kind: EXPENSE }
+				{ type: types.FETCH_PENDING_TRANSACTIONS, result: 'success', data, kind: EXPENSE }
 			]
 
 			store.dispatch(operations.fetchPendingTransactionsReport(EXPENSE));
 
 			testHelper.apiRespondsWith({
-				status: 400,
+				status: 200,
 				response: data
 			})
 			.expectActionsAsync(done, expectedActions);
 		})
 
-		xit('should dispatch fail action after FETCH_PENDING_TRANSACTIONS when something goes wrong', (done) => {
+		it('should dispatch fail action after failed request', (done) => {
+			const errors = {
+				detail: 'random error'
+			}
+			const expectedActions = [
+				{ type: types.FETCH_PENDING_TRANSACTIONS, kind: INCOME },
+				{ type: types.FETCH_PENDING_TRANSACTIONS, result: 'fail', errors, kind: INCOME }
+			]
 
+			store.dispatch(operations.fetchPendingTransactionsReport(INCOME));
+
+			testHelper.apiRespondsWith({
+				status: 400,
+				response: errors
+			})
+			.expectActionsAsync(done, expectedActions);
 		})
 
 	})

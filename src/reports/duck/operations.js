@@ -1,5 +1,6 @@
 import actions from './actions.js';
 import { createGetOperation, GetOperation } from './../../common/genericDuck/operations';
+import handleError from '../../services/genericErrorHandler';
 
 class FetchPendingTransactionsOperation extends GetOperation {
     constructor(kind) {
@@ -11,9 +12,17 @@ class FetchPendingTransactionsOperation extends GetOperation {
         return this.dispatch();
     }
 
+    onRequest(dispatch, requestAction) {
+        dispatch(requestAction(this.kind));
+    }
+
     onSucceed(dispatch, receiveAction, data) {
         dispatch(receiveAction('success', data, this.kind));
         return data;
+    }
+
+    onFailed(dispatch, receiveAction, errors) {
+        return dispatch(receiveAction('fail', handleError(errors), this.kind));
     }
 }
 
