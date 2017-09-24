@@ -10,7 +10,6 @@ export class Operation {
     dispatch = () => (dispatch) => {
         this.onRequest(dispatch, this.requestAction);
         
-        console.log(this, 'will call api service');
         const api = this.createApiService();
         return this.getApiPromise(api)
             .then(response => response.data)
@@ -19,7 +18,6 @@ export class Operation {
     }
 
     createApiService() {
-        console.log('original Create API called')
         return createApi();
     }
     

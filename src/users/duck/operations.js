@@ -13,7 +13,6 @@ class FetchTokenOperation extends Operation {
     }
 
     createApiService() {
-        console.log('create API Called');
         return createApi(false);
     }
 
