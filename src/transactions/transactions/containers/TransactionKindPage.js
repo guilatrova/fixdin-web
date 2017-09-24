@@ -161,6 +161,7 @@ class TransactionKindPage extends React.Component {
 
         if (filters) {
             this.props.filter(kind, filters)
+                .then(actionResult => actionResult.transactions)
                 .then(filteredTransactions => {
                     this.setState({ 
                         filteredTransactions: filteredTransactions.map(transaction => transaction.id) 
