@@ -12,14 +12,14 @@ import Table, {
 export default class TableSort extends React.Component {
     static propTypes = {
         data: PropTypes.array.isRequired,
-        key: PropTypes.string.isRequired,
+        columnKey: PropTypes.string.isRequired,
         children: PropTypes.node,
         initialOrder: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
         initialOrderBy: PropTypes.string.isRequired
     }
 
     static defaultProps = {
-        key: 'id',
+        columnKey: 'id',
         initialOrder: 'asc',
         initialOrderBy: ''
     }
@@ -74,7 +74,7 @@ export default class TableSort extends React.Component {
     }
 
     render () {
-        const { key, children } = this.props;
+        const { columnKey, children } = this.props;
         const { order, orderBy } = this.state;
         const handleHeaderClick = this.handleHeaderClick;
         const data = this.sort(this.state.orderBy, this.state.order);
@@ -109,7 +109,7 @@ export default class TableSort extends React.Component {
         const rows = data.map(
             row => {
                 return (
-                    <TableRow hover tabIndex="-1" key={row[key]}>
+                    <TableRow hover tabIndex="-1" key={row[columnKey]}>
 
                         {React.Children.map(children, 
                             column => {

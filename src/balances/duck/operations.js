@@ -28,7 +28,6 @@ class GetBalanceOperation extends GetOperation {
     }    
 
     onFailed(dispatch, receiveAction, errors) {
-        console.log('***************************** failed');
         return dispatch(receiveAction('fail', handleError(errors), this.storeKey));
     }    
 
