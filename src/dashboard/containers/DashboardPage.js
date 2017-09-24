@@ -43,6 +43,7 @@ class DashboardPage extends React.Component {
     render() {
         const balance = formatCurrencyDisplay(this.props.balance);
         const realBalance = formatCurrencyDisplay(this.props.realBalance);
+        const expectedBalance = formatCurrencyDisplay(this.props.expectedBalance);
 
         return (
             <div className="dashboard-page">
@@ -60,6 +61,12 @@ class DashboardPage extends React.Component {
                                     <Col xs={6} md={3}>
                                         <BalanceCard title="Saldo real">
                                             {realBalance}
+                                        </BalanceCard>
+                                    </Col>
+
+                                    <Col xs={6} md={3}>
+                                        <BalanceCard title="Saldo esperado">
+                                            {expectedBalance}
                                         </BalanceCard>
                                     </Col>
                                 </Row>
@@ -128,6 +135,7 @@ const mapStateToProps = (state) => {
     return {
         balance: balanceSelectors.getBalance(state),
         realBalance: balanceSelectors.getRealBalance(state),
+        expectedBalance: balanceSelectors.getExpectedBalance(state),
         nextPendingExpenses: reportSelectors.getNextPendingExpenses(state),
         overdueExpenses: reportSelectors.getOverdueExpenses(state),
         nextPendingIncomes: reportSelectors.getNextPendingIncomes(state),
@@ -140,6 +148,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchBalance: () => {
             dispatch(balanceOperations.fetchBalance());
             dispatch(balanceOperations.fetchRealBalance());
+            dispatch(balanceOperations.fetchExpectedBalance());
         },
         fetchPendingTransactions: () => {
             dispatch(reportOperations.fetchPendingTransactionsReport(EXPENSE));

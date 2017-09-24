@@ -3,6 +3,7 @@ import types from './types';
 const initialState = {
     balance: undefined,
     realBalance: undefined,
+    expectedBalance: undefined,
     isFetching: false,
     errors: {},
 };
@@ -12,7 +13,7 @@ function fetchBalanceReducer(state, action) {
         case 'success':
             return {
                 ...state,
-                balance: action.balance,
+                [action.key]: action.balance,
                 errors: {},
                 isFetching: false
             };

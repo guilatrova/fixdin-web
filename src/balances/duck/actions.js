@@ -1,44 +1,25 @@
 import types from './types';
 
-const requestBalance = () => {
+const requestBalance = (key) => {
     return {
-        type: types.FETCH_BALANCE
+        type: types.FETCH_BALANCE,
+        key
     }
 };
 
-const receiveBalance = (result, data) => {
+const receiveBalance = (result, data, key) => {
     if (result === 'success') {
         return {
             type: types.FETCH_BALANCE,
+            key,
             result,
-            balance: data
+            balance: data,
         }
     }
 
     return {
         type: types.FETCH_BALANCE,
-        result,
-        errors: data
-    }
-}
-
-const requestRealBalance = () => {
-    return {
-        type: types.FETCH_REAL_BALANCE
-    }
-};
-
-const receiveRealBalance = (result, data) => {
-    if (result === 'success') {
-        return {
-            type: types.FETCH_REAL_BALANCE,
-            result,
-            balance: data
-        }
-    }
-
-    return {
-        type: types.FETCH_REAL_BALANCE,
+        key,
         result,
         errors: data
     }
@@ -46,7 +27,5 @@ const receiveRealBalance = (result, data) => {
 
 export default {
     requestBalance,
-    receiveBalance,
-    requestRealBalance,
-    receiveRealBalance
+    receiveBalance
 }
