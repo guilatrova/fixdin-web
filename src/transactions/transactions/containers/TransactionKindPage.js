@@ -259,7 +259,7 @@ class TransactionKindPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         ...state.transactions,
-        categories: categorySelectors.getCategories,
+        categories: categorySelectors.getCategories(state),
         errors: {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
