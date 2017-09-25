@@ -2,14 +2,15 @@ import types from '../types';
 import { EXPENSE } from '../../../transactions/kinds';
 
 const initialState = {
-    isFetching: false,
     expenses: {
         next: [],
-        overdue: []
+        overdue: [],
+        isFetching: false
     },
     incomes: {
         next: [],
-        overdue: []
+        overdue: [],
+        isFetching: false
     },
     errors: {}
 };
@@ -19,28 +20,35 @@ export default function reducer(state = initialState, action) {
         return state;
     }
 
+    const kind = (action.kind.id == EXPENSE.id) ? 'expenses' : 'incomes';
     switch(action.result) {
         case 'success':
-            const kind = (action.kind.id == EXPENSE.id) ? 'expenses' : 'incomes';
-
             return {
-                ...state,
-                isFetching: false,
+                ...state,                
                 errors: {},
-                [kind]: action.data
+                [kind]: { 
+                    ...action.data,
+                    isFetching: false
+                }
             }
 
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
-                errors: action.errors
+                errors: action.errors,
+                [kind]: {
+                    ...state[kind],
+                    isFetching: false
+                }
             }
 
         default:
             return {
                 ...state,
-                isFetching: true
+                [kind]: {
+                    ...state[kind],
+                    isFetching: true
+                }
             }
     }
 }
