@@ -95,14 +95,44 @@ describe('reports/duck/actions', () => {
 
 	})
 
-	xdescribe('FETCH_VALUES_BY_CATEGORY', () => {
+	describe('FETCH_VALUES_BY_CATEGORY', () => {
 		
-		it('should dispatch success action after FETCH_VALUES_BY_CATEGORY', (done) => {
-			
+		it('should dispatch success action after successful request', (done) => {
+			const data = [
+				{ id: 1 },
+				{ id: 2 }
+			];
+			const expectedActions = [
+				{ type: types.FETCH_VALUES_BY_CATEGORY, kind: EXPENSE },
+				{ type: types.FETCH_VALUES_BY_CATEGORY, result: 'success', data, kind: EXPENSE }
+			]
+
+			store.dispatch(operations.fetchValuesByCategoryReport(EXPENSE));
+
+			testHelper.apiRespondsWith({
+				status: 200,
+				response: data
+			})
+			.expectActionsAsync(done, expectedActions);
 		})
 
-		it('should dispatch fail action after FETCH_VALUES_BY_CATEGORY when something goes wrong', (done) => {
+		it('should dispatch fail action after failed request', (done) => {
+			const errors = [
+				{ id: 1 },
+				{ id: 2 }
+			];
+			const expectedActions = [
+				{ type: types.FETCH_VALUES_BY_CATEGORY, kind: EXPENSE },
+				{ type: types.FETCH_VALUES_BY_CATEGORY, result: 'fail', errors, kind: EXPENSE }
+			]
 
+			store.dispatch(operations.fetchValuesByCategoryReport(EXPENSE));
+
+			testHelper.apiRespondsWith({
+				status: 400,
+				response: errors
+			})
+			.expectActionsAsync(done, expectedActions);
 		})
 
 	})

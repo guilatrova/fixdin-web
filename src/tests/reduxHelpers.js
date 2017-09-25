@@ -18,7 +18,7 @@ class AssertContextHelper {
                 expect(store.getActions()).to.deep.equal(expectedActions);
                 done();
             })
-            .catch((error) => { var acts = store.getActions(); debugger; done(error.message); });
+            .catch(done);
         });
     }
 

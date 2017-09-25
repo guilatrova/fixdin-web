@@ -58,9 +58,17 @@ class FetchValuesByCategoryOperation extends GetOperation {
         return this.dispatch();
     }
 
+    onRequest(dispatch, requestAction) {
+        dispatch(requestAction(this.kind));
+    }
+
     onSucceed(dispatch, receiveAction, data) {
         dispatch(receiveAction('success', data, this.kind));
         return data;
+    }
+
+    onFailed(dispatch, receiveAction, errors) {
+        return dispatch(receiveAction('fail', handleError(errors), this.kind));
     }
 }
 
