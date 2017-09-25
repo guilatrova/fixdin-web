@@ -31,7 +31,7 @@ describe('reports/duck/reducers/last13MonthsReducer', () => {
         });
     });
     
-    xdescribe("should be handled when successful", () => {
+    describe("should be handled when successful", () => {
         
         it('with "REAL" data', () => {
             const data = [ { id: 1 }, { id: 2 } ];
