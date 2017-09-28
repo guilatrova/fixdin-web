@@ -21,7 +21,7 @@ export function formatTransactionToSend(transaction, kind) {
     }
 }
 
-function formatPeriodic(periodic) {
+export function formatPeriodic(periodic) {
     if (periodic && periodic.until) {
         return {
             ...periodic,
