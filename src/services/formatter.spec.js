@@ -41,7 +41,7 @@ describe('services/formatter', () => {
         
     })
 
-    describe('formats transactions', () => {
+    describe('formatTransaction...()', () => {
 
         describe('formatTransactionToSend()', () => {
 
