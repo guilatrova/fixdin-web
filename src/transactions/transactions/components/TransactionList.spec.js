@@ -1,5 +1,9 @@
-describe('<TransactionList />', () => {
-    xit('renders ok');
+import TransactionList from './TransactionList';
 
-    xit('update state when toggle checkbox');
+describe('<TransactionList />', () => {
+
+    it('renders ok', () => {
+        expect(<TransactionList />).to.be.ok;
+    });
+
 });
