@@ -2,6 +2,7 @@ import types from './types';
 
 const initialState = {
     transactions: [],
+    visibleTransactions: [],
     editingTransaction: {},
     isFetching: false,
     errors: {}
@@ -138,6 +139,32 @@ function copyTransaction(state, action) {
     };
 }
 
+function filterTransactions(state, action) {
+
+    switch(action.result) {
+        
+        case 'success':
+            return {
+                ...state,
+                isFetching: false,
+                visibleTransactions: action.transactions
+            }
+
+        case 'fail':
+            return {
+                ...state,
+                isFetching: false,
+                errors: action.errors
+            }
+
+        default:
+            return {
+                ...state,
+                isFetching: true
+            }
+    }
+}
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
@@ -145,6 +172,9 @@ export default function reducer(state = initialState, action) {
         case types.SAVE_ALL_PERIODIC_TRANSACTIONS:
         case types.SAVE_THIS_AND_NEXT_TRANSACTIONS:
             return saveReducer(state, action);
+
+        case types.FILTER_TRANSACTIONS:
+            return filterTransactions(state, action);
 
         case types.FETCH_TRANSACTIONS:
             return fetchReducer(state, action);

@@ -93,6 +93,29 @@ function receiveDeleteTransaction(result, id, type, errors) {
     }
 }
 
+//FILTER
+function requestFilterTransactions() {
+    return {
+        type: types.FILTER_TRANSACTIONS
+    }
+}
+
+function receiveFilteredTransactions(result, data) {
+    if (result === 'success') {
+        return {
+            type: types.FILTER_TRANSACTIONS,
+            result,
+            transactions: data.map(transaction => formatTransactionReceived(transaction))
+        }
+    }
+
+    return {
+        type: types.FILTER_TRANSACTIONS,
+        result,
+        errors: data
+    }
+}
+
 export default {
     requestTransactions,
     receiveTransactions,
@@ -102,5 +125,7 @@ export default {
     receiveDeleteTransaction,
     copyTransaction,
     editTransaction,
-    finishEditTransaction
+    finishEditTransaction,
+    requestFilterTransactions,
+    receiveFilteredTransactions
 }

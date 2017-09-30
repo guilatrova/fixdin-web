@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 import Select from 'react-select';
@@ -65,6 +66,12 @@ const DateInterval = ({id, children, value_from, value_until, onChange}) => {
 }
 
 class TransactionFilter extends React.Component {
+    static propTypes = {
+        onFilter: PropTypes.func.isRequired,
+        isFetching: PropTypes.bool.isRequired,        
+        transactions: PropTypes.array.isRequired,
+    }
+
     constructor(props) {
         super(props);
         const curDate = new Date();
@@ -86,7 +93,7 @@ class TransactionFilter extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleKindChange = this.handleKindChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClear = this.handleClear.bind(this);
     }
 
@@ -131,7 +138,7 @@ class TransactionFilter extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    handleClick(e) {
+    handleSubmit(e) {
         const { raw, ...other } = this.state;
         this.props.onFilter(other);
     }
@@ -270,7 +277,7 @@ class TransactionFilter extends React.Component {
 
             <Row>
                 <Col xs={3}>
-                    <Button onClick={this.handleClick} disabled={this.props.isFetching}>Filtrar</Button>
+                    <Button onClick={this.handleSubmit} disabled={this.props.isFetching}>Filtrar</Button>
                     <Button onClick={this.handleClear}>Limpar</Button>
                 </Col>
             </Row>
@@ -279,11 +286,12 @@ class TransactionFilter extends React.Component {
     }
 }
 
-TransactionFilter.propTypes = {
-    onFilter: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    kind: PropTypes.object.isRequired,
-    transactions: PropTypes.array.isRequired,
+const mapStateToProps = (state) => {
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
 }
 
 export default TransactionFilter;

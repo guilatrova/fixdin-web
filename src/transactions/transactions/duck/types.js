@@ -2,6 +2,7 @@ const FETCH_TRANSACTIONS =                'fixdin/transactions/FETCH_TRANSACTION
 const COPY_TRANSACTION =                  'fixdin/transactions/COPY_TRANSACTION';
 const EDIT_TRANSACTION =                  'fixdin/transactions/EDIT_TRANSACTION';
 const FINISH_EDIT_TRANSACTION =           'fixdin/transactions/FINISH_EDIT_TRANSACTION';
+const FILTER_TRANSACTIONS =               'fixdin/transactions/FILTER_TRANSACTIONS';
 
 const SAVE_TRANSACTION =                  'fixdin/transactions/SAVE_TRANSACTION';
 const SAVE_ALL_PERIODIC_TRANSACTIONS =    'fixdin/transactions/SAVE_ALL_PERIODIC_TRANSACTIONS';
@@ -13,6 +14,7 @@ const DELETE_THIS_AND_NEXT_TRANSACTIONS = 'fixdin/transactions/DELETE_THIS_AND_N
 
 export default {
     FETCH_TRANSACTIONS,
+    FILTER_TRANSACTIONS,
     SAVE_TRANSACTION,
     SAVE_ALL_PERIODIC_TRANSACTIONS,
     SAVE_THIS_AND_NEXT_TRANSACTIONS,

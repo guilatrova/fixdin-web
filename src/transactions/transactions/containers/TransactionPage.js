@@ -47,9 +47,7 @@ class TransactionPage extends React.Component {
             showTransactionFormModal: false,
             showTransactionDeleteModal: false,
             showFilterForm: false
-        };
-
-        this.renderHeader = this.renderHeader.bind(this);
+        };        
 
         //Fetch
         this.handleRefresh = this.handleRefresh.bind(this);
@@ -168,12 +166,6 @@ class TransactionPage extends React.Component {
         }
     }
 
-    renderHeader(total, incomesTotal, expensesTotal) {
-        return (
-            <Typography type="title">Movimentações | {`R$ ${total}`}</Typography>
-        );
-    }
-
     render() {
         const { isFetching } = this.props;
         const { kind } = EXPENSE;
@@ -193,7 +185,6 @@ class TransactionPage extends React.Component {
 
                                     <Col xs={12}>
                                         <TransactionTableContainer
-                                            renderHeader={this.renderHeader}
                                             transactions={transactions} 
                                             categories={categories}
                                             isFetching={isFetching}

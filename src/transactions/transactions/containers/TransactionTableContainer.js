@@ -31,7 +31,7 @@ const styles = theme => ({
     }
 });
 
-const TransactionTableContainer = ({ classes, renderHeader, children, onRefresh, onFilter, isFetching, transactions, ...other }) => {
+const TransactionTableContainer = ({ classes, children, onRefresh, onFilter, isFetching, transactions, ...other }) => {
     const sumAll = (transactions) => transactions.map(x => x.value).reduce((total, value) => total + value, 0).toFixed(2).toString().replace('.', ',');
     const total = sumAll(transactions);
     const totalIncomes = sumAll(transactions.filter(transaction => transaction.kind == INCOME.id));
@@ -41,7 +41,7 @@ const TransactionTableContainer = ({ classes, renderHeader, children, onRefresh,
         <Paper className={classes.paper}>
             <Toolbar>
                 <div className={classes.title}>
-                    {renderHeader(total, totalIncomes, totalExpenses)}
+                    <Typography type="title">Movimentações | Receitas: {`R$ ${totalIncomes}`} | Despesas: {`R$ ${totalExpenses}`} | Total: {`R$ ${total}`}</Typography>
                 </div>
                 <div className={classes.spacer} />
                 <div className={classes.actions}>
