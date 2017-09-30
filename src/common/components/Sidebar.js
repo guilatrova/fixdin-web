@@ -30,8 +30,6 @@ class ApplicationSidebar extends React.Component {
                   <div className='sidebar-header'>PAGES</div>
 
                   <SidebarNavItem glyph='icon-fontello-gauge' name='Home' href='/' />
-                  <SidebarNavItem glyph='icon-feather-inbox' name='Receitas' href='/incomes' />
-                  <SidebarNavItem glyph='icon-feather-outbox' name='Despesas' href='/expenses' />
                   <SidebarNavItem glyph='icon-fontello-money' name='Movimentações' href='/transactions' />
                   <SidebarNavItem glyph='icon-fontello-marquee' name='Categorias de Receitas' href='/categories/incomes' />
                   <SidebarNavItem glyph='icon-fontello-marquee' name='Categorias de Despesas' href='/categories/expenses' />

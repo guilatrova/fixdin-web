@@ -164,22 +164,20 @@ class TransactionFilter extends React.Component {
         return (
             <div>
             <Row>
+                
+                <Col xs={12} md={6} lg={3}>
+                    <FormGroup controlId="kind-filter">
+                        <ControlLabel>Tipo</ControlLabel>
+                        
+                        <Select 
+                            placeholder="Tipo"
+                            value={this.state.raw.kind}
+                            onChange={this.handleKindChange}
+                            options={kindOptions}
+                        />
+                    </FormGroup>
 
-                {kind.id === ALL.id && 
-                    <Col xs={12} md={6} lg={3}>
-                        <FormGroup controlId="kind-filter">
-                            <ControlLabel>Tipo</ControlLabel>
-                            
-                            <Select 
-                                placeholder="Tipo"
-                                value={this.state.raw.kind}
-                                onChange={this.handleKindChange}
-                                options={kindOptions}
-                            />
-                        </FormGroup>
-
-                    </Col>
-                }
+                </Col>
 
                 <Col xs={12} md={6} lg={3}>
                     <FormGroup controlId="description-filter">

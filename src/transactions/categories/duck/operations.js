@@ -2,6 +2,7 @@ import actions from './actions';
 import createApi from '../../../services/api';
 import handleError from '../../../services/genericErrorHandler';
 import { Operation, createDeleteOperation } from './../../../common/genericDuck/operations';
+import { EXPENSE, INCOME } from '../../kinds';
 
 class FetchOperation extends Operation {
     constructor(kind) {
@@ -46,6 +47,10 @@ class SaveOperation extends Operation {
 const editCategory = actions.editCategory;
 const finishEditCategory = actions.finishEditCategory;
 const fetchCategories = (kind) => new FetchOperation(kind);
+const fetchAllCategories = () => {//Just for a while. Until it has specific endpoint
+    new FetchOperation(EXPENSE);
+    return new FetchOperation(INCOME);
+}
 const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind);
 const deleteCategory = createDeleteOperation(
     actions.requestDeleteCategory, 
@@ -55,6 +60,7 @@ const deleteCategory = createDeleteOperation(
 
 export default {
     fetchCategories,
+    fetchAllCategories,
     saveCategory,
     editCategory,
     finishEditCategory,

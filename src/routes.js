@@ -9,7 +9,6 @@ import { App, DashboardContainer } from './app';
 import DashboardPage from './dashboard/containers/DashboardPage';
 import LoginPage from './users/containers/LoginPage';
 import SignupPage from './users/containers/SignupPage';
-import TransactionKindPage from './transactions/transactions/containers/TransactionKindPage';
 import TransactionPage from './transactions/transactions/containers/TransactionPage';
 import CategoryPage from  './transactions/categories/containers/CategoryPage';
 
@@ -36,11 +35,9 @@ export default (
 
       <Route path='/' component={DashboardContainer} onEnter={requireAuth} >
         <IndexRoute component={DashboardPage} />
-        <Route path='/incomes' component={TransactionKindPage} kind={INCOME} />
-        <Route path='/expenses' component={TransactionKindPage} kind={EXPENSE} />
         <Route path='/categories/incomes' component={CategoryPage} kind={INCOME} />
         <Route path='/categories/expenses' component={CategoryPage} kind={EXPENSE} />
-        <Route path='/transactions' component={TransactionPage} kind={ALL} />
+        <Route path='/transactions' component={TransactionPage} />
       </Route>      
     </Router>
 );
