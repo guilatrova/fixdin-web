@@ -8,7 +8,7 @@ import TransactionDescription from './TransactionDescription';
 import MultiCategorySelectPicker from './../../categories/components/MultiCategorySelectPicker';
 import DatetimeInput from 'react-datetime';
 import { EXPENSE, INCOME, ALL } from './../../kinds';
-import Autocomplete from 'FixedAutocomplete';
+import Autocomplete from '../../../common/components/FixedAutocomplete';
 
 import {    
   Row,

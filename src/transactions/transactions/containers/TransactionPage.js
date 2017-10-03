@@ -33,9 +33,9 @@ import { operations as categoryOperations, selectors as categorySelectors } from
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
-import FloatingActionButton from 'FloatingActionButton';
+import FloatingActionButton from '../../../common/components/material/FloatingActionButton';
 
-class TransactionPage extends React.Component {
+export class TransactionPage extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired,
         categories: PropTypes.array.isRequired,
@@ -174,7 +174,7 @@ class TransactionPage extends React.Component {
 
     render() {
         const { isFetching } = this.props;
-        const { kind } = EXPENSE;
+        const { kind } = EXPENSE;//TODO: GET IT RIGHT
         const transactions = this.props.transactions;
         const categories = this.props.categories;
         
@@ -216,7 +216,7 @@ class TransactionPage extends React.Component {
                 <TransactionFormModal
                     show={this.state.showTransactionFormModal}
                     onHide={this.handleHideTransactionFormModal}
-                    title={this.props.editingTransaction.id ? `Editar ${EXPENSE.text}` : `Criar ${EXPENSE.text}`}
+                    title={this.props.editingTransaction.id ? `Editar {TODO: GET IT} ${EXPENSE.text}` : `Criar {TODO: GET IT} ${EXPENSE.text}`}
                     kind={EXPENSE}
 
                     onSubmit={this.handleTransactionFormSubmit}
