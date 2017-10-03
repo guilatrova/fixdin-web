@@ -8,20 +8,30 @@ import { Operation } from './../../../common/genericDuck/operations';
 import { ALL } from '../../kinds';
 
 class FetchOperation extends Operation {
-    constructor(kind, filters) {
-        if (filters)
-            super(actions.requestFilterTransactions, actions.receiveFilteredTransactions);
-        else
-            super(actions.requestTransactions, actions.receiveTransactions);
+    constructor(kind) {
+        super(actions.requestTransactions, actions.receiveTransactions);
         this.kind = kind;
+
+        return this.dispatch();
+    }
+
+    getApiPromise(api) {
+        return api.get(this.kind.apiEndpoint);
+    }
+}
+
+class FilterOperation extends Operation {
+    constructor(filters) {
+        super(actions.requestFilterTransactions, actions.receiveFilteredTransactions);
         this.filters = filters;
 
         return this.dispatch();
     }
 
     getApiPromise(api) {
+        const kind = this.filters.kind || ALL;
         const queryParams = getQueryParams(this.filters);
-        return api.get(this.kind.apiEndpoint + queryParams);
+        return api.get(kind.apiEndpoint + queryParams);
     }
 }
 
@@ -122,8 +132,8 @@ class DeleteOperation extends Operation {
 const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
-const fetchTransactions = (kind, filters = undefined) => new FetchOperation(kind, filters);
-const filterTransactions = (filters) => new FetchOperation(ALL, filters);
+const fetchTransactions = (kind) => new FetchOperation(kind);
+const filterTransactions = (filters) => new FilterOperation(filters);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
 

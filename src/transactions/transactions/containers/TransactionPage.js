@@ -149,10 +149,8 @@ class TransactionPage extends React.Component {
     }
 
     handleFilter(filters) {
-        const { kind, ...otherFilters } = filters;
-
         if (filters) {
-            this.props.filter(kind, otherFilters)
+            this.props.filter(filters)
                 .then(actionResult => actionResult.transactions)
                 .then(filteredTransactions => {
                     this.setState({ 
@@ -251,7 +249,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    const { fetchTransactions, deleteTransaction, copyTransaction, saveTransaction, editTransaction, finishEditTransaction } = operations;
+    const { fetchTransactions, deleteTransaction, copyTransaction, saveTransaction, editTransaction, finishEditTransaction, filterTransactions } = operations;
     const { finishEditCategory, fetchCategories, fetchAllCategories } = categoryOperations;
     return {
         fetch: () => {
@@ -260,7 +258,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchTransactions(ALL));            
         },
         filter: (kind, filters) => {
-            return dispatch(fetchTransactions(kind, filters));
+            return dispatch(filterTransactions(kind, filters));
         },
         onSubmit: (transaction, kind, type) => dispatch(saveTransaction(transaction, kind, type)),
         onDelete: (id, kind, type) => dispatch(deleteTransaction(id, kind, type)),
