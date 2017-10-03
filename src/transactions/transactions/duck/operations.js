@@ -9,22 +9,10 @@ import { ALL } from '../../kinds';
 
 class FetchOperation extends Operation {
     constructor(kind, filters) {
-        super(actions.requestTransactions, actions.receiveTransactions);
-        this.kind = kind;
-        this.filters = filters;
-
-        return this.dispatch();
-    }
-
-    getApiPromise(api) {
-        const queryParams = getQueryParams(this.filters);
-        return api.get(this.kind.apiEndpoint + queryParams);
-    }
-}
-
-class FilterOperation extends Operation {
-    constructor(kind, filters) {
-        super(actions.requestFilterTransactions, actions.receiveFilteredTransactions);
+        if (filters)
+            super(actions.requestFilterTransactions, actions.receiveFilteredTransactions);
+        else
+            super(actions.requestTransactions, actions.receiveTransactions);
         this.kind = kind;
         this.filters = filters;
 
@@ -135,7 +123,7 @@ const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
 const fetchTransactions = (kind, filters = undefined) => new FetchOperation(kind, filters);
-const filterTransactions = (filters) => new FilterOperation(ALL, filters);
+const filterTransactions = (filters) => new FetchOperation(ALL, filters);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
 
