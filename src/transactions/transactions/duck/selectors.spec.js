@@ -26,6 +26,18 @@ describe('transactions/duck/selectors', () => {
         .to.deep.equal('errors');
     });
 
+    it('getEditingTransaction', () => {
+        const editingTransaction = { id: 5 }
+        const state = buildState({
+            editingTransaction
+        });
+
+        expect(
+            selectors.getEditingTransaction(state)
+        )
+        .to.equal(editingTransaction);
+    })
+
     describe('getTransactionsToDisplay', () => {
         
         it('should return visibleTransactions', () => {        

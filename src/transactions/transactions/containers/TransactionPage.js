@@ -166,11 +166,8 @@ class TransactionPage extends React.Component {
     render() {
         const { isFetching } = this.props;
         const { kind } = EXPENSE;
-        const { filteredTransactions } = this.state;
-        const transactions = filteredTransactions ? 
-            this.props.transactions.filter(transaction => filteredTransactions.includes(transaction.id)) : 
-            this.props.transactions; //.filter(transaction => transaction.kind === kind.id);
-        const categories = this.props.categories;//.filter(category => category.kind === kind.id);
+        const transactions = this.props.transactions;
+        const categories = this.props.categories;
         
         return (
             <div className="transaction-page">
@@ -239,8 +236,9 @@ class TransactionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        ...state.transactions,
+        transactions: selectors.getTransactionsToDisplay(state),
         categories: categorySelectors.getCategories(state),
+        editingTransaction: selectors.getEditingTransaction(state),
         errors: {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)

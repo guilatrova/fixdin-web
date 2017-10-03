@@ -7,7 +7,10 @@ const getTransactionsToDisplay = (state) => {
     return state.transactions.transactions
 };
 
+const getEditingTransaction = (state) => state.transactions.editingTransaction;
+
 export default {
     getErrors,
-    getTransactionsToDisplay
+    getTransactionsToDisplay,
+    getEditingTransaction
 };
