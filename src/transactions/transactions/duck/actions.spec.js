@@ -71,6 +71,32 @@ describe('transaction/duck/actions', () => {
 		})
 	})
 
+	xdescribe('FILTER_TRANSACTIONS', () => {
+
+		it('should dispatch success action when request successful', (done) => {
+			const transactions = [ { id: 1, value: '10', due_date: '2017-10-10', payment_date: '2017-10-10' }, { id: 2, value: '11', due_date: '2017-10-10', payment_date: '2017-10-10' }, { id: 3, value: '12', due_date: '2017-10-10', payment_date: '2017-10-10' }]
+			const mapped = transactions.map(item => ({
+				...item,
+				due_date: moment(item.due_date, 'YYYY-MM-DD'),
+				payment_date: moment(item.payment_date, 'YYYY-MM-DD'),
+				value: Number(item.value)
+			}));
+			const expectedActions = [
+				{ type: types.FILTER_TRANSACTIONS },
+				{ type: types.FILTER_TRANSACTIONS, result: 'success', transactions: mapped },
+				{ type: types.FETCH_TRANSACTIONS, result: 'success'}
+			]
+
+			store.dispatch(operations.filterTransactions({}));
+
+			testHelper.apiRespondsWith({
+				status: 201,
+				response: transactions
+			})
+			.expectActionsAsync(done, expectedActions);
+		})
+	})
+
 	describe('SAVE_TRANSACTION', () => {
 		const momentStub = moment(new Date(2017, 6, 1));
 		const transaction = { //only necessary fields...

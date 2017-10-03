@@ -20,7 +20,6 @@ import {
   InputGroup,
   FormControl
 } from '@sketchpixy/rubix';
-import Typography from 'material-ui/Typography';
 
 import { EXPENSE, INCOME, ALL } from '../../kinds';
 import TransactionTableContainer from './TransactionTableContainer';
@@ -123,7 +122,7 @@ class TransactionPage extends React.Component {
     }
 
     handleConfirmDelete(type) {
-        const kind = EXPENSE;//TODO: GET IT RIGHT
+        const kind = this.props.transactions.find(transaction => transaction.id == id).expense;
         const id = (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) ? this.state.toDeletePeriodicTransaction : this.state.toDeleteId;
         this.props.onDelete(id, kind, type).then(({result}) => {
             if (result == 'success') {
@@ -256,7 +255,8 @@ const mapDispatchToProps = (dispatch) => {
     const { finishEditCategory, fetchCategories, fetchAllCategories } = categoryOperations;
     return {
         fetch: () => {
-            dispatch(fetchAllCategories());
+            dispatch(fetchCategories(INCOME));
+            dispatch(fetchCategories(EXPENSE));
             dispatch(fetchTransactions(ALL));            
         },
         filter: (kind, filters) => {

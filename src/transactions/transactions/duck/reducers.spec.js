@@ -428,6 +428,7 @@ describe('transactions/duck/reducers', () => {
             ).to.deep.equal({
                 ...initialState,
                 isFetching: false,
+                transactions: filtered.map(t => t.expect),
                 visibleTransactions: filtered.map(t => t.expect)
             });
         })

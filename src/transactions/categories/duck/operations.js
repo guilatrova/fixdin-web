@@ -47,10 +47,10 @@ class SaveOperation extends Operation {
 const editCategory = actions.editCategory;
 const finishEditCategory = actions.finishEditCategory;
 const fetchCategories = (kind) => new FetchOperation(kind);
-const fetchAllCategories = () => {//Just for a while. Until it has specific endpoint
-    new FetchOperation(EXPENSE);
-    return new FetchOperation(INCOME);
+const fetchAllCategories = () => {
+    throw 'Not implemented yet';
 }
+
 const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind);
 const deleteCategory = createDeleteOperation(
     actions.requestDeleteCategory, 

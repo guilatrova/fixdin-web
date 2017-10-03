@@ -5,6 +5,7 @@ import handleError from '../../../services/genericErrorHandler';
 import { formatTransactionToSend } from '../../../services/formatter';
 import getQueryParams from '../../../services/query';
 import { Operation } from './../../../common/genericDuck/operations';
+import { ALL } from '../../kinds';
 
 class FetchOperation extends Operation {
     constructor(kind, filters) {
@@ -119,6 +120,7 @@ const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
 const fetchTransactions = (kind, filters = undefined) => new FetchOperation(kind, filters);
+const filterTransactions = (filters) => new FetchOperation(ALL, filters);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
 
@@ -127,6 +129,7 @@ export default {
     editTransaction,
     finishEditTransaction,
     fetchTransactions,
+    filterTransactions,
     saveTransaction,
     deleteTransaction
 };
