@@ -7,7 +7,7 @@ describe('transactions/duck/reducers', () => {
 
     const initialState = {
         transactions: [],
-        visibleTransactions: [],
+        visibleTransactions: undefined,
         editingTransaction: {},
         isFetching: false,
         errors: {},
@@ -446,6 +446,20 @@ describe('transactions/duck/reducers', () => {
             });
         })
 
+    })
+
+    describe('CLEAR_FILTERS', () => {
+        it('should be handled', () => {
+            const state = {
+                ...initialState,
+                visibleTransactions: [ { id: 1 }, { id: 2 } ]
+            };
+
+            expect(
+                reducer(state, actions.clearFilters())
+            )
+            .to.be.deep.equal(initialState);
+        })
     })
 
 })

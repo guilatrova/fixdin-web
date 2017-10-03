@@ -1,16 +1,19 @@
 const getErrors = (state) => state.transactions.errors;
 
+const getEditingTransaction = (state) => state.transactions.editingTransaction;
+
+const isFetching = (state) => state.transactions.isFetching;
+
 const getTransactionsToDisplay = (state) => {
-    if (state.transactions.visibleTransactions.length > 0) {
+    if (state.transactions.visibleTransactions) {
         return state.transactions.visibleTransactions;
     }
     return state.transactions.transactions
 };
 
-const getEditingTransaction = (state) => state.transactions.editingTransaction;
-
 export default {
     getErrors,
+    isFetching,
     getTransactionsToDisplay,
     getEditingTransaction
 };

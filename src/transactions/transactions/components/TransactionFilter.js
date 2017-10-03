@@ -155,7 +155,7 @@ class TransactionFilter extends React.Component {
                 multi_category: []                
             }
         })
-        this.props.onFilter({});
+        this.props.onFilter();
     }
 
     render() {

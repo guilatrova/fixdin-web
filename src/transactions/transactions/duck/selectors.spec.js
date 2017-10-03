@@ -38,6 +38,17 @@ describe('transactions/duck/selectors', () => {
         .to.equal(editingTransaction);
     })
 
+    it('isFetching', () => {
+        const state = buildState({
+            isFetching: true
+        });
+
+        expect(
+            selectors.isFetching(state)
+        )
+        .to.be.true;
+    });
+
     describe('getTransactionsToDisplay', () => {
         
         it('should return visibleTransactions', () => {        
@@ -54,11 +65,11 @@ describe('transactions/duck/selectors', () => {
             .to.deep.equal(visibleTransactions);
         })
 
-        it('should return all when visibleTransactions is empty', () => {
+        it('should return all when visibleTransactions is undefined', () => {
             const transactions = buildTransactionsUntil(2);
             const state = buildState({
                 transactions,
-                visibleTransactions: []
+                visibleTransactions: undefined
             });
 
             expect(

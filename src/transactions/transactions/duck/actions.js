@@ -116,16 +116,28 @@ function receiveFilteredTransactions(result, data) {
     }
 }
 
+function clearFilters() {
+    return {
+        type: types.CLEAR_FILTERS
+    }
+}
+
 export default {
     requestTransactions,
     receiveTransactions,
+
     requestSaveTransaction,
     receiveSaveTransaction,
+
     requestDeleteTransaction,
     receiveDeleteTransaction,
+
     copyTransaction,
+
     editTransaction,
     finishEditTransaction,
+
     requestFilterTransactions,
-    receiveFilteredTransactions
+    receiveFilteredTransactions,
+    clearFilters
 }

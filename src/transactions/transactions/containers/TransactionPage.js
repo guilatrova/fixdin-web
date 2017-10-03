@@ -149,17 +149,12 @@ class TransactionPage extends React.Component {
     }
 
     handleFilter(filters) {
+        console.log(filters);
         if (filters) {
-            this.props.filter(filters)
-                .then(actionResult => actionResult.transactions)
-                .then(filteredTransactions => {
-                    this.setState({ 
-                        filteredTransactions: filteredTransactions.map(transaction => transaction.id) 
-                    });
-                });
-            }
+            this.props.filter(filters);
+        }
         else {
-            this.setState({ filteredTransactions: undefined });
+            this.props.onClearFilters();
         }
     }
 
@@ -239,6 +234,7 @@ const mapStateToProps = (state) => {
         transactions: selectors.getTransactionsToDisplay(state),
         categories: categorySelectors.getCategories(state),
         editingTransaction: selectors.getEditingTransaction(state),
+        isFetching: selectors.isFetching(state),
         errors: {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
@@ -255,9 +251,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchCategories(EXPENSE));
             dispatch(fetchTransactions(ALL));            
         },
-        filter: (kind, filters) => {
-            return dispatch(filterTransactions(kind, filters));
-        },
+        filter: (kind, filters) => dispatch(filterTransactions(kind, filters)),
+        onClearFilters: () => dispatch(operations.clearFilters()),
         onSubmit: (transaction, kind, type) => dispatch(saveTransaction(transaction, kind, type)),
         onDelete: (id, kind, type) => dispatch(deleteTransaction(id, kind, type)),
         onEdit: (id) => dispatch(editTransaction(id)),

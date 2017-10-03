@@ -29,8 +29,9 @@ class FilterOperation extends Operation {
     }
 
     getApiPromise(api) {
-        const kind = this.filters.kind || ALL;
-        const queryParams = getQueryParams(this.filters);
+        let { kind, ...filters } = this.filters;
+        kind = kind || ALL;
+        const queryParams = getQueryParams(filters);
         return api.get(kind.apiEndpoint + queryParams);
     }
 }
@@ -132,6 +133,7 @@ class DeleteOperation extends Operation {
 const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
+const clearFilters = actions.clearFilters;
 const fetchTransactions = (kind) => new FetchOperation(kind);
 const filterTransactions = (filters) => new FilterOperation(filters);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
@@ -143,6 +145,7 @@ export default {
     finishEditTransaction,
     fetchTransactions,
     filterTransactions,
+    clearFilters,
     saveTransaction,
     deleteTransaction
 };

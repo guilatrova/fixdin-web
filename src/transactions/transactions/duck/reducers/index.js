@@ -6,7 +6,7 @@ import deleteReducer from './deleteReducer';
 
 const initialState = {
     transactions: [],
-    visibleTransactions: [],
+    visibleTransactions: undefined,
     editingTransaction: {},
     isFetching: false,
     errors: {}
@@ -30,6 +30,12 @@ export default function reducer(state = initialState, action) {
         case types.DELETE_ALL_PERIODIC_TRANSACTIONS:
         case types.DELETE_THIS_AND_NEXT_TRANSACTIONS:
             return deleteReducer(state, action);
+
+        case types.CLEAR_FILTERS:
+            return {
+                ...state,
+                visibleTransactions: undefined
+            };
             
         case types.COPY_TRANSACTION:
             const originalTransaction = state.transactions.find(transaction => transaction.id == action.id);
