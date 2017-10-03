@@ -151,7 +151,7 @@ class TransactionPage extends React.Component {
     handleFilter(filters) {
         console.log(filters);
         if (filters) {
-            this.props.filter(filters);
+            this.props.onFilter(filters);
         }
         else {
             this.props.onClearFilters();
@@ -251,7 +251,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchCategories(EXPENSE));
             dispatch(fetchTransactions(ALL));            
         },
-        filter: (kind, filters) => dispatch(filterTransactions(kind, filters)),
+        onFilter: (kind, filters) => dispatch(filterTransactions(kind, filters)),
         onClearFilters: () => dispatch(operations.clearFilters()),
         onSubmit: (transaction, kind, type) => dispatch(saveTransaction(transaction, kind, type)),
         onDelete: (id, kind, type) => dispatch(deleteTransaction(id, kind, type)),
