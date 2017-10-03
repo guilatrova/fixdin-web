@@ -3,6 +3,15 @@ import operations from './operations';
 import types from './types';
 import * as apiModule from '../../../services/api';
 
+const formatExpectedTransaction = (item) => {
+	return {
+		...item,
+		due_date: moment(item.due_date, 'YYYY-MM-DD'),
+		payment_date: moment(item.payment_date, 'YYYY-MM-DD'),
+		value: Number(item.value)
+	};
+}
+
 describe('transaction/duck/actions', () => {
 	
 	const testHelper = new ActionsTestHelper();
@@ -23,13 +32,7 @@ describe('transaction/duck/actions', () => {
 			const transactions = [ { id: 1, value: '10', due_date: '2017-10-10', payment_date: '2017-10-10' }, { id: 2, value: '11', due_date: '2017-10-10', payment_date: '2017-10-10' }, { id: 3, value: '12', due_date: '2017-10-10', payment_date: '2017-10-10' }]
 			const expectedActions = [
 				{ type: types.FETCH_TRANSACTIONS },
-				{ type: types.FETCH_TRANSACTIONS, result: 'success', transactions:transactions.map(item => ({
-						...item,
-						due_date: moment(item.due_date, 'YYYY-MM-DD'),
-						payment_date: moment(item.payment_date, 'YYYY-MM-DD'),
-						value: Number(item.value)
-					})) 
-				}
+				{ type: types.FETCH_TRANSACTIONS, result: 'success', transactions:transactions.map(item => formatExpectedTransaction(item)) }
 			]
 
 			store.dispatch(operations.fetchTransactions(INCOME));
@@ -62,29 +65,22 @@ describe('transaction/duck/actions', () => {
 		it('should add query params when filters is passed', (done) => {			
 			store.dispatch(operations.fetchTransactions(INCOME, { 'due_date_from': '2017-10-01', 'category': 1 }));
 
-			moxios.wait(() => {
-				let request = moxios.requests.mostRecent();
-
-				expect(request.url).to.have.string('?due_date_from=2017-10-01&category=1');
-				done();
-			});
+			testHelper
+				.apiRespondsWith({ status: 200, response: [] })
+				.expectAsync(done, request => {
+					expect(request.url).to.have.string('?due_date_from=2017-10-01&category=1');
+				});
 		})
 	})
 
-	xdescribe('FILTER_TRANSACTIONS', () => {
+	describe('FILTER_TRANSACTIONS', () => {
 
 		it('should dispatch success action when request successful', (done) => {
 			const transactions = [ { id: 1, value: '10', due_date: '2017-10-10', payment_date: '2017-10-10' }, { id: 2, value: '11', due_date: '2017-10-10', payment_date: '2017-10-10' }, { id: 3, value: '12', due_date: '2017-10-10', payment_date: '2017-10-10' }]
-			const mapped = transactions.map(item => ({
-				...item,
-				due_date: moment(item.due_date, 'YYYY-MM-DD'),
-				payment_date: moment(item.payment_date, 'YYYY-MM-DD'),
-				value: Number(item.value)
-			}));
+			const mapped = transactions.map(transaction => formatExpectedTransaction(transaction));
 			const expectedActions = [
 				{ type: types.FILTER_TRANSACTIONS },
 				{ type: types.FILTER_TRANSACTIONS, result: 'success', transactions: mapped },
-				{ type: types.FETCH_TRANSACTIONS, result: 'success'}
 			]
 
 			store.dispatch(operations.filterTransactions({}));
