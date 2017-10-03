@@ -91,6 +91,24 @@ describe('transaction/duck/actions', () => {
 			})
 			.expectActionsAsync(done, expectedActions);
 		})
+
+		it('should dispatch fail action when request fails', (done) => {
+			const expectedResponse = {
+				detail: 'invalid token',
+			}
+			const expectedActions = [
+				{ type: types.FILTER_TRANSACTIONS },
+				{ type: types.FILTER_TRANSACTIONS, result: 'fail', errors: expectedResponse }
+			]
+
+			store.dispatch(operations.filterTransactions(INCOME));
+
+			testHelper.apiRespondsWith({
+				status: 400,
+				response: expectedResponse
+			})
+			.expectActionsAsync(done, expectedActions);
+		})
 	})
 
 	describe('SAVE_TRANSACTION', () => {
