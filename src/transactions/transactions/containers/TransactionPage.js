@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {    
   Row,
@@ -21,7 +22,7 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-import { EXPENSE, INCOME, ALL } from '../../kinds';
+import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
 import TransactionTableContainer from './TransactionTableContainer';
 import TransactionFormModal from './TransactionFormModal';
 import TransactionFilter from './../components/TransactionFilter';
@@ -36,7 +37,20 @@ import FloatingActionButton from 'FloatingActionButton';
 
 class TransactionPage extends React.Component {
     static propTypes = {
+        transactions: PropTypes.array.isRequired,
+        categories: PropTypes.array.isRequired,
+        editingTransaction: PropTypes.object.isRequired,
+        isFetching: PropTypes.bool.isRequired,
+        error: PropTypes.object,
 
+        onFetch: PropTypes.func.isRequired,
+        onFilter: PropTypes.func.isRequired,
+        onClearFilters: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired,
+        onDelete: PropTypes.func.isRequired,
+        onEdit: PropTypes.func.isRequired,
+        onCopy: PropTypes.func.isRequired,
+        onFinishEdit: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -69,11 +83,11 @@ class TransactionPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetch(ALL);
+        this.props.onFetch();
     }    
 
     handleRefresh() {
-        this.props.fetch(ALL);
+        this.props.onFetch();
     }
 
     handleCreateTransaction() {
@@ -122,8 +136,9 @@ class TransactionPage extends React.Component {
     }
 
     handleConfirmDelete(type) {
-        const kind = this.props.transactions.find(transaction => transaction.id == id).expense;
         const id = (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) ? this.state.toDeletePeriodicTransaction : this.state.toDeleteId;
+        const kind = getKind(this.props.transactions.find(transaction => transaction.id == id).kind);
+
         this.props.onDelete(id, kind, type).then(({result}) => {
             if (result == 'success') {
                 this.setState({ 
@@ -149,7 +164,6 @@ class TransactionPage extends React.Component {
     }
 
     handleFilter(filters) {
-        console.log(filters);
         if (filters) {
             this.props.onFilter(filters);
         }
@@ -243,23 +257,21 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    const { fetchTransactions, deleteTransaction, copyTransaction, saveTransaction, editTransaction, finishEditTransaction, filterTransactions } = operations;
-    const { finishEditCategory, fetchCategories, fetchAllCategories } = categoryOperations;
     return {
-        fetch: () => {
-            dispatch(fetchCategories(INCOME));
-            dispatch(fetchCategories(EXPENSE));
-            dispatch(fetchTransactions(ALL));            
+        onFetch: () => {
+            dispatch(categoryOperations.fetchCategories(INCOME));
+            dispatch(categoryOperations.fetchCategories(EXPENSE));
+            dispatch(operations.fetchTransactions(ALL));
         },
-        onFilter: (kind, filters) => dispatch(filterTransactions(kind, filters)),
+        onFilter: (filters) => dispatch(operations.filterTransactions(filters)),
         onClearFilters: () => dispatch(operations.clearFilters()),
-        onSubmit: (transaction, kind, type) => dispatch(saveTransaction(transaction, kind, type)),
-        onDelete: (id, kind, type) => dispatch(deleteTransaction(id, kind, type)),
-        onEdit: (id) => dispatch(editTransaction(id)),
-        onCopy: (id) => dispatch(copyTransaction(id)),
+        onSubmit: (transaction, kind, type) => dispatch(operations.saveTransaction(transaction, kind, type)),
+        onDelete: (id, kind, type) => dispatch(operations.deleteTransaction(id, kind, type)),
+        onEdit: (id) => dispatch(operations.editTransaction(id)),
+        onCopy: (id) => dispatch(operations.copyTransaction(id)),
         onFinishEdit: () => {
-            dispatch(finishEditTransaction()),
-            dispatch(finishEditCategory())
+            dispatch(operations.finishEditTransaction()),
+            dispatch(categoryOperations.finishEditCategory())
         }
     }
 };

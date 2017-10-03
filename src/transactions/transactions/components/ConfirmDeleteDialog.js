@@ -51,7 +51,7 @@ export default class ConfirmDeleteDialog extends React.Component {
         open: PropTypes.bool.isRequired,
         onConfirm: PropTypes.func.isRequired,
         onRequestClose: PropTypes.func.isRequired,
-        isPeriodic: PropTypes.bool.isRequired,
+        isPeriodic: PropTypes.bool,
         error: PropTypes.string
     }
 
