@@ -99,8 +99,7 @@ export class TransactionPage extends React.Component {
         this.setState({ showTransactionFormModal: false });
     }
 
-    handleTransactionFormSubmit(type, option, transaction) {
-        const kind = EXPENSE;//TODO: GET IT RIGHT
+    handleTransactionFormSubmit(type, option, transaction, kind) {
         this.props.onSubmit(transaction, kind, type).then(({result}) => {
             if (result == 'success') {
 

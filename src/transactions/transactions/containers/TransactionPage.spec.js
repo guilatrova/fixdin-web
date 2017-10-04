@@ -1,6 +1,7 @@
 import { TransactionPage } from './TransactionPage';
 import { types } from '../duck';
 import { INCOME, EXPENSE } from '../../kinds';
+import * as saveOptions from '../components/TransactionForm';
 
 describe('<TransactionPage />', () => {
 
@@ -57,10 +58,54 @@ describe('<TransactionPage />', () => {
 
     });
 
-    xit('handleTransactionFormSubmit()', () => {
+    describe('handleTransactionFormSubmit()', () => {
+
+        it('for CLOSE option', () => {
+            const onSubmitStub = sinon.stub().returnsPromise().resolves({
+                result: 'success'
+            });
+            const wrapper = shallow(<TransactionPage {...props} onSubmit={onSubmitStub} />);
+            wrapper.instance().handleTransactionFormSubmit('type', saveOptions.CLOSE, 'transaction', 'kind');
+            
+            expect(onSubmitStub.calledWith('type', saveOptions.CLOSE, 'transaction', 'kind'));
+            expect(wrapper.state().showTransactionFormModal).to.be.false;
+        })
+
+        it('for other options', () => {
+            const onSubmitStub = sinon.stub().returnsPromise().resolves({
+                result: 'success'
+            });
+            const finishEditSpy = sinon.spy();
+            const wrapper = shallow(<TransactionPage {...props} onSubmit={onSubmitStub} onFinishEdit={finishEditSpy} />);
+            wrapper.instance().handleTransactionFormSubmit('type', 'other option', 'transaction', 'kind');
+            
+            expect(onSubmitStub.calledWith('type', 'other option', 'transaction', 'kind'));
+            expect(finishEditSpy.called).to.be.true;
+        })
 
     });
 
-    xit('handleFilter()');
+    describe('handleFilter()', () => {
+
+        it('with filters', () => {
+            const onFilterSpy = sinon.spy();
+            const wrapper = shallow(<TransactionPage {...props} onFilter={onFilterSpy} />);
+            const filters = { kind: EXPENSE };
+
+            wrapper.instance().handleFilter(filters);
+
+            expect(onFilterSpy.calledWith(filters)).to.be.true;
+        })
+
+        it('with undefined', () => {
+            const onClearFilterSpy = sinon.spy();
+            const wrapper = shallow(<TransactionPage {...props} onClearFilters={onClearFilterSpy} />);            
+
+            wrapper.instance().handleFilter();
+
+            expect(onClearFilterSpy.called).to.be.true;
+        })
+        
+    });
 
 });
