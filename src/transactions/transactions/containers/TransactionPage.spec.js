@@ -8,8 +8,19 @@ describe('<TransactionPage />', () => {
     const transactions = [ { id: 1, periodic_transaction: 1, kind: EXPENSE.id }, { id: 2, periodic_transaction: 1, kind: EXPENSE.id }];
     const props = {
         transactions,
+        categories: [],
         editingTransaction: {},
-        errors: {}
+        isFetching: false,
+        errors: {},
+
+        onFetch: () => {},
+        onFilter: () => {},
+        onClearFilters: () => {},
+        onSubmit: () => {},
+        onDelete: () => {},
+        onEdit: () => {},
+        onCopy: () => {},
+        onFinishEdit: () => {}
     }
 
     it('renders ok', () => {

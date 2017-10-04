@@ -41,7 +41,7 @@ export class TransactionPage extends React.Component {
         categories: PropTypes.array.isRequired,
         editingTransaction: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
-        error: PropTypes.object,
+        errors: PropTypes.object,
 
         onFetch: PropTypes.func.isRequired,
         onFilter: PropTypes.func.isRequired,
