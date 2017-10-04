@@ -172,10 +172,7 @@ export class TransactionPage extends React.Component {
     }
 
     render() {
-        const { isFetching } = this.props;
-        const { kind } = EXPENSE;//TODO: GET IT RIGHT
-        const transactions = this.props.transactions;
-        const categories = this.props.categories;
+        const { isFetching, transactions, categories } = this.props;
         
         return (
             <div className="transaction-page">
@@ -215,8 +212,7 @@ export class TransactionPage extends React.Component {
                 <TransactionFormModal
                     show={this.state.showTransactionFormModal}
                     onHide={this.handleHideTransactionFormModal}
-                    title={this.props.editingTransaction.id ? `Editar {TODO: GET IT} ${EXPENSE.text}` : `Criar {TODO: GET IT} ${EXPENSE.text}`}
-                    kind={EXPENSE}
+                    title={this.props.editingTransaction.id ? `Editar` : `Criar`}
 
                     onSubmit={this.handleTransactionFormSubmit}
                     isFetching={isFetching}
