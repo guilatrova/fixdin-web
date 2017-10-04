@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {    
   Row,
@@ -20,22 +21,38 @@ import {
   InputGroup,
   FormControl
 } from '@sketchpixy/rubix';
-import Typography from 'material-ui/Typography';
 
-import { EXPENSE, INCOME, ALL } from '../../kinds';
+import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
 import TransactionTableContainer from './TransactionTableContainer';
 import TransactionFormModal from './TransactionFormModal';
-import TransactionFilter from '../components/TransactionFilter';
-import * as saveOptions from '../components/TransactionForm';
-import ConfirmDeleteModal from 'ConfirmDeleteModal';
-import { operations, selectors } from '../duck';
+import TransactionFilter from './../components/TransactionFilter';
+import * as saveOptions from './../components/TransactionForm';
+import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
+import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
-import FloatingActionButton from 'FloatingActionButton';
+import FloatingActionButton from '../../../common/components/material/FloatingActionButton';
 
-class TransactionPage extends React.Component {
+export class TransactionPage extends React.Component {
+    static propTypes = {
+        transactions: PropTypes.array.isRequired,
+        categories: PropTypes.array.isRequired,
+        editingTransaction: PropTypes.object.isRequired,
+        isFetching: PropTypes.bool.isRequired,
+        errors: PropTypes.object,
+
+        onFetch: PropTypes.func.isRequired,
+        onFilter: PropTypes.func.isRequired,
+        onClearFilters: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired,
+        onDelete: PropTypes.func.isRequired,
+        onEdit: PropTypes.func.isRequired,
+        onCopy: PropTypes.func.isRequired,
+        onFinishEdit: PropTypes.func.isRequired,
+    }
+
     constructor(props) {
         super(props);
 
@@ -43,7 +60,7 @@ class TransactionPage extends React.Component {
             showTransactionFormModal: false,
             showTransactionDeleteModal: false,
             showFilterForm: false
-        };            
+        };        
 
         //Fetch
         this.handleRefresh = this.handleRefresh.bind(this);
@@ -51,22 +68,94 @@ class TransactionPage extends React.Component {
         //Filter
         this.handleShowFilter = this.handleShowFilter.bind(this);
         this.handleFilter = this.handleFilter.bind(this);
+
+        //Create/Edit Modal
+        this.handleCopy = this.handleCopy.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleCreateTransaction = this.handleCreateTransaction.bind(this);
+        this.handleHideTransactionFormModal = this.handleHideTransactionFormModal.bind(this);
+        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);        
+
+        //Delete Modal
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
+        this.handleHideDeleteModal = this.handleHideDeleteModal.bind(this);
     }
 
     componentDidMount() {
-        this.props.fetch();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        //Necessary because DidMount isn't called again when we change between Incomes and Expenses
-        if (this.props.route.kind != nextProps.route.kind) {
-            this.props.fetch();
-            this.handleFilter(undefined); //Remove filters
-        }
-    }
+        this.props.onFetch();
+    }    
 
     handleRefresh() {
-        this.props.fetch();
+        this.props.onFetch();
+    }
+
+    handleCreateTransaction() {
+        this.setState({ showTransactionFormModal: true });
+    }    
+
+    handleHideTransactionFormModal() {
+        this.props.onFinishEdit();
+        this.setState({ showTransactionFormModal: false });
+    }
+
+    handleTransactionFormSubmit(type, option, transaction, kind) {
+        this.props.onSubmit(transaction, kind, type).then(({result}) => {
+            if (result == 'success') {
+
+                switch(option) {
+                    case saveOptions.CLOSE:
+                        this.setState({ showTransactionFormModal: false });
+
+                    default:
+                        this.props.onFinishEdit();
+                        break;
+                }
+            }
+        });
+    }
+
+    handleCopy(id) {
+        this.setState({ showTransactionFormModal: true });
+        this.props.onCopy(id);        
+    }
+
+    handleEdit(id) {
+        this.setState({ showTransactionFormModal: true });
+        this.props.onEdit(id);        
+    }
+
+    handleDelete(id) {
+        const toDeletePeriodicTransaction = this.props.transactions.find(transaction => transaction.id == id).periodic_transaction;
+        this.setState({ 
+            showTransactionDeleteModal: true,
+            toDeleteId: id,
+            toDeletePeriodicTransaction 
+        });
+    }
+
+    handleConfirmDelete(type) {
+        const id = (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) ? this.state.toDeletePeriodicTransaction : this.state.toDeleteId;
+        const kind = getKind(this.props.transactions.find(transaction => transaction.id == id).kind);
+
+        this.props.onDelete(id, kind, type).then(({result}) => {
+            if (result == 'success') {
+                this.setState({ 
+                    showTransactionDeleteModal: false, 
+                    toDeleteId: undefined,
+                    toDeletePeriodicTransaction: undefined
+                });
+            }
+        });
+    }
+
+    handleHideDeleteModal() {
+        this.props.onFinishEdit();
+        this.setState({ 
+            showTransactionDeleteModal: false, 
+            toDeleteId: undefined,
+            toDeletePeriodicTransaction: undefined
+        });
     }
 
     handleShowFilter() {
@@ -74,35 +163,17 @@ class TransactionPage extends React.Component {
     }
 
     handleFilter(filters) {
-        const { kind, ...otherFilters } = filters;
-        
         if (filters) {
-            this.props.filter(kind, filters)
-                .then(actionResult => actionResult.transactions)
-                .then(filteredTransactions => {
-                    this.setState({ 
-                        filteredTransactions: filteredTransactions.map(transaction => transaction.id) 
-                    });
-                });
-            }
+            this.props.onFilter(filters);
+        }
         else {
-            this.setState({ filteredTransactions: undefined });
+            this.props.onClearFilters();
         }
     }
 
-    renderHeader(total, totalIncomes, totalExpenses) {
-        return (
-            <Typography type="title">Movimentações | Receitas: {`R$ ${totalIncomes}`} | Despesas: {`R$ ${totalExpenses}`} | Total: {`R$ ${total}`}</Typography>
-        );
-    }
-
     render() {
-        const { isFetching, categories } = this.props;
-        const { filteredTransactions } = this.state;
-        const transactions = filteredTransactions ? 
-            this.props.transactions.filter(transaction => filteredTransactions.includes(transaction.id)) : 
-            this.props.transactions;
-
+        const { isFetching, transactions, categories } = this.props;
+        
         return (
             <div className="transaction-page">
                 <PanelContainer controls={false}>
@@ -113,22 +184,20 @@ class TransactionPage extends React.Component {
 
                                     <Col xs={12}>
                                         <TransactionTableContainer
-                                            renderHeader={this.renderHeader}
                                             transactions={transactions} 
                                             categories={categories}
                                             isFetching={isFetching}
                                             onFilter={this.handleShowFilter}
                                             onRefresh={this.handleRefresh}
-                                            displayKind={true} >
+                                            onEdit={this.handleEdit}
+                                            onDelete={this.handleDelete}
+                                            onCopy={this.handleCopy}>
 
                                             {this.state.showFilterForm && 
-                                                <TransactionFilter 
-                                                    kind={ALL} 
+                                                <TransactionFilter
                                                     onFilter={this.handleFilter} 
-                                                    isFetching={isFetching} 
-                                                    transactions={transactions}
-                                                    />
-                                                }
+                                                    isFetching={isFetching}
+                                                    transactions={transactions} />}
 
                                         </TransactionTableContainer>
                                     </Col>
@@ -138,7 +207,31 @@ class TransactionPage extends React.Component {
                             </Grid>
                         </PanelBody>
                     </Panel>
-                </PanelContainer>                
+                </PanelContainer>
+
+                <TransactionFormModal
+                    show={this.state.showTransactionFormModal}
+                    onHide={this.handleHideTransactionFormModal}
+                    title={this.props.editingTransaction.id ? `Editar` : `Criar`}
+
+                    onSubmit={this.handleTransactionFormSubmit}
+                    isFetching={isFetching}
+                    errors={this.props.errors}
+                    transaction={Object.keys(this.props.editingTransaction).length > 0 ? this.props.editingTransaction : undefined} />
+
+                <ConfirmDeleteDialog
+                    open={this.state.showTransactionDeleteModal} 
+                    onRequestClose={this.handleHideDeleteModal}
+                    onConfirm={this.handleConfirmDelete}
+                    isPeriodic={this.state.toDeletePeriodicTransaction}
+                    error={this.props.errors['detail']}>
+
+                    Tem certeza que deseja deletar esta movimentação?
+                </ConfirmDeleteDialog>
+
+                <FloatingActionButton color="primary" onClick={this.handleCreateTransaction}>                
+                    <AddIcon />
+                </FloatingActionButton>
 
             </div>
         )
@@ -147,27 +240,33 @@ class TransactionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        ...state.transactions,
+        transactions: selectors.getTransactionsToDisplay(state),
         categories: categorySelectors.getCategories(state),
+        editingTransaction: selectors.getEditingTransaction(state),
+        isFetching: selectors.isFetching(state),
         errors: {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
-        }
+        },
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
-    const { fetchTransactions } = operations;
-    const { fetchCategories } = categoryOperations;
     return {
-        fetch: () => {
-            dispatch(fetchCategories(EXPENSE));
-            dispatch(fetchCategories(INCOME));
-            dispatch(fetchTransactions(ALL));            
+        onFetch: () => {
+            dispatch(categoryOperations.fetchCategories(INCOME));
+            dispatch(categoryOperations.fetchCategories(EXPENSE));
+            dispatch(operations.fetchTransactions(ALL));
         },
-        filter: (kind, filters) => {
-            kind = kind || ALL;
-            return dispatch(fetchTransactions(kind, filters));
+        onFilter: (filters) => dispatch(operations.filterTransactions(filters)),
+        onClearFilters: () => dispatch(operations.clearFilters()),
+        onSubmit: (transaction, kind, type) => dispatch(operations.saveTransaction(transaction, kind, type)),
+        onDelete: (id, kind, type) => dispatch(operations.deleteTransaction(id, kind, type)),
+        onEdit: (id) => dispatch(operations.editTransaction(id)),
+        onCopy: (id) => dispatch(operations.copyTransaction(id)),
+        onFinishEdit: () => {
+            dispatch(operations.finishEditTransaction()),
+            dispatch(categoryOperations.finishEditCategory())
         }
     }
 };

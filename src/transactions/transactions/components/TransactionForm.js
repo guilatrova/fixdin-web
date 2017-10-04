@@ -33,6 +33,8 @@ import TransactionDescription from './TransactionDescription';
 import Periodic from './Periodic';
 import { types } from '../duck';
 
+import { EXPENSE, INCOME, getKind } from '../../kinds';
+
 export const CLOSE = "CLOSE";
 export const NEW = "NEW";
 export const NEW_SAME_CATEGORY = "NEW_SAME_CATEGORY";
@@ -46,7 +48,8 @@ const emptyTransaction = {
     priority: '',
     payment_date: undefined,
     details: '',
-    periodic: undefined
+    periodic: undefined,
+    kind: EXPENSE.id
 }
 
 const regularActions = (onClick, disabled) => {
@@ -81,7 +84,6 @@ export default class TransactionForm extends React.Component {
         errors: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
         transaction: PropTypes.object.isRequired,
-        kind: PropTypes.object.isRequired
     }
     
     static defaultProps = {
@@ -91,21 +93,27 @@ export default class TransactionForm extends React.Component {
 
     constructor(props) {
         super(props);
+        const kind = getKind(props.transaction.kind);
+        const kindLabel = kind.id === EXPENSE.id ? 'Despesa' : 'Receita';
+
         this.state = { 
             ...props.transaction,
             payed: !!props.transaction.payment_date,
+            kind,
+            kindLabel,
             errors: {},
         };
         
         this.handleChange = this.handleChange.bind(this);
         this.handlePayedChange = this.handlePayedChange.bind(this);
         this.handleIsPeriodicChange = this.handleIsPeriodicChange.bind(this);
+        this.handleKindChange = this.handleKindChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOptionSelected = this.handleOptionSelected.bind(this);
     }
 
     handleSubmit(type, postSaveOption = CLOSE) {
-        this.props.onSubmit(type, postSaveOption, { ...this.state });
+        this.props.onSubmit(type, postSaveOption, { ...this.state }, this.state.kind);
     }
 
     handleOptionSelected(postSaveOption) {
@@ -124,6 +132,21 @@ export default class TransactionForm extends React.Component {
 
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    handleKindChange(e, checked) {
+        if (checked) {
+            this.setState({
+                kind: EXPENSE,
+                kindLabel: 'Despesa'                
+            });
+        }
+        else {
+            this.setState({
+                kind: INCOME,
+                kindLabel: 'Receita'
+            });
+        }
     }
 
     handlePayedChange(e, checked) {
@@ -176,7 +199,8 @@ export default class TransactionForm extends React.Component {
     render() {
         const { errors } = this.props;
         const disabled = this.isSubmitDisabled();
-        const canSetPeriodic = (this.state.id) ? false : true;
+        const isEdit = (this.state.id) ? true : false;
+        const isCreate = !isEdit;
         const actions = (this.state.periodic_transaction) ? 
             (disabled) => editingPeriodicActions(this.handleSubmit, disabled) : 
             (disabled) => regularActions(this.handleOptionSelected, disabled);
@@ -184,6 +208,16 @@ export default class TransactionForm extends React.Component {
         return (
         <Form horizontal>
             
+            {!isEdit && <FormControlLabel
+                control={
+                    <Switch
+                        checked={this.state.kind === EXPENSE}
+                        onChange={this.handleKindChange}
+                    />
+                }
+                label={this.state.kindLabel}
+            />}
+
             <HorizontalFormGroupError id="due_date" label="Vencimento" error={errors.due_date} >
                 <DatetimeInput
                     timeFormat={false}
@@ -205,7 +239,7 @@ export default class TransactionForm extends React.Component {
 
             <HorizontalFormGroupError id="category" label="Categoria" error={errors.category}>
                 <CategorySelectPicker 
-                    kind={this.props.kind} 
+                    kind={this.state.kind} 
                     value={this.state.category}
                     onChange={ (category) => this.setState({ category }) } />
             </HorizontalFormGroupError>
@@ -264,7 +298,7 @@ export default class TransactionForm extends React.Component {
                     maxLength="500" />
             </HorizontalFormGroupError>
 
-            {canSetPeriodic && <FormControlLabel
+            {isCreate && <FormControlLabel
                 control={
                     <Switch
                     checked={this.state.isPeriodic}
@@ -287,4 +321,4 @@ export default class TransactionForm extends React.Component {
             </Form>
         );
     }
-}
+} 

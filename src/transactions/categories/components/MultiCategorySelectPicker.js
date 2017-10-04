@@ -7,6 +7,12 @@ import { EXPENSE, INCOME, ALL } from '../../kinds';
 
 class MultiCategorySelectPicker extends React.Component {
 
+    static propTypes = {
+        kind: PropTypes.object,
+        isFetching: PropTypes.bool.isRequired,
+        value: PropTypes.any
+    }
+
     constructor(props) {
         super(props);
 
@@ -21,7 +27,7 @@ class MultiCategorySelectPicker extends React.Component {
         const { isFetching, value, kind } = this.props;
 
         let categories = this.props.categories;
-        if (kind.id == EXPENSE.id || kind.id == INCOME.id) {
+        if (kind && (kind.id == EXPENSE.id || kind.id == INCOME.id)) {
             categories = this.props.categories.filter(category => category.kind === kind.id);
         }
         

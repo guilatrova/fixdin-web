@@ -5,19 +5,34 @@ import handleError from '../../../services/genericErrorHandler';
 import { formatTransactionToSend } from '../../../services/formatter';
 import getQueryParams from '../../../services/query';
 import { Operation } from './../../../common/genericDuck/operations';
+import { ALL } from '../../kinds';
 
 class FetchOperation extends Operation {
-    constructor(kind, filters) {
+    constructor(kind) {
         super(actions.requestTransactions, actions.receiveTransactions);
         this.kind = kind;
+
+        return this.dispatch();
+    }
+
+    getApiPromise(api) {
+        return api.get(this.kind.apiEndpoint);
+    }
+}
+
+class FilterOperation extends Operation {
+    constructor(filters) {
+        super(actions.requestFilterTransactions, actions.receiveFilteredTransactions);
         this.filters = filters;
 
         return this.dispatch();
     }
 
     getApiPromise(api) {
-        const queryParams = getQueryParams(this.filters);
-        return api.get(this.kind.apiEndpoint + queryParams);
+        let { kind, ...filters } = this.filters;
+        kind = kind || ALL;
+        const queryParams = getQueryParams(filters);
+        return api.get(kind.apiEndpoint + queryParams);
     }
 }
 
@@ -118,7 +133,9 @@ class DeleteOperation extends Operation {
 const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
-const fetchTransactions = (kind, filters = undefined) => new FetchOperation(kind, filters);
+const clearFilters = actions.clearFilters;
+const fetchTransactions = (kind) => new FetchOperation(kind);
+const filterTransactions = (filters) => new FilterOperation(filters);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
 
@@ -127,6 +144,8 @@ export default {
     editTransaction,
     finishEditTransaction,
     fetchTransactions,
+    filterTransactions,
+    clearFilters,
     saveTransaction,
     deleteTransaction
 };

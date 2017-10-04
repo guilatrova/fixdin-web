@@ -11,7 +11,7 @@ class AssertContextHelper {
         const { store, respondWith } = this;
 
         moxios.wait(() => {
-            let request = moxios.requests.mostRecent()
+            let request = moxios.requests.mostRecent();
 
             request.respondWith(respondWith)
             .then(() => {
@@ -26,7 +26,7 @@ class AssertContextHelper {
         const { store, respondWith } = this;
 
         moxios.wait(() => {
-            let request = moxios.requests.mostRecent()
+            let request = moxios.requests.mostRecent();
 
             request.respondWith(respondWith)
             .then(() => {
