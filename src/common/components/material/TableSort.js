@@ -114,10 +114,10 @@ export default class TableSort extends React.Component {
                         {React.Children.map(children, 
                             column => {
                                 if (column) {
-                                    const { field, numeric, disablePadding, onRender } = column.props;
+                                    const { field, numeric, onRender } = column.props;
 
                                     return (
-                                        <TableCell numeric={numeric} disablePadding={disablePadding}>
+                                        <TableCell numeric={numeric}>
                                             {onRender(row, field)}
                                         </TableCell>
                                     );
