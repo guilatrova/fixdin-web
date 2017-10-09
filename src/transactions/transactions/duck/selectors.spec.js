@@ -1,4 +1,5 @@
 import selectors from './selectors';
+import { INCOME, EXPENSE } from '../../kinds';
 
 describe('transactions/duck/selectors', () => {
     const buildState = (state) => {
@@ -78,6 +79,43 @@ describe('transactions/duck/selectors', () => {
             .to.deep.equal(transactions);
         });        
 
-    })
+    });
+
+    describe('getPendingIncomesUntil', () => {
+
+        const payment_date = moment();
+        const due_date = moment(new Date(2017, 0, 1));
+        const transactions = [
+            { id: 1, due_date, kind: INCOME.id, payment_date: null },
+            { id: 2, due_date, kind: INCOME.id, payment_date },
+            { id: 3, due_date, kind: INCOME.id, payment_date },
+            { id: 4, due_date: moment(new Date(2018, 0, 1)), kind: INCOME.id, payment_date: null },
+            { id: 5, due_date, kind: EXPENSE.id, payment_date: null}
+        ];
+        const state = buildState({ transactions });
+
+        it('until is undefined', () => {
+            const expected = [
+                transactions[0], transactions[3]
+            ]
+
+            expect(
+                selectors.getPendingIncomesUntil(state)
+            )
+            .to.deep.equal(expected);
+        });
+
+        it('until specified moment', () => {
+            const expected = [
+                transactions[0]
+            ]
+
+            expect(
+                selectors.getPendingIncomesUntil(state, moment(new Date(2017, 0, 1)))
+            )
+            .to.deep.equal(expected);
+        });
+
+    });
     
 });

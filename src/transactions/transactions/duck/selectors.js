@@ -1,4 +1,5 @@
 import comparators from './comparators';
+import { INCOME } from '../../kinds';
 
 const getErrors = (state) => state.transactions.errors;
 
@@ -13,12 +14,15 @@ const getTransactionsToDisplay = (state) => {
     return state.transactions.transactions
 };
 
-const getPendingIncomes = (state, until) => {
-    let incomes = [];
-        
-    //incomes.sort(comparators);
+const getPendingIncomesUntil = (state, until) => {    
+    const pending = state.transactions.transactions.filter(transaction => 
+        transaction.kind == INCOME.id && !transaction.payment_date);
 
-    return incomes;
+    if (until) {
+        return pending.filter(income => income.due_date.isSameOrBefore(until));
+    }
+
+    return pending;
 }
 
 export default {
@@ -26,5 +30,5 @@ export default {
     isFetching,
     getTransactionsToDisplay,
     getEditingTransaction,
-    getPendingIncomes
+    getPendingIncomesUntil
 };
