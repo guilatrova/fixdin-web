@@ -7,7 +7,7 @@ import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 
 import PaymentOrderStepper from './PaymentOrderStepper';
-import { selectors as reportsSelectors } from '../../reports/duck';
+import { selectors as transactionsSelectors } from '../../transactions/transactions/duck';
 
 const styles = theme => ({
     root: {
@@ -16,7 +16,7 @@ const styles = theme => ({
     },
     paper: {
         padding: 16,
-        textAlign: 'center',
+        textAlign: 'left',
         color: theme.palette.text.secondary,
     },
 });
@@ -42,8 +42,8 @@ PaymentOrderPage.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    return {//TODO: ISSO É RESPONSABILIDADE DO SELECTOR DE TRANSACTIONS
-        incomes: reportsSelectors.getPendingIncomes(state)
+    return {
+        incomes: transactionsSelectors.getPendingIncomesUntil(state)
     };
 }
 

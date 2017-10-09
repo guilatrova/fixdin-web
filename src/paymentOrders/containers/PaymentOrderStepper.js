@@ -40,7 +40,7 @@ class PaymentOrderStepper extends Component {
     renderStep = () => {
         switch(this.state.activeStep) {
             default:
-                return <Step1 incomes={this.props.incomes} />
+                return <Step1 incomes={this.props.incomes} onChange={() => {}} />
         }
     }
     
