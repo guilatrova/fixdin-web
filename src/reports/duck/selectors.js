@@ -26,18 +26,6 @@ function getValuesByCategory(state) {
     return state.reports.valuesByCategory;
 }
 
-function getPendingIncomes(state, comparators = []) {
-    let incomes = getNextPendingIncomes(state).concat(
-        getOverdueIncomes(state)
-    );
-    
-    for (let i = 0; i < comparators.length; i++) {
-        incomes.sort(comparators[i]);
-    }
-
-    return incomes;
-}
-
 export default {
     getLast13Months,
     getRealLast13Months,
@@ -47,5 +35,5 @@ export default {
     getNextPendingIncomes,
     getOverdueIncomes,
 
-    getValuesByCategory
+    getValuesByCategory,
 };

@@ -21,14 +21,14 @@ const styles = theme => ({
     },
 });
 
-const PaymentOrderPage = ({classes}) => {
+const PaymentOrderPage = ({classes, incomes}) => {
     return (
         <div className={classes.root}>
             <Grid container spacing={24}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
 
-                        <PaymentOrderStepper />
+                        <PaymentOrderStepper incomes={incomes} />
                         
                     </Paper>
                 </Grid>
@@ -41,7 +41,10 @@ PaymentOrderPage.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {    
+const mapStateToProps = (state) => {
+    return {//TODO: ISSO É RESPONSABILIDADE DO SELECTOR DE TRANSACTIONS
+        incomes: reportsSelectors.getPendingIncomes(state)
+    };
 }
 
 export default withStyles(styles)(

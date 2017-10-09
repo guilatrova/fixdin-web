@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 
 const styles = theme => ({
     root: {
         width: '100%',
-        maxWidth: 360,
         background: theme.palette.background.paper,
     },
 });
@@ -39,14 +39,14 @@ class Step1 extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes, incomes } = this.props;
 
         return (
             <div className={classes.root}>
             <List>
                 {incomes.map(income => (
                     <ListItem key={income.id} dense button className={classes.listItem}>
-                        <ListItemText primary={`${income.description} (${income.due_date})`} />
+                        <ListItemText primary={`${income.description} (${income.value})`} secondary={`${income.due_date}`} />
                         <ListItemSecondaryAction>
                             <Checkbox
                                 onClick={this.handleToggle(income.id)}
@@ -61,4 +61,4 @@ class Step1 extends React.Component {
     }
 }
 
-export default Step1;
+export default withStyles(styles)(Step1);

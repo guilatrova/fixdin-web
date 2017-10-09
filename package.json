@@ -38,7 +38,7 @@
     "dist": "cross-env NODE_ENV=production run-s bundle:client && node tools/create-dist.js",
     "dist:watch": "run-s bundle:client && node tools/watch-dist.js",
     "test": "mocha --require ./src/tests/setup --compilers :./tools/babel-setup.js ./src/**/*.spec.js",
-    "test:fst": "npm-run mocha --require ./src/tests/setup --compilers :./tools/babel-setup.js \"./src/**/!(actions).spec.js\" --watch",
+    "test:fst": "mocha --require ./src/tests/setup --compilers :./tools/babel-setup.js \"./src/**/!(actions).spec.js\" --watch",
     "testw": "mocha --require ./src/tests/setup --compilers :./tools/babel-setup.js ./src/**/*.spec.js --watch",
     "postinstall": "npm run build:prod",
     "start": "node server.js"

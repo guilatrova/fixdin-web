@@ -18,6 +18,7 @@ class PaymentOrderStepper extends Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         theme: PropTypes.object.isRequired,
+        incomes: PropTypes.array.isRequired
     };
 
     state = {
@@ -39,7 +40,7 @@ class PaymentOrderStepper extends Component {
     renderStep = () => {
         switch(this.state.activeStep) {
             default:
-                return <Step1 />
+                return <Step1 incomes={this.props.incomes} />
         }
     }
     
@@ -49,7 +50,7 @@ class PaymentOrderStepper extends Component {
         return (
             <div className={classes.root}>
 
-                {renderStep()}
+                {this.renderStep()}
 
                 <MobileStepper
                     type="dots"
