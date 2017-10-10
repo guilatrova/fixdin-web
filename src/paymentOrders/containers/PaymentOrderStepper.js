@@ -6,7 +6,7 @@ import Button from 'material-ui/Button';
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 
-import Step1 from '../components/Step1';
+import Step1 from './Step1';
 
 const styles = {
     root: {
@@ -40,7 +40,7 @@ class PaymentOrderStepper extends Component {
     renderStep = () => {
         switch(this.state.activeStep) {
             default:
-                return <Step1 incomes={this.props.incomes} onChange={() => {}} />
+                return <Step1 incomes={this.props.incomes} onChange={(step1) => this.setState({ step1 })} />
         }
     }
     
