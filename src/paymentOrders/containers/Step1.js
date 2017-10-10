@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
 import Checkbox from 'material-ui/Checkbox';
-import { Grid, Row, Col, FormControl } from '@sketchpixy/rubix';
+import { Grid, Row, Col } from '@sketchpixy/rubix';
 import DatetimeInput from 'react-datetime';
 import CurrencyInput from 'react-currency-input';
 
@@ -13,10 +13,7 @@ const styles = theme => ({
     root: {
         width: '100%',
         background: theme.palette.background.paper,
-    },
-    formControl: {
-      margin: theme.spacing.unit,
-    },
+    }
 });
 
 export class Step1 extends React.Component {

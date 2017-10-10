@@ -7,16 +7,6 @@ import Checkbox from 'material-ui/Checkbox';
 
 import { formatCurrencyDisplay } from '../../services/formatter';
 
-const styles = theme => ({
-    root: {
-        width: '100%',
-        background: theme.palette.background.paper,
-    },
-    formControl: {
-      margin: theme.spacing.unit,
-    },
-});
-
 const IncomesList = ({ classes, incomes, checked, onToggle }) => {    
     return (
         <List>
