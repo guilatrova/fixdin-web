@@ -3,6 +3,7 @@ import { Step1 } from './Step1';
 describe('PaymentOrder <Step1 />', () => {
     const props = {
         classes: { root: "" },
+        currentBalance: 10,
         incomes: [],
         onChange: () => {}
     }
@@ -41,6 +42,58 @@ describe('PaymentOrder <Step1 />', () => {
         const visible = wrapper.instance().getIncomesUntil(incomes);
         
         expect(visible).to.deep.equal([ incomes[0], incomes[1] ]);
+    });
+
+    // it('getSum()', () => {
+
+    // });
+
+    describe('updates sum', () => {
+
+        let wrapper, getSumSpy;
+
+        beforeEach(() => {
+            wrapper = shallow(<Step1 {...props} />)
+            getSumSpy = sinon.spy(wrapper.instance(), 'getSum');
+        });
+
+        it('when change valueToSave', () => {
+            wrapper.instance().handleValueToSaveChange(10);
+
+            expect(wrapper.state('valueToSave')).to.equal(10);
+            expect(getSumSpy.called).to.be.true;
+        });
+
+        it('when checks a new item', () => {
+            wrapper.instance().handleToggle(15);
+
+            expect(wrapper.state('checked')).to.deep.equal([ 15 ]);
+            expect(getSumSpy.called).to.be.true;
+        });
+
+        it('when props are updated', () => {
+            wrapper.setProps({ ...props, incomes: [ { id: 1, due_date: moment(new Date()) } ] })
+
+            expect(getSumSpy.called).to.be.true;
+        });
+
+    });
+
+    describe('checks default', () => {
+
+        let wrapper, getDefaultIncomesToBeCheckedSpy;
+        
+        beforeEach(() => {
+            wrapper = shallow(<Step1 {...props} />)
+            getDefaultIncomesToBeCheckedSpy = sinon.spy(wrapper.instance(), 'getDefaultIncomesToBeChecked');
+        });
+
+        it('when props are updated', () => {
+            wrapper.setProps({ ...props, incomes: [ { id: 1, due_date: moment(new Date()) } ] })
+
+            expect(getDefaultIncomesToBeCheckedSpy.called).to.be.true;
+        });
+
     });
 
 })

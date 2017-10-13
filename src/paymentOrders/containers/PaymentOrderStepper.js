@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
 import { withStyles } from 'material-ui/styles';
 import MobileStepper from 'material-ui/MobileStepper';
 import Button from 'material-ui/Button';
@@ -14,11 +15,10 @@ const styles = {
     },
 };
 
-class PaymentOrderStepper extends Component {
+class PaymentOrderStepper extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        theme: PropTypes.object.isRequired,
-        incomes: PropTypes.array.isRequired
+        theme: PropTypes.object.isRequired
     };
 
     state = {
@@ -40,7 +40,7 @@ class PaymentOrderStepper extends Component {
     renderStep = () => {
         switch(this.state.activeStep) {
             default:
-                return <Step1 incomes={this.props.incomes} onChange={(step1) => this.setState({ step1 })} />
+                return <Step1 onChange={(step1) => this.setState({ step1 })} />
         }
     }
     

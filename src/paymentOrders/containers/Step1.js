@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { withStyles } from 'material-ui/styles';
 import Checkbox from 'material-ui/Checkbox';
@@ -8,6 +9,9 @@ import DatetimeInput from 'react-datetime';
 import CurrencyInput from 'react-currency-input';
 
 import IncomesList from '../components/IncomesList';
+import { selectors as transactionsSelectors } from '../../transactions/transactions/duck';
+import { selectors as balancesSelectors } from '../../balances/duck';
+import { formatCurrencyDisplay, formatCurrency } from '../../services/formatter';
 
 const styles = theme => ({
     root: {
@@ -20,7 +24,8 @@ export class Step1 extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         incomes: PropTypes.array.isRequired,
-        onChange: PropTypes.func.isRequired
+        onChange: PropTypes.func.isRequired,
+        currentBalance: PropTypes.number.isRequired
     }
 
     constructor(props) {
@@ -28,11 +33,17 @@ export class Step1 extends React.Component {
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
+        const checked = this.getDefaultIncomesToBeChecked(props.incomes);
+        const visibleIncomes = this.getIncomesUntil(props.incomes, today);
+        const valueToSave = "R$ 0,00";
+
         this.state = {
-            checked: this.getDefaultIncomesToBeChecked(props.incomes),
-            visibleIncomes: this.getIncomesUntil(props.incomes, today),
-            untilDate: today
+            checked,
+            visibleIncomes,
+            valueToSave,
+            untilDate: today,
+            ...this.getSum(checked, visibleIncomes, valueToSave)
         };
     }
 
@@ -44,9 +55,14 @@ export class Step1 extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.incomes.length == 0 && nextProps.incomes.length > 0) {
+
+            const newChecked = this.getDefaultIncomesToBeChecked(nextProps.incomes);
+            const visibleIncomes = this.getIncomesUntil(nextProps.incomes);
+
             this.setState({ 
-                checked: this.getDefaultIncomesToBeChecked(nextProps.incomes),
-                visibleIncomes: this.getIncomesUntil(nextProps.incomes)
+                checked: newChecked,                
+                visibleIncomes,
+                ...this.getSum(newChecked, visibleIncomes)
             });
         }
     }
@@ -67,10 +83,44 @@ export class Step1 extends React.Component {
         return incomes.filter(income => income.due_date.isSameOrBefore(untilDate))
     }
 
+    getSum = (checked, visibleIncomes, valueToSave) => {
+        if (!visibleIncomes) {
+            visibleIncomes = this.state.visibleIncomes;
+        }
+        
+        if (!valueToSave) {
+            valueToSave = this.state.valueToSave;
+        }
+
+        const filtered = visibleIncomes
+            .filter(income => checked.includes(income.id)).map(income => income.value);
+
+        const totalChecked = filtered.reduce((acc, cur) => acc + cur, 0);
+        const toSave = formatCurrency(valueToSave);
+        const total = this.props.currentBalance + totalChecked - toSave;
+
+        return {
+            totalChecked,
+            total
+        };
+    }
+
     handleDateChange = untilDate => {
+        const visibleIncomes = this.getIncomesUntil(this.props.incomes, untilDate);
+        const checked = this.state.checked.filter(incomeId => visibleIncomes.map(income => income.id).includes(incomeId));
+
         this.setState({ 
+            checked,
             untilDate,
-            visibleIncomes: this.getIncomesUntil(this.props.incomes, untilDate)
+            visibleIncomes,
+            ...this.getSum(checked, visibleIncomes)
+        });
+    }
+
+    handleValueToSaveChange = valueToSave => {
+        this.setState({ 
+            valueToSave,
+            ...this.getSum(this.state.checked, this.state.visibleIncomes, valueToSave)
         });
     }
 
@@ -87,12 +137,13 @@ export class Step1 extends React.Component {
 
         this.setState({
             checked: newChecked,
+            ...this.getSum(newChecked)
         });
     };
 
     render() {
-        const { classes } = this.props;
-        const { visibleIncomes, checked } = this.state;
+        const { classes, currentBalance } = this.props;
+        const { visibleIncomes, checked, total, totalChecked, valueToSave } = this.state;
 
         return (
             <div className={classes.root}>
@@ -108,11 +159,16 @@ export class Step1 extends React.Component {
 
                     <CurrencyInput 
                         className='border-focus-blue form-control'
-                        onChange={ (valueToSave) => this.setState({ valueToSave }) }
-                        value={this.state.valueToSave}
+                        onChange={this.handleValueToSaveChange}
+                        value={valueToSave}
                         prefix="R$ "
                         decimalSeparator=","
                         thousandSeparator="." />
+
+                    <h3>{ formatCurrencyDisplay(currentBalance) }</h3>
+                    <h3>+ { formatCurrencyDisplay(totalChecked) }</h3>
+                    <h3>- { valueToSave }</h3>
+                    <h1>{ formatCurrencyDisplay(total) }</h1>
                     
                 </Col>
 
@@ -128,4 +184,13 @@ export class Step1 extends React.Component {
     }
 }
 
-export default withStyles(styles)(Step1);
+const mapStateToProps = (state) => {
+    return {
+        incomes: transactionsSelectors.getPendingIncomesUntil(state),
+        currentBalance: balancesSelectors.getRealBalance(state)
+    }
+}
+
+export default withStyles(styles)(
+    connect(mapStateToProps)(Step1)
+);
