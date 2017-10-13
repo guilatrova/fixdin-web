@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { withStyles } from 'material-ui/styles';
-import Checkbox from 'material-ui/Checkbox';
 import { Grid, Row, Col } from '@sketchpixy/rubix';
 import DatetimeInput from 'react-datetime';
 import CurrencyInput from 'react-currency-input';
 
-import IncomesList from '../components/IncomesList';
+import TransactionsList from '../components/TransactionsList';
 import { selectors as transactionsSelectors } from '../../transactions/transactions/duck';
 import { selectors as balancesSelectors } from '../../balances/duck';
 import { formatCurrencyDisplay, formatCurrency } from '../../services/formatter';
@@ -173,8 +172,8 @@ export class Step1 extends React.Component {
                 </Col>
 
                 <Col xs={12} md={9}>
-                    <IncomesList
-                        incomes={visibleIncomes}
+                    <TransactionsList
+                        transactions={visibleIncomes}
                         checked={checked}
                         onToggle={this.handleToggle} />
                 </Col>

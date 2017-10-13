@@ -7,10 +7,10 @@ import Checkbox from 'material-ui/Checkbox';
 
 import { formatCurrencyDisplay } from '../../services/formatter';
 
-const IncomesList = ({ classes, incomes, checked, onToggle }) => {    
+const TransactionsList = ({ classes, transactions, checked, onToggle }) => {    
     return (
         <List>
-            {incomes.map(income => (
+            {transactions.map(income => (
                 <ListItem key={income.id} dense button className={classes.listItem}>
                     <ListItemText 
                         primary={`${income.description} (${formatCurrencyDisplay(income.value)})`} secondary={`${income.due_date.format('DD/MM/YYYY')}`} />
@@ -26,11 +26,11 @@ const IncomesList = ({ classes, incomes, checked, onToggle }) => {
     )
 } 
 
-IncomesList.propTypes = {
+TransactionsList.propTypes = {
     classes: PropTypes.object.isRequired,
-    incomes: PropTypes.array.isRequired,
+    transactions: PropTypes.array.isRequired,
     checked: PropTypes.array.isRequired,
     onToggle: PropTypes.func.isRequired
 }
 
-export default withStyles()(IncomesList);
+export default withStyles()(TransactionsList);

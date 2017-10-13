@@ -8,6 +8,7 @@ import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 
 import Step1 from './Step1';
+import Step2 from './Step2';
 
 const styles = {
     root: {
@@ -38,7 +39,11 @@ class PaymentOrderStepper extends React.Component {
     };
 
     renderStep = () => {
+        console.log('RENDER STEP: ' + this.state.activeStep);
         switch(this.state.activeStep) {
+            case 1:
+                return <Step2 balanceAvailable={this.state.step1.total} />
+            
             default:
                 return <Step1 onChange={(step1) => this.setState({ step1 })} />
         }

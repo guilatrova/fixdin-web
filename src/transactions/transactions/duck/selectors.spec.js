@@ -81,6 +81,8 @@ describe('transactions/duck/selectors', () => {
 
     });
 
+    it('getPendingTransactions');
+
     describe('getPendingIncomesUntil', () => {
 
         const payment_date = moment();
@@ -118,4 +120,5 @@ describe('transactions/duck/selectors', () => {
 
     });
     
+    it('getPendingExpensesUntil');
 });
