@@ -49,4 +49,6 @@ describe('transactions/duck/comparators', () => {
 
     });
 
+    it('expensesToBePaid');
+
 });

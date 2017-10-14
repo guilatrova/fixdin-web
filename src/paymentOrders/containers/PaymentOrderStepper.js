@@ -37,15 +37,21 @@ class PaymentOrderStepper extends React.Component {
             activeStep: this.state.activeStep - 1,
         });
     };
+    
+    handleStepChange = step => (state) => {
+        this.setState({
+            [step]: state
+        });
+    }
 
     renderStep = () => {
-        console.log('RENDER STEP: ' + this.state.activeStep);
         switch(this.state.activeStep) {
             case 1:
-                return <Step2 balanceAvailable={this.state.step1.total} />
+                const { total, untilDate } = this.state.step1;
+                return <Step2 until={untilDate} balanceAvailable={total} onChange={this.handleStepChange('step2')} />
             
             default:
-                return <Step1 onChange={(step1) => this.setState({ step1 })} />
+                return <Step1 onChange={this.handleStepChange('step1')} />
         }
     }
     
