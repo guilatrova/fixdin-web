@@ -52,7 +52,8 @@ class Step2 extends React.Component {
         }
 
         this.setState({
-            checked: newChecked
+            checked: newChecked,
+            remainingBalance: this.getRemainingBalance(newChecked)
         });
     };
 
@@ -75,6 +76,16 @@ class Step2 extends React.Component {
             checked,
             remainingBalance: balance
         }
+    }
+
+    getRemainingBalance = checked => {
+        const filtered = this.state.visibleExpenses
+            .filter(expense => checked.includes(expense.id)).map(expense => expense.value);
+
+        const totalChecked = filtered.reduce((acc, cur) => acc + cur, 0);
+        const total = this.props.balanceAvailable + totalChecked; //It's plus because expense is already negative
+
+        return total;
     }
 
     render() {
