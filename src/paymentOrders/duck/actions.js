@@ -7,6 +7,15 @@ const checkDefaultIncomes = (balance) => {
     }
 }
 
+const changeUntilDate = (untilDate, pendingIncomes) => {
+    return {
+        type: types.CHANGE_UNTIL_DATE,
+        untilDate,
+        pendingIncomes
+    }
+}
+
 export default {
-    checkDefaultIncomes
+    checkDefaultIncomes,
+    changeUntilDate
 };

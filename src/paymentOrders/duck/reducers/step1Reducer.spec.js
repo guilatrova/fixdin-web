@@ -20,7 +20,7 @@ describe('paymentOrder/duck/reducers/Step1', () => {
         let arr = [];
         let id = 1;
         for (let i = 0; i < values.length; i+=2) {
-            arr.push({ id, value: values[i], due_date: values[i+1] });
+            arr.push({ id, value: values[i+1], due_date: values[i] });
             id++;
         }
         return arr;
@@ -33,11 +33,9 @@ describe('paymentOrder/duck/reducers/Step1', () => {
     it('CHECK_DEFAULT_INCOMES', () => {
         const state = {
             ...initialState,
-            visibleIncomes: createIncomes([ 5, yesterday, 10, today, 15, tomorrow])
+            visibleIncomes: createIncomes([ yesterday, 5, today, 10, tomorrow, 15])
         }
         
-        // console.log("state", createIncomes([ 5, yesterday, 10, today, 15, tomorrow]));
-
         expect(
             reducer(state, actions.checkDefaultIncomes(10))
         ).to.deep.equal({
@@ -47,6 +45,45 @@ describe('paymentOrder/duck/reducers/Step1', () => {
             totalChecked: 25, 
             total: 35
         });
-    })
+    });
+
+    describe('CHANGE_UNTIL_DATE', () => {
+        const incomes = createIncomes([ yesterday, 10, today, 20, tomorrow, 30 ]);
+
+        it('should update visibleIncomes', () => {
+            expect(
+                reducer(undefined, actions.changeUntilDate(yesterday, [incomes[0]]))
+            )
+            .to.deep.equal({
+                ...initialState,
+                visibleIncomes: [ incomes[0] ],
+                untilDate: yesterday
+            });
+        });
+
+        it('should update checked and total', () => {
+            const state = {
+                ...initialState,
+                visibleIncomes: incomes,
+                checked: [ 1, 3 ],
+                totalChecked: 40,
+                total: 50
+            }
+
+            expect(
+                reducer(state, actions.changeUntilDate(yesterday, [incomes[0]]))
+            )
+            .to.deep.equal({
+                ...state,
+                visibleIncomes: [incomes[0]],
+                untilDate: yesterday,
+                checked: [ 1 ],
+                totalChecked: 10,
+                total: 20
+            });
+
+        });
+
+    });
 
 });

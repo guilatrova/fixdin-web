@@ -12,7 +12,29 @@ const initialState = {
     totalChecked: 0
 }
 
-export default function reducer(state = initialState, action) {
+const changeUntilDate = (state, action) => {
+    const visibleIncomes = action.pendingIncomes;
+    const removeCheck = state.checked.filter(incomeId => !visibleIncomes.map(income => income.id).includes(incomeId));
+    const decrease = state.visibleIncomes.filter(removedIncome => 
+        removeCheck.includes(removedIncome.id))
+        .map(removedIncome => removedIncome.value)
+        .reduce((acc, cur) => acc + cur, 0);
+
+    const checked = state.checked.filter(incomeId => !removeCheck.includes(incomeId));
+    const total = state.total - decrease;
+    const totalChecked = state.totalChecked - decrease;
+
+    return {
+        ...state,
+        checked,
+        visibleIncomes,
+        untilDate: action.untilDate,
+        total,
+        totalChecked
+    }
+}
+
+export default function reducer(state = initialState, action) {    
     switch (action.type) {
 
         case types.CHECK_DEFAULT_INCOMES:            
@@ -28,10 +50,7 @@ export default function reducer(state = initialState, action) {
             }
 
         case types.CHANGE_UNTIL_DATE:
-            return {
-                ...state,
-                untilDate: action.untilDate
-            }
+            return changeUntilDate(state, action);
 
         default:
             return state;
