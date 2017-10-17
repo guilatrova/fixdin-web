@@ -86,4 +86,68 @@ describe('paymentOrder/duck/reducers/Step1', () => {
 
     });
 
+    describe('TOGGLE_INCOME', () => {
+        const incomes = createIncomes([ yesterday, 10, today, 15, tomorrow, 28 ]);
+
+        it('Checks a new income', () => {
+            const state = {
+                ...initialState,
+                visibleIncomes: incomes,
+                checked: [ 1 ],
+                total: 10,
+                totalChecked: 10
+            };
+
+            expect(
+                reducer(state, actions.toggleIncome(2))
+            )
+            .to.deep.equal({
+                ...state,
+                checked: [ 1, 2 ],
+                total: 25,
+                totalChecked: 25
+            });
+        });
+
+        it('Unchecks an income', () => {
+            const state = {
+                ...initialState,
+                visibleIncomes: incomes,
+                checked: [ 1, 2 ],
+                total: 25,
+                totalChecked: 25
+            };
+
+            expect(
+                reducer(state, actions.toggleIncome(1))
+            )
+            .to.deep.equal({
+                ...state,
+                checked: [ 2 ],
+                total: 15,
+                totalChecked: 15
+            });
+        });
+
+        it('Accepts list', () => {
+            const state = {
+                ...initialState,
+                visibleIncomes: incomes,
+                checked: [ 1, 2 ],
+                total: 25,
+                totalChecked: 25
+            };
+
+            expect(
+                reducer(state, actions.toggleIncome([2, 3]))
+            )
+            .to.deep.equal({
+                ...state,
+                checked: [ 1, 3 ],
+                total: 38,
+                totalChecked: 38
+            });
+        });
+    });
+
 });
