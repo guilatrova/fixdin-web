@@ -89,6 +89,18 @@ const changeValueToSave = (state, action) => {
     }
 }
 
+const reset = (state, action) => {
+    return {
+        ...state,
+        checked: [],
+        visibleIncomes: action.pendingIncomes,
+        untilDate: today(),
+        total: action.balance,
+        totalChecked: 0,
+        toSave: 0,
+    }
+}
+
 export default function reducer(state = initialState, action) {    
     switch (action.type) {
 
@@ -103,6 +115,9 @@ export default function reducer(state = initialState, action) {
 
         case types.CHANGE_VALUE_TO_SAVE:
             return changeValueToSave(state, action);
+
+        case types.RESET:
+            return reset(state, action);
 
         default:
             return state;

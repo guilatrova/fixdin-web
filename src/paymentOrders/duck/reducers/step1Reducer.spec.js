@@ -167,4 +167,27 @@ describe('paymentOrder/duck/reducers/Step1', () => {
         });
     });
 
+    it('RESET', () => {
+        const incomes = createIncomes([ yesterday, 10, today, 20, tomorrow, 30 ]);
+        const state = {
+            ...initialState,
+            checked: [ 1, 2 ],
+            visibleIncomes: incomes,
+            untilDate: tomorrow,
+            total: 50,
+            toSave: 5,
+            totalChecked: 30
+        }
+
+        expect(
+            reducer(state, actions.reset(25, [incomes[0], incomes[1]]))
+        )
+        .to.deep.equal({
+            ...initialState,
+            total: 25,
+            untilDate: today,
+            visibleIncomes: [ incomes[0], incomes[1] ]
+        });
+    });
+
 });
