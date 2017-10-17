@@ -150,4 +150,21 @@ describe('paymentOrder/duck/reducers/Step1', () => {
         });
     });
 
+    it('CHANGE_VALUE_TO_SAVE', () => {
+        const state = {
+            ...initialState,
+            toSave: 10,
+            total: 30
+        }
+
+        expect(
+            reducer(state, actions.changeValueToSave(5))
+        )
+        .to.deep.equal({
+            ...state,
+            toSave: 5,
+            total: 35
+        });
+    });
+
 });

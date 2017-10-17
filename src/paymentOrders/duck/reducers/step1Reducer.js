@@ -12,6 +12,19 @@ const initialState = {
     totalChecked: 0
 }
 
+const checkDefaultIncomes = (state, action) => {
+    const filtered = state.visibleIncomes.filter(income => income.due_date.isSameOrAfter(today()));
+    const checked = filtered.map(income => income.id);
+    const totalChecked = filtered.map(income => income.value).reduce((acc, cur) => acc + cur, 0);
+
+    return {
+        ...state,
+        checked,
+        totalChecked,
+        total: action.balance + totalChecked
+    }
+};
+
 const changeUntilDate = (state, action) => {
     const visibleIncomes = action.pendingIncomes;
     const removeCheck = state.checked.filter(incomeId => !visibleIncomes.map(income => income.id).includes(incomeId));
@@ -32,7 +45,7 @@ const changeUntilDate = (state, action) => {
         total,
         totalChecked
     }
-}
+};
 
 const toggleIncome = (state, action) => {
     const checked = state.checked.slice();
@@ -63,28 +76,33 @@ const toggleIncome = (state, action) => {
         total,
         totalChecked
     }
+};
+
+const changeValueToSave = (state, action) => {
+    const diff = state.toSave - action.toSave;
+    const total = state.total + diff;
+
+    return {
+        ...state,
+        toSave: action.toSave,
+        total
+    }
 }
 
 export default function reducer(state = initialState, action) {    
     switch (action.type) {
 
-        case types.CHECK_DEFAULT_INCOMES:            
-            const filtered = state.visibleIncomes.filter(income => income.due_date.isSameOrAfter(today()));
-            const checked = filtered.map(income => income.id);
-            const totalChecked = filtered.map(income => income.value).reduce((acc, cur) => acc + cur, 0);
-
-            return {
-                ...state,
-                checked,
-                totalChecked,
-                total: action.balance + totalChecked
-            }
+        case types.CHECK_DEFAULT_INCOMES:
+            return checkDefaultIncomes(state, action);
 
         case types.CHANGE_UNTIL_DATE:
             return changeUntilDate(state, action);
 
         case types.TOGGLE_INCOME:
             return toggleIncome(state, action);
+
+        case types.CHANGE_VALUE_TO_SAVE:
+            return changeValueToSave(state, action);
 
         default:
             return state;

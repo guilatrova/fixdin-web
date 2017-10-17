@@ -26,8 +26,16 @@ const toggleIncome = (incomeIds) => {
     }
 }
 
+const changeValueToSave = (toSave) => {
+    return {
+        type: types.CHANGE_VALUE_TO_SAVE,
+        toSave
+    }
+}
+
 export default {
     checkDefaultIncomes,
     changeUntilDate,
+    changeValueToSave,
     toggleIncome
 };
