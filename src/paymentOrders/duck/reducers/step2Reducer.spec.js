@@ -50,6 +50,47 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             });
         });
 
-        it("Unchecks an expense");
-    })
+        it("Unchecks an expense", () => {
+            const state = {
+                ...initialState,
+                visibleExpenses: expenses,
+                checked: [ 1, 2 ],
+                remainingBalance: 5,
+                totalChecked: 25
+            }
+
+            expect(
+                reducer(state, actions.toggleExpense(2))
+            ).to.deep.equal({
+                ...state,
+                checked: [ 1 ],
+                remainingBalance: 20,
+                totalChecked: 10
+            });
+        });
+
+        it('Accepts list', () => {
+            const state = {
+                ...initialState,
+                visibleExpenses: expenses,
+                checked: [ 1, 3 ],
+                totalChecked: 38,
+                remainingBalance: 12
+            };
+
+            expect(
+                reducer(state, actions.toggleExpense([2, 3]))
+            )
+            .to.deep.equal({
+                ...state,
+                checked: [ 1, 2 ],
+                totalChecked: 25,
+                remainingBalance: 25
+            });
+        });
+    });
+
+    describe('CHECK_DEFAULT_EXPENSES', () => {
+
+    });
 });
