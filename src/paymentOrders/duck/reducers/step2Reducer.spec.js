@@ -17,8 +17,8 @@ describe('paymentOrders/duck/reducers/Step2', () => {
     const createExpenses = (values) => {
         let arr = [];
         let id = 1;
-        for (let i = 0; i < values.length; i+=2) {
-            arr.push({ id, value: values[i+1], due_date: values[i] });
+        for (let i = 0; i < values.length; i++) {
+            arr.push({ id, value: values[i] });
             id++;
         }
         return arr;
@@ -28,8 +28,31 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         expect(reducer(undefined, {})).to.deep.equal(initialState);
     });
 
+    it('CHECK_DEFAULT_EXPENSES', () => {
+        const visibleExpenses = [
+            { id: 1, priority: 2, due_date: today, value: -10 },
+            { id: 2, priority: 2, due_date: yesterday, value: -20 },
+            { id: 3, priority: 5, due_date: tomorrow, value: -30 }
+        ];
+        const state = {
+            ...initialState,
+            visibleExpenses
+        };
+
+        //Expected order 3, 1, 2
+        expect(
+            reducer(state, actions.checkDefaultExpenses(45, visibleExpenses))
+        )
+        .to.deep.equal({
+            ...state,
+            checked: [ 3, 1 ],
+            totalChecked: 40,
+            remainingBalance: 5
+        });
+    });
+
     describe('TOGGLE_EXPENSE', () => {
-        const expenses = createExpenses([ yesterday, 10, today, 15, tomorrow, 28 ]);
+        const expenses = createExpenses([ 10, 15, 28 ]);
 
         it("Checks a new expense", () => {
             const state = {
@@ -90,7 +113,4 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         });
     });
 
-    describe('CHECK_DEFAULT_EXPENSES', () => {
-
-    });
 });

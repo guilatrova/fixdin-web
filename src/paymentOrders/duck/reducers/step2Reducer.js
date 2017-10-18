@@ -1,4 +1,5 @@
 import types from '../types';
+import { comparators } from '../../../transactions/transactions/duck';
 
 const initialState = {
     remainingBalance: undefined,
@@ -38,11 +39,40 @@ const toggleExpense = (state, action) => {
     }
 };
 
+const checkDefaultExpenses = (state, action) => {
+    const visibleExpenses = action.visibleExpenses;    
+    const sorted = visibleExpenses.sort(comparators.expensesToBePaidCompare);
+    const checked = [];
+    let remainingBalance = action.balance;
+    let totalChecked = 0;
+
+    for (let i in sorted) {
+        let expense = sorted[i];
+        const diffBalance = remainingBalance + expense.value; //It's plus because expense is already negative
+
+        if (diffBalance > 0) {
+            remainingBalance = diffBalance;
+            checked.push(expense.id);
+            totalChecked += -expense.value;
+        }
+    }
+
+    return {
+        ...state,
+        checked,
+        totalChecked,
+        remainingBalance
+    }
+}
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
         case types.TOGGLE_EXPENSE:
             return toggleExpense(state, action);
+
+        case types.CHECK_DEFAULT_EXPENSES:
+            return checkDefaultExpenses(state, action);
 
         default:
             return state;

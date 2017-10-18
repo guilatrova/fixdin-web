@@ -53,6 +53,14 @@ const toggleExpense = (expenseIds) => {
     }
 }
 
+const checkDefaultExpenses = (balance, visibleExpenses) => {
+    return {
+        type: types.CHECK_DEFAULT_EXPENSES,
+        balance,
+        visibleExpenses
+    }
+}
+
 export default {
     checkDefaultIncomes,
     changeUntilDate,
@@ -60,5 +68,6 @@ export default {
     toggleIncome,
     reset,
 
-    toggleExpense
+    toggleExpense,
+    checkDefaultExpenses
 };
