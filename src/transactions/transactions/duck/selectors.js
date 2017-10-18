@@ -1,4 +1,4 @@
-import comparators from './comparators';
+import comparators from '../comparators';
 import { INCOME, EXPENSE } from '../../kinds';
 
 const getErrors = (state) => state.transactions.errors;

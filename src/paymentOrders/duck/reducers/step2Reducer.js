@@ -1,5 +1,5 @@
 import types from '../types';
-import { comparators } from '../../../transactions/transactions/duck';
+import comparators from '../../../transactions/transactions/comparators';
 
 const initialState = {
     remainingBalance: undefined,
