@@ -22,9 +22,20 @@ const styles = theme => ({
 export class Step1 extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
+        
+        currentBalance: PropTypes.number.isRequired,
         visibleIncomes: PropTypes.array.isRequired,
+        total: PropTypes.number.isRequired,
+        totalChecked: PropTypes.number.isRequired,
+        valueToSave: PropTypes.number.isRequired,
+        untilDate: PropTypes.object.isRequired,
+
+        onChangeUntilDate: PropTypes.func.isRequired,
+        onChangeValueToSave: PropTypes.func.isRequired,
+        onToggle: PropTypes.func.isRequired,
+        onStart: PropTypes.func.isRequired,
+        
         onChange: PropTypes.func.isRequired,
-        currentBalance: PropTypes.number.isRequired
     }
 
     componentDidMount() {
@@ -34,20 +45,6 @@ export class Step1 extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState != this.state) {
             this.props.onChange(this.state);
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.visibleIncomes.length == 0 && nextProps.visibleIncomes.length > 0) {
-
-            // const newChecked = this.getDefaultIncomesToBeChecked(nextProps.incomes);
-            // const visibleIncomes = this.getIncomesUntil(nextProps.incomes);
-
-            // this.setState({ 
-            //     checked: newChecked,                
-            //     visibleIncomes,
-            //     ...this.getSum(newChecked, visibleIncomes)
-            // });
         }
     }
 
@@ -135,8 +132,7 @@ const mapDispatchToProps = (dispatch) => {
         onStart: () => {
             dispatch(operations.reset());
             dispatch(operations.checkDefaultIncomes());
-        },
-        onClear: () => dispatch(operations.reset())
+        }
     }
 }
 
