@@ -34,18 +34,10 @@ export class Step1 extends React.Component {
         onChangeValueToSave: PropTypes.func.isRequired,
         onToggle: PropTypes.func.isRequired,
         onStart: PropTypes.func.isRequired,
-        
-        onChange: PropTypes.func.isRequired,
     }
 
     componentDidMount() {
         this.props.onStart();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState != this.state) {
-            this.props.onChange(this.state);
-        }
     }
 
     handleDateChange = untilDate => {
@@ -130,7 +122,7 @@ const mapDispatchToProps = (dispatch) => {
         onChangeValueToSave: (value) => dispatch(operations.changeValueToSave(value)),
         onToggle: (ids) => dispatch(operations.toggleIncome(ids)),
         onStart: () => {
-            dispatch(operations.reset());
+            dispatch(operations.resetStep1());
             dispatch(operations.checkDefaultIncomes());
         }
     }

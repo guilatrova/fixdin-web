@@ -7,7 +7,6 @@ import { withStyles } from 'material-ui/styles';
 import { Grid, Row, Col } from '@sketchpixy/rubix';
 
 import TransactionsList from '../components/TransactionsList';
-import { selectors as transactionsSelectors, comparators } from '../../transactions/transactions/duck';
 import { operations, selectors } from '../duck';
 import { formatCurrencyDisplay } from '../../services/formatter';
 
@@ -21,76 +20,30 @@ const styles = theme => ({
 class Step2 extends React.Component {
     static propTypes = {
         balanceAvailable: PropTypes.number.isRequired,
-        expenses: PropTypes.array.isRequired,
-        until: PropTypes.object.isRequired,
-        onChange: PropTypes.func.isRequired
+        visibleExpenses: PropTypes.array.isRequired,
+        checked: PropTypes.array.isRequired,
+        remainingBalance: PropTypes.number.isRequired,
+
+        onToggle: PropTypes.func.isRequired,
+        onStart: PropTypes.func.isRequired,
     }
 
-    constructor(props) {
-        super(props);
-
-        const visibleExpenses = props.expenses.filter(expense => expense.due_date.isSameOrBefore(props.until));
-        const { checked, remainingBalance } = 
-            this.getDefaultExpensesToBeCheckedWithRemainingBalance(visibleExpenses);
-
-        this.state = {
-            checked,
-            visibleExpenses,
-            remainingBalance
-        }
+    componentDidMount() {
+        this.props.onStart();
     }
 
     handleToggle = value => {
-        const { checked } = this.state;
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        this.setState({
-            checked: newChecked,
-            remainingBalance: this.getRemainingBalance(newChecked)
-        });
+        this.props.onToggle(value);
     };
 
-    getDefaultExpensesToBeCheckedWithRemainingBalance = expenses => {
-        const sorted = expenses.sort(comparators.expensesToBePaidCompare);
-        const checked = [];
-        let balance = this.props.balanceAvailable;
-
-        for (let i in sorted) {
-            let expense = sorted[i];
-            const diffBalance = balance + expense.value; //It's plus because expense is already negative
-
-            if (diffBalance > 0) {
-                balance = diffBalance;
-                checked.push(expense.id);
-            }
-        }
-
-        return {
-            checked,
-            remainingBalance: balance
-        }
-    }
-
-    getRemainingBalance = checked => {
-        const filtered = this.state.visibleExpenses
-            .filter(expense => checked.includes(expense.id)).map(expense => expense.value);
-
-        const totalChecked = filtered.reduce((acc, cur) => acc + cur, 0);
-        const total = this.props.balanceAvailable + totalChecked; //It's plus because expense is already negative
-
-        return total;
-    }
-
     render() {
-        const { checked, visibleExpenses, remainingBalance } = this.state;
-        const { classes, expenses, balanceAvailable } = this.props;
+        const { 
+            classes, 
+            balanceAvailable, 
+            visibleExpenses, 
+            checked, 
+            remainingBalance 
+        } = this.props;
 
         return (
             <div className={classes.root}>
@@ -111,7 +64,20 @@ class Step2 extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        expenses: transactionsSelectors.getPendingExpensesUntil(state)
+        balanceAvailable: selectors.step1.getTotal(state),
+        visibleExpenses: selectors.step2.getVisibleExpenses(state),
+        checked: selectors.step2.getChecked(state),
+        remainingBalance: selectors.step2.getRemainingBalance(state)
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onToggle: (id) => dispatch(operations.toggleExpense(id)),
+        onStart: () => {
+            dispatch(operations.resetStep2());
+            dispatch(operations.checkDefaultExpenses());
+        }
     }
 }
 
