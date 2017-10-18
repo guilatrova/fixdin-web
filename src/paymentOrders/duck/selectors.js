@@ -8,7 +8,7 @@ const getUntilDate = (state) => fromStep1(state).untilDate;
 
 const getTotal = (state) => fromStep1(state).total;
 
-const getTotalToSave = (state) => fromStep1(state).toSave;
+const getValueToSave = (state) => fromStep1(state).toSave;
 
 const getTotalChecked = (state) => fromStep1(state).totalChecked;
 
@@ -17,6 +17,6 @@ export default {
     getVisibleIncomes,
     getUntilDate,
     getTotal,
-    getTotalToSave,
+    getValueToSave,
     getTotalChecked
 }
