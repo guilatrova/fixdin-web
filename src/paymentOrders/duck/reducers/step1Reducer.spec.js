@@ -180,7 +180,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
         }
 
         expect(
-            reducer(state, actions.reset(25, [incomes[0], incomes[1]]))
+            reducer(state, actions.resetStep1(25, [incomes[0], incomes[1]]))
         )
         .to.deep.equal({
             ...initialState,

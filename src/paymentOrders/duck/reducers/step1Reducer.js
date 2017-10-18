@@ -116,7 +116,7 @@ export default function reducer(state = initialState, action) {
         case types.CHANGE_VALUE_TO_SAVE:
             return changeValueToSave(state, action);
 
-        case types.RESET:
+        case types.RESET_STEP1:
             return reset(state, action);
 
         default:

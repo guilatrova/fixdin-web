@@ -33,9 +33,9 @@ const changeValueToSave = (toSave) => {
     }
 }
 
-const reset = (balance, pendingIncomes) => {
+const resetStep1 = (balance, pendingIncomes) => {
     return {
-        type: types.RESET,
+        type: types.RESET_STEP1,
         balance,
         pendingIncomes
     }
@@ -61,13 +61,22 @@ const checkDefaultExpenses = (balance, visibleExpenses) => {
     }
 }
 
+const resetStep2 = (remainingBalance, visibleExpenses) => {
+    return {
+        type: types.RESET_STEP2,
+        remainingBalance,
+        visibleExpenses
+    }
+}
+
 export default {
     checkDefaultIncomes,
     changeUntilDate,
     changeValueToSave,
     toggleIncome,
-    reset,
+    resetStep1,
 
     toggleExpense,
-    checkDefaultExpenses
+    checkDefaultExpenses,
+    resetStep2
 };

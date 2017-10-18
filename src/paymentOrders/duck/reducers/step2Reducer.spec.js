@@ -113,4 +113,24 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         });
     });
 
+    it('RESET_STEP2', () => {
+        const state = {
+            ...initialState,
+            remainingBalance: 100,
+            checked: [ 2, 3 ],
+            totalChecked: 140,
+            visibleExpenses: createExpenses([ 30, 40, 70 ])
+        };
+
+        expect(
+            reducer(state, actions.resetStep2(20, createExpenses([ 30, 40 ])))
+        ).to.deep.equal({
+            ...state,
+            visibleExpenses: createExpenses([ 30, 40 ]),
+            remainingBalance: 20,
+            checked: [],
+            totalChecked: 0
+        });
+    });
+
 });

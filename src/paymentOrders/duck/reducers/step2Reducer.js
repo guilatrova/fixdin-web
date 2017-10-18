@@ -74,6 +74,15 @@ export default function reducer(state = initialState, action) {
         case types.CHECK_DEFAULT_EXPENSES:
             return checkDefaultExpenses(state, action);
 
+        case types.RESET_STEP2:
+            return {
+                ...state,
+                remainingBalance: action.remainingBalance,
+                visibleExpenses: action.visibleExpenses,
+                checked: [],
+                totalChecked: 0
+            }
+
         default:
             return state;
     }
