@@ -1,5 +1,6 @@
 import types from '../types';
 import moment from 'moment';
+import toggleTransaction from './toggleTransaction';
 
 const today = () => moment({ hour: 0});
 
@@ -48,26 +49,8 @@ const changeUntilDate = (state, action) => {
 };
 
 const toggleIncome = (state, action) => {
-    const checked = state.checked.slice();
-    const newChecked = [...checked];
-
-    for (let i = 0; i < action.incomeIds.length; i++) {
-        const incomeId = action.incomeIds[i];
-        const currentIndex = checked.indexOf(incomeId);
-
-        if (currentIndex === -1) {
-            newChecked.push(incomeId);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-    }
-
-    const diffTotalChecked = state.visibleIncomes
-        .filter(income => newChecked.includes(income.id))
-        .map(income => income.value)
-        .reduce((acc, cur) => acc + cur, 0) - state.totalChecked;
-
-    const totalChecked = diffTotalChecked + state.totalChecked;
+    const { newChecked, diffTotalChecked, totalChecked } = 
+        toggleTransaction(state.checked, action.incomeIds, state.visibleIncomes, state.totalChecked);
     const total = diffTotalChecked + state.total;
     
     return {
