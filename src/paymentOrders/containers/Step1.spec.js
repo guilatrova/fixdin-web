@@ -1,6 +1,6 @@
 import { Step1 } from './Step1';
 
-describe('PaymentOrder <Step1 />', () => {
+xdescribe('PaymentOrder <Step1 />', () => {
     const props = {
         classes: { root: "" },
         currentBalance: 10,

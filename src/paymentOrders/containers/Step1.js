@@ -115,12 +115,12 @@ export class Step1 extends React.Component {
 const mapStateToProps = (state) => {
     return {
         currentBalance: balancesSelectors.getRealBalance(state),
-        visibleIncomes: selectors.getVisibleIncomes(state),
-        total: selectors.getTotal(state),
-        totalChecked: selectors.getTotalChecked(state),
-        valueToSave: formatCurrencyDisplay(selectors.getValueToSave(state)),
-        untilDate: selectors.getUntilDate(state),
-        checked: selectors.getChecked(state)
+        visibleIncomes: selectors.step1.getVisibleIncomes(state),
+        total: selectors.step1.getTotal(state),
+        totalChecked: selectors.step1.getTotalChecked(state),
+        valueToSave: formatCurrencyDisplay(selectors.step1.getValueToSave(state)),
+        untilDate: selectors.step1.getUntilDate(state),
+        checked: selectors.step1.getChecked(state)
     }
 }
 

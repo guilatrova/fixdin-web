@@ -1,5 +1,6 @@
 import moment from 'moment';
 import actions from './actions';
+import selectors from './selectors';
 import { selectors as balanceSelectors } from './../../balances/duck';
 import { selectors as transactionsSelectors } from '../../transactions/transactions/duck';
 
@@ -16,10 +17,25 @@ const changeUntilDate = (untilDate) => (dispatch, getState) => {
     dispatch(actions.changeUntilDate(untilDate, pendingIncomes));
 }
 
-const reset = () => (dispatch, getState) => {
+const resetStep1 = () => (dispatch, getState) => {
     const balance = balanceSelectors.getRealBalance(getState());
     const pendingIncomes = transactionsSelectors.getPendingIncomesUntil(getState(), moment({ hour: 0 }));
-    dispatch(actions.reset(balance, pendingIncomes));
+    dispatch(actions.resetStep1(balance, pendingIncomes));
+}
+
+//Step2
+const toggleExpense = actions.toggleExpense;
+
+const checkDefaultExpenses = () => (dispatch, getState) => {
+    const balance = selectors.getTotal(getState());
+    const expenses = transactionsSelectors.getPendingExpensesUntil(getState());
+    dispatch(actions.resetStep2(balance, expenses));
+}
+
+const resetStep2 = () => (dispatch, getState) => {
+    const balance = selectors.getTotal(getState());
+    const expenses = transactionsSelectors.getPendingExpensesUntil(getState());
+    dispatch(actions.resetStep2(balance, expenses));
 }
 
 export default {
@@ -27,5 +43,9 @@ export default {
     changeValueToSave,
     checkDefaultIncomes,
     changeUntilDate,
-    reset
+    resetStep1,
+
+    toggleExpense,
+    checkDefaultExpenses,
+    resetStep2
 }

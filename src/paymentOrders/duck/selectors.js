@@ -13,10 +13,12 @@ const getValueToSave = (state) => fromStep1(state).toSave;
 const getTotalChecked = (state) => fromStep1(state).totalChecked;
 
 export default {
-    getChecked,
-    getVisibleIncomes,
-    getUntilDate,
-    getTotal,
-    getValueToSave,
-    getTotalChecked
+    step1: {
+        getChecked,
+        getVisibleIncomes,
+        getUntilDate,
+        getTotal,
+        getValueToSave,
+        getTotalChecked
+    }
 }
