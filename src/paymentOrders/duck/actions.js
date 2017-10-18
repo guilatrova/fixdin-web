@@ -41,10 +41,24 @@ const reset = (balance, pendingIncomes) => {
     }
 }
 
+//Step2
+const toggleExpense = (expenseIds) => {
+    if (!Array.isArray(expenseIds)) {
+        expenseIds = [ expenseIds ];
+    }
+
+    return {
+        type: types.TOGGLE_EXPENSE,
+        expenseIds
+    }
+}
+
 export default {
     checkDefaultIncomes,
     changeUntilDate,
     changeValueToSave,
     toggleIncome,
-    reset
+    reset,
+
+    toggleExpense
 };

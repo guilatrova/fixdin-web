@@ -1,7 +1,7 @@
 import reducer from './step1Reducer';
 import actions from '../actions';
 
-describe('paymentOrder/duck/reducers/Step1', () => {
+describe('paymentOrders/duck/reducers/Step1', () => {
 
     const today = moment({ hour: 0});
     const yesterday = moment({ hour: 0}).subtract(1, 'day');

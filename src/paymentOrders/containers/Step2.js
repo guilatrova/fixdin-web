@@ -7,9 +7,9 @@ import { withStyles } from 'material-ui/styles';
 import { Grid, Row, Col } from '@sketchpixy/rubix';
 
 import TransactionsList from '../components/TransactionsList';
-import { selectors as transactionsSelectors } from '../../transactions/transactions/duck';
+import { selectors as transactionsSelectors, comparators } from '../../transactions/transactions/duck';
+import { operations, selectors } from '../duck';
 import { formatCurrencyDisplay } from '../../services/formatter';
-import { comparators } from '../../transactions/transactions/duck';
 
 const styles = theme => ({
     root: {
