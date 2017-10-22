@@ -3,6 +3,7 @@ import saveReducer from './saveReducer';
 import filterReducer from './filterReducer';
 import fetchReducer from './fetchReducer';
 import deleteReducer from './deleteReducer';
+import payReducer from './payReducer';
 
 const initialState = {
     transactions: [],
@@ -30,6 +31,9 @@ export default function reducer(state = initialState, action) {
         case types.DELETE_ALL_PERIODIC_TRANSACTIONS:
         case types.DELETE_THIS_AND_NEXT_TRANSACTIONS:
             return deleteReducer(state, action);
+
+        case types.PAY_TRANSACTIONS:
+            return payReducer(state, action);
 
         case types.CLEAR_FILTERS:
             return {

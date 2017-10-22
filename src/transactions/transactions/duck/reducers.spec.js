@@ -270,7 +270,7 @@ describe('transactions/duck/reducers', () => {
                 editingTransaction: {}
             })
         })
-    })
+    });
 
     describe('COPY_TRANSACTION', () => {
 
@@ -294,7 +294,7 @@ describe('transactions/duck/reducers', () => {
                 }
             });
         })
-    })
+    });
 
     describe('DELETE_TRANSACTION', () => {
         const initialDeleteState = {
@@ -405,7 +405,7 @@ describe('transactions/duck/reducers', () => {
             });
         })
 
-    })
+    });
 
     describe('FILTER_TRANSACTIONS', () => {
 
@@ -446,7 +446,7 @@ describe('transactions/duck/reducers', () => {
             });
         })
 
-    })
+    });
 
     describe('CLEAR_FILTERS', () => {
         it('should be handled', () => {
@@ -460,6 +460,43 @@ describe('transactions/duck/reducers', () => {
             )
             .to.be.deep.equal(initialState);
         })
-    })
+    });
+
+    describe('PAY_TRANSACTIONS', () => {
+
+        it('should be handled', () => {
+            expect(
+                reducer(undefined, actions.payTransactions([ 1, 2]))
+            ).to.deep.equal({
+                ...initialState,
+                isFetching: true
+            });
+        });
+
+        it('should be handled when successful', () => {
+            const transactions = [ createTransaction({ id: 1}), createTransaction({ id: 2}) ]
+            
+            expect(
+                reducer(undefined, actions.receivePayTransactions('success', transactions.map(t => t.send)))
+            ).to.deep.equal({
+                ...initialState,
+                isFetching: false,
+                transactions: transactions.map(t => t.expect),
+            })
+        });
+
+        it('should be handled when failed', () => {
+            const errors = { detail: 'unauthorized' };
+                        
+            expect(
+                reducer(undefined, actions.receivePayTransactions('fail', errors))
+            ).to.deep.equal({
+                ...initialState,
+                isFetching: false,
+                errors,
+            })
+        });
+
+    });
 
 })

@@ -122,6 +122,29 @@ function clearFilters() {
     }
 }
 
+//PAY
+function payTransactions(ids) {
+    return {
+        type: types.PAY_TRANSACTIONS
+    }
+}
+
+function receivePayTransactions(result, data) {
+    if (result === 'success') {
+        return {
+            type: types.PAY_TRANSACTIONS,
+            result,
+            transactions: data.map(transaction => formatTransactionReceived(transaction))
+        }
+    }
+
+    return {
+        type: types.PAY_TRANSACTIONS,
+        result,
+        errors: data
+    }
+}
+
 export default {
     requestTransactions,
     receiveTransactions,
@@ -139,5 +162,8 @@ export default {
 
     requestFilterTransactions,
     receiveFilteredTransactions,
-    clearFilters
+    clearFilters,
+
+    payTransactions,
+    receivePayTransactions
 }

@@ -9,6 +9,7 @@ import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 
 import Step1 from './Step1';
 import Step2 from './Step2';
+import Step3 from './Step3';
 
 const styles = {
     root: {
@@ -40,11 +41,19 @@ class PaymentOrderStepper extends React.Component {
 
     renderStep = () => {
         switch(this.state.activeStep) {
+
+            case 0:
+                return <Step1 />
+
             case 1:
                 return <Step2 />
             
+            case 2:
+                return <Step3 />
+
             default:
-                return <Step1 />
+                console.error("step: " + this.state.activeStep);
+                return <h1>INVALID STEP</h1>
         }
     }
     
