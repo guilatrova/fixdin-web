@@ -12,7 +12,9 @@ const initialState = {
 const toggleExpense = (state, action) => {
     const { newChecked, diffTotalChecked, totalChecked } = 
         toggleTransaction(state.checked, action.expenseIds, state.visibleExpenses, state.totalChecked);
-    const remainingBalance = state.remainingBalance - diffTotalChecked;
+    console.log('state', state.remainingBalance);
+    console.log('diff', diffTotalChecked);
+    const remainingBalance = state.remainingBalance + diffTotalChecked; //It's plus because expense is already negative
     
     return {
         ...state,

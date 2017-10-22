@@ -52,7 +52,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
     });
 
     describe('TOGGLE_EXPENSE', () => {
-        const expenses = createExpenses([ 10, 15, 28 ]);
+        const expenses = createExpenses([ -10, -15, -28 ]);
 
         it("Checks a new expense", () => {
             const state = {
@@ -60,7 +60,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 visibleExpenses: expenses,
                 checked: [ 1 ],
                 remainingBalance: 20,
-                totalChecked: 10
+                totalChecked: -10
             }
 
             expect(
@@ -69,7 +69,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 ...state,
                 checked: [ 1, 2 ],
                 remainingBalance: 5,
-                totalChecked: 25
+                totalChecked: -25
             });
         });
 
@@ -79,7 +79,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 visibleExpenses: expenses,
                 checked: [ 1, 2 ],
                 remainingBalance: 5,
-                totalChecked: 25
+                totalChecked: -25
             }
 
             expect(
@@ -88,7 +88,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 ...state,
                 checked: [ 1 ],
                 remainingBalance: 20,
-                totalChecked: 10
+                totalChecked: -10
             });
         });
 
@@ -97,7 +97,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 ...initialState,
                 visibleExpenses: expenses,
                 checked: [ 1, 3 ],
-                totalChecked: 38,
+                totalChecked: -38,
                 remainingBalance: 12
             };
 
@@ -107,7 +107,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             .to.deep.equal({
                 ...state,
                 checked: [ 1, 2 ],
-                totalChecked: 25,
+                totalChecked: -25,
                 remainingBalance: 25
             });
         });
