@@ -29,12 +29,12 @@ const toggleExpense = actions.toggleExpense;
 const checkDefaultExpenses = () => (dispatch, getState) => {
     const balance = selectors.step1.getTotal(getState());
     const expenses = transactionsSelectors.getPendingExpensesUntil(getState());
-    dispatch(actions.resetStep2(balance, expenses));
+    dispatch(actions.checkDefaultExpenses(balance, expenses));
 }
 
 const resetStep2 = () => (dispatch, getState) => {
     const balance = selectors.step1.getTotal(getState());
-    const expenses = transactionsSelectors.getPendingExpensesUntil(getState());
+    const expenses = transactionsSelectors.getPendingExpensesUntil(getState());    
     dispatch(actions.resetStep2(balance, expenses));
 }
 
