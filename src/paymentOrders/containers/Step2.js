@@ -28,6 +28,10 @@ class Step2 extends React.Component {
         onStart: PropTypes.func.isRequired,
     }
 
+    static defaultProps = {
+        remainingBalance: 0
+    }
+
     componentDidMount() {
         this.props.onStart();
     }
@@ -82,5 +86,5 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default withStyles(styles)(
-    connect(mapStateToProps)(Step2)
+    connect(mapStateToProps, mapDispatchToProps)(Step2)
 );

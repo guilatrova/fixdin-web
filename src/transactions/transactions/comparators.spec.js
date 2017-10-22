@@ -1,6 +1,6 @@
 import comparators from './comparators';
 
-describe('transactions/duck/comparators', () => {
+xdescribe('transactions/duck/comparators', () => {
     
     const testComparator = (property, comparator, lesserValue, greaterValue) => {
         it('when A is lesser', () => {
