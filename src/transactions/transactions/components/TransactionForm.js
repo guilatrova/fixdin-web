@@ -168,7 +168,7 @@ export default class TransactionForm extends React.Component {
         if (checked) {
             this.setState({ 
                 periodic: {
-                    period: "daily"
+                    frequency: "daily"
                 } 
             });
         }

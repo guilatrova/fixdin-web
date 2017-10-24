@@ -17,8 +17,8 @@ export default class Periodic extends React.Component{
     }
 
     state = {
-        period: 'daily',
-        distance: "",
+        frequency: 'daily',
+        interval: "",
         how_many: "",
         until: undefined
     }
@@ -48,17 +48,17 @@ export default class Periodic extends React.Component{
         return (
             <div>
             <HorizontalFormGroupError
-                id="distance"
+                id="interval"
                 label="A cada"
-                value={this.state.distance}
-                onChange={(e) => this.handleChange('distance', e.target.value)} />
+                value={this.state.interval}
+                onChange={(e) => this.handleChange('interval', e.target.value)} />
             
             <FormControl>
                 <InputLabel htmlFor="input-frequency">Frequência</InputLabel>
                 <Select
-                    name="period"
-                    value={this.state.period}
-                    onChange={(e) => this.handleChange('period', e.target.value)}
+                    name="frequency"
+                    value={this.state.frequency}
+                    onChange={(e) => this.handleChange('frequency', e.target.value)}
                     input={<Input id="input-frequency" />}
                 >
                     <MenuItem value={'daily'}>dias</MenuItem>

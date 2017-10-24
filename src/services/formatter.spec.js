@@ -76,10 +76,10 @@ describe('services/formatter', () => {
                     value: "R$ 15,00",
                     priority: "",
                     periodic: {
-                        period: 'daily',
+                        frequency: 'daily',
                         how_many: "",
                         until,
-                        distance: 1
+                        interval: 1
                     }
                 };
                 const transactionPostFormatted = {
@@ -89,10 +89,10 @@ describe('services/formatter', () => {
                     value: -15,
                     priority: undefined,
                     periodic: {
-                        period: 'daily',
+                        frequency: 'daily',
                         until: '2017-01-07',
                         how_many: undefined,
-                        distance: 1
+                        interval: 1
                     }
                 }
 
