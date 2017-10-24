@@ -125,6 +125,11 @@ export class TransactionPage extends React.Component {
         this.props.onEdit(id);        
     }
 
+    handlePay = (id) => {
+        const kindId = this.props.transactions.find(transaction => transaction.id == id).kind;        
+        this.props.onPay(getKind(kindId), id);
+    }
+
     handleDelete(id) {
         const toDeletePeriodicTransaction = this.props.transactions.find(transaction => transaction.id == id).periodic_transaction;
         this.setState({ 
@@ -190,6 +195,7 @@ export class TransactionPage extends React.Component {
                                             onFilter={this.handleShowFilter}
                                             onRefresh={this.handleRefresh}
                                             onEdit={this.handleEdit}
+                                            onPay={this.handlePay}
                                             onDelete={this.handleDelete}
                                             onCopy={this.handleCopy}>
 
@@ -264,6 +270,7 @@ const mapDispatchToProps = (dispatch) => {
         onDelete: (id, kind, type) => dispatch(operations.deleteTransaction(id, kind, type)),
         onEdit: (id) => dispatch(operations.editTransaction(id)),
         onCopy: (id) => dispatch(operations.copyTransaction(id)),
+        onPay: (kind, id) => dispatch(operations.payTransactions(kind, id)),
         onFinishEdit: () => {
             dispatch(operations.finishEditTransaction()),
             dispatch(categoryOperations.finishEditCategory())

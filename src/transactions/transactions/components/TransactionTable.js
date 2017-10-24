@@ -14,6 +14,7 @@ import { MenuItem } from 'material-ui/Menu';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
+import MoneyIcon from 'material-ui-icons/AttachMoney';
 
 import { sort } from './../../../common/sorts';
 import TableSort from './../../../common/components/material/TableSort';
@@ -22,6 +23,17 @@ import CollapsibleMenu from './../../../common/components/material/CollapsibleMe
 import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
 
 class TransactionTable extends React.Component {
+    static propTypes = {
+        classes: PropTypes.object.isRequired,
+        transactions: PropTypes.array.isRequired,
+        categories: PropTypes.array.isRequired,
+        onEdit: PropTypes.func.isRequired,
+        onPay: PropTypes.func.isRequired,
+        onCopy: PropTypes.func.isRequired,
+        onDelete: PropTypes.func.isRequired,
+        isFetching: PropTypes.bool.isRequired
+    }
+    
     constructor(props) {
         super(props);
 
@@ -52,14 +64,22 @@ class TransactionTable extends React.Component {
     }
 
     formatOptions(transaction) {
-        const { onEdit, onDelete, onCopy } = this.props;
+        const { onEdit, onDelete, onCopy, onPay, isFetching } = this.props;
+        const pendingPayment = !transaction.payment_date;
 
         return (
-            <CollapsibleMenu>
-                <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
-                <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
-                <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
-            </CollapsibleMenu>
+            <div>
+                {pendingPayment && <div className="col-xs-6">
+                    <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>
+                </div>}
+                <div className="col-xs-6 pull-right">
+                    <CollapsibleMenu>
+                        <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
+                        <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
+                        <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
+                    </CollapsibleMenu>
+                </div>
+            </div>
         );
     }
 
@@ -148,14 +168,5 @@ class TransactionTable extends React.Component {
         );
     }
 }
-
-TransactionTable.propTypes = {
-    classes: PropTypes.object.isRequired,
-    transactions: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired,
-    onEdit: PropTypes.func,
-    onCopy: PropTypes.func,
-    onDelete: PropTypes.func,
-};
 
 export default TransactionTable;

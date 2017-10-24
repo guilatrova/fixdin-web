@@ -168,7 +168,7 @@ const fetchTransactions = (kind) => new FetchOperation(kind);
 const filterTransactions = (filters) => new FilterOperation(filters);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
-const payTransactions = (kind, ids) => { console.log('ids', ids); return new PayOperation(kind, ids) };
+const payTransactions = (kind, ids) => new PayOperation(kind, ids);
 
 export default {
     copyTransaction,

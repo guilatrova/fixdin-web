@@ -56,7 +56,7 @@ const TransactionTableContainer = ({ classes, children, onRefresh, onFilter, isF
             </div>
 
             <div className={classes.table}>
-                <TransactionTable classes={classes} transactions={transactions} {...other} />
+                <TransactionTable classes={classes} transactions={transactions} isFetching={isFetching} {...other} />
             </div>
         </Paper>
     );
