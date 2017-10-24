@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { withStyles } from 'material-ui/styles';
 import MobileStepper from 'material-ui/MobileStepper';
@@ -10,6 +11,10 @@ import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
+import { operations as balanceOperations } from '../../balances/duck';
+import { operations as transactionOperations } from '../../transactions/transactions/duck';
+import { operations } from '../duck';
+import { ALL } from '../../transactions/kinds';
 
 const styles = {
     root: {
@@ -27,6 +32,10 @@ class PaymentOrderStepper extends React.Component {
         activeStep: 0,
     };
     
+    componentDidMount() {
+        this.props.onStart();
+    }
+
     handleNext = () => {
         this.setState({
             activeStep: this.state.activeStep + 1,
@@ -37,7 +46,7 @@ class PaymentOrderStepper extends React.Component {
         this.setState({
             activeStep: this.state.activeStep - 1,
         });
-    };
+    };    
 
     renderStep = () => {
         switch(this.state.activeStep) {
@@ -88,4 +97,17 @@ class PaymentOrderStepper extends React.Component {
     }
 }
 
-export default withStyles(styles, { withTheme: true })(PaymentOrderStepper);
+const mapDispatchToProps = (dispatch) => {    
+    return {
+        onStart: () => {
+            dispatch(balanceOperations.fetchRealBalance());
+            dispatch(transactionOperations.fetchTransactions(ALL)).then(() => {
+                dispatch(operations.resetStep1());
+            });
+        }
+    }
+}
+
+export default withStyles(styles, { withTheme: true })(
+    connect(null, mapDispatchToProps)(PaymentOrderStepper)
+);
