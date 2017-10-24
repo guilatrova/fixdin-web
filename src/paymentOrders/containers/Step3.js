@@ -6,7 +6,9 @@ import { Button } from '@sketchpixy/rubix';
 
 import { selectors } from '../duck';
 import { selectors as balanceSelectors } from '../../balances/duck';
+import { operations as transactionsOperation } from '../../transactions/transactions/duck';
 import { formatCurrencyDisplay } from '../../services/formatter';
+import { EXPENSE } from '../../transactions/kinds';
 
 class Step3 extends React.Component {
     static propTypes = {
@@ -14,7 +16,8 @@ class Step3 extends React.Component {
         totalIncomes: PropTypes.number.isRequired,
         toSave: PropTypes.number.isRequired,
         totalExpenses: PropTypes.number.isRequired,
-        expectedBalance: PropTypes.number.isRequired
+        expectedBalance: PropTypes.number.isRequired,
+        checkedExpenses: PropTypes.array.isRequired
     }
 
     render() {
@@ -32,7 +35,7 @@ class Step3 extends React.Component {
                 <h2>Despesas a pagar: {totalExpenses}</h2>
                 <h1>Saldo final: {expectedBalance}</h1>
             
-                <Button onClick={() => {}}>Pagar todos</Button>
+                <Button onClick={() => this.props.onSubmit(this.props.checkedExpenses)}>Pagar todos</Button>
             </div>
         );
     }
@@ -44,13 +47,14 @@ const mapStateToProps = (state) => {
         totalIncomes: selectors.step1.getTotalChecked(state),
         toSave: selectors.step1.getValueToSave(state),
         totalExpenses: selectors.step2.getTotalChecked(state),
+        checkedExpenses: selectors.step2.getChecked(state),
         expectedBalance: selectors.step3.getExpectedBalanceAfterPayment(state)
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSubmit: dispatch()
+        onSubmit: (ids) => dispatch(transactionsOperation.payTransactions(EXPENSE, ids))
     }
 }
 

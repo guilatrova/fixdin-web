@@ -125,7 +125,8 @@ function clearFilters() {
 //PAY
 function payTransactions(ids) {
     return {
-        type: types.PAY_TRANSACTIONS
+        type: types.PAY_TRANSACTIONS,
+        ids
     }
 }
 

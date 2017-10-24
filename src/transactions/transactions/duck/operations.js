@@ -1,8 +1,9 @@
+import moment from 'moment';
 import actions from './actions';
 import types from './types';
 import createApi from '../../../services/api';
 import handleError from '../../../services/genericErrorHandler';
-import { formatTransactionToSend } from '../../../services/formatter';
+import { formatTransactionToSend, formatDate } from '../../../services/formatter';
 import getQueryParams from '../../../services/query';
 import { Operation } from './../../../common/genericDuck/operations';
 import { ALL } from '../../kinds';
@@ -130,6 +131,35 @@ class DeleteOperation extends Operation {
     }
 }
 
+class PayOperation extends Operation {
+    constructor(kind, ids) {
+        super(actions.payTransactions, actions.receivePayTransactions);
+        this.kind = kind;
+        this.ids = ids;
+
+        return this.dispatch();
+    }
+
+    getSucceedData(raw) {
+        if (Array.isArray(raw))
+            return raw;
+
+        return [raw];
+    }
+
+    getApiPromise(api) {
+        const { ids, kind } = this;
+        const payment_date = formatDate(moment());
+        const data = { payment_date };
+
+        // It can be /?ids=1,2 or /1
+        const queryParams = Array.isArray(ids) ? `?ids=${ids.join(',')}` : ids;
+        const url = kind.apiEndpoint + queryParams;
+
+        return api.patch(url, data);
+    }
+}
+
 const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
@@ -138,6 +168,7 @@ const fetchTransactions = (kind) => new FetchOperation(kind);
 const filterTransactions = (filters) => new FilterOperation(filters);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
+const payTransactions = (kind, ids) => { console.log('ids', ids); return new PayOperation(kind, ids) };
 
 export default {
     copyTransaction,
@@ -147,5 +178,6 @@ export default {
     filterTransactions,
     clearFilters,
     saveTransaction,
-    deleteTransaction
+    deleteTransaction,
+    payTransactions
 };
