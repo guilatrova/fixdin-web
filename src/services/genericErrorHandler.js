@@ -7,13 +7,14 @@ const isTokenExpiredError = (err) => {
 }
 
 const redirectToLogin = () => {
-    const baseUrl = window.location.origin;    
+    const baseUrl = window.location.origin;
     window.location.replace(`${baseUrl}/Login`);
 }
 
 export default function tryHandleAPIResponse(err) {
     if (err.response) {
         if (isTokenExpiredError(err)) {
+            console.log('Expired token detected. Redirecting to login...');
             redirectToLogin();
         }
         return err.response.data;

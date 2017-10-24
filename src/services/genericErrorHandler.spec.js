@@ -2,14 +2,16 @@ import handleError from './genericErrorHandler';
 
 describe('services/genericErrorHandler', () => {
 
-    let consoleErrorStub;
+    let consoleErrorStub, replaceStub;
 
     beforeEach(() => {
         consoleErrorStub = sinon.stub(console, 'error'); //Supress
+        replaceStub = sinon.stub(window.location, 'replace');
     });
 
     afterEach(() => {
         console.error.restore();
+        window.location.replace.restore();
     });
 
     it('should get error message from response', () => {
@@ -35,6 +37,21 @@ describe('services/genericErrorHandler', () => {
         };
 
         expect(handleError(err)).to.be.deep.equal(expected);
+
+    });
+
+    it('should redirect when token expires', () => {
+        const apiResponse = {
+            response: {
+                status: 401,
+                data: { detail: 'Token has expired'}
+            }
+        };        
+
+        handleError(apiResponse);
+        
+        expect(replaceStub.calledOnce).to.be.true;
+        expect(replaceStub.calledWith('null/Login')).to.be.true;
 
     });
 });
