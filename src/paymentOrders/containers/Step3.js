@@ -31,9 +31,9 @@ class Step3 extends React.Component {
                 <h2>Valor a poupar: {toSave}</h2>
                 <h2>Despesas a pagar: {totalExpenses}</h2>
                 <h1>Saldo final: {expectedBalance}</h1>
-            </div>
             
-            <Button onClick={}>Pagar todos</Button>
+                <Button onClick={() => {}}>Pagar todos</Button>
+            </div>
         );
     }
 }
