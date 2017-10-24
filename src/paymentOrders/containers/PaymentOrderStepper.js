@@ -103,6 +103,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(balanceOperations.fetchRealBalance());
             dispatch(transactionOperations.fetchTransactions(ALL)).then(() => {
                 dispatch(operations.resetStep1());
+                dispatch(operations.checkDefaultIncomes());
             });
         }
     }
