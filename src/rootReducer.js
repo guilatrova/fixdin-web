@@ -5,6 +5,7 @@ import categories from './transactions/categories/duck';
 import balances from './balances/duck';
 import reports from './reports/duck';
 import paymentOrders from './paymentOrders/duck';
+import integrations from './integrations/duck';
 
 const rootReducer = combineReducers({  
   users,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   balances,
   categories,
   reports,
-  paymentOrders
+  paymentOrders,
+  integrations
 });
 
 export default rootReducer;
