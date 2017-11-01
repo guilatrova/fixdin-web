@@ -5,7 +5,7 @@ import categories from './transactions/categories/duck';
 import balances from './balances/duck';
 import reports from './reports/duck';
 import paymentOrders from './paymentOrders/duck';
-import integrations from './integrations/duck';
+import integrations from './integrations/CPFL/duck';
 
 const rootReducer = combineReducers({  
   users,

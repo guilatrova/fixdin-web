@@ -12,6 +12,7 @@ import SignupPage from './users/containers/SignupPage';
 import TransactionPage from './transactions/transactions/containers/TransactionPage';
 import CategoryPage from  './transactions/categories/containers/CategoryPage';
 import PaymentOrderPage from './paymentOrders/containers/PaymentOrderPage';
+import CPFLPage from './integrations/CPFL/containers/CPFLSettingsPage';
 
 function isClient() {
    return typeof localStorage != 'undefined';
@@ -40,6 +41,7 @@ export default (
         <Route path='/categories/expenses' component={CategoryPage} kind={EXPENSE} />
         <Route path='/transactions' component={TransactionPage} />
         <Route path='/payment-order' component={PaymentOrderPage} />
+        <Route path='/cpfl' component={CPFLPage} />
       </Route>      
     </Router>
 );

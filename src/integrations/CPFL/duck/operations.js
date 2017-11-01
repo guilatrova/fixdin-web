@@ -25,7 +25,7 @@ class FetchSettingsOperation extends BaseSettingsOperation {
     }
 
     getApiPromise(api) {
-        return api.get(`integrations/cpfl`);
+        return api.get(`integrations/cpfl/`);
     }
 }
 
@@ -38,7 +38,7 @@ class UpdateSettingsOperation extends BaseSettingsOperation {
     }
 
     getApiPromise(api) {
-        return api.put(`integrations/cpfl`, this.data);
+        return api.put(`integrations/cpfl/`, this.data);
     }
 }
 
@@ -49,8 +49,8 @@ class RunServiceOperation extends Operation {
         return this.dispatch();
     }
 
-    getApiPromise() {
-        return api.post(`integrations/cpfl`);
+    getApiPromise(api) {
+        return api.post(`integrations/cpfl/`);
     }
 }
 
