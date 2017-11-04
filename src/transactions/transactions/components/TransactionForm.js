@@ -256,14 +256,14 @@ export default class TransactionForm extends React.Component {
 
             <HorizontalFormGroupError
                 id="priority"
-                label="Prioridade"
+                label="Importancia"
                 error={errors.priority}
                 value={this.state.priority}
                 onChange={this.handleChange} />
 
             <HorizontalFormGroupError
                 id="deadline"
-                label="Prazo"
+                label="Tolerância"
                 error={errors.deadline}
                 value={this.state.deadline}
                 onChange={this.handleChange} />

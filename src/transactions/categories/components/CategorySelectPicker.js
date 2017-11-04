@@ -47,7 +47,7 @@ class CategorySelectPicker extends React.Component {
 
         return (
             <Creatable
-                placeholder="Escolha uma categoria..."
+                placeholder="Selecionar..."
                 options={options}
                 isLoading={isFetching}
                 disabled={isFetching}
