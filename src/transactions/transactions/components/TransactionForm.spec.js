@@ -47,7 +47,7 @@ describe('<TransactionForm />', () => {
             expect(wrapper.find(submitButton).prop('disabled')).to.be.true;
         })
 
-        it('submit button should be enabled when required fields are correctly filled', () => {
+        xit('submit button should be enabled when required fields are correctly filled', () => {
             const wrapper = shallow(<TransactionForm {...defaultProps} />);            
             const input = wrapper.find(triggerReference);
 
