@@ -250,16 +250,14 @@ export default class TransactionForm extends React.Component {
             </HorizontalFormGroupError>
 
             <HorizontalFormGroupError id="priority" label="Importancia" error={errors.priority}>
-                <Slider min={0} max={5} defaultValue={3}
+                <Slider min={0} max={5} defaultValue={3} marks={ { 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'} }
                         value={this.state.priority} onChange={(priority) => this.setState({priority})}/>
             </HorizontalFormGroupError>
 
-            <HorizontalFormGroupError
-                id="deadline"
-                label="Tolerância"
-                error={errors.deadline}
-                value={this.state.deadline}
-                onChange={this.handleChange} />
+            <HorizontalFormGroupError id="deadline" label="Tolerância" error={errors.deadline} >
+                <Slider min={0} max={60} step={null} marks={ { 0: '0', 15: '15', 30: '30', 60: '60'} }
+                        value={this.state.deadline} onChange={(deadline) => this.setState({deadline})}/>
+            </HorizontalFormGroupError>
 
             <FormControlLabel
                 control={
