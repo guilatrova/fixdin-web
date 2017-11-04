@@ -4,6 +4,7 @@ import moment from 'moment';
 import DatetimeInput from 'react-datetime';
 import CurrencyInput from 'react-currency-input';
 
+
 import {    
   Row,
   Col,
@@ -30,6 +31,7 @@ import Switch from 'material-ui/Switch';
 import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
 import CategorySelectPicker from './../../categories/components/CategorySelectPicker';
 import TransactionDescription from './TransactionDescription';
+import KindSwitch from './KindSwitch';
 import Periodic from './Periodic';
 import { types } from '../duck';
 
@@ -208,15 +210,7 @@ export default class TransactionForm extends React.Component {
         return (
         <Form horizontal>
             
-            {!isEdit && <FormControlLabel
-                control={
-                    <Switch
-                        checked={this.state.kind === EXPENSE}
-                        onChange={this.handleKindChange}
-                    />
-                }
-                label={this.state.kindLabel}
-            />}
+            <KindSwitch value={this.state.kind} onChange={(kind) => this.setState({kind}) } />
 
             <HorizontalFormGroupError id="due_date" label="Vencimento" error={errors.due_date} >
                 <DatetimeInput
