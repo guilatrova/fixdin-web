@@ -140,7 +140,6 @@ class TransactionTable extends React.Component {
 
                 {displayKind && <DataColumn sortable field="kind" onRender={this.formatKind}>Tipo</DataColumn>}
                 <DataColumn sortable field="due_date" onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
-                <DataColumn sortable field="payment_date" onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
                 <DataColumn sortable field="description">Descrição</DataColumn>
 
                 <DataColumn 
@@ -163,6 +162,7 @@ class TransactionTable extends React.Component {
 
                 <DataColumn sortable numeric field="priority">Prioridade</DataColumn>
                 <DataColumn sortable numeric field="deadline">Prazo</DataColumn>
+                <DataColumn sortable field="payment_date" onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
                 {displayOptions && <DataColumn onRender={this.formatOptions} />}
             </TableSort>
         );
