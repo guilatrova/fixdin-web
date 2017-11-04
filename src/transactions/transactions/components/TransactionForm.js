@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import DatetimeInput from 'react-datetime';
 import CurrencyInput from 'react-currency-input';
-
+import Tooltip from 'rc-tooltip';
+import Slider, { Handle } from 'rc-slider';
 
 import {    
   Row,
@@ -47,7 +48,7 @@ const emptyTransaction = {
     category: undefined,
     value: '0,00',
     deadline: undefined,
-    priority: '',
+    priority: 0,
     payment_date: undefined,
     details: '',
     periodic: undefined,
@@ -248,12 +249,10 @@ export default class TransactionForm extends React.Component {
                     thousandSeparator="." />
             </HorizontalFormGroupError>
 
-            <HorizontalFormGroupError
-                id="priority"
-                label="Importancia"
-                error={errors.priority}
-                value={this.state.priority}
-                onChange={this.handleChange} />
+            <HorizontalFormGroupError id="priority" label="Importancia" error={errors.priority}>
+                <Slider min={0} max={5} defaultValue={3}
+                        value={this.state.priority} onChange={(priority) => this.setState({priority})}/>
+            </HorizontalFormGroupError>
 
             <HorizontalFormGroupError
                 id="deadline"
