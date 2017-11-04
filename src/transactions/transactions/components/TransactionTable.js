@@ -160,8 +160,8 @@ class TransactionTable extends React.Component {
                     Valor
                 </DataColumn>
 
-                <DataColumn sortable numeric field="priority">Prioridade</DataColumn>
-                <DataColumn sortable numeric field="deadline">Prazo</DataColumn>
+                <DataColumn sortable numeric field="priority">Importancia</DataColumn>
+                <DataColumn sortable numeric field="deadline">Tolerância</DataColumn>
                 <DataColumn sortable field="payment_date" onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
                 {displayOptions && <DataColumn onRender={this.formatOptions} />}
             </TableSort>
