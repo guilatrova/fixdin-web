@@ -30,8 +30,8 @@ class KindSwitch extends React.Component {
 
         return (
             <div>
-                <Button {...incomeProps} onClick={() => onChange(INCOME)}>Receitas</Button>
-                <Button {...expenseProps} onClick={() => onChange(EXPENSE)}>Despesas</Button>
+                <Button {...incomeProps} onClick={() => onChange(INCOME)}>Receita</Button>
+                <Button {...expenseProps} onClick={() => onChange(EXPENSE)}>Despesa</Button>
             </div>
         );
     }
