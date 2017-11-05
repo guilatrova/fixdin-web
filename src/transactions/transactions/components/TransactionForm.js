@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import DatetimeInput from 'react-datetime';
 import CurrencyInput from 'react-currency-input';
-import Tooltip from 'rc-tooltip';
 import Slider, { Handle } from 'rc-slider';
 
 import {    
@@ -145,32 +144,17 @@ export default class TransactionForm extends React.Component {
     }
 
     handlePayedChange(e, checked) {
-        if (checked) {
-            this.setState({
-                payed: true,
-                payment_date: moment(new Date())
-            });
-        }
-        else {
-            this.setState({
-                payed: false,
-                payment_date: null
-            });
-        }
+        this.setState({
+            payed: checked,
+            payment_date: checked ? moment(new Date()) : null
+        });
     }    
 
     handleIsPeriodicChange(e, checked) {
-        if (checked) {
-            this.setState({ 
-                periodic: {
-                    frequency: "daily"
-                } 
-            });
-        }
-        else {
-            this.setState({ periodic: null })
-        }
-        this.setState({ isPeriodic: checked });
+        this.setState({ 
+            isPeriodic: checked,
+            periodic: checked ? { frequency: "daily" } : null
+        });
     }
 
     isSubmitDisabled() {
