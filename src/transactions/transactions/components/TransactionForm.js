@@ -97,13 +97,11 @@ export default class TransactionForm extends React.Component {
     constructor(props) {
         super(props);
         const kind = getKind(props.transaction.kind);
-        const kindLabel = kind.id === EXPENSE.id ? 'Despesa' : 'Receita';
 
         this.state = { 
             ...props.transaction,
             payed: !!props.transaction.payment_date,
-            kind,
-            kindLabel,
+            kind,            
             errors: {},
         };
         
@@ -137,17 +135,11 @@ export default class TransactionForm extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    handleKindChange(e, checked) {
-        if (checked) {
-            this.setState({
-                kind: EXPENSE,
-                kindLabel: 'Despesa'                
-            });
-        }
-        else {
-            this.setState({
-                kind: INCOME,
-                kindLabel: 'Receita'
+    handleKindChange(kind) {
+        if (this.state.kind != kind) {
+            this.setState({ 
+                kind,
+                category: undefined
             });
         }
     }
@@ -211,7 +203,7 @@ export default class TransactionForm extends React.Component {
         return (
         <Form horizontal>
             
-            <KindSwitch value={this.state.kind} onChange={(kind) => this.setState({kind}) } />
+            <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
 
             <HorizontalFormGroupError id="due_date" label="Vencimento" error={errors.due_date} >
                 <DatetimeInput
