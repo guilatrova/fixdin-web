@@ -30,19 +30,22 @@ import {
   FormControl
 } from '@sketchpixy/rubix';
 
-const DateInterval = ({id, children, value_from, value_until, onChange}) => {
+const DateInterval = ({id, children, value_from, value_until, onChange, onBlur}) => {
     const noPaddingLeft = { paddingLeft: 0};
     const noPaddingRight = { paddingRight: 0};
+    const idFrom = `${id}_from`;
+    const idUntil = `${id}_until`;
 
     return (
         <div>
             <Col xs={12} md={6} style={noPaddingLeft}>
-                <FormGroup controlId={`${id}_from-filter`}>
+                <FormGroup controlId={idFrom}>
                     <ControlLabel>{children} de</ControlLabel>
                     
                     <DatetimeInput
                         timeFormat={false}
-                        onChange={(value) => onChange(`${id}_from`, value)}
+                        onChange={(value) => onChange(idFrom, value)}
+                        onBlur={(value) => onBlur(idFrom, value)}
                         value={value_from}
                         closeOnSelect={true}
                         closeOnTab={true} />
@@ -50,12 +53,13 @@ const DateInterval = ({id, children, value_from, value_until, onChange}) => {
             </Col>
 
             <Col xs={12} md={6} style={noPaddingRight}>
-                <FormGroup controlId={`${id}_until-filter`}>
+                <FormGroup controlId={idUntil}>
                     <ControlLabel>{children} até</ControlLabel>
                     
                     <DatetimeInput
                         timeFormat={false}
-                        onChange={(value) => onChange(`${id}_until`, value)}
+                        onChange={(value) => onChange(idUntil, value)}
+                        onBlur={(value) => onBlur(idUntil, value)}
                         value={value_until}
                         closeOnSelect={true}
                         closeOnTab={true} />
@@ -95,6 +99,7 @@ class TransactionFilter extends React.Component {
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClear = this.handleClear.bind(this);
+        this.handleDateOnBlur = this.handleDateOnBlur.bind(this);
     }
 
     handleDateChange(id, value) {
@@ -158,6 +163,19 @@ class TransactionFilter extends React.Component {
         this.props.onFilter();
     }
 
+    handleDateOnBlur(id, value) {
+        const now = moment();        
+        if (!moment.isMoment(value)) {
+            this.setState({ 
+                [id]: now.format('YYYY-MM-DD'),
+                raw: {
+                    ...this.state.raw,
+                    [id]: now
+                }
+            });
+        }
+    }
+
     render() {
         const { kind, transactions } = this.props;
         const kindOptions = [ 
@@ -205,6 +223,7 @@ class TransactionFilter extends React.Component {
                         value_from={this.state.raw.due_date_from}
                         value_until={this.state.raw.due_date_until}
                         onChange={this.handleDateChange}
+                        onBlur={this.handleDateOnBlur}
                     >
                         Vencimento
                     </DateInterval>
@@ -244,6 +263,7 @@ class TransactionFilter extends React.Component {
                         value_from={this.state.raw.payment_date_from}
                         value_until={this.state.raw.payment_date_until}
                         onChange={this.handleDateChange}
+                        onBlur={this.handleDateOnBlur}
                     >
                         Pagamento
                     </DateInterval>
