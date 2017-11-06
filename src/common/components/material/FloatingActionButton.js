@@ -2,9 +2,10 @@ import React from 'react';
 import Button from 'material-ui/Button';
 
 const fabStyle = {
-    position: 'fixed',
-    right: '18px',
-    bottom: '15px'
+    // position: 'fixed',
+    // right: '18px',
+    // bottom: '15px'
+    float: 'right'
 };
 
 const FloatingActionButton = ({ color, onClick, children }) => {
