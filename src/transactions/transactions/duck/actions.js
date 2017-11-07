@@ -122,6 +122,13 @@ function clearFilters() {
     }
 }
 
+function setFilters(filters) {
+    return {
+        type: types.SET_FILTERS,
+        filters
+    }
+}
+
 //PAY
 function payTransactions(ids) {
     return {
@@ -164,6 +171,7 @@ export default {
     requestFilterTransactions,
     receiveFilteredTransactions,
     clearFilters,
+    setFilters,
 
     payTransactions,
     receivePayTransactions

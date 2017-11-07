@@ -7,6 +7,7 @@ import payReducer from './payReducer';
 
 const initialState = {
     transactions: [],
+    filters: {},
     visibleTransactions: undefined,
     editingTransaction: {},
     isFetching: false,
@@ -39,6 +40,12 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 visibleTransactions: undefined
+            };
+
+        case types.SET_FILTERS:
+            return {
+                ...state,
+                filters: action.filters
             };
             
         case types.COPY_TRANSACTION:

@@ -7,6 +7,7 @@ describe('transactions/duck/reducers', () => {
 
     const initialState = {
         transactions: [],
+        filters: {},
         visibleTransactions: undefined,
         editingTransaction: {},
         isFetching: false,
@@ -460,6 +461,20 @@ describe('transactions/duck/reducers', () => {
             )
             .to.be.deep.equal(initialState);
         })
+    });
+
+    describe('SET_FILTERS', () => {
+        it('should be handled', () => {
+            const filters = { due_date: 'due_date', category: '1' };
+
+            expect(
+                reducer(initialState, actions.setFilters(filters))
+            )
+            .to.deep.equal({
+                ...initialState,
+                filters
+            });
+        });
     });
 
     describe('PAY_TRANSACTIONS', () => {
