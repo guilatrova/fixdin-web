@@ -164,6 +164,7 @@ const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
 const clearFilters = actions.clearFilters;
+const setFilters = actions.setFilters;
 const fetchTransactions = (kind) => new FetchOperation(kind);
 const filterTransactions = (filters) => new FilterOperation(filters);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
@@ -177,6 +178,7 @@ export default {
     fetchTransactions,
     filterTransactions,
     clearFilters,
+    setFilters,
     saveTransaction,
     deleteTransaction,
     payTransactions

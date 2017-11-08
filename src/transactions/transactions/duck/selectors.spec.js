@@ -50,6 +50,16 @@ describe('transactions/duck/selectors', () => {
         .to.be.true;
     });
 
+    it('getFilters', () => {
+        const filters = { due_date: 'due_date' };
+        const state = buildState({ filters });
+
+        expect(
+            selectors.getFilters(state)
+        )
+        .to.deep.equal(filters);
+    });
+
     describe('getTransactionsToDisplay', () => {
         
         it('should return visibleTransactions', () => {        

@@ -39,6 +39,7 @@ export default function reducer(state = initialState, action) {
         case types.CLEAR_FILTERS:
             return {
                 ...state,
+                filters: {},
                 visibleTransactions: undefined
             };
 

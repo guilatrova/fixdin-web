@@ -453,6 +453,7 @@ describe('transactions/duck/reducers', () => {
         it('should be handled', () => {
             const state = {
                 ...initialState,
+                filters: { due_date: 'due_date' },
                 visibleTransactions: [ { id: 1 }, { id: 2 } ]
             };
 

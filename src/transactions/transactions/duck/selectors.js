@@ -30,6 +30,8 @@ const getPendingIncomesUntil = (state, until) =>
 const getPendingExpensesUntil = (state, until) => 
     getPendingTransactionsUntil(state, until).filter(transaction => transaction.kind == EXPENSE.id);
 
+const getFilters = (state) => state.transactions.filters;
+
 export default {
     getErrors,
     isFetching,
@@ -37,5 +39,6 @@ export default {
     getEditingTransaction,
     getPendingTransactionsUntil,
     getPendingIncomesUntil,
-    getPendingExpensesUntil
+    getPendingExpensesUntil,
+    getFilters
 };
