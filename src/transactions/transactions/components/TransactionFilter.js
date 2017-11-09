@@ -9,6 +9,7 @@ import MultiCategorySelectPicker from './../../categories/components/MultiCatego
 import DatetimeInput from 'react-datetime';
 import { EXPENSE, INCOME, ALL } from './../../kinds';
 import Autocomplete from '../../../common/components/FixedAutocomplete';
+import { selectors, operations } from '../duck';
 
 import {    
   Row,
@@ -76,115 +77,52 @@ class TransactionFilter extends React.Component {
         transactions: PropTypes.array.isRequired,
     }
 
-    constructor(props) {
-        super(props);
-        const curDate = new Date();
-        const startMonth = moment([curDate.getFullYear(), curDate.getMonth()]);
-        const endMonth = moment().endOf('month');
-
-        this.state = {
+    static defaultProps = {
+        filters: {
             payed: -1,
-            kind: props.kind,
-            due_date_from: startMonth.format('YYYY-MM-DD'),
-            due_date_until: endMonth.format('YYYY-MM-DD'),
-            raw: {
-                multi_category: [],
-                due_date_from: startMonth,
-                due_date_until: endMonth
-            }
+            due_date_from: moment().startOf('month'),
+            due_date_until: moment().endOf('month'),
+            category: [],
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleKindChange = this.handleKindChange.bind(this);
-        this.handleCategoryChange = this.handleCategoryChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClear = this.handleClear.bind(this);
-        this.handleDateOnBlur = this.handleDateOnBlur.bind(this);
     }
 
-    handleDateChange(id, value) {
+    setFilters = (newFilters) => {
+        this.props.onSetFilter({
+            ...this.props.filters,
+            ...newFilters
+        });
+    }
+
+    handleChange = (e) => 
+        this.setFilters({ [e.target.name]: e.target.value });    
+
+    handleClear = (e) => this.props.onClear();    
+
+    handleSubmit = (e) => {
+        //this.props.onFilter(other);
+    }
+
+    handleDateChange = (id, value) => {
         if (moment.isMoment(value)) {
-            this.setState({ 
-                [id]: value.format('YYYY-MM-DD'),
-                raw: {
-                    ...this.state.raw,
-                    [id]: value
-                }
-            });
+            this.setFilters({ [id]: value });
         }
     }
 
-    handleCategoryChange(categories) {
-        const raw = this.state.raw;
-
-        this.setState({
-            category: categories.join(),
-            raw: {
-                ...raw,
-                multi_category: categories
-            }
-         })
-    }
-
-    handleKindChange(kind) {
-        const raw = this.state.raw;
-        const val = kind ? kind.value : ALL;
-
-        this.setState({
-            kind: val,
-            raw: {
-                ...raw,
-                kind
-            }
-         })
-    }
-
-    handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
-    }
-
-    handleSubmit(e) {
-        const { raw, ...other } = this.state;
-        this.props.onFilter(other);
-    }
-
-    handleClear(e) {
-        this.setState({
-            payed: -1,
-            category: "",
-            description: "",
-            deadline: "",
-            priority: "",
-            kind: this.props.kind,
-            raw: {
-                multi_category: []                
-            }
-        })
-        this.props.onFilter();
-    }
-
-    handleDateOnBlur(id, value) {
-        const now = moment();        
+    handleDateOnBlur = (id, value) => {
         if (!moment.isMoment(value)) {
-            this.setState({ 
-                [id]: now.format('YYYY-MM-DD'),
-                raw: {
-                    ...this.state.raw,
-                    [id]: now
-                }
-            });
+            this.setFilters({ [id]: moment() });
         }
     }
 
     render() {
-        const { kind, transactions } = this.props;
+        const { kind, transactions, filters } = this.props;
         const kindOptions = [ 
             { value: ALL, label: '-' },
-            { value: INCOME, label: 'Receitas' },
+            { value: INCOME,  label: 'Receitas' },
             { value: EXPENSE, label: 'Despesas' }
         ];
         const prioritySource = transactions.map(transaction => transaction.priority.toString());
-        const deadlineSource = transactions.map(transaction => transaction.deadline.toString());
+        const deadlineSource = transactions.map(transaction => transaction.deadline.toString());        
 
         return (
             <div>
@@ -196,8 +134,8 @@ class TransactionFilter extends React.Component {
                         
                         <Select 
                             placeholder="Tipo"
-                            value={this.state.raw.kind}
-                            onChange={this.handleKindChange}
+                            value={filters.kind}
+                            onChange={(kind) => this.setFilters({ kind })}
                             options={kindOptions}
                         />
                     </FormGroup>
@@ -210,7 +148,7 @@ class TransactionFilter extends React.Component {
                         
                         <TransactionDescription
                             name="description"
-                            value={this.state.description}
+                            value={filters.description}
                             onChange={this.handleChange}
                             maxLength="120"
                         />
@@ -220,8 +158,8 @@ class TransactionFilter extends React.Component {
                 <Col xs={12} md={6}>
                     <DateInterval 
                         id="due_date"
-                        value_from={this.state.raw.due_date_from}
-                        value_until={this.state.raw.due_date_until}
+                        value_from={filters.due_date_from}
+                        value_until={filters.due_date_until}
                         onChange={this.handleDateChange}
                         onBlur={this.handleDateOnBlur}
                     >
@@ -236,9 +174,9 @@ class TransactionFilter extends React.Component {
                         <ControlLabel>Categorias</ControlLabel>
                         
                         <MultiCategorySelectPicker 
-                            kind={this.props.kind}
-                            value={this.state.raw.multi_category}
-                            onChange={this.handleCategoryChange} />
+                            kind={filters.kind}
+                            value={filters.category}
+                            onChange={(category) => this.setFilters({ category })} />
                     </FormGroup>
                 </Col>
 
@@ -246,7 +184,7 @@ class TransactionFilter extends React.Component {
                     <FormGroup controlId="payed-filter">
                         <ControlLabel>Pago?</ControlLabel>
                         
-                        <FormControl name="payed" componentClass="select" value={this.state.payed} onChange={this.handleChange}>
+                        <FormControl name="payed" componentClass="select" value={filters.payed} onChange={this.handleChange}>
                             <option value="-1">-</option>
                             <option value="0">NÃO</option>
                             <option value="1">SIM</option>
@@ -256,12 +194,12 @@ class TransactionFilter extends React.Component {
             </Row>
             
             <Row>
-                {this.state.payed == 1 && 
+                {filters.payed == 1 && 
                 <Col xs={12} md={6}>
                     <DateInterval 
                         id="payment_date"
-                        value_from={this.state.raw.payment_date_from}
-                        value_until={this.state.raw.payment_date_until}
+                        value_from={filters.payment_date_from}
+                        value_until={filters.payment_date_until}
                         onChange={this.handleDateChange}
                         onBlur={this.handleDateOnBlur}
                     >
@@ -275,7 +213,7 @@ class TransactionFilter extends React.Component {
                         
                         <Autocomplete 
                             name="priority" 
-                            value={this.state.priority} 
+                            value={filters.priority} 
                             onChange={this.handleChange}
                             source={prioritySource} />
                     </FormGroup>
@@ -287,7 +225,7 @@ class TransactionFilter extends React.Component {
                         
                         <Autocomplete 
                             name="deadline" 
-                            value={this.state.deadline} 
+                            value={filters.deadline} 
                             onChange={this.handleChange}
                             source={deadlineSource} />                        
                     </FormGroup>
@@ -307,11 +245,26 @@ class TransactionFilter extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    const filters = selectors.getFilters(state);
+    let isEmpty = true;
+    for (var key in filters) {
+        if (hasOwnProperty.call(filters, key)) {
+            isEmpty = false;
+            break;
+        };
+    }
 
+    return {
+        filters: isEmpty ? undefined : filters
+    };
 }
 
 const mapDispatchToProps = (dispatch) => {
-
+    return {
+        onSetFilter: (filters) => dispatch(operations.setFilters(filters)),
+        onFilter: () => dispatch(operations.filterTransactions()),
+        onClear: () => dispatch(operations.clearFilters())
+    }
 }
 
-export default TransactionFilter;
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionFilter);
