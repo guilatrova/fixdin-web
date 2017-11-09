@@ -5,6 +5,8 @@ import { EXPENSE, INCOME } from '../transactions/kinds';
 import {
     formatCurrency, 
     formatDate, 
+    formatTransactionFilters,
+    clean,
     formatTransactionReceived, 
     formatTransactionToSend,
     formatPeriodic
@@ -137,6 +139,26 @@ describe('services/formatter', () => {
                 how_many: undefined,
                 until: '2017-01-01'
             });
+        });
+    });
+
+    xit('formatTransactionFilters', () => {
+
+    });
+
+    it('clean', () => {
+        const obj = {
+            numberOk: 1,
+            stringOk: 'a',
+            emptyStrOk: '',
+            nullRemoved: null,
+            undefinedRemoved: undefined
+        };
+
+        expect(clean(obj)).to.deep.equal({
+            numberOk: 1,
+            stringOk: 'a',
+            emptyStrOk: ''
         });
     });
 

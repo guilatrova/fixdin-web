@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { EXPENSE } from './../transactions/kinds';
+import { EXPENSE, ALL } from './../transactions/kinds';
 
 export function formatTransactionReceived(transaction) {
     return {
@@ -33,10 +33,33 @@ export function formatPeriodic(periodic) {
     return periodic || undefined;
 }
 
+export function formatTransactionFilters(filters) {
+    const formatted = {
+        ...filters,
+        kind: filters.kind ? filters.kind.value : ALL,
+        category: filters.category.join(),
+        due_date_from: formatDate(filters.due_date_from),
+        due_date_until: formatDate(filters.due_date_until),
+        payment_date_from: formatDate(filters.payment_date_from),
+        payment_date_until: formatDate(filters.payment_date_until)
+    }
+    
+    return clean(formatted);
+}
+
 export function formatDate(date) {
     if (date)
         return date.format('YYYY-MM-DD');
     return null;
+}
+
+export function clean(obj) {
+    for (var propName in obj) { 
+        if (obj[propName] === null || obj[propName] === undefined) {
+            delete obj[propName];
+        }
+    }
+    return obj;
 }
 
 export function formatCurrency(value, kind) {

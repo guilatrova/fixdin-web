@@ -1,12 +1,11 @@
 import moment from 'moment';
 import actions from './actions';
 import types from './types';
-import createApi from '../../../services/api';
+import selectors from './selectors';
 import handleError from '../../../services/genericErrorHandler';
-import { formatTransactionToSend, formatDate } from '../../../services/formatter';
+import { formatTransactionToSend, formatTransactionFilters, formatDate } from '../../../services/formatter';
 import getQueryParams from '../../../services/query';
 import { Operation } from './../../../common/genericDuck/operations';
-import { ALL } from '../../kinds';
 
 class FetchOperation extends Operation {
     constructor(kind) {
@@ -30,8 +29,8 @@ class FilterOperation extends Operation {
     }
 
     getApiPromise(api) {
-        let { kind, ...filters } = this.filters;
-        kind = kind || ALL;
+        let { kind, ...filters } = formatTransactionFilters(this.filters);
+        
         const queryParams = getQueryParams(filters);
         return api.get(kind.apiEndpoint + queryParams);
     }

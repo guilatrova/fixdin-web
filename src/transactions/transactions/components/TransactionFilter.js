@@ -99,7 +99,7 @@ class TransactionFilter extends React.Component {
     handleClear = (e) => this.props.onClear();    
 
     handleSubmit = (e) => {
-        //this.props.onFilter(other);
+        this.props.onFilter(this.props.filters);
     }
 
     handleDateChange = (id, value) => {
@@ -262,7 +262,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSetFilter: (filters) => dispatch(operations.setFilters(filters)),
-        onFilter: () => dispatch(operations.filterTransactions()),
+        onFilter: (filters) => dispatch(operations.filterTransactions(filters)),
         onClear: () => dispatch(operations.clearFilters())
     }
 }
