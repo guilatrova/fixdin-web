@@ -29,6 +29,8 @@
   "author": "Gui Latrova",
   "license": "MIT",
   "dependencies": {
+    "material-ui": "^1.0.0-beta.20",
+    "material-ui-icons": "^1.0.0-beta.17",
     "object-assign": "4.1.0",
     "react": "16.0.0",
     "react-dom": "16.0.0",
@@ -36,7 +38,8 @@
     "react-router-dom": "4.2.2",
     "react-router-redux": "5.0.0-alpha.6",
     "redux": "3.6.0",
-    "redux-thunk": "2.1.0"
+    "redux-thunk": "2.1.0",
+    "typeface-roboto": "0.0.43"
   },
   "devDependencies": {
     "autoprefixer": "7.1.4",
