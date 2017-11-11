@@ -3,11 +3,12 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import configureStore, { history } from './store/configureStore';
+import configureStore, { history } from './redux/store';
 // import 'typeface-roboto';
 import Root from './Root';
 import './styles/base.scss';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
+
 const store = configureStore();
 
 render(
