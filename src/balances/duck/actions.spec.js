@@ -1,11 +1,6 @@
 import operations from './operations';
 import types from './types';
 
-// import thunk from 'redux-thunk';
-// import configureMockStore from 'redux-mock-store';
-// import MockAdapter from 'axios-mock-adapter';
-// import * as apiModule from '../../services/api';
-
 describe('balances/duck/actions', () => {    
 	let store, mock, restoreMock;
 
