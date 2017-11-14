@@ -1,8 +1,9 @@
+/*eslint no-console: [{ allow: ["warn", "error"] }] */
 import handleError from './genericErrorHandler';
 
 describe('services/genericErrorHandler', () => {
 
-    console.log = jest.fn();
+    console.warn = jest.fn();
     console.error = jest.fn();
     window.location.replace = jest.fn();
 
@@ -29,6 +30,7 @@ describe('services/genericErrorHandler', () => {
         };
 
         expect(handleError(err)).to.be.deep.equal(expected);
+        expect(console.error).toBeCalled();
 
     });
 

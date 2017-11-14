@@ -1,3 +1,4 @@
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const UNKNOWN_ERROR_NAME = 'detail';
 const TOKEN_EXPIRED_MESSAGE = 'Token has expired';
 
@@ -14,7 +15,7 @@ const redirectToLogin = () => {
 export default function tryHandleAPIResponse(err) {
     if (err.response) {
         if (isTokenExpiredError(err)) {
-            console.log('Expired token detected. Redirecting to login...');
+            console.warn('Expired token detected. Redirecting to login...');
             redirectToLogin();
         }
         return err.response.data;
