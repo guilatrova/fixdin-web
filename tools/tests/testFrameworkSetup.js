@@ -39,6 +39,7 @@ Object.defineProperty(chai.Assertion.prototype, 'not', {
 // Combine both jest and chai matchers on expect
 const jestExpect = global.expect;
 
+global.jestExpect = jestExpect;
 global.expect = actual => {
     const originalMatchers = jestExpect(actual);
     const chaiMatchers = chai.expect(actual);

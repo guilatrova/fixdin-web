@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "autoprefixer": "7.1.4",
+    "axios-mock-adapter": "^1.9.0",
     "babel-cli": "6.24.1",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
@@ -79,6 +80,7 @@
     "jest-cli": "20.0.4",
     "json-loader": "0.5.4",
     "mockdate": "2.0.1",
+    "moxios": "^0.4.0",
     "node-sass": "4.5.3",
     "opn-cli": "3.1.0",
     "postcss-loader": "2.0.6",
@@ -88,6 +90,7 @@
     "react-hot-loader": "3.0.0-beta.6",
     "react-test-renderer": "16.0.0",
     "redux-immutable-state-invariant": "2.0.0",
+    "redux-mock-store": "^1.3.0",
     "replace": "0.3.0",
     "rimraf": "2.6.1",
     "sass-loader": "6.0.6",
@@ -114,9 +117,9 @@
     },
     "setupFiles": [
       "raf/polyfill",
-      "./tools/enzymeTestAdapterSetup.js"
+      "./tools/tests/enzymeTestAdapterSetup.js"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tools/testFrameworkSetup.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/tests/testFrameworkSetup.js"
   },
   "babel": {
     "env": {
