@@ -1,28 +1,23 @@
 import operations from './operations';
 import types from './types';
 
-import thunk from 'redux-thunk';
-import configureMockStore from 'redux-mock-store';
-import MockAdapter from 'axios-mock-adapter';
-import * as apiModule from '../../services/api';
+// import thunk from 'redux-thunk';
+// import configureMockStore from 'redux-mock-store';
+// import MockAdapter from 'axios-mock-adapter';
+// import * as apiModule from '../../services/api';
 
 describe('balances/duck/actions', () => {    
-	let store, axiosInstance, mock;
+	let store, mock, restoreMock;
 
     beforeEach(() => {
-        axiosInstance = apiModule.default();
-        apiModule.default = jest.fn();
-        apiModule.default.mockReturnValue(axiosInstance);
-
-        const middlewares = [ thunk ];
-        const mockStore = configureMockStore(middlewares);
-
-        store = mockStore();
-        mock = new MockAdapter(axiosInstance);
+        const mockHelper = mockAxios();
+        mock = mockHelper.mock;
+        store = mockHelper.store;
+        restoreMock = mockHelper.restoreMock;
     });
     
     afterEach(() => {
-        apiModule.default.mockRestore();
+        restoreMock();
     });
 
 	describe('FETCH_BALANCE', () => {

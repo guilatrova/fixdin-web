@@ -1,4 +1,5 @@
 import chai from 'chai';
+import { mockAxios } from './reduxHelpers';
 
 class LocalStorageMock {
     constructor() {
@@ -40,6 +41,7 @@ Object.defineProperty(chai.Assertion.prototype, 'not', {
 const jestExpect = global.expect;
 
 global.jestExpect = jestExpect;
+global.mockAxios = mockAxios;
 global.expect = actual => {
     const originalMatchers = jestExpect(actual);
     const chaiMatchers = chai.expect(actual);
