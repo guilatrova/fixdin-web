@@ -18,6 +18,7 @@ import EditIcon from 'material-ui-icons/ModeEdit';
 import MoneyIcon from 'material-ui-icons/AttachMoney';
 
 import DescriptionFilter from './filters/DescriptionFilter';
+import CategoryFilter from './filters/CategoryFilter';
 import { sort } from './../../../common/sorts';
 import TableSort from './../../../common/components/material/TableSort';
 import DataColumn from './../../../common/components/material/DataColumn';
@@ -148,6 +149,7 @@ class TransactionTable extends React.Component {
                     sortable
                     field="category" 
                     onRender={this.formatCategory}
+                    onRenderFilter={<CategoryFilter />}
                     onSort={this.sortCategory}>
                     
                     Categoria
