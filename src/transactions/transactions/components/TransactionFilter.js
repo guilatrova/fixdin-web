@@ -209,7 +209,7 @@ class TransactionFilter extends React.Component {
 
                 <Col xs={12} md={6} lg={3}>
                     <FormGroup>
-                        <ControlLabel>Prioridade</ControlLabel>
+                        <ControlLabel>Importância</ControlLabel>
                         
                         <Autocomplete 
                             name="priority" 
@@ -221,7 +221,7 @@ class TransactionFilter extends React.Component {
 
                 <Col xs={12} md={6} lg={3}>
                     <FormGroup>
-                        <ControlLabel>Prazo</ControlLabel>
+                        <ControlLabel>Tolerância</ControlLabel>
                         
                         <Autocomplete 
                             name="deadline" 
