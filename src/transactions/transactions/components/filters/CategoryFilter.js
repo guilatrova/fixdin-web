@@ -14,7 +14,7 @@ class CategoryFilter extends React.Component {
     };
 
     static defaultProps = {
-        category: ""
+        category: []
     };
 
     constructor(props) {

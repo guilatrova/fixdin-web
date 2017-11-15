@@ -17,8 +17,7 @@ import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import MoneyIcon from 'material-ui-icons/AttachMoney';
 
-import DescriptionFilter from './filters/DescriptionFilter';
-import CategoryFilter from './filters/CategoryFilter';
+import { DescriptionFilter, CategoryFilter, DueDateFilter } from './filters';
 import { sort } from './../../../common/sorts';
 import TableSort from './../../../common/components/material/TableSort';
 import DataColumn from './../../../common/components/material/DataColumn';
@@ -142,7 +141,7 @@ class TransactionTable extends React.Component {
             <TableSort data={this.props.transactions} initialOrderBy="due_date">
 
                 {displayKind && <DataColumn sortable field="kind" onRender={this.formatKind}>Tipo</DataColumn>}
-                <DataColumn sortable field="due_date" onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
+                <DataColumn sortable field="due_date" onRenderFilter={<DueDateFilter />} onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
                 <DataColumn sortable field="description" onRenderFilter={<DescriptionFilter />}>Descrição</DataColumn>
 
                 <DataColumn 
