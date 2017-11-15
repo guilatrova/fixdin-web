@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Table, {
@@ -8,6 +9,9 @@ import Table, {
   TableRow,
   TableSortLabel,
 } from 'material-ui/Table';
+import Popover from 'material-ui/Popover';
+import IconButton from 'material-ui/IconButton';
+import FilterListIcon from 'material-ui-icons/FilterList';
 
 export default class TableSort extends React.Component {
     static propTypes = {
@@ -30,7 +34,8 @@ export default class TableSort extends React.Component {
         this.state = {
             order: props.initialOrder,
             orderBy: props.initialOrderBy,
-            data: props.data
+            data: props.data,
+            popover: "",
         }
         this.handleHeaderClick = this.handleHeaderClick.bind(this);
     }
@@ -79,6 +84,37 @@ export default class TableSort extends React.Component {
         const handleHeaderClick = this.handleHeaderClick;
         const data = this.sort(this.state.orderBy, this.state.order);
 
+        const renderFilter = (child) => {
+            if(child.props.onRenderFilter) {
+                let buttonRef;
+                const { popover } = this.state;
+                return (
+                    <div>
+                    <IconButton 
+                        aria-label="Filter list"
+                        ref={node => { buttonRef = node }}
+                        onClick={() => this.setState({ 
+                            popover: child.props.field,
+                            popoverRef: findDOMNode(buttonRef) })}
+                    >
+                        <FilterListIcon />
+                    </IconButton>
+
+                    <Popover
+                        open={popover == child.props.field}
+                        onRequestClose={() => this.setState({ popover: "" })}
+                        anchorEl={this.state.popoverRef}
+                        anchorReference="anchorEl"
+                        anchorOrigin={{ horizontal:"left", vertical:"bottom"}}
+                        transformOrigin={{ horizontal: "center", vertical: "top" }}>
+                        {child.props.onRenderFilter}
+                    </Popover>
+                    </div>
+                );
+            };
+            return null;
+        }
+
         const headers = React.Children.map(children,
             child => {
                 if (child) {
@@ -90,14 +126,20 @@ export default class TableSort extends React.Component {
                             key={field}
                             numeric={numeric} >
 
-                            <TableSortLabel
-                                active={orderBy === field}
-                                direction={order}
-                                onClick={() => handleHeaderClick(child)}>
+                            <div>
 
-                                {child.props.children}
+                                <TableSortLabel
+                                    active={orderBy === field}
+                                    direction={order}
+                                    onClick={() => handleHeaderClick(child)}>
 
-                            </TableSortLabel>
+                                    {child.props.children}
+
+                                </TableSortLabel>
+
+                                {renderFilter(child)}
+                            </div>
+
                         </TableCell>
                     )
                 }

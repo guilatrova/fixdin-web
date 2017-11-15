@@ -24,8 +24,6 @@ class FilterOperation extends Operation {
     constructor(filters) {
         super(actions.requestFilterTransactions, actions.receiveFilteredTransactions);
         this.filters = filters;
-
-        return this.dispatch();
     }
 
     getApiPromise(api) {
@@ -165,10 +163,13 @@ const finishEditTransaction = actions.finishEditTransaction;
 const clearFilters = actions.clearFilters;
 const setFilters = actions.setFilters;
 const fetchTransactions = (kind) => new FetchOperation(kind);
-const filterTransactions = (filters) => new FilterOperation(filters);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
 const payTransactions = (kind, ids) => new PayOperation(kind, ids);
+const filterTransactions = () => (dispatch, getState) => {
+    const filters = selectors.getFilters(getState());
+    return new FilterOperation(filters).dispatch()(dispatch);
+};
 
 export default {
     copyTransaction,

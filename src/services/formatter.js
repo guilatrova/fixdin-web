@@ -37,7 +37,7 @@ export function formatTransactionFilters(filters) {
     const formatted = {
         ...filters,
         kind: filters.kind ? filters.kind.value : ALL,
-        category: filters.category.join(),
+        category: (filters.category || []).join(),
         due_date_from: formatDate(filters.due_date_from),
         due_date_until: formatDate(filters.due_date_until),
         payment_date_from: formatDate(filters.payment_date_from),

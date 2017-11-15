@@ -10,12 +10,10 @@ import Sidebar from './common/components/Sidebar';
 
 export class App extends React.Component {
     render() {
-        return (
-          <MuiThemeProvider>
+        return (          
             <Provider store={store}>
                 {this.props.children}
             </Provider>
-          </MuiThemeProvider>
         );
     }
 }

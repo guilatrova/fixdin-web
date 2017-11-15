@@ -11,11 +11,13 @@ import Table, {
 
 import { MenuItem } from 'material-ui/Menu';
 
+import Popover from 'material-ui/Popover';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import MoneyIcon from 'material-ui-icons/AttachMoney';
 
+import DescriptionFilter from './filters/DescriptionFilter';
 import { sort } from './../../../common/sorts';
 import TableSort from './../../../common/components/material/TableSort';
 import DataColumn from './../../../common/components/material/DataColumn';
@@ -140,7 +142,7 @@ class TransactionTable extends React.Component {
 
                 {displayKind && <DataColumn sortable field="kind" onRender={this.formatKind}>Tipo</DataColumn>}
                 <DataColumn sortable field="due_date" onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
-                <DataColumn sortable field="description">Descrição</DataColumn>
+                <DataColumn sortable field="description" onRenderFilter={<DescriptionFilter />}>Descrição</DataColumn>
 
                 <DataColumn 
                     sortable
