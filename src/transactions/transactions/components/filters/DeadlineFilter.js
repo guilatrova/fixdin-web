@@ -57,7 +57,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {        
         onSubmit: (deadline) => {
-            dispatch(operations.setFilters({ deadline }));
+            dispatch(operations.setFilters({ deadline }, true));
             dispatch(operations.filterTransactions());
         }
     };

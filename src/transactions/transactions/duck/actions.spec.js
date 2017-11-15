@@ -73,7 +73,7 @@ describe('transaction/duck/actions', () => {
 		})
 	})
 
-	describe('FILTER_TRANSACTIONS', () => {
+	xdescribe('FILTER_TRANSACTIONS', () => {
 
 		it('should dispatch success action when request successful', (done) => {
 			const transactions = [ { id: 1, value: '10', due_date: '2017-10-10', payment_date: '2017-10-10' }, { id: 2, value: '11', due_date: '2017-10-10', payment_date: '2017-10-10' }, { id: 3, value: '12', due_date: '2017-10-10', payment_date: '2017-10-10' }]

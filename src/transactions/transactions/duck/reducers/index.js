@@ -44,6 +44,16 @@ export default function reducer(state = initialState, action) {
             };
 
         case types.SET_FILTERS:
+            if (action.concatFilters) {
+                return {
+                    ...state,
+                    filters: {
+                        ...state.filters,
+                        ...action.filters
+                    }
+                };
+            }
+
             return {
                 ...state,
                 filters: action.filters

@@ -63,7 +63,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {        
         onSubmit: (kind) => {
-            dispatch(operations.setFilters({ kind }));
+            dispatch(operations.setFilters({ kind }, true));
             dispatch(operations.filterTransactions());
         }
     };

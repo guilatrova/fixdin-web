@@ -122,9 +122,10 @@ function clearFilters() {
     }
 }
 
-function setFilters(filters) {
+function setFilters(filters, concatFilters = false) {
     return {
         type: types.SET_FILTERS,
+        concatFilters,
         filters
     }
 }

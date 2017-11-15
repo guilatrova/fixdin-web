@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {        
         onSubmit: (description) => {
-            dispatch(operations.setFilters({ description }));
+            dispatch(operations.setFilters({ description }, true));
             dispatch(operations.filterTransactions());
         }
     };

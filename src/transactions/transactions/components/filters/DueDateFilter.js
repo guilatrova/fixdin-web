@@ -76,7 +76,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {        
         onSubmit: (due_date_from, due_date_until) => {
-            dispatch(operations.setFilters({ due_date_from, due_date_until }));
+            dispatch(operations.setFilters({ due_date_from, due_date_until }, true));
             dispatch(operations.filterTransactions());
         }
     };
