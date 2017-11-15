@@ -122,7 +122,7 @@ class TransactionFilter extends React.Component {
             { value: EXPENSE, label: 'Despesas' }
         ];
         const prioritySource = transactions.map(transaction => transaction.priority.toString());
-        const deadlineSource = transactions.map(transaction => transaction.deadline.toString());        
+        const deadlineSource = transactions.map(transaction => transaction.deadline.toString());
 
         return (
             <div>

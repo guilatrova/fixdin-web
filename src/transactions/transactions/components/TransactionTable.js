@@ -17,7 +17,7 @@ import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import MoneyIcon from 'material-ui-icons/AttachMoney';
 
-import { DescriptionFilter, CategoryFilter, DueDateFilter, KindFilter } from './filters';
+import { DescriptionFilter, CategoryFilter, DueDateFilter, KindFilter, DeadlineFilter } from './filters';
 import { sort } from './../../../common/sorts';
 import TableSort from './../../../common/components/material/TableSort';
 import DataColumn from './../../../common/components/material/DataColumn';
@@ -164,7 +164,7 @@ class TransactionTable extends React.Component {
                 </DataColumn>
 
                 <DataColumn sortable numeric field="priority">Importancia</DataColumn>
-                <DataColumn sortable numeric field="deadline">Tolerância</DataColumn>
+                <DataColumn sortable numeric field="deadline" onRenderFilter={<DeadlineFilter />}>Tolerância</DataColumn>
                 <DataColumn sortable field="payment_date" onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
                 {displayOptions && <DataColumn onRender={this.formatOptions} />}
             </TableSort>

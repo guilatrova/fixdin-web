@@ -32,6 +32,8 @@ const getPendingExpensesUntil = (state, until) =>
 
 const getFilters = (state) => state.transactions.filters;
 
+const getVisibleDeadlines = (state) => getTransactionsToDisplay(state).map(transaction => transaction.deadline.toString());
+
 export default {
     getErrors,
     isFetching,
@@ -40,5 +42,6 @@ export default {
     getPendingTransactionsUntil,
     getPendingIncomesUntil,
     getPendingExpensesUntil,
-    getFilters
+    getFilters,
+    getVisibleDeadlines
 };
