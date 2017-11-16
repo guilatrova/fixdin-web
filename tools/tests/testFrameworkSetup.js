@@ -1,5 +1,7 @@
 import chai from 'chai';
 import { mockAxios } from './reduxHelpers';
+import { shallow } from 'enzyme';
+import React from 'react';
 
 class LocalStorageMock {
     constructor() {
@@ -42,6 +44,8 @@ const jestExpect = global.expect;
 
 global.jestExpect = jestExpect;
 global.mockAxios = mockAxios;
+global.shallow = shallow;
+global.React = React;
 global.expect = actual => {
     const originalMatchers = jestExpect(actual);
     const chaiMatchers = chai.expect(actual);
