@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from 'material-ui/Button';
-
+import { DialogActions, DialogContent } from 'material-ui/Dialog';
+  
 import TextFieldError from '../../../common/material/TextFieldError';
 
 class CategoryForm extends React.Component {
@@ -45,21 +46,25 @@ class CategoryForm extends React.Component {
         }
 
         return (
-            <form noValidate>
-                
-                <TextFieldError
-                    label="Nome" 
-                    error={errors.name}
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                    maxLength="70"
-                />                     
+            <div>
+                <DialogContent>
 
-                <Button raised color="primary" disabled={disabled} onClick={this.handleSubmit}>
-                    Salvar
-                </Button>
+                    <TextFieldError
+                        label="Nome" 
+                        error={errors.name}
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                        maxLength="70"
+                    />
 
-            </form>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button raised color="primary" disabled={disabled} onClick={this.handleSubmit}>
+                        Salvar
+                    </Button>
+                </DialogActions>
+            </div>
         );
     }
 }
