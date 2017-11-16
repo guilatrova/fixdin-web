@@ -8,7 +8,7 @@ import Dialog, {
   
 import CategoryForm from '../components/CategoryForm';
 
-const CategoryFormModal = ({open, onClose, title, fullScreen, onSubmit, isFetching, category, errors}) => {
+const CategoryFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetching, category, errors}) => {
     return (
         <Dialog
             fullScreen={fullScreen}
@@ -27,7 +27,7 @@ const CategoryFormModal = ({open, onClose, title, fullScreen, onSubmit, isFetchi
     );
 };
 
-CategoryFormModal.propTypes = {
+CategoryFormDialog.propTypes = {
     //Modal
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -40,4 +40,4 @@ CategoryFormModal.propTypes = {
     category: PropTypes.object.isRequired
 };
 
-export default withMobileDialog()(CategoryFormModal);
+export default withMobileDialog()(CategoryFormDialog);
