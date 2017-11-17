@@ -18,10 +18,10 @@ const CategoryFormDialog = ({open, onRequestClose, title, fullScreen, onSubmit, 
             <DialogTitle>{title}</DialogTitle>
 
             <CategoryForm 
-                    onSubmit={onSubmit} 
-                    isFetching={isFetching}
-                    category={category}
-                    errors={errors} />
+                onSubmit={onSubmit} 
+                isFetching={isFetching}
+                category={category}
+                errors={errors} />
 
         </Dialog>
     );

@@ -19,7 +19,7 @@ class CategoryForm extends React.Component {
         errors: {},
         category: {
             id: 0,
-            name: ''
+            name: ""
         }
     };
 
@@ -27,7 +27,8 @@ class CategoryForm extends React.Component {
         super(props);
 
         this.state = {
-            ...this.props.category
+            ...this.props.category,
+            name: this.props.category.name || ""
         };
     }
     
