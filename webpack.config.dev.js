@@ -23,6 +23,7 @@ export default {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'), // Tells React to build in either dev or prod modes. https://facebook.github.io/react/downloads.html (See bottom)
+      "process.env.API_BASE_URL": JSON.stringify('http://localhost:8000/api/v1'),
       __DEV__: true
     }),
     new webpack.HotModuleReplacementPlugin(),
