@@ -44,7 +44,7 @@ describe('balances/duck/reducers', () => {
         });
 
         it('should be handled when failed', () => {
-            const errors = { 'detail':'random error' }
+            const errors = { 'detail':'random error' };
             expect(
                 reducer(initialState, actions.receiveBalance('fail', errors, 'balance'))
             ).to.deep.equal({

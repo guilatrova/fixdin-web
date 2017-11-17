@@ -12,7 +12,7 @@ describe('<CategoryTable />', () => {
     };
 
     it('renders ok', () => {
-        const wrapper = shallow(<CategoryTable {...defaultProps} />)
+        const wrapper = shallow(<CategoryTable {...defaultProps} />);
         expect(wrapper).to.be.ok;
     });
 

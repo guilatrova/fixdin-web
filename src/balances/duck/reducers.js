@@ -27,7 +27,7 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 errors: action.errors,
                 isFetching: false
-            }
+            };
 
         default:
             return {

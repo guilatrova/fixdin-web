@@ -5,7 +5,7 @@ describe('services/query', () => {
     it('should build one query param', () => {
         const obj = {
             param1: 'ABC'
-        }
+        };
 
         expect(buildQueryParams(obj)).to.be.equal('?param1=ABC');
     });
@@ -15,7 +15,7 @@ describe('services/query', () => {
             param1: 'ABC',
             param2: 10,
             param3: 'DEF'
-        }
+        };
 
         expect(buildQueryParams(obj)).to.be.equal('?param1=ABC&param2=10&param3=DEF');
     });

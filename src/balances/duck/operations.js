@@ -1,5 +1,5 @@
 import moment from 'moment';
-import actions from './actions.js';
+import actions from './actions';
 import { formatDate } from './../../services/formatter';
 import handleError from '../../services/genericErrorHandler';
 import { GetOperation } from '../../common/genericDuck/operations';
@@ -44,7 +44,7 @@ const fetchExpectedBalance = () => {
     const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth()+1, 0);
     const until = formatDate(moment(lastDayOfMonth));
     return new GetBalanceOperation('expectedBalance', { until });
-}
+};
 
 export default {
     fetchBalance,

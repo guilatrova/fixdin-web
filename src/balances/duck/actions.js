@@ -4,7 +4,7 @@ const requestBalance = (key) => {
     return {
         type: types.FETCH_BALANCE,
         key
-    }
+    };
 };
 
 const receiveBalance = (result, data, key) => {
@@ -14,7 +14,7 @@ const receiveBalance = (result, data, key) => {
             key,
             result,
             balance: data,
-        }
+        };
     }
 
     return {
@@ -22,10 +22,10 @@ const receiveBalance = (result, data, key) => {
         key,
         result,
         errors: data
-    }
-}
+    };
+};
 
 export default {
     requestBalance,
     receiveBalance
-}
+};
