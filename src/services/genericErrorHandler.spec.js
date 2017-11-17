@@ -1,4 +1,3 @@
-/*eslint no-console: [{ allow: ["warn", "error"] }] */
 import handleError from './genericErrorHandler';
 
 describe('services/genericErrorHandler', () => {

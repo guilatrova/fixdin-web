@@ -1,4 +1,3 @@
-/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const UNKNOWN_ERROR_NAME = 'detail';
 const TOKEN_EXPIRED_MESSAGE = 'Token has expired';
 
