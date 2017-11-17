@@ -10,10 +10,10 @@ import { drawerWidth } from '../contants';
 
 const styles = theme => ({
   root: {
-    width: '100%',
-    height: 430,
+    width: '100%',    
     zIndex: 1,
     overflow: 'hidden',
+    overflowX: 'auto'
   },
   appFrame: {
     position: 'relative',

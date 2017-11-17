@@ -10,7 +10,7 @@ import TableSort from './../../../common/material/TableSort';
 import DataColumn from './../../../common/material/DataColumn';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 
-const CategoryList = ({categories, onEdit, onDelete}) => {
+const CategoryTable = ({categories, onEdit, onDelete}) => {
     const formatOptions = (category) => {
         return (
             <CollapsibleMenu>
@@ -33,10 +33,10 @@ const CategoryList = ({categories, onEdit, onDelete}) => {
     );
 };
 
-CategoryList.propTypes = {
+CategoryTable.propTypes = {
     categories: PropTypes.array.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired
 };
 
-export default CategoryList;
+export default CategoryTable;

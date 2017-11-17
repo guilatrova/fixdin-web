@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { withStyles } from 'material-ui/styles';
-import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
 import AddIcon from 'material-ui-icons/Add';
 
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
@@ -13,10 +13,16 @@ import ConfirmDeleteDialog from '../components/ConfirmDeleteDialog';
 import { operations } from '../duck';
 import { EXPENSE, INCOME } from '../../kinds';
 
-const styles = () => ({
+const styles = theme => ({
     root: {
       flexGrow: 1,
       marginTop: 30,
+      overflowX: 'auto',
+    },
+    paper: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+        marginBottom: theme.spacing.unit * 6,
     }
 });
 
@@ -101,19 +107,19 @@ class CategoryPage extends React.Component {
 
         return (
             <div className={classes.root}>
-                <Grid container spacing={24}>
+                <Paper>
 
-                    <Grid item xs={12}>
+                    <div className={classes.table}>
                         <CategoryTable
                             categories={categories}
                             onEdit={this.handleRequestEdit}
                             onDelete={this.handleRequestDelete} />
-                    </Grid>
+                    </div>
 
                     <FloatingActionButton color="primary" onClick={this.handleRequestCreate}>
                         <AddIcon />
                     </FloatingActionButton>
-                </Grid>
+                </Paper>
 
                 <CategoryFormDialog
                     open={this.state.openCategoryFormDialog}
