@@ -8,12 +8,12 @@ import Dialog, {
   
 import CategoryForm from '../components/CategoryForm';
 
-const CategoryFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetching, category, errors}) => {
+const CategoryFormDialog = ({open, onRequestClose, title, fullScreen, onSubmit, isFetching, category, errors}) => {
     return (
         <Dialog
             fullScreen={fullScreen}
             open={open}
-            onRequestClose={onClose}>
+            onRequestClose={onRequestClose}>
 
             <DialogTitle>{title}</DialogTitle>
 
@@ -30,7 +30,7 @@ const CategoryFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetch
 CategoryFormDialog.propTypes = {
     //Modal
     open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
+    onRequestClose: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     fullScreen: PropTypes.bool.isRequired,
     //CategoryForm

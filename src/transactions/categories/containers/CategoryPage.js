@@ -24,7 +24,7 @@ class CategoryPage extends React.Component {
 
     static propTypes = {
         isFetching: PropTypes.bool.isRequired,
-        classes: PropTypes.classes.isRequired,
+        classes: PropTypes.object.isRequired,
         categories: PropTypes.array.isRequired,
         errors: PropTypes.object.isRequired,
         editingCategory: PropTypes.object,
@@ -117,7 +117,7 @@ class CategoryPage extends React.Component {
 
                 <CategoryFormDialog
                     open={this.state.openCategoryFormDialog}
-                    onClose={this.handleCloseFormDialog}
+                    onRequestClose={this.handleCloseFormDialog}
                     title={this.props.editingCategory.id ? "Editar categoria" : "Criar categoria"}
 
                     isFetching={isFetching}
@@ -126,14 +126,14 @@ class CategoryPage extends React.Component {
                     category={this.props.editingCategory}
                 />
 
-                <ConfirmDeleteDialog 
+                {/* <ConfirmDeleteDialog 
                     open={this.state.openDeleteDialog} 
-                    onClose={this.handleCloseDeleteDialog} 
+                    onRequestClose={this.handleCloseDeleteDialog} 
                     onConfirm={this.handleConfirmDelete}
                     error={this.props.errors.detail} >
 
                     Tem certeza que deseja deletar esta categoria?
-                </ConfirmDeleteDialog>
+                </ConfirmDeleteDialog> */}
             </div>
         );
     }
