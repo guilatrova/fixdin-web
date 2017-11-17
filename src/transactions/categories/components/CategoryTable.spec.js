@@ -1,6 +1,6 @@
-import CategoryList from './CategoryList';
+import CategoryTable from './CategoryTable';
 
-describe('<CategoryList />', () => {
+describe('<CategoryTable />', () => {
 
     const defaultProps = {
         categories: [
@@ -12,14 +12,14 @@ describe('<CategoryList />', () => {
     };
 
     it('renders ok', () => {
-        const wrapper = shallow(<CategoryList {...defaultProps} />)
+        const wrapper = shallow(<CategoryTable {...defaultProps} />)
         expect(wrapper).to.be.ok;
     });
 
     xit('should calls onEdit', () => {
         let editSpy = jest.fn();
 
-        const wrapper = shallow(<CategoryList {...defaultProps} onEdit={editSpy} />);
+        const wrapper = shallow(<CategoryTable {...defaultProps} onEdit={editSpy} />);
 
         wrapper.find('.edit-button').first().simulate('click');
 
@@ -30,7 +30,7 @@ describe('<CategoryList />', () => {
     xit('should calls onDelete', () => {
         let deleteSpy = jest.fn();
 
-        const wrapper = shallow(<CategoryList {...defaultProps} onDelete={deleteSpy} />);
+        const wrapper = shallow(<CategoryTable {...defaultProps} onDelete={deleteSpy} />);
 
         wrapper.find('.delete-button').first().simulate('click');
 
