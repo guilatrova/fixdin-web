@@ -5,6 +5,8 @@ import Button from 'material-ui/Button';
 import { DialogActions, DialogContent } from 'material-ui/Dialog';
   
 import TextFieldError from '../../../common/material/TextFieldError';
+import KindSwitch from '../../components/KindSwitch';
+import { getKind, EXPENSE } from '../../kinds';
 
 class CategoryForm extends React.Component {
 
@@ -19,7 +21,8 @@ class CategoryForm extends React.Component {
         errors: {},
         category: {
             id: 0,
-            name: ""
+            name: "",
+            kind: EXPENSE.id
         }
     };
 
@@ -28,13 +31,10 @@ class CategoryForm extends React.Component {
 
         this.state = {
             ...this.props.category,
-            name: this.props.category.name || ""
+            name: this.props.category.name || "",
+            kind: getKind(this.props.category.kind) || EXPENSE
         };
     }
-    
-    handleChange = e => this.setState({ [e.target.name]: e.target.value });
-
-    handleSelectChange = ({value}) => this.setState({ kind: value });
 
     handleSubmit = () => this.props.onSubmit(this.state);
 
@@ -42,7 +42,7 @@ class CategoryForm extends React.Component {
         const { errors } = this.props;
 
         let disabled = true;
-        if (!this.props.isFetching && this.state.name) {
+        if (!this.props.isFetching && this.state.name && this.state.kind) {
             disabled = false;
         }
 
@@ -50,11 +50,16 @@ class CategoryForm extends React.Component {
             <div>
                 <DialogContent>
 
+                    <KindSwitch 
+                        value={this.state.kind}
+                        onChange={kind => this.setState({ kind })}
+                    />                        
+
                     <TextFieldError
                         label="Nome" 
                         error={errors.name}
                         value={this.state.name}
-                        onChange={this.handleChange}
+                        onChange={e => this.setState({ name: e.target.value })}
                         maxLength="70"
                     />
 

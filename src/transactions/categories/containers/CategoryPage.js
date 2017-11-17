@@ -53,8 +53,7 @@ class CategoryPage extends React.Component {
     }
 
     handleCategoryFormSubmit = (category) => {
-        // TO DO: change static expense
-        this.props.onSubmit(category.name, EXPENSE).then(({result}) => {
+        this.props.onSubmit(category).then(({result}) => {
             if (result == 'success') {
                 this.setState({ openCategoryFormDialog: false });
                 this.props.onFinishEdit();
@@ -157,9 +156,9 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(operations.fetchCategories(EXPENSE));
             dispatch(operations.fetchCategories(INCOME));
         },
-        onSubmit: (name, kind) => dispatch(operations.saveCategory(name, kind)),
+        onSubmit: (category) => dispatch(operations.saveCategory(category)),
         onDelete: (id) => dispatch(operations.deleteCategory(id, EXPENSE)),//TO DO: remove static kind
-        onEdit: (id) => dispatch(operations.editCategory(id)),        
+        onEdit: (id) => dispatch(operations.editCategory(id)),
         onFinishEdit: () => dispatch(operations.finishEditCategory())
     };
 };

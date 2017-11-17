@@ -24,6 +24,6 @@ export function getKind(id) {
             return INCOME;
 
         default:
-            return {};
+            return undefined;
     }
 }
