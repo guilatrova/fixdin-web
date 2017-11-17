@@ -12,6 +12,7 @@ class App extends React.Component {
 				<AppBodyContainer>
 					<Switch>
 						<Route exact path="/" component={CategoryPage} />
+						<Route exact path="/categories" component={CategoryPage} />
 						{/* <Route exact path="/home" component={HomePage} /> */}
 						{/* <Route exact path="/test" com1ponent={() => "TESTE"} /> */}
 						{/* <Route path="/fuel-savings" component={FuelSavingsPage} /> */}

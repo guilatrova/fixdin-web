@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
+import List from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
+import LabelIcon from 'material-ui-icons/Label';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { withStyles } from 'material-ui/styles';
 
 import { drawerWidth } from '../contants';
+import DrawerItem from './DrawerItem';
 
 const styles = theme => ({
     drawerPaper: {
@@ -41,8 +44,11 @@ const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
             </div>
 
             <Divider />
-            {/* <List className={classes.list}>{mailFolderListItems}</List> */}
-            <Divider />
+            <List className={classes.list}>
+                <DrawerItem icon={<LabelIcon />} text="Movimentações" to="/transactions" />
+                <DrawerItem icon={<LabelIcon />} text="Categorias" to="/categories" />
+            </List>
+            {/* <Divider /> */}
             {/* <List className={classes.list}>{otherMailFolderListItems}</List> */}
           </div>
       </Drawer>        
