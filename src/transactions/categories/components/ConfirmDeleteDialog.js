@@ -8,13 +8,13 @@ import Dialog, {
     DialogTitle,
 } from 'material-ui/Dialog';
 
-const ConfirmDeleteDialog = ({open, onConfirm, onRequestClose, error}) => {
+const ConfirmDeleteDialog = ({open, onConfirm, onRequestClose, error, children}) => {
     return (
         <Dialog open={open} onRequestClose={onRequestClose}>
             <DialogTitle>Confirmar ação</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {this.props.children}
+                    {children}
                     {error}
                 </DialogContentText>
             </DialogContent>
@@ -36,7 +36,8 @@ ConfirmDeleteDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired,
-    error: PropTypes.string
+    error: PropTypes.string,
+    children: PropTypes.node,
 };
 
 export default ConfirmDeleteDialog;

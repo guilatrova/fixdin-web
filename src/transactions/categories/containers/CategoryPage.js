@@ -88,7 +88,7 @@ class CategoryPage extends React.Component {
         });
     }
 
-    handleCloseDeleteDialog() {
+    handleCloseDeleteDialog = () => {
         this.props.onFinishEdit();
         this.setState({
             openDeleteDialog: false,
@@ -126,14 +126,14 @@ class CategoryPage extends React.Component {
                     category={this.props.editingCategory}
                 />
 
-                {/* <ConfirmDeleteDialog 
+                <ConfirmDeleteDialog 
                     open={this.state.openDeleteDialog} 
                     onRequestClose={this.handleCloseDeleteDialog} 
                     onConfirm={this.handleConfirmDelete}
                     error={this.props.errors.detail} >
 
                     Tem certeza que deseja deletar esta categoria?
-                </ConfirmDeleteDialog> */}
+                </ConfirmDeleteDialog>
             </div>
         );
     }
