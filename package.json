@@ -35,11 +35,14 @@
     "material-ui-pickers": "^1.0.0-beta.2",
     "moment": "^2.19.2",
     "object-assign": "4.1.0",
+    "rc-slider": "^8.4.0",
     "react": "16.0.0",
     "react-dom": "16.0.0",
+    "react-number-format": "^3.0.2",
     "react-redux": "5.0.5",
     "react-router-dom": "4.2.2",
     "react-router-redux": "5.0.0-alpha.6",
+    "react-select": "^1.0.0-rc.10",
     "redux": "3.6.0",
     "redux-thunk": "2.1.0",
     "typeface-roboto": "0.0.43"
@@ -190,7 +193,15 @@
     },
     "rules": {
       "quotes": 0,
-      "no-console": [2, { "allow": ["warn", "error"] }],
+      "no-console": [
+        2,
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ],
       "no-debugger": 1,
       "no-var": 1,
       "semi": [

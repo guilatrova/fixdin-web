@@ -152,7 +152,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: () => {
+        onFetch: () => { //TO DO: add one unique fetch endpoint
             dispatch(operations.fetchCategories(EXPENSE));
             dispatch(operations.fetchCategories(INCOME));
         },

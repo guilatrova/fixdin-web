@@ -5,8 +5,6 @@ class FetchOperation extends Operation {
     constructor(kind) {
         super(actions.requestCategories, actions.receiveCategories);
         this.kind = kind;
-
-        return this.dispatch();
     }
 
     onSucceed(dispatch, receiveAction, data) {
@@ -24,8 +22,6 @@ class SaveOperation extends Operation {
         this.id = id;
         this.name = name;
         this.kind = kind;
-
-        return this.dispatch();
     }
 
     onSucceed(dispatch, receiveAction, data) {
@@ -43,12 +39,12 @@ class SaveOperation extends Operation {
 
 const editCategory = actions.editCategory;
 const finishEditCategory = actions.finishEditCategory;
-const fetchCategories = (kind) => new FetchOperation(kind);
+const fetchCategories = (kind) => new FetchOperation(kind).dispatch();
 const fetchAllCategories = () => {
     throw 'Not implemented yet';
 };
 
-const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind);
+const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind).dispatch();
 const deleteCategory = createDeleteOperation(
     actions.requestDeleteCategory, 
     actions.receiveDeleteCategory, 

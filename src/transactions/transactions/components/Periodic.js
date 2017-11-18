@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { DatePicker } from 'material-ui-pickers';
-import TextFieldError from './../../../common/material/TextFieldError';
-
 import { FormControl } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import Select from 'material-ui/Select';
 import { MenuItem } from 'material-ui/Menu';
+
+import TextFieldError from './../../../common/material/TextFieldError';
 
 export default class Periodic extends React.Component{    
     static propTypes = {
