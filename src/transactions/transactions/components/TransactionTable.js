@@ -23,7 +23,8 @@ import {
     DueDateFilter, 
     KindFilter, 
     DeadlineFilter,
-    PriorityFilter 
+    PriorityFilter,
+    PaymentFilter
 } from './filters';
 import { sort } from './../../../common/sorts';
 import TableSort from './../../../common/components/material/TableSort';
@@ -172,7 +173,7 @@ class TransactionTable extends React.Component {
 
                 <DataColumn sortable numeric field="priority" onRenderFilter={<PriorityFilter />}>Importancia</DataColumn>
                 <DataColumn sortable numeric field="deadline" onRenderFilter={<DeadlineFilter />}>Tolerância</DataColumn>
-                <DataColumn sortable field="payment_date" onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
+                <DataColumn sortable field="payment_date" onRenderFilter={<PaymentFilter />} onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
                 {displayOptions && <DataColumn onRender={this.formatOptions} />}
             </TableSort>
         );

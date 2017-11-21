@@ -46,7 +46,7 @@ class DueDateFilter extends React.Component {
                 <DatetimeInput
                     timeFormat={false}
                     onChange={(due_date_from) => this.setState({ due_date_from })}
-                    onBlur={(value) => handleDateOnBlur('due_date_from', value)}
+                    onBlur={(value) => this.handleDateOnBlur('due_date_from', value)}
                     value={this.state.due_date_from}
                     closeOnSelect={true}
                     closeOnTab={true} />
@@ -55,7 +55,7 @@ class DueDateFilter extends React.Component {
                 <DatetimeInput
                     timeFormat={false}
                     onChange={(due_date_until) => this.setState({ due_date_until })}
-                    onBlur={(value) => onBlur('due_date_until', value)}
+                    onBlur={(value) => this.handleDateOnBlur('due_date_until', value)}
                     value={this.state.due_date_until}
                     closeOnSelect={true}
                     closeOnTab={true} />
