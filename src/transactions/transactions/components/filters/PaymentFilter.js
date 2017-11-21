@@ -35,7 +35,14 @@ class PaymentFilter extends React.Component {
         });
     }
 
-    handleSubmit = () => this.props.onSubmit(this.state.payed, this.state.payment_date_from, this.state.payment_date_until);
+    handleSubmit = () => {
+        if (this.state.payed == "1") {
+            this.props.onSubmit(this.state.payed, this.state.payment_date_from, this.state.payment_date_until);
+        }
+        else {
+            this.props.onSubmit(this.state.payed, null, null);
+        }
+    }
 
     handleDateOnBlur = (id, value) => {
         if (!moment.isMoment(value)) {
@@ -57,7 +64,7 @@ class PaymentFilter extends React.Component {
                     <MenuItem value="1">SIM</MenuItem>
                 </Select>
 
-                {this.state.payed && <div>
+                {this.state.payed == "1" && <div>
 
                     <label>De</label>
                     <DatetimeInput
