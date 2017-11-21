@@ -30,7 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.17.0",
-    "material-ui": "^1.0.0-beta.20",
+    "material-ui": "^1.0.0-beta.21",
     "material-ui-icons": "^1.0.0-beta.17",
     "material-ui-pickers": "^1.0.0-beta.2",
     "moment": "^2.19.2",
@@ -248,7 +248,7 @@
       "react/no-did-mount-set-state": 1,
       "react/no-did-update-set-state": 1,
       "react/no-direct-mutation-state": 1,
-      "react/no-multi-comp": 1,
+      "react/no-multi-comp": 0,
       "react/no-set-state": 0,
       "react/no-unknown-property": 1,
       "react/prefer-es6-class": 1,
