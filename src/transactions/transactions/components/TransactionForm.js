@@ -47,7 +47,7 @@ const emptyTransaction = {
     category: undefined,
     value: '0,00',
     deadline: undefined,
-    priority: 0,
+    priority: 1,
     payment_date: undefined,
     details: '',
     periodic: undefined,
@@ -99,6 +99,7 @@ export default class TransactionForm extends React.Component {
 
         this.state = { 
             ...props.transaction,
+            priority: this.convertPriority(props.transaction.priority),
             payed: !!props.transaction.payment_date,
             kind,            
             errors: {},
@@ -113,7 +114,9 @@ export default class TransactionForm extends React.Component {
     }
 
     handleSubmit(type, postSaveOption = CLOSE) {
-        this.props.onSubmit(type, postSaveOption, { ...this.state }, this.state.kind);
+        this.props.onSubmit(type, postSaveOption, 
+            { ...this.state, priority: this.convertPriority(this.state.priority) }, 
+            this.state.kind);
     }
 
     handleOptionSelected(postSaveOption) {
@@ -155,6 +158,16 @@ export default class TransactionForm extends React.Component {
             isPeriodic: checked,
             periodic: checked ? { frequency: "daily" } : null
         });
+    }
+
+    convertPriority = (priority) => {        
+        switch (priority) {
+            case 1: return 5;
+            case 2: return 4;
+            case 4: return 2;
+            case 5: return 1;
+            default: return priority;
+        }
     }
 
     isSubmitDisabled() {
@@ -226,12 +239,12 @@ export default class TransactionForm extends React.Component {
             </HorizontalFormGroupError>
 
             <HorizontalFormGroupError id="priority" label="Importancia" error={errors.priority}>
-                <Slider min={0} max={5} defaultValue={3} marks={ { 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'} }
+                <Slider min={1} max={5} step={null} marks={{ 1: '5', 2: '4', 3: '3', 4: '2', 5: '1'}}
                         value={this.state.priority} onChange={(priority) => this.setState({priority})}/>
             </HorizontalFormGroupError>
 
             <HorizontalFormGroupError id="deadline" label="Tolerância" error={errors.deadline} >
-                <Slider min={0} max={60} step={null} marks={ { 0: '0', 15: '15', 30: '30', 60: '60'} }
+                <Slider min={0} max={60} step={null} marks={ { 0: '0', 5: '5', 15: '15', 30: '30', 60: '60'} }
                         value={this.state.deadline} onChange={(deadline) => this.setState({deadline})}/>
             </HorizontalFormGroupError>
 
