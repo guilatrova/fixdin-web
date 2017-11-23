@@ -1,13 +1,16 @@
 /* eslint-disable import/default */
-
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import configureStore, { history } from './redux/store';
-// import 'typeface-roboto';
+import moment from 'moment';
 import Root from './Root';
+
+require('./favicon.ico');
 import './styles/base.scss';
-require('./favicon.ico'); // Tell webpack to load favicon.ico
+import 'moment/locale/pt-br';
+ 
+moment.locale('pt-br');
 
 const store = configureStore();
 
