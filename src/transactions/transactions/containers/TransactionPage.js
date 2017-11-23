@@ -72,53 +72,30 @@ class TransactionPage extends React.Component {
         onFinishEdit: PropTypes.func.isRequired,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            showTransactionFormModal: false,
-            showTransactionDeleteModal: false,
-            showFilterForm: false
-        };        
-
-        //Fetch
-        this.handleRefresh = this.handleRefresh.bind(this);
-
-        //Filter
-        this.handleShowFilter = this.handleShowFilter.bind(this);
-        this.handleFilter = this.handleFilter.bind(this);
-
-        //Create/Edit Modal
-        this.handleCopy = this.handleCopy.bind(this);
-        this.handleEdit = this.handleEdit.bind(this);
-        this.handleCreateTransaction = this.handleCreateTransaction.bind(this);
-        this.handleHideTransactionFormModal = this.handleHideTransactionFormModal.bind(this);
-        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);        
-
-        //Delete Modal
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
-        this.handleHideDeleteModal = this.handleHideDeleteModal.bind(this);
+    state = {
+        showTransactionFormModal: false,
+        showTransactionDeleteModal: false,
+        showFilterForm: false
     }
 
     componentDidMount() {
         this.props.onFetch();
     }    
 
-    handleRefresh() {
+    handleRefresh = () => {
         this.props.onFetch();
     }
 
-    handleCreateTransaction() {
+    handleCreateTransaction = () => {
         this.setState({ showTransactionFormModal: true });
     }    
 
-    handleHideTransactionFormModal() {
+    handleHideTransactionFormModal = () => {
         this.props.onFinishEdit();
         this.setState({ showTransactionFormModal: false });
     }
 
-    handleTransactionFormSubmit(type, option, transaction, kind) {
+    handleTransactionFormSubmit = (type, option, transaction, kind) => {
         this.props.onSubmit(transaction, kind, type).then(({result}) => {
             if (result == 'success') {
 
@@ -134,22 +111,22 @@ class TransactionPage extends React.Component {
         });
     }
 
-    handleCopy(id) {
+    handleCopy = id => {
         this.setState({ showTransactionFormModal: true });
         this.props.onCopy(id);        
     }
 
-    handleEdit(id) {
+    handleEdit = id => {
         this.setState({ showTransactionFormModal: true });
         this.props.onEdit(id);        
     }
 
-    handlePay = (id) => {
+    handlePay = id => {
         const kindId = this.props.transactions.find(transaction => transaction.id == id).kind;        
         this.props.onPay(getKind(kindId), id);
     }
 
-    handleDelete(id) {
+    handleDelete = id => {
         const toDeletePeriodicTransaction = this.props.transactions.find(transaction => transaction.id == id).periodic_transaction;
         this.setState({ 
             showTransactionDeleteModal: true,
@@ -158,7 +135,7 @@ class TransactionPage extends React.Component {
         });
     }
 
-    handleConfirmDelete(type) {
+    handleConfirmDelete = type => {
         const id = (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) ? this.state.toDeletePeriodicTransaction : this.state.toDeleteId;
         const kind = getKind(this.props.transactions.find(transaction => transaction.id == id).kind);
 
@@ -173,7 +150,7 @@ class TransactionPage extends React.Component {
         });
     }
 
-    handleHideDeleteModal() {
+    handleHideDeleteModal = () => {
         this.props.onFinishEdit();
         this.setState({ 
             showTransactionDeleteModal: false, 
@@ -182,11 +159,11 @@ class TransactionPage extends React.Component {
         });
     }
 
-    handleShowFilter() {
+    handleShowFilter = () => {
         this.setState({ showFilterForm: !this.state.showFilterForm });
     }
 
-    handleFilter(filters) {
+    handleFilter = filters => {
         if (filters) {
             this.props.onFilter(filters);
         }
