@@ -3,5 +3,9 @@ html, body {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 @import '~react-select/dist/react-select';
 @import '~rc-slider/assets/index';
