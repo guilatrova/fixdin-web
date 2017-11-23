@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 import { DatePicker } from 'material-ui-pickers';
-// import CurrencyInput from 'react-currency-input';
+
 
 import TransactionsList from '../components/TransactionsList';
+import TextFieldCurrency from '../../common/material/TextFieldCurrency';
 import { selectors as balancesSelectors } from '../../balances/duck';
 import { operations, selectors } from '../duck';
 import { formatCurrencyDisplay, formatCurrency } from '../../services/formatter';
@@ -45,9 +46,8 @@ class Step1 extends React.Component {
         this.props.onChangeUntilDate(untilDate);
     }
 
-    handleValueToSaveChange = valueToSave => {
-        valueToSave = formatCurrency(valueToSave);
-        this.props.onChangeValueToSave(valueToSave);
+    handleValueToSaveChange = value => {
+        this.props.onChangeValueToSave(value.floatValue);
     }
 
     handleToggle = value => {
@@ -72,25 +72,23 @@ class Step1 extends React.Component {
                 <Grid item xs={12} md={3}>
 
                     <DatePicker
+                        label="Até dia"
                         value={untilDate}
                         onChange={this.handleDateChange}
                         autoOk={true}
                         format="DD MMMM YYYY"
                     />
 
-                    
-                    {/* TODO: Find a better number input support
-                    <CurrencyInput 
-                        className="border-focus-blue form-control"
+                    <TextFieldCurrency
+                        id="valueSave"
+                        label="Poupar"
                         onChange={this.handleValueToSaveChange}
                         value={valueToSave}
-                        prefix="R$ "
-                        decimalSeparator=","
-                        thousandSeparator="." /> */}
+                    />
 
                     <h3>{ formatCurrencyDisplay(currentBalance) }</h3>
                     <h3>+ { formatCurrencyDisplay(totalChecked) }</h3>
-                    <h3>- { valueToSave }</h3>
+                    <h3>- { formatCurrencyDisplay(valueToSave) }</h3>
                     <h1>{ formatCurrencyDisplay(total) }</h1>
                     
                 </Grid>
@@ -109,11 +107,11 @@ class Step1 extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentBalance: balancesSelectors.getRealBalance(state),
+        currentBalance: balancesSelectors.getRealBalance(state) || 0,
         visibleIncomes: selectors.step1.getVisibleIncomes(state),
-        total: selectors.step1.getTotal(state),
+        total: selectors.step1.getTotal(state) || 0,
         totalChecked: selectors.step1.getTotalChecked(state),
-        valueToSave: formatCurrencyDisplay(selectors.step1.getValueToSave(state)),
+        valueToSave: selectors.step1.getValueToSave(state),
         untilDate: selectors.step1.getUntilDate(state),
         checked: selectors.step1.getChecked(state)
     };

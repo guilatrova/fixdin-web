@@ -228,17 +228,13 @@ class TransactionForm extends React.Component {
                         onChange={ (category) => this.setState({ category }) } /> */}
                 {/* </HorizontalFormGroupError> */}
 
-                <FormControl>
-                    <InputLabel htmlFor="id">Valor</InputLabel>
-
-                    <TextFieldCurrency 
-                        id="value"
-                        label="Valor" 
-                        error={errors.value}
-                        value={this.state.value}
-                        onChange={value => this.setState({ value: value.floatValue })}
-                    />
-                </FormControl>
+                <TextFieldCurrency 
+                    id="value"
+                    label="Valor"
+                    error={errors.value}
+                    value={this.state.value}
+                    onChange={value => this.setState({ value: value.floatValue })}
+                />
 
                 <div className={classes.widthLimit}>
                     <InputLabel htmlFor="priority-slider">Importância</InputLabel>
