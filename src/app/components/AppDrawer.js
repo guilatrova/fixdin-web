@@ -47,6 +47,7 @@ const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
             <List className={classes.list}>
                 <DrawerItem icon={<LabelIcon />} text="Movimentações" to="/transactions" />
                 <DrawerItem icon={<LabelIcon />} text="Categorias" to="/categories" />
+                <DrawerItem icon={<LabelIcon />} text="Decisões" to="/payment-order" />                
             </List>
             {/* <Divider /> */}
             {/* <List className={classes.list}>{otherMailFolderListItems}</List> */}
