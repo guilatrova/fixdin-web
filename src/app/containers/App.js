@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import AppBodyContainer from './AppBodyContainer';
 
+import DashboardPage from '../../dashboard/containers/DashboardPage';
 import CategoryPage from  '../../transactions/categories/containers/CategoryPage';
 import TransactionPage from '../../transactions/transactions/containers/TransactionPage';
 import PaymentOrderPage from '../../paymentOrders/containers/PaymentOrderPage';
@@ -13,7 +14,7 @@ class App extends React.Component {
 			<div>
 				<AppBodyContainer>
 					<Switch>
-						<Route exact path="/" component={TransactionPage} />
+						<Route exact path="/" component={DashboardPage} />
 						<Route exact path="/categories" component={CategoryPage} />
 						<Route exact path="/transactions" component={TransactionPage} />
 						<Route exact path="/payment-order" component={PaymentOrderPage} />
