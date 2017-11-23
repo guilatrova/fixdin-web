@@ -8,15 +8,13 @@ import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
-import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import RefreshIcon from 'material-ui-icons/Refresh';
 
 import { formatCurrencyDisplay } from '../../../services/formatter';
 import TransactionTable from '../components/TransactionTable';
-// import TransactionFormModal from './TransactionFormModal';
-// import TransactionFilter from './../components/TransactionFilter';
+import TransactionFormDialog from './TransactionFormDialog';
 import * as saveOptions from './../components/TransactionForm';
 // import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
@@ -179,7 +177,7 @@ class TransactionPage extends React.Component {
             <div className={classes.root}>
                 <Paper>
                     
-                    <Toolbar className>
+                    <Toolbar>
                         <div className={classes.title}>
                             <Typography type="title">Movimentações | Receitas: {`R$ ${totalIncomes}`} | Despesas: {`R$ ${totalExpenses}`} | Total: {`R$ ${total}`}</Typography>
                         </div>
@@ -203,11 +201,15 @@ class TransactionPage extends React.Component {
                             onDelete={this.handleDelete}
                             onCopy={this.handleCopy} />
                     </div>
+
+                    <FloatingActionButton color="primary" onClick={this.handleCreateTransaction}>
+                        <AddIcon />
+                    </FloatingActionButton>
                 </Paper>            
 
-                {/* <TransactionFormModal
-                    show={this.state.showTransactionFormModal}
-                    onHide={this.handleHideTransactionFormModal}
+                <TransactionFormDialog
+                    open={this.state.showTransactionFormModal}
+                    onRequestClose={this.handleHideTransactionFormModal}
                     title={this.props.editingTransaction.id ? `Editar` : `Criar`}
 
                     onSubmit={this.handleTransactionFormSubmit}
@@ -215,7 +217,7 @@ class TransactionPage extends React.Component {
                     errors={this.props.errors}
                     transaction={Object.keys(this.props.editingTransaction).length > 0 ? this.props.editingTransaction : undefined} />
 
-                <ConfirmDeleteDialog
+                {/* <ConfirmDeleteDialog
                     open={this.state.showTransactionDeleteModal} 
                     onRequestClose={this.handleHideDeleteModal}
                     onConfirm={this.handleConfirmDelete}
@@ -223,11 +225,9 @@ class TransactionPage extends React.Component {
                     error={this.props.errors['detail']}>
 
                     Tem certeza que deseja deletar esta movimentação?
-                </ConfirmDeleteDialog>
+                </ConfirmDeleteDialog>*/}
 
-                <FloatingActionButton color="primary" onClick={this.handleCreateTransaction}>                
-                    <AddIcon />
-                </FloatingActionButton> */}
+                
 
             </div>
         );

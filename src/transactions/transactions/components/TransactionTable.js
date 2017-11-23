@@ -25,7 +25,6 @@ import { getKind } from '../../kinds';
 
 class TransactionTable extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         transactions: PropTypes.array.isRequired,
         categories: PropTypes.array.isRequired,
         onEdit: PropTypes.func.isRequired,
