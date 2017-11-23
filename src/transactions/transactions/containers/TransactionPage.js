@@ -16,7 +16,7 @@ import { formatCurrencyDisplay } from '../../../services/formatter';
 import TransactionTable from '../components/TransactionTable';
 import TransactionFormDialog from './TransactionFormDialog';
 import * as saveOptions from './../components/TransactionForm';
-// import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
+import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
@@ -71,8 +71,8 @@ class TransactionPage extends React.Component {
     }
 
     state = {
-        showTransactionFormModal: false,
-        showTransactionDeleteModal: false,
+        openTransactionFormDialog: false,
+        openDeleteDialog: false,
         showFilterForm: false
     }
 
@@ -85,12 +85,12 @@ class TransactionPage extends React.Component {
     }
 
     handleCreateTransaction = () => {
-        this.setState({ showTransactionFormModal: true });
+        this.setState({ openTransactionFormDialog: true });
     }    
 
     handleHideTransactionFormModal = () => {
         this.props.onFinishEdit();
-        this.setState({ showTransactionFormModal: false });
+        this.setState({ openTransactionFormDialog: false });
     }
 
     handleTransactionFormSubmit = (type, option, transaction, kind) => {
@@ -99,7 +99,7 @@ class TransactionPage extends React.Component {
 
                 switch(option) {
                     case saveOptions.CLOSE:
-                        this.setState({ showTransactionFormModal: false });
+                        this.setState({ openTransactionFormDialog: false });
 
                     default:
                         this.props.onFinishEdit();
@@ -110,12 +110,12 @@ class TransactionPage extends React.Component {
     }
 
     handleCopy = id => {
-        this.setState({ showTransactionFormModal: true });
+        this.setState({ openTransactionFormDialog: true });
         this.props.onCopy(id);        
     }
 
     handleEdit = id => {
-        this.setState({ showTransactionFormModal: true });
+        this.setState({ openTransactionFormDialog: true });
         this.props.onEdit(id);        
     }
 
@@ -127,7 +127,7 @@ class TransactionPage extends React.Component {
     handleDelete = id => {
         const toDeletePeriodicTransaction = this.props.transactions.find(transaction => transaction.id == id).periodic_transaction;
         this.setState({ 
-            showTransactionDeleteModal: true,
+            openDeleteDialog: true,
             toDeleteId: id,
             toDeletePeriodicTransaction 
         });
@@ -140,7 +140,7 @@ class TransactionPage extends React.Component {
         this.props.onDelete(id, kind, type).then(({result}) => {
             if (result == 'success') {
                 this.setState({ 
-                    showTransactionDeleteModal: false, 
+                    openDeleteDialog: false, 
                     toDeleteId: undefined,
                     toDeletePeriodicTransaction: undefined
                 });
@@ -151,7 +151,7 @@ class TransactionPage extends React.Component {
     handleHideDeleteModal = () => {
         this.props.onFinishEdit();
         this.setState({ 
-            showTransactionDeleteModal: false, 
+            openDeleteDialog: false, 
             toDeleteId: undefined,
             toDeletePeriodicTransaction: undefined
         });
@@ -208,7 +208,7 @@ class TransactionPage extends React.Component {
                 </Paper>            
 
                 <TransactionFormDialog
-                    open={this.state.showTransactionFormModal}
+                    open={this.state.openTransactionFormDialog}
                     onRequestClose={this.handleHideTransactionFormModal}
                     title={this.props.editingTransaction.id ? `Editar` : `Criar`}
 
@@ -217,15 +217,15 @@ class TransactionPage extends React.Component {
                     errors={this.props.errors}
                     transaction={Object.keys(this.props.editingTransaction).length > 0 ? this.props.editingTransaction : undefined} />
 
-                {/* <ConfirmDeleteDialog
-                    open={this.state.showTransactionDeleteModal} 
+                <ConfirmDeleteDialog
+                    open={this.state.openDeleteDialog} 
                     onRequestClose={this.handleHideDeleteModal}
                     onConfirm={this.handleConfirmDelete}
                     isPeriodic={this.state.toDeletePeriodicTransaction}
                     error={this.props.errors['detail']}>
 
                     Tem certeza que deseja deletar esta movimentação?
-                </ConfirmDeleteDialog>*/}
+                </ConfirmDeleteDialog>
 
                 
 
