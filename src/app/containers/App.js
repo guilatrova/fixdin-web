@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import AppBodyContainer from './AppBodyContainer';
 
 import CategoryPage from  '../../transactions/categories/containers/CategoryPage';
-import TransactionForm from '../../transactions/transactions/components/TransactionForm';
+import TransactionPage from '../../transactions/transactions/containers/TransactionPage';
 
 class App extends React.Component {
 	render() {
@@ -14,7 +14,7 @@ class App extends React.Component {
 					<Switch>
 						<Route exact path="/" component={CategoryPage} />
 						<Route exact path="/categories" component={CategoryPage} />
-						<Route exact path="/transactions" component={TransactionForm} />
+						<Route exact path="/transactions" component={TransactionPage} />
 						{/* <Route exact path="/home" component={HomePage} /> */}
 						{/* <Route exact path="/test" com1ponent={() => "TESTE"} /> */}
 						{/* <Route path="/fuel-savings" component={FuelSavingsPage} /> */}
