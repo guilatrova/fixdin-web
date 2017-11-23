@@ -1,13 +1,19 @@
-/* eslint-disable react/no-multi-comp */
+/* eslint-disable no-fallthrough */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import IconButton from 'material-ui/IconButton';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
+import FilterListIcon from 'material-ui-icons/FilterList';
+import RefreshIcon from 'material-ui-icons/Refresh';
 
+import { formatCurrencyDisplay } from '../../../services/formatter';
 import TransactionTable from '../components/TransactionTable';
 // import TransactionFormModal from './TransactionFormModal';
 // import TransactionFilter from './../components/TransactionFilter';
@@ -28,6 +34,18 @@ const styles = theme => ({
         width: '100%',
         marginTop: theme.spacing.unit * 3,
         marginBottom: theme.spacing.unit * 6,
+    },
+    table: {
+        overflowX: 'auto',
+    },
+    spacer: {
+        flex: '1 1 50%',
+    },
+    actions: {
+        color: theme.palette.text.secondary,
+    },
+    title: {
+        flex: '0 0 auto',
     }
 });
 
@@ -39,6 +57,9 @@ class TransactionPage extends React.Component {
         isFetching: PropTypes.bool.isRequired,
         errors: PropTypes.object,
         classes: PropTypes.object,
+        total: PropTypes.string.isRequired,
+        totalIncomes: PropTypes.string.isRequired,
+        totalExpenses: PropTypes.string.isRequired,
 
         onPay: PropTypes.func.isRequired,
         onFetch: PropTypes.func.isRequired,
@@ -175,11 +196,23 @@ class TransactionPage extends React.Component {
     }
 
     render() {
-        const { isFetching, transactions, categories, classes } = this.props;
+        const { isFetching, transactions, categories, classes, totalIncomes, totalExpenses, total } = this.props;        
         
         return (
             <div className={classes.root}>
                 <Paper>
+                    
+                    <Toolbar className>
+                        <div className={classes.title}>
+                            <Typography type="title">Movimentações | Receitas: {`R$ ${totalIncomes}`} | Despesas: {`R$ ${totalExpenses}`} | Total: {`R$ ${total}`}</Typography>
+                        </div>
+                        <div className={classes.spacer} />
+                        <div className={classes.actions}>
+                            <IconButton aria-label="Refresh" onClick={this.handleRefresh} disabled={isFetching}><RefreshIcon /></IconButton>
+                            <IconButton aria-label="Filter list" onClick={this.handleFilter}><FilterListIcon /></IconButton>
+                        </div>
+                    </Toolbar>
+
                     <div className={classes.table}>
 
                         <TransactionTable
@@ -226,6 +259,9 @@ class TransactionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        total: formatCurrencyDisplay(selectors.getTotalValueOfDisplayedTransactions(state)),
+        totalExpenses: formatCurrencyDisplay(selectors.getTotalValueOfDisplayedExpenses(state)),
+        totalIncomes: formatCurrencyDisplay(selectors.getTotalValueOfDisplayedIncomes(state)),
         transactions: selectors.getTransactionsToDisplay(state),
         categories: categorySelectors.getCategories(state),
         editingTransaction: selectors.getEditingTransaction(state),

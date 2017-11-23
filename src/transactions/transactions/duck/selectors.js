@@ -35,6 +35,18 @@ const getVisibleDeadlines = (state) => getTransactionsToDisplay(state).map(trans
 
 const getVisiblePriorities = (state) => getTransactionsToDisplay(state).map(transaction => transaction.priority.toString());
 
+const sumTransactions = (transactions) =>
+    transactions.map(x => x.value).reduce((total, value) => total + value, 0);
+
+const getTotalValueOfDisplayedTransactions = (state) =>
+    sumTransactions(getTransactionsToDisplay(state));
+
+const getTotalValueOfDisplayedExpenses = (state) =>
+    sumTransactions(getTransactionsToDisplay(state).filter(t => t.kind === EXPENSE.id));
+
+const getTotalValueOfDisplayedIncomes = (state) =>
+    sumTransactions(getTransactionsToDisplay(state).filter(t => t.kind === INCOME.id));
+
 export default {
     getErrors,
     isFetching,
@@ -45,5 +57,8 @@ export default {
     getPendingExpensesUntil,
     getFilters,
     getVisibleDeadlines,
-    getVisiblePriorities
+    getVisiblePriorities,
+    getTotalValueOfDisplayedTransactions,
+    getTotalValueOfDisplayedIncomes,
+    getTotalValueOfDisplayedExpenses
 };
