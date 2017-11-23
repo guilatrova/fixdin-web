@@ -49,7 +49,7 @@ const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
             <MenuIcon />
             </IconButton>
             <Typography type="title" color="inherit" noWrap>
-            Persistent drawer
+            fixdin
             </Typography>
         </Toolbar>
     </AppBar>);
