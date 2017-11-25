@@ -9,8 +9,8 @@ import Typography from 'material-ui/Typography';
 import { operations as balanceOperations, selectors as balanceSelectors } from './../../balances/duck';
 import BalanceCard from './../../balances/components/BalanceCard';
 import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
-// import ValuesByCategoryPieChartContainer from './../../reports/components/ValuesByCategoryPieChartContainer';
-import Last13MonthsChart from './../../reports/components/Last13MonthsChartContainer';
+import ValuesByCategoryPieChartContainer from './../../reports/containers/ValuesByCategoryPieChartContainer';
+import Last13MonthsChart from './../../reports/containers/Last13MonthsChartContainer';
 import { EXPENSE, INCOME } from './../../transactions/kinds';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
 import { formatCurrencyDisplay } from '../../services/formatter';
@@ -32,6 +32,8 @@ class DashboardPage extends React.Component {
         nextPendingExpenses: PropTypes.array.isRequired,
         overdueIncomes: PropTypes.array.isRequired,
         nextPendingIncomes: PropTypes.array.isRequired,
+        incomesByCategory: PropTypes.array.isRequired,
+        expensesByCategory: PropTypes.array.isRequired,
         classes: PropTypes.object.isRequired,
     }
 
@@ -69,11 +71,21 @@ class DashboardPage extends React.Component {
 
                 </Grid>                
 
-                <Grid item xs={12} xl={6}>
-                    <Last13MonthsChart />
-                </Grid>
+                <Grid container spacing={24}>
 
-                    {/* <ValuesByCategoryPieChartContainer /> */}
+                    <Grid item xs={12} xl={6}>
+                        <Last13MonthsChart />
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <ValuesByCategoryPieChartContainer title="Despesas por categoria" data={this.props.expensesByCategory} />
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <ValuesByCategoryPieChartContainer title="Receitas por categoria" data={this.props.incomesByCategory} />
+                    </Grid>
+
+                </Grid>
 
                 <Grid container spacing={24}>
                     
@@ -123,7 +135,9 @@ const mapStateToProps = (state) => {
         nextPendingExpenses: reportSelectors.getNextPendingExpenses(state),
         overdueExpenses: reportSelectors.getOverdueExpenses(state),
         nextPendingIncomes: reportSelectors.getNextPendingIncomes(state),
-        overdueIncomes: reportSelectors.getOverdueIncomes(state)
+        overdueIncomes: reportSelectors.getOverdueIncomes(state),
+        incomesByCategory: reportSelectors.getIncomesByCategory(state),
+        expensesByCategory: reportSelectors.getExpensesByCategory(state)
     };
 };
 
@@ -135,6 +149,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(balanceOperations.fetchExpectedBalance());
             dispatch(reportOperations.fetchPendingTransactionsReport(EXPENSE));
             dispatch(reportOperations.fetchPendingTransactionsReport(INCOME));
+            dispatch(reportOperations.fetchValuesByCategoryReport(INCOME));
+            dispatch(reportOperations.fetchValuesByCategoryReport(EXPENSE));
         }
     };
 };

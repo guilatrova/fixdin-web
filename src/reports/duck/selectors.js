@@ -26,6 +26,10 @@ function getValuesByCategory(state) {
     return state.reports.valuesByCategory;
 }
 
+const getIncomesByCategory = state => getValuesByCategory(state).incomes.data;
+
+const getExpensesByCategory = state => getValuesByCategory(state).expenses.data;
+
 export default {
     getLast13Months,
     getRealLast13Months,
@@ -36,4 +40,6 @@ export default {
     getOverdueIncomes,
 
     getValuesByCategory,
+    getIncomesByCategory,
+    getExpensesByCategory
 };
