@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { MenuItem } from 'material-ui/Menu';
 
+import Popover from 'material-ui/Popover';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
@@ -143,6 +144,7 @@ class TransactionTable extends React.Component {
                     sortable
                     field="category" 
                     onRender={this.formatCategory}
+                    onRenderFilter={<CategoryFilter />}
                     onSort={this.sortCategory}>
                     
                     Categoria
@@ -157,10 +159,10 @@ class TransactionTable extends React.Component {
                     Valor
                 </DataColumn>
 
-                <DataColumn sortable numeric field="priority">Importancia</DataColumn>
-                <DataColumn sortable numeric field="deadline">Tolerância</DataColumn>
-                <DataColumn sortable field="payment_date" onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
                 <DataColumn onRender={this.formatOptions} />
+                <DataColumn sortable numeric field="priority" onRenderFilter={<PriorityFilter />}>Importancia</DataColumn>
+                <DataColumn sortable numeric field="deadline" onRenderFilter={<DeadlineFilter />}>Tolerância</DataColumn>
+                <DataColumn sortable field="payment_date" onRenderFilter={<PaymentFilter />} onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
             </TableSort>
         );
     }
