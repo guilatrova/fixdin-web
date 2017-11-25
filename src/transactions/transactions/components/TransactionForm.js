@@ -6,7 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import { DatePicker } from 'material-ui-pickers';
 import Button from 'material-ui/Button';
 import Slider from 'rc-slider';
-import { FormControlLabel, FormControl } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 import { DialogActions, DialogContent } from 'material-ui/Dialog';
 import { InputLabel } from 'material-ui/Input';

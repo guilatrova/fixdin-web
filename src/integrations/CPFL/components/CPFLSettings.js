@@ -38,7 +38,6 @@ class CPFLSettings extends React.Component {
                     onChange={this.handleChange} />
 
                 <TextFieldError
-                    id="imovel"
                     label="Imóvel"
                     error={errors.imovel}
                     value={imovel}
