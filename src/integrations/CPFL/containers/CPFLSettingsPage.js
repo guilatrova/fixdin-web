@@ -8,25 +8,32 @@ import CPFLSettings from './../components/CPFLSettings';
 import { selectors, operations } from './../duck';
 
 class CPFLSettingsPage extends React.Component {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        onSave: PropTypes.func.isRequired,
+        onRun: PropTypes.func.isRequired,
+        onFetch: PropTypes.func.isRequired,
 
-        this.state = {
-            name: "",
-            documento: "",
-            imovel: ""
-        };
+        settings: PropTypes.object,
+        errors: PropTypes.object.isRequired
     }
+    
+    state = {
+        name: "",
+        documento: "",
+        imovel: ""
+    };
 
     componentDidMount() {
-        this.props.fetch();
+        this.props.onFetch();
     }
 
     componentWillReceiveProps(nextProps) {
+        const settings = nextProps.settings.cpfl_settings || [ {} ];
+
         this.setState({
-            name: nextProps.settings.cpfl_settings[0].name,
-            documento: nextProps.settings.cpfl_settings[0].documento,
-            imovel: nextProps.settings.cpfl_settings[0].imovel
+            name: settings[0].name,
+            documento: settings[0].documento,
+            imovel: settings[0].imovel
         });
     }
 
@@ -41,11 +48,11 @@ class CPFLSettingsPage extends React.Component {
                 { name: this.state.name, documento: this.state.documento, imovel: this.state.imovel }
             ]
         };
-        this.props.save(data);
+        this.props.onSave(data);
     }
 
     handleRun = () => {
-        this.props.run();
+        this.props.onRun();
     }
 
     render() {
@@ -59,7 +66,7 @@ class CPFLSettingsPage extends React.Component {
                 <Button raised onClick={this.handleSave}>Salvar</Button>
                 <Button raised onClick={this.handleRun}>Sincronizar</Button>
             </div>
-        )
+        );
     }
 }
 
@@ -69,15 +76,15 @@ const mapStateToProps = (state) => {
         errors: selectors.getErrors(state),
         isFetching: selectors.isFetching(state),
         lastHistory: selectors.getLastHistory(state)
-    }    
-}
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch: () => dispatch(operations.fetchSettings()),
-        save: (data) => dispatch(operations.updateSettings(data)),
-        run: () => dispatch(operations.runService())
-    }
-}
+        onFetch: () => dispatch(operations.fetchSettings()),
+        onSave: (data) => dispatch(operations.updateSettings(data)),
+        onRun: () => dispatch(operations.runService())
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CPFLSettingsPage);

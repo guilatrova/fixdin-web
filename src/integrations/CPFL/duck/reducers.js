@@ -5,7 +5,7 @@ const initialState = {
     errors: {},
     settings: {},
     historic: []
-}
+};
 
 function receiveSettingsReducer(state, action) {
     switch(action.result) {
@@ -14,20 +14,20 @@ function receiveSettingsReducer(state, action) {
                 ...state,
                 isFetching: false,                
                 settings: action.settings
-            }
+            };
 
         case 'fail':
             return {
                 ...state,
                 isFetching: false,
                 errors: action.errors
-            }
+            };
 
         default:
             return {
                 ...state,
                 isFetching: true                
-            }
+            };
     }
 }
 
@@ -40,21 +40,21 @@ function runServiceReducer(state, action) {
                     ...state.historic,
                     action.history                    
                 ]
-            }
+            };
 
         case 'fail':
             return {
                 ...state,
                 isFetching: false,
                 errors: action.errors
-            }
+            };
 
         default:
             return {
                 ...state,
                 isFetching: true,
                 errors: {}
-            }
+            };
     }
 }
 

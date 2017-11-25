@@ -3,13 +3,13 @@ import types from './types';
 function requestSettings() {
     return {
         type: types.FETCH_SETTINGS
-    }
+    };
 }
 
 function updateSettings() {
     return {
         type: types.UPDATE_SETTINGS
-    }    
+    };
 }
 
 function receiveSettings(type, result, data) {
@@ -18,20 +18,20 @@ function receiveSettings(type, result, data) {
             type,
             result,
             settings: data
-        }
+        };
     }
 
     return {
         type,
         result,
         errors: data
-    }
+    };
 }
 
 function requestRunService() {
     return {
         type: types.RUN_SERVICE
-    }
+    };
 }
 
 function receiveServiceResult(result, data) {
@@ -40,14 +40,14 @@ function receiveServiceResult(result, data) {
             type: types.RUN_SERVICE,
             result,
             history: data
-        }
+        };
     }
 
     return {
         type: types.RUN_SERVICE,
         result,
         errors: data
-    }
+    };
 }
 
 export default {
@@ -57,4 +57,4 @@ export default {
 
     requestRunService,
     receiveServiceResult
-}
+};

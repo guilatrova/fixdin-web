@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { EXPENSE, ALL } from './../transactions/kinds';
+import { EXPENSE, ALL } from '../transactions/kinds';
 
 export function formatTransactionReceived(transaction) {
     return {
@@ -7,7 +7,7 @@ export function formatTransactionReceived(transaction) {
         due_date: moment(transaction.due_date, 'YYYY-MM-DD'),
         payment_date: transaction.payment_date ? moment(transaction.payment_date, 'YYYY-MM-DD') : undefined,
         value: Number(transaction.value)
-    }
+    };
 }
 
 export function formatTransactionToSend(transaction, kind) {
@@ -18,7 +18,7 @@ export function formatTransactionToSend(transaction, kind) {
         value: formatCurrency(transaction.value, kind),
         priority: transaction.priority ? transaction.priority : undefined,
         periodic: formatPeriodic(transaction.periodic)
-    }
+    };
 }
 
 export function formatPeriodic(periodic) {
@@ -27,7 +27,7 @@ export function formatPeriodic(periodic) {
             ...periodic,
             how_many: undefined,
             until: formatDate(periodic.until)
-        }        
+        };
     }
 
     return periodic || undefined;
@@ -42,7 +42,7 @@ export function formatTransactionFilters(filters) {
         due_date_until: formatDate(filters.due_date_until),
         payment_date_from: formatDate(filters.payment_date_from),
         payment_date_until: formatDate(filters.payment_date_until)
-    }
+    };
     
     return clean(formatted);
 }
@@ -54,7 +54,7 @@ export function formatDate(date) {
 }
 
 export function clean(obj) {
-    for (var propName in obj) { 
+    for (let propName in obj) { 
         if (obj[propName] === null || obj[propName] === undefined) {
             delete obj[propName];
         }

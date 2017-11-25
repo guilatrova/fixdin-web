@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Table, {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-} from 'material-ui/Table';
 
 import { MenuItem } from 'material-ui/Menu';
 
@@ -16,15 +9,22 @@ import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import MoneyIcon from 'material-ui-icons/AttachMoney';
 
-import { sort } from './../../../common/sorts';
-import TableSort from './../../../common/components/material/TableSort';
-import DataColumn from './../../../common/components/material/DataColumn';
-import CollapsibleMenu from './../../../common/components/material/CollapsibleMenu';
-import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
+// import { 
+//     DescriptionFilter, 
+//     CategoryFilter, 
+//     DueDateFilter, 
+//     KindFilter, 
+//     DeadlineFilter,
+//     PriorityFilter 
+// } from './filters';
+import { sort } from './../../../utils/sorts';
+import TableSort from './../../../common/material/TableSort';
+import DataColumn from './../../../common/material/DataColumn';
+import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
+import { getKind } from '../../kinds';
 
 class TransactionTable extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         transactions: PropTypes.array.isRequired,
         categories: PropTypes.array.isRequired,
         onEdit: PropTypes.func.isRequired,
@@ -112,7 +112,7 @@ class TransactionTable extends React.Component {
         return sort(catA, catB, order);
     }
 
-    sortDate(a, b, order) {
+    sortDate(a, b, order) {//TODO: Move it to utils, its too generic
         if (moment.isMoment(a) && moment.isMoment(b)) { 
             if (order === 'desc') 
                 return b.unix() - a.unix(); 
@@ -132,13 +132,10 @@ class TransactionTable extends React.Component {
     }
 
     render () {
-        const { onEdit, onDelete, onCopy, displayKind } = this.props;
-        const displayOptions = onEdit && onDelete && onCopy;
-
         return (
             <TableSort data={this.props.transactions} initialOrderBy="due_date">
 
-                {displayKind && <DataColumn sortable field="kind" onRender={this.formatKind}>Tipo</DataColumn>}
+                <DataColumn sortable field="kind" onRender={this.formatKind}>Tipo</DataColumn>
                 <DataColumn sortable field="due_date" onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
                 <DataColumn sortable field="description">Descrição</DataColumn>
 
@@ -163,7 +160,7 @@ class TransactionTable extends React.Component {
                 <DataColumn sortable numeric field="priority">Importancia</DataColumn>
                 <DataColumn sortable numeric field="deadline">Tolerância</DataColumn>
                 <DataColumn sortable field="payment_date" onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
-                {displayOptions && <DataColumn onRender={this.formatOptions} />}
+                <DataColumn onRender={this.formatOptions} />
             </TableSort>
         );
     }

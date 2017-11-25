@@ -23,5 +23,5 @@ export default function toggleTransaction(checked, ids, visibleTransactions, tot
         newChecked,
         diffTotalChecked,
         totalChecked
-    }
-};
+    };
+}

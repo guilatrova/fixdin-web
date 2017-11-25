@@ -1,55 +1,50 @@
 import operations from './operations';
 import types from './types';
-import * as apiModule from '../../services/api';
 
-describe('balances/duck/actions', () => {
-    
-    const testHelper = new ActionsTestHelper();
-	let store;
+describe('balances/duck/actions', () => {    
+	let store, mock, restoreMock;
 
     beforeEach(() => {
-        testHelper.mock(apiModule);
-        store = testHelper.createStore();
-    })
+        const mockHelper = mockAxios();
+        mock = mockHelper.mock;
+        store = mockHelper.store;
+        restoreMock = mockHelper.restoreMock;
+    });
     
     afterEach(() => {
-        testHelper.clearMock();
-    })
+        restoreMock();
+    });
 
 	describe('FETCH_BALANCE', () => {
 
-		it('should dispatch success action after successful request', (done) => {
+		it('should dispatch success action after successful request', () => {
 			const expectedActions = [
 				{ type: types.FETCH_BALANCE, key: 'balance' },
 				{ type: types.FETCH_BALANCE, key: 'balance', result: 'success', balance: 50 }
-			]
+			];
 
-			store.dispatch(operations.fetchBalance());
+            mock.onGet().reply(200, { 'balance': 50 });
 
-            testHelper.apiRespondsWith({
-                status: 200,
-                response: { 'balance': 50 }
-            })
-            .expectActionsAsync(done, expectedActions);
+            return store.dispatch(operations.fetchBalance()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
 		});
 
-		it('should dispatch fail action after failed request', (done) => {
+		it('should dispatch fail action after failed request', () => {
 			const expectedResponse = {
 				detail: 'invalid token',
-			}
+			};
 			const expectedActions = [
 				{ type: types.FETCH_BALANCE, key: 'balance' },
 				{ type: types.FETCH_BALANCE, key: 'balance', result: 'fail', errors: expectedResponse }
-			]
+			];
 
-            store.dispatch(operations.fetchBalance());
-            
-            testHelper.apiRespondsWith({
-                status: 400,
-                response: expectedResponse
-            })
-            .expectActionsAsync(done, expectedActions);			
-		})		
-    })
+            mock.onGet().reply(400, expectedResponse);
+
+            return store.dispatch(operations.fetchBalance()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+		});
+    });
     
-})
+});

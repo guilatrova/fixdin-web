@@ -1,4 +1,3 @@
-import axios from 'axios'
 import createAPI from './api';
 import * as sessionModule from './session';
 
@@ -9,20 +8,20 @@ describe('services/API', () => {
 
         beforeEach(() => {
             sessionModule.saveToken(SAVED_TOKEN);
-        })
+        });
 
         it('should create AXIOS with correctly authorization header', () => {
             const axiosInstance = createAPI();
 
             expect(axiosInstance.defaults.headers).to.have.property('Authorization');
             expect(axiosInstance.defaults.headers.Authorization).to.equal(`Token ${SAVED_TOKEN}`);
-        })
+        });
 
         it('should create AXIOS without header if false is passed', () => {
             const axiosInstance = createAPI(false);
 
             expect(axiosInstance.defaults.headers).to.not.have.property('Authorization');
-        })
+        });
 
     });
 
@@ -30,13 +29,13 @@ describe('services/API', () => {
 
         beforeEach(() => {
             localStorage.clear();
-        })
+        });
 
         it('should create AXIOS without authorization header', () => {
             const axiosInstance = createAPI();
             
             expect(axiosInstance.defaults.headers).to.not.have.property('Authorization');
-        })
+        });
     });
 
 });

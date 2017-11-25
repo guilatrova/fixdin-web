@@ -1,95 +1,77 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Row,
-  Col,
-  Icon,
-  Grid,
-  Form,
-  Badge,
-  Panel,
-  Checkbox,
-  Button,
-  HelpBlock,
-  PanelBody,
-  ControlLabel,
-  FormGroup,
-  InputGroup,
-  FormControl
-} from '@sketchpixy/rubix';
-
-import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
+import Button from 'material-ui/Button';
+import { DialogActions, DialogContent } from 'material-ui/Dialog';
+  
+import TextFieldError from '../../../common/material/TextFieldError';
+import KindSwitch from '../../components/KindSwitch';
+import { getKind, EXPENSE } from '../../kinds';
 
 class CategoryForm extends React.Component {
+
+    static propTypes = {
+        onSubmit: PropTypes.func.isRequired,
+        errors: PropTypes.object.isRequired,
+        isFetching: PropTypes.bool.isRequired,
+        category: PropTypes.object.isRequired
+    };
+
+    static defaultProps = {
+        errors: {},
+        category: {
+            id: 0,
+            name: "",
+            kind: EXPENSE.id
+        }
+    };
+
     constructor(props) {
         super(props);
 
         this.state = {
-            ...this.props.category
-        }
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-    
-    handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
+            ...this.props.category,
+            name: this.props.category.name || "",
+            kind: getKind(this.props.category.kind) || EXPENSE
+        };
     }
 
-    handleSelectChange({value}) {        
-        this.setState({ kind: value });
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        this.props.onSubmit(this.state);
-    }
+    handleSubmit = () => this.props.onSubmit(this.state);
 
     render() {
         const { errors } = this.props;
 
         let disabled = true;
-        if (!this.props.isFetching && this.state.name) {
+        if (!this.props.isFetching && this.state.name && this.state.kind) {
             disabled = false;
         }
 
         return (
-            <Form horizontal onSubmit={this.handleSubmit}>
+            <div>
+                <DialogContent>
 
-                <HorizontalFormGroupError 
-                    id="name"
-                    label="Nome" 
-                    error={errors.name}
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                    maxLength="70"
-                />                     
+                    <KindSwitch 
+                        value={this.state.kind}
+                        onChange={kind => this.setState({ kind })}
+                    />                        
 
-                <FormGroup>
-                    <Col smOffset={2} sm={10} className='text-right'>
-                        <Button lg type='submit' bsStyle='primary' disabled={disabled}>Salvar</Button>
-                    </Col>
-                </FormGroup>
+                    <TextFieldError
+                        label="Nome" 
+                        error={errors.name}
+                        value={this.state.name}
+                        onChange={e => this.setState({ name: e.target.value })}
+                        maxLength="70"
+                    />
 
-            </Form>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button raised color="primary" disabled={disabled} onClick={this.handleSubmit}>
+                        Salvar
+                    </Button>
+                </DialogActions>
+            </div>
         );
-    }
-}
-
-CategoryForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    errors: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    category: PropTypes.object.isRequired
-}
-
-CategoryForm.defaultProps = {
-    errors: {},
-    category: {
-        id: 0,
-        name: ''
     }
 }
 

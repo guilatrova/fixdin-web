@@ -30,7 +30,7 @@ const periodicActions = (onCancel, onConfirm) => {
             </Button>
         </DialogActions>
     );
-}
+};
 
 const regularActions = (onCancel, onConfirm) => {
     return (
@@ -44,7 +44,7 @@ const regularActions = (onCancel, onConfirm) => {
             </Button>
         </DialogActions>
     );
-}
+};
 
 export default class ConfirmDeleteDialog extends React.Component {
     static propTypes = {
@@ -52,7 +52,8 @@ export default class ConfirmDeleteDialog extends React.Component {
         onConfirm: PropTypes.func.isRequired,
         onRequestClose: PropTypes.func.isRequired,
         isPeriodic: PropTypes.bool,
-        error: PropTypes.string
+        error: PropTypes.string,
+        children: PropTypes.node.isRequired
     }
 
     static defaultProps = {
@@ -64,7 +65,7 @@ export default class ConfirmDeleteDialog extends React.Component {
         const periodicText = this.props.isPeriodic ? "Notamos que é uma transação periódica, como deseja deletar?" : "";
 
         return (
-            <Dialog open={this.props.open} onRequestClose={this.props.handleRequestClose}>
+            <Dialog open={this.props.open} onRequestClose={this.props.onRequestClose}>
                 <DialogTitle>Confirmar ação</DialogTitle>
                 <DialogContent>
                     <DialogContentText>

@@ -18,4 +18,4 @@ export default {
     TOGGLE_EXPENSE,
     CHECK_DEFAULT_EXPENSES,
     RESET_STEP2
-}
+};

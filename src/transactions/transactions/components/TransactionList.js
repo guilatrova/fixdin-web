@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
-import Paper from 'material-ui/Paper';
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
-import IconButton from 'material-ui/IconButton';
 
 import { formatCurrencyDisplay } from '../../../services/formatter';
 
@@ -52,8 +50,8 @@ class TransactionList extends React.Component {
             return (
                 <ListItem dense button key={id}>
                     <Checkbox
-                        onClick={e => this.handleToggle(id)}
-                        checked={this.state.checked.indexOf(id) !== -1} />                        
+                        onClick={() => this.handleToggle(id)}
+                        checked={this.state.checked.indexOf(id) !== -1} />
                     <ListItemText primary={description} />
 
                     <ListItemSecondaryAction>
@@ -73,6 +71,6 @@ class TransactionList extends React.Component {
             </div>
         );
     }
-};
+}
 
 export default withStyles(styles)(TransactionList);

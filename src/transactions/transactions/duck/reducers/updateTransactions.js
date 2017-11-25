@@ -13,14 +13,14 @@ function updateTransaction(state, transaction) {
                 transaction,
                 ...transactions.slice(index + 1)
             ]
-        }
+        };
     }
 
     return {
         ...state,
         isFetching: false,
         transactions: state.transactions.concat(transaction)
-    }
+    };
 }
 
 export default function updateTransactions(state, transactions) {

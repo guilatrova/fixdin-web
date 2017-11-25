@@ -13,7 +13,7 @@ class BaseSettingsOperation extends Operation {
     }
 
     onFailed(dispatch, receiveAction, errors) {
-        return dispatch(receiveAction(this.type, 'fail', data));
+        return dispatch(receiveAction(this.type, 'fail', errors));
     }
 }
 

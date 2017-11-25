@@ -1,5 +1,6 @@
 import reducer from './step1Reducer';
 import actions from '../actions';
+import moment from 'moment';
 
 describe('paymentOrders/duck/reducers/Step1', () => {
 
@@ -14,7 +15,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
         total: 0,
         toSave: 0,
         totalChecked: 0
-    }    
+    }; 
 
     const createIncomes = (values) => {
         let arr = [];
@@ -24,7 +25,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
             id++;
         }
         return arr;
-    }
+    };
 
     it('should return initial state', () => {
         expect(reducer(undefined, {})).to.deep.equal(initialState);
@@ -34,7 +35,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
         const state = {
             ...initialState,
             visibleIncomes: createIncomes([ yesterday, 5, today, 10, tomorrow, 15])
-        }
+        };
         
         expect(
             reducer(state, actions.checkDefaultIncomes(10))
@@ -68,7 +69,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
                 checked: [ 1, 3 ],
                 totalChecked: 40,
                 total: 50
-            }
+            };
 
             expect(
                 reducer(state, actions.changeUntilDate(yesterday, [incomes[0]]))
@@ -155,7 +156,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
             ...initialState,
             toSave: 10,
             total: 30
-        }
+        };
 
         expect(
             reducer(state, actions.changeValueToSave(5))
@@ -177,7 +178,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
             total: 50,
             toSave: 5,
             totalChecked: 30
-        }
+        };
 
         expect(
             reducer(state, actions.resetStep1(25, [incomes[0], incomes[1]]))

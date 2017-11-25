@@ -23,14 +23,14 @@ const TransactionsList = ({ classes, transactions, checked, onToggle }) => {
                 </ListItem>
             ))}
         </List>
-    )
-} 
+    );
+} ;
 
 TransactionsList.propTypes = {
     classes: PropTypes.object.isRequired,
     transactions: PropTypes.array.isRequired,
     checked: PropTypes.array.isRequired,
     onToggle: PropTypes.func.isRequired
-}
+};
 
 export default withStyles()(TransactionsList);

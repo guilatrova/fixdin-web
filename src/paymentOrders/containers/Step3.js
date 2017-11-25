@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Button } from '@sketchpixy/rubix';
+import Button from 'material-ui/Button';
 
 import { selectors } from '../duck';
 import { selectors as balanceSelectors } from '../../balances/duck';
@@ -17,7 +17,9 @@ class Step3 extends React.Component {
         toSave: PropTypes.number.isRequired,
         totalExpenses: PropTypes.number.isRequired,
         expectedBalance: PropTypes.number.isRequired,
-        checkedExpenses: PropTypes.array.isRequired
+        checkedExpenses: PropTypes.array.isRequired,
+
+        onSubmit: PropTypes.func.isRequired
     }
 
     render() {
@@ -49,13 +51,13 @@ const mapStateToProps = (state) => {
         totalExpenses: selectors.step2.getTotalChecked(state),
         checkedExpenses: selectors.step2.getChecked(state),
         expectedBalance: selectors.step3.getExpectedBalanceAfterPayment(state)
-    }
-}
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onSubmit: (ids) => dispatch(transactionsOperation.payTransactions(EXPENSE, ids))
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Step3);

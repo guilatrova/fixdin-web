@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import moment from 'moment';
 import { withStyles } from 'material-ui/styles';
-import { Grid, Row, Col } from '@sketchpixy/rubix';
 
 import TransactionsList from '../components/TransactionsList';
 import { operations, selectors } from '../duck';
@@ -19,6 +17,7 @@ const styles = theme => ({
 
 class Step2 extends React.Component {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         balanceAvailable: PropTypes.number.isRequired,
         visibleExpenses: PropTypes.array.isRequired,
         checked: PropTypes.array.isRequired,
@@ -62,7 +61,7 @@ class Step2 extends React.Component {
                 <h3>{formatCurrencyDisplay(remainingBalance)}</h3>
 
             </div>
-        )
+        );
     }
 }
 
@@ -72,8 +71,8 @@ const mapStateToProps = (state) => {
         visibleExpenses: selectors.step2.getVisibleExpenses(state),
         checked: selectors.step2.getChecked(state),
         remainingBalance: selectors.step2.getRemainingBalance(state)
-    }
-}
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -82,8 +81,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(operations.resetStep2());
             dispatch(operations.checkDefaultExpenses());
         }
-    }
-}
+    };
+};
 
 export default withStyles(styles)(
     connect(mapStateToProps, mapDispatchToProps)(Step2)

@@ -2,28 +2,20 @@ import handleError from './genericErrorHandler';
 
 describe('services/genericErrorHandler', () => {
 
-    let consoleErrorStub, replaceStub;
-
-    beforeEach(() => {
-        consoleErrorStub = sinon.stub(console, 'error'); //Supress
-        replaceStub = sinon.stub(window.location, 'replace');
-    });
-
-    afterEach(() => {
-        console.error.restore();
-        window.location.replace.restore();
-    });
+    console.warn = jest.fn();
+    console.error = jest.fn();
+    window.location.replace = jest.fn();
 
     it('should get error message from response', () => {
         const expected = {
             code: '01',
             message: 'this'
-        }
+        };
         const apiResponse = {
             response: {
                 data: expected
             }
-        }
+        };
 
         expect(handleError(apiResponse)).to.be.deep.equal(expected);
     });
@@ -37,6 +29,7 @@ describe('services/genericErrorHandler', () => {
         };
 
         expect(handleError(err)).to.be.deep.equal(expected);
+        expect(console.error).toBeCalled();
 
     });
 
@@ -50,8 +43,8 @@ describe('services/genericErrorHandler', () => {
 
         handleError(apiResponse);
         
-        expect(replaceStub.calledOnce).to.be.true;
-        expect(replaceStub.calledWith('null/Login')).to.be.true;
+        expect(window.location.replace).toBeCalled();
+        expect(window.location.replace).toBeCalledWith('null/Login');
 
     });
 });

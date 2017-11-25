@@ -10,18 +10,18 @@ const changeValueToSave = actions.changeValueToSave;
 const checkDefaultIncomes = () => (dispatch, getState) => {
     const balance = balanceSelectors.getRealBalance(getState());
     dispatch(actions.checkDefaultIncomes(balance));
-}
+};
 
 const changeUntilDate = (untilDate) => (dispatch, getState) => {
     const pendingIncomes = transactionsSelectors.getPendingIncomesUntil(getState(), untilDate);
     dispatch(actions.changeUntilDate(untilDate, pendingIncomes));
-}
+};
 
 const resetStep1 = () => (dispatch, getState) => {
     const balance = balanceSelectors.getRealBalance(getState());
     const pendingIncomes = transactionsSelectors.getPendingIncomesUntil(getState(), moment({ hour: 0 }));
     dispatch(actions.resetStep1(balance, pendingIncomes));
-}
+};
 
 //Step2
 const toggleExpense = actions.toggleExpense;
@@ -30,13 +30,13 @@ const checkDefaultExpenses = () => (dispatch, getState) => {
     const balance = selectors.step1.getTotal(getState());
     const expenses = transactionsSelectors.getPendingExpensesUntil(getState());
     dispatch(actions.checkDefaultExpenses(balance, expenses));
-}
+};
 
 const resetStep2 = () => (dispatch, getState) => {
     const balance = selectors.step1.getTotal(getState());
     const expenses = transactionsSelectors.getPendingExpensesUntil(getState());    
     dispatch(actions.resetStep2(balance, expenses));
-}
+};
 
 export default {
     toggleIncome,
@@ -48,4 +48,4 @@ export default {
     toggleExpense,
     checkDefaultExpenses,
     resetStep2
-}
+};

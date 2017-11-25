@@ -1,20 +1,21 @@
 import selectors from './selectors';
 import { INCOME, EXPENSE } from '../../kinds';
+import moment from 'moment';
 
 describe('transactions/duck/selectors', () => {
     const buildState = (state) => {
         return {
             transactions: state
-        }
-    }
+        };
+    };
 
     const buildTransactionsUntil = (length) => {
-        const transactions = []
+        const transactions = [];
         for (let i = 0; i < length; i++) {
             transactions[i] = { id: i+1 };
         }
-        return transactions
-    }
+        return transactions;
+    };
 
     it('getErrors', () => {
         const state = buildState({
@@ -28,7 +29,7 @@ describe('transactions/duck/selectors', () => {
     });
 
     it('getEditingTransaction', () => {
-        const editingTransaction = { id: 5 }
+        const editingTransaction = { id: 5 };
         const state = buildState({
             editingTransaction
         });
@@ -37,7 +38,7 @@ describe('transactions/duck/selectors', () => {
             selectors.getEditingTransaction(state)
         )
         .to.equal(editingTransaction);
-    })
+    });
 
     it('isFetching', () => {
         const state = buildState({
@@ -74,7 +75,7 @@ describe('transactions/duck/selectors', () => {
                 selectors.getTransactionsToDisplay(state)
             )
             .to.deep.equal(visibleTransactions);
-        })
+        });
 
         it('should return all when visibleTransactions is undefined', () => {
             const transactions = buildTransactionsUntil(2);
@@ -109,7 +110,7 @@ describe('transactions/duck/selectors', () => {
         it('until is undefined', () => {
             const expected = [
                 transactions[0], transactions[3]
-            ]
+            ];
 
             expect(
                 selectors.getPendingIncomesUntil(state)
@@ -120,7 +121,7 @@ describe('transactions/duck/selectors', () => {
         it('until specified moment', () => {
             const expected = [
                 transactions[0]
-            ]
+            ];
 
             expect(
                 selectors.getPendingIncomesUntil(state, moment(new Date(2017, 0, 1)))

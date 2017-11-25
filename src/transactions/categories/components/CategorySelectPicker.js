@@ -1,11 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Creatable } from 'react-select';
+import { Creatable } from 'react-select';//TODO: Change it to Autocomplete support
 
 import { operations } from './../duck';
 
 class CategorySelectPicker extends React.Component {
+
+    static propTypes = {
+        onFetch: PropTypes.func.isRequired,
+        onCreate: PropTypes.func.isRequired,
+        onChange: PropTypes.func.isRequired,
+        categories: PropTypes.array.isRequired,
+        isFetching: PropTypes.bool.isRequired,
+        value: PropTypes.number,
+        kind: PropTypes.object.isRequired,
+    }
 
     constructor(props) {
         super(props);
@@ -15,13 +25,13 @@ class CategorySelectPicker extends React.Component {
     }
 
     componentDidMount() {        
-        this.props.fetch(this.props.kind);
+        this.props.onFetch(this.props.kind);
     }
 
     handleNewOptionClick(option) {
-        this.props.create(option.label, this.props.kind).then((response) => {
+        this.props.onCreate(option.label, this.props.kind).then((response) => {
             if (response.result == 'success') {
-                this.props.onChange(response.category.id)
+                this.props.onChange(response.category.id);
             }
         });
     }
@@ -42,8 +52,8 @@ class CategorySelectPicker extends React.Component {
             return {
                 value: category.id, 
                 label: category.name
-            }
-        })
+            };
+        });
 
         return (
             <Creatable
@@ -60,21 +70,17 @@ class CategorySelectPicker extends React.Component {
     }
 }
 
-CategorySelectPicker.PropTypes = {
-    kind: PropTypes.object.isRequired
-}
-
 const mapStateToProps = (state) => {
     return {
         ...state.categories
-    }
-}
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch: (kind) => dispatch(operations.fetchCategories(kind)),
-        create: (name, kind) => dispatch(operations.saveCategory({name, kind}))
-    }
-}
+        onFetch: (kind) => dispatch(operations.fetchCategories(kind)),
+        onCreate: (name, kind) => dispatch(operations.saveCategory({name, kind}))
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategorySelectPicker);

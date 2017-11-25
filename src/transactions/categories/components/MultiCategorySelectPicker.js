@@ -1,25 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Select from 'react-select';
+import Select from 'react-select'; //TODO: Change it to Autocomplete support
 
-import { EXPENSE, INCOME, ALL } from '../../kinds';
+import { EXPENSE, INCOME } from '../../kinds';
 
 class MultiCategorySelectPicker extends React.Component {
 
     static propTypes = {
         kind: PropTypes.object,
         isFetching: PropTypes.bool.isRequired,
-        value: PropTypes.any
+        value: PropTypes.object,
+        onChange: PropTypes.func.isRequired,
+        categories: PropTypes.array.isRequired,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.handleOnChange = this.handleOnChange.bind(this);
-    }
-
-    handleOnChange(options) {
+    handleOnChange = (options) => {
         this.props.onChange(options.map(opt => opt.value));
     }
 
@@ -54,7 +50,7 @@ class MultiCategorySelectPicker extends React.Component {
 const mapStateToProps = (state) => {
     return {
         ...state.categories
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps)(MultiCategorySelectPicker);

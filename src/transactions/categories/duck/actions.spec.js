@@ -1,74 +1,57 @@
 import { EXPENSE, INCOME } from '../../kinds';
 import operations from './operations';
 import types from './types';
-import * as apiModule from '../../../services/api';
 
 describe('categories/duck/actions', () => {
+	let store, mock, restoreMock;
 	
-	const testHelper = new ActionsTestHelper();
-	let store;
-
 	beforeEach(() => {
-		testHelper.mock(apiModule);
-		store = testHelper.createStore();
-	})
-
+		const mockHelper = mockAxios();
+		mock = mockHelper.mock;
+		store = mockHelper.store;
+		restoreMock = mockHelper.restoreMock;
+	});
+	
 	afterEach(() => {
-		testHelper.clearMock();
-	})
+		restoreMock();
+	});
 
     describe("SAVE_TRANSACTION_CATEGORY", () => {
 
-        it('should dispatch success action after SAVE_TRANSACTION_CATEGORY', (done) => {
+        it('should dispatch success action after SAVE_TRANSACTION_CATEGORY', () => {
             const category = { id: 1, name: 'Car', kind: EXPENSE.id };
 			const expectedActions = [
 				{ type: types.SAVE_TRANSACTION_CATEGORY },
 				{ type: types.SAVE_TRANSACTION_CATEGORY, result: 'success', category }
-			]
+			];
 
-			store.dispatch(operations.saveCategory({...category, id: undefined}));
+			mock.onPost().reply(200, category);
 
-            testHelper.apiRespondsWith({
-                status: 201,
-                response: category
-            })
-            .expectActionsAsync(done, expectedActions);
-        })
+			return store.dispatch(operations.saveCategory({...category, id: undefined})).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+        });
 
-		it('should dispatch fail action after SAVE_TRANSACTION_CATEGORY when something goes wrong', (done) => {
+		it('should dispatch fail action after SAVE_TRANSACTION_CATEGORY when something goes wrong', () => {
 			const expectedResponse = {
 				name: 'name already in use',				
-			}
+			};
 			const expectedActions = [
 				{ type: types.SAVE_TRANSACTION_CATEGORY },
 				{ type: types.SAVE_TRANSACTION_CATEGORY, result: 'fail', errors: expectedResponse }
-			]
+			];
 
-			store.dispatch(operations.saveCategory({name:'Car', kind:INCOME}));
+			mock.onPost().reply(400, expectedResponse);
 
-            testHelper.apiRespondsWith({
-                status: 400,
-                response: expectedResponse
-            })
-            .expectActionsAsync(done, expectedActions);
-		})
-
-		it('should use PUT when id is supplied', (done) => {
-			const editCategory = {id: 2, name: 'eating out', kind: EXPENSE}
-
-			store.dispatch(operations.saveCategory(editCategory));
-
-            testHelper.apiRespondsWith({})
-            .expectAsync(done, (request) => {
-                expect(request.config.method).to.be.equal('put');
-				expect(request.url.indexOf(editCategory.id)).to.be.gt(-1);
-            });
-		})
-    })
+			return store.dispatch(operations.saveCategory({name:'Car', kind:INCOME})).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+		});
+    });
 
 	describe("FETCH_TRANSACTION_CATEGORIES", () => {
 
-		it('should dispatch success action after FETCH_TRANSACTION_CATEGORIES', (done) => {
+		it('should dispatch success action after FETCH_TRANSACTION_CATEGORIES', () => {
             const categories = [
 				{ id: 1, name: 'Car', kind: EXPENSE.id }, 
 				{ id: 2, name: 'Feeding', kind: EXPENSE.id }
@@ -76,65 +59,58 @@ describe('categories/duck/actions', () => {
 			const expectedActions = [
 				{ type: types.FETCH_TRANSACTION_CATEGORIES },
 				{ type: types.FETCH_TRANSACTION_CATEGORIES, kind: EXPENSE, result: 'success', categories }
-			]
+			];
 
-			store.dispatch(operations.fetchCategories(EXPENSE));
+			mock.onGet().reply(201, categories);
 
-            testHelper.apiRespondsWith({
-                status: 201,
-                response: categories
-            })
-            .expectActionsAsync(done, expectedActions);
-        })
+			return store.dispatch(operations.fetchCategories(EXPENSE)).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+        });
 
-		it('should dispatch fail action after FETCH_TRANSACTION_CATEGORIES when something goes wrong', (done) => {
+		it('should dispatch fail action after FETCH_TRANSACTION_CATEGORIES when something goes wrong', () => {
 			const expectedResponse = {
 				detail: 'failed connection'
-			}
+			};
 			const expectedActions = [
 				{ type: types.FETCH_TRANSACTION_CATEGORIES },
 				{ type: types.FETCH_TRANSACTION_CATEGORIES, result: 'fail', errors: expectedResponse }
-			]
+			];
 
-			store.dispatch(operations.fetchCategories(INCOME));
+			mock.onGet().reply(401, expectedResponse);
 
-            testHelper.apiRespondsWith({
-                status: 400,
-                response: expectedResponse
-            })
-            .expectActionsAsync(done, expectedActions);
+			return store.dispatch(operations.fetchCategories(INCOME)).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
 		});
-	})
+	});
 
-	describe("DELETE_TRANSACTION_CATEGORY", (done) => {
-		it('should dispatch success action after DELETE_TRANSACTION_CATEGORY', (done) => {
+	describe("DELETE_TRANSACTION_CATEGORY", () => {
+		it('should dispatch success action after DELETE_TRANSACTION_CATEGORY', () => {
 			const expectedActions = [
 				{ type: types.DELETE_TRANSACTION_CATEGORY, id: 2 },
 				{ type: types.DELETE_TRANSACTION_CATEGORY, result: 'success', id: 2 }
-			]
+			];
 
-			store.dispatch(operations.deleteCategory(2, INCOME));
+			mock.onDelete().reply(204);
 
-            testHelper.apiRespondsWith({
-                status: 204
-            })
-            .expectActionsAsync(done, expectedActions);
-		})
+			return store.dispatch(operations.deleteCategory(2, INCOME)).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});            
+		});
 
-		it('should dispatch fail action after DELETE_TRANSACTION_CATEGORY', (done) => {
-			const errors = { 'detail': 'Already in use' }
+		it('should dispatch fail action after DELETE_TRANSACTION_CATEGORY', () => {
+			const errors = { 'detail': 'Already in use' };
 			const expectedActions = [
 				{ type: types.DELETE_TRANSACTION_CATEGORY, id: 2 },
 				{ type: types.DELETE_TRANSACTION_CATEGORY, result: 'fail', errors }
-			]
+			];
 
-			store.dispatch(operations.deleteCategory(2, INCOME));
+			mock.onDelete().reply(401, errors);
 
-            testHelper.apiRespondsWith({
-                status: 400,
-                response: errors
-            })
-            .expectActionsAsync(done, expectedActions);
-		})
-	})
-})
+			return store.dispatch(operations.deleteCategory(2, INCOME)).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+		});
+	});
+});

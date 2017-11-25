@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DatetimeInput from 'react-datetime';
 
-import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
-
-import { FormControl, FormControlLabel } from 'material-ui/Form';
-import Switch from 'material-ui/Switch';
+import { DatePicker } from 'material-ui-pickers';
+import { FormControl } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import Select from 'material-ui/Select';
 import { MenuItem } from 'material-ui/Menu';
+
+import TextFieldError from './../../../common/material/TextFieldError';
 
 export default class Periodic extends React.Component{    
     static propTypes = {
@@ -47,18 +46,18 @@ export default class Periodic extends React.Component{
 
         return (
             <div>
-            <HorizontalFormGroupError
+            <TextFieldError
                 id="interval"
                 label="A cada"
                 value={this.state.interval}
-                onChange={(e) => this.handleChange('interval', e.target.value)} />
+                onChange={e => this.handleChange('interval', e.target.value)} />
             
             <FormControl>
                 <InputLabel htmlFor="input-frequency">Frequência</InputLabel>
                 <Select
                     name="frequency"
                     value={this.state.frequency}
-                    onChange={(e) => this.handleChange('frequency', e.target.value)}
+                    onChange={e => this.handleChange('frequency', e.target.value)}
                     input={<Input id="input-frequency" />}
                 >
                     <MenuItem value={'daily'}>dias</MenuItem>
@@ -68,21 +67,21 @@ export default class Periodic extends React.Component{
                 </Select>
             </FormControl>
 
-            <HorizontalFormGroupError
+            <TextFieldError
                 id="how_many"
                 label="vezes"                        
                 value={this.state.how_many}
-                onChange={(e) => this.handleLimitChange('how_many', e.target.value)} />
+                onChange={e => this.handleLimitChange('how_many', e.target.value)} />
 
-            <HorizontalFormGroupError id="until" label="Até" >
-                <DatetimeInput
-                    timeFormat={false}
-                    className='border-focus-blue'
+            <FormControl>
+                <InputLabel htmlFor="until">Até</InputLabel>
+                <DatePicker
                     value={this.state.until}
-                    onChange={(value) => this.handleLimitChange('until', value)}
-                    closeOnSelect={true}
-                    closeOnTab={true} />
-            </HorizontalFormGroupError>
+                    onChange={value => this.handleLimitChange('until', value)}
+                    autoOk={true}
+                    format="DD MMMM YYYY"
+                />
+            </FormControl>
             </div>
         );
     }

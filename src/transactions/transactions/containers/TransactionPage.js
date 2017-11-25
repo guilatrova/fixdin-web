@@ -1,48 +1,65 @@
+/* eslint-disable no-fallthrough */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {    
-  Row,
-  Col,
-  Icon,
-  Grid,
-  Form,
-  Badge,
-  Modal,
-  Panel,
-  PanelContainer,  
-  Checkbox,
-  Table,
-  ButtonGroup,
-  PanelBody,
-  ControlLabel,
-  FormGroup,
-  InputGroup,
-  FormControl
-} from '@sketchpixy/rubix';
+import { withStyles } from 'material-ui/styles';
+import Paper from 'material-ui/Paper';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import IconButton from 'material-ui/IconButton';
+import AddIcon from 'material-ui-icons/Add';
+import FilterListIcon from 'material-ui-icons/FilterList';
+import RefreshIcon from 'material-ui-icons/Refresh';
 
-import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
-import TransactionTableContainer from './TransactionTableContainer';
-import TransactionFormModal from './TransactionFormModal';
-import TransactionFilter from './../components/TransactionFilter';
+import { formatCurrencyDisplay } from '../../../services/formatter';
+import TransactionTable from '../components/TransactionTable';
+import TransactionFormDialog from './TransactionFormDialog';
 import * as saveOptions from './../components/TransactionForm';
 import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
+import FloatingActionButton from '../../../common/material/FloatingActionButton';
+import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
 
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
-import FloatingActionButton from '../../../common/components/material/FloatingActionButton';
+const styles = theme => ({
+    root: {
+      flexGrow: 1,
+      marginTop: 30,
+      overflowX: 'auto',
+    },
+    paper: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+        marginBottom: theme.spacing.unit * 6,
+    },
+    table: {
+        overflowX: 'auto',
+    },
+    spacer: {
+        flex: '1 1 50%',
+    },
+    actions: {
+        color: theme.palette.text.secondary,
+    },
+    title: {
+        flex: '0 0 auto',
+    }
+});
 
-export class TransactionPage extends React.Component {
+class TransactionPage extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired,
         categories: PropTypes.array.isRequired,
         editingTransaction: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
         errors: PropTypes.object,
+        classes: PropTypes.object,
+        total: PropTypes.string.isRequired,
+        totalIncomes: PropTypes.string.isRequired,
+        totalExpenses: PropTypes.string.isRequired,
 
+        onPay: PropTypes.func.isRequired,
         onFetch: PropTypes.func.isRequired,
         onFilter: PropTypes.func.isRequired,
         onClearFilters: PropTypes.func.isRequired,
@@ -53,59 +70,36 @@ export class TransactionPage extends React.Component {
         onFinishEdit: PropTypes.func.isRequired,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            showTransactionFormModal: false,
-            showTransactionDeleteModal: false,
-            showFilterForm: false
-        };        
-
-        //Fetch
-        this.handleRefresh = this.handleRefresh.bind(this);
-
-        //Filter
-        this.handleShowFilter = this.handleShowFilter.bind(this);
-        this.handleFilter = this.handleFilter.bind(this);
-
-        //Create/Edit Modal
-        this.handleCopy = this.handleCopy.bind(this);
-        this.handleEdit = this.handleEdit.bind(this);
-        this.handleCreateTransaction = this.handleCreateTransaction.bind(this);
-        this.handleHideTransactionFormModal = this.handleHideTransactionFormModal.bind(this);
-        this.handleTransactionFormSubmit = this.handleTransactionFormSubmit.bind(this);        
-
-        //Delete Modal
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
-        this.handleHideDeleteModal = this.handleHideDeleteModal.bind(this);
+    state = {
+        openTransactionFormDialog: false,
+        openDeleteDialog: false,
+        showFilterForm: false
     }
 
     componentDidMount() {
         this.props.onFetch();
     }    
 
-    handleRefresh() {
+    handleRefresh = () => {
         this.props.onFetch();
     }
 
-    handleCreateTransaction() {
-        this.setState({ showTransactionFormModal: true });
+    handleCreateTransaction = () => {
+        this.setState({ openTransactionFormDialog: true });
     }    
 
-    handleHideTransactionFormModal() {
+    handleHideTransactionFormModal = () => {
         this.props.onFinishEdit();
-        this.setState({ showTransactionFormModal: false });
+        this.setState({ openTransactionFormDialog: false });
     }
 
-    handleTransactionFormSubmit(type, option, transaction, kind) {
+    handleTransactionFormSubmit = (type, option, transaction, kind) => {
         this.props.onSubmit(transaction, kind, type).then(({result}) => {
             if (result == 'success') {
 
                 switch(option) {
                     case saveOptions.CLOSE:
-                        this.setState({ showTransactionFormModal: false });
+                        this.setState({ openTransactionFormDialog: false });
 
                     default:
                         this.props.onFinishEdit();
@@ -115,38 +109,38 @@ export class TransactionPage extends React.Component {
         });
     }
 
-    handleCopy(id) {
-        this.setState({ showTransactionFormModal: true });
+    handleCopy = id => {
+        this.setState({ openTransactionFormDialog: true });
         this.props.onCopy(id);        
     }
 
-    handleEdit(id) {
-        this.setState({ showTransactionFormModal: true });
+    handleEdit = id => {
+        this.setState({ openTransactionFormDialog: true });
         this.props.onEdit(id);        
     }
 
-    handlePay = (id) => {
+    handlePay = id => {
         const kindId = this.props.transactions.find(transaction => transaction.id == id).kind;        
         this.props.onPay(getKind(kindId), id);
     }
 
-    handleDelete(id) {
+    handleDelete = id => {
         const toDeletePeriodicTransaction = this.props.transactions.find(transaction => transaction.id == id).periodic_transaction;
         this.setState({ 
-            showTransactionDeleteModal: true,
+            openDeleteDialog: true,
             toDeleteId: id,
             toDeletePeriodicTransaction 
         });
     }
 
-    handleConfirmDelete(type) {
+    handleConfirmDelete = type => {
         const id = (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) ? this.state.toDeletePeriodicTransaction : this.state.toDeleteId;
         const kind = getKind(this.props.transactions.find(transaction => transaction.id == id).kind);
 
         this.props.onDelete(id, kind, type).then(({result}) => {
             if (result == 'success') {
                 this.setState({ 
-                    showTransactionDeleteModal: false, 
+                    openDeleteDialog: false, 
                     toDeleteId: undefined,
                     toDeletePeriodicTransaction: undefined
                 });
@@ -154,20 +148,20 @@ export class TransactionPage extends React.Component {
         });
     }
 
-    handleHideDeleteModal() {
+    handleHideDeleteModal = () => {
         this.props.onFinishEdit();
         this.setState({ 
-            showTransactionDeleteModal: false, 
+            openDeleteDialog: false, 
             toDeleteId: undefined,
             toDeletePeriodicTransaction: undefined
         });
     }
 
-    handleShowFilter() {
+    handleShowFilter = () => {
         this.setState({ showFilterForm: !this.state.showFilterForm });
     }
 
-    handleFilter(filters) {
+    handleFilter = filters => {
         if (filters) {
             this.props.onFilter(filters);
         }
@@ -177,47 +171,45 @@ export class TransactionPage extends React.Component {
     }
 
     render() {
-        const { isFetching, transactions, categories } = this.props;
+        const { isFetching, transactions, categories, classes, totalIncomes, totalExpenses, total } = this.props;        
         
         return (
-            <div className="transaction-page">
-                <PanelContainer controls={false}>
-                    <Panel>
-                        <PanelBody>
-                            <Grid>                                
-                                <Row>
+            <div className={classes.root}>
+                <Paper>
+                    
+                    <Toolbar>
+                        <div className={classes.title}>
+                            <Typography type="title">Movimentações | Receitas: {`R$ ${totalIncomes}`} | Despesas: {`R$ ${totalExpenses}`} | Total: {`R$ ${total}`}</Typography>
+                        </div>
+                        <div className={classes.spacer} />
+                        <div className={classes.actions}>
+                            <IconButton aria-label="Refresh" onClick={this.handleRefresh} disabled={isFetching}><RefreshIcon /></IconButton>
+                            <IconButton aria-label="Filter list" onClick={this.handleFilter}><FilterListIcon /></IconButton>
+                        </div>
+                    </Toolbar>
 
-                                    <Col xs={12}>
-                                        <TransactionTableContainer
-                                            transactions={transactions} 
-                                            categories={categories}
-                                            isFetching={isFetching}
-                                            onFilter={this.handleShowFilter}
-                                            onRefresh={this.handleRefresh}
-                                            onEdit={this.handleEdit}
-                                            onPay={this.handlePay}
-                                            onDelete={this.handleDelete}
-                                            onCopy={this.handleCopy}>
+                    <div className={classes.table}>
 
-                                            {this.state.showFilterForm && 
-                                                <TransactionFilter
-                                                    onFilter={this.handleFilter} 
-                                                    isFetching={isFetching}
-                                                    transactions={transactions} />}
+                        <TransactionTable
+                            transactions={transactions} 
+                            categories={categories}
+                            isFetching={isFetching}
+                            onFilter={this.handleShowFilter}
+                            onRefresh={this.handleRefresh}
+                            onEdit={this.handleEdit}
+                            onPay={this.handlePay}
+                            onDelete={this.handleDelete}
+                            onCopy={this.handleCopy} />
+                    </div>
 
-                                        </TransactionTableContainer>
-                                    </Col>
+                    <FloatingActionButton color="primary" onClick={this.handleCreateTransaction}>
+                        <AddIcon />
+                    </FloatingActionButton>
+                </Paper>            
 
-                                </Row>
-                                
-                            </Grid>
-                        </PanelBody>
-                    </Panel>
-                </PanelContainer>
-
-                <TransactionFormModal
-                    show={this.state.showTransactionFormModal}
-                    onHide={this.handleHideTransactionFormModal}
+                <TransactionFormDialog
+                    open={this.state.openTransactionFormDialog}
+                    onRequestClose={this.handleHideTransactionFormModal}
                     title={this.props.editingTransaction.id ? `Editar` : `Criar`}
 
                     onSubmit={this.handleTransactionFormSubmit}
@@ -226,7 +218,7 @@ export class TransactionPage extends React.Component {
                     transaction={Object.keys(this.props.editingTransaction).length > 0 ? this.props.editingTransaction : undefined} />
 
                 <ConfirmDeleteDialog
-                    open={this.state.showTransactionDeleteModal} 
+                    open={this.state.openDeleteDialog} 
                     onRequestClose={this.handleHideDeleteModal}
                     onConfirm={this.handleConfirmDelete}
                     isPeriodic={this.state.toDeletePeriodicTransaction}
@@ -235,17 +227,18 @@ export class TransactionPage extends React.Component {
                     Tem certeza que deseja deletar esta movimentação?
                 </ConfirmDeleteDialog>
 
-                <FloatingActionButton color="primary" onClick={this.handleCreateTransaction}>                
-                    <AddIcon />
-                </FloatingActionButton>
+                
 
             </div>
-        )
+        );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
+        total: formatCurrencyDisplay(selectors.getTotalValueOfDisplayedTransactions(state)),
+        totalExpenses: formatCurrencyDisplay(selectors.getTotalValueOfDisplayedExpenses(state)),
+        totalIncomes: formatCurrencyDisplay(selectors.getTotalValueOfDisplayedIncomes(state)),
         transactions: selectors.getTransactionsToDisplay(state),
         categories: categorySelectors.getCategories(state),
         editingTransaction: selectors.getEditingTransaction(state),
@@ -254,7 +247,7 @@ const mapStateToProps = (state) => {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
         },
-    }
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -272,10 +265,12 @@ const mapDispatchToProps = (dispatch) => {
         onCopy: (id) => dispatch(operations.copyTransaction(id)),
         onPay: (kind, id) => dispatch(operations.payTransactions(kind, id)),
         onFinishEdit: () => {
-            dispatch(operations.finishEditTransaction()),
-            dispatch(categoryOperations.finishEditCategory())
+            dispatch(operations.finishEditTransaction());
+            dispatch(categoryOperations.finishEditCategory());
         }
-    }
+    };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionPage);
+export default withStyles(styles)(
+    connect(mapStateToProps, mapDispatchToProps)(TransactionPage)
+);

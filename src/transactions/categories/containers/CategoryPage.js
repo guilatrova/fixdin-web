@@ -1,168 +1,128 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {    
-  Row,
-  Col,
-  Icon,
-  Grid,
-  Form,
-  Badge,
-  Modal,
-  Panel,
-  PanelContainer,  
-  Checkbox,
-  Table,
-  Button,
-  ButtonGroup,
-  PanelBody,
-  ControlLabel,
-  FormGroup,
-  InputGroup,
-  FormControl
-} from '@sketchpixy/rubix';
+import { withStyles } from 'material-ui/styles';
+import Paper from 'material-ui/Paper';
+import AddIcon from 'material-ui-icons/Add';
 
-import CategoryList from '../components/CategoryList';
-import CategoryFormModal from './CategoryFormModal';
-import ConfirmDeleteModal from './../../../common/components/modals/ConfirmDeleteModal';
+import FloatingActionButton from '../../../common/material/FloatingActionButton';
+import CategoryFormDialog from './CategoryFormDialog';
+import CategoryTable from '../components/CategoryTable';
+import ConfirmDeleteDialog from '../components/ConfirmDeleteDialog';
 import { operations } from '../duck';
+import { EXPENSE, INCOME } from '../../kinds';
+
+const styles = theme => ({
+    root: {
+      flexGrow: 1,
+      marginTop: 30,
+      overflowX: 'auto',
+    },
+    paper: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+        marginBottom: theme.spacing.unit * 6,
+    }
+});
 
 class CategoryPage extends React.Component {
 
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        isFetching: PropTypes.bool.isRequired,
+        classes: PropTypes.object.isRequired,
+        categories: PropTypes.array.isRequired,
+        errors: PropTypes.object.isRequired,
+        editingCategory: PropTypes.object,
 
-        this.state = {
-            showCategoryFormModal: false,
-            showCategoryDeleteModal: false,
-            toDeleteId: undefined
-        }
+        onFetch: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired,
+        onFinishEdit: PropTypes.func.isRequired,
+        onEdit: PropTypes.func.isRequired,
+        onDelete: PropTypes.func.isRequired,
+    };
 
-        this.handleRefresh = this.handleRefresh.bind(this);
-        this.handleCategoryFormSubmit = this.handleCategoryFormSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
-        this.handleHideDeleteModal = this.handleHideDeleteModal.bind(this);
-    }
+    state = {
+        openCategoryFormDialog: false,
+        openDeleteDialog: false,
+        toDeleteId: undefined
+    };
 
     componentDidMount() {
-        this.props.fetch(this.props.route.kind);
-
-        this.handleRefresh = this.handleRefresh.bind(this);
-        this.handleCreateCategory = this.handleCreateCategory.bind(this);
-        this.handleHideFormModal = this.handleHideFormModal.bind(this);
-        this.handleEdit = this.handleEdit.bind(this);        
+        this.props.onFetch();    
     }
 
-    componentWillReceiveProps(nextProps) {
-        //Necessary because DidMount isn't called again when we change between Incomes and Expenses
-        if (this.props.route.kind != nextProps.route.kind) {
-            this.props.fetch(nextProps.route.kind);
-        }
-    }
-
-    handleCategoryFormSubmit(category) {
-        const { kind } = this.props.route;
-        this.props.onSubmit({...category, kind}).then(({result}) => {
+    handleCategoryFormSubmit = (category) => {
+        this.props.onSubmit(category).then(({result}) => {
             if (result == 'success') {
-                this.setState({ showCategoryFormModal: false });
+                this.setState({ openCategoryFormDialog: false });
                 this.props.onFinishEdit();
             }
         });
     }
 
-    handleCreateCategory() {
-        this.setState({ showCategoryFormModal: true });
-    }
+    handleRequestCreate = () => this.setState({ openCategoryFormDialog: true });
 
-    handleHideFormModal() {
+    handleCloseFormDialog = () => {
         this.props.onFinishEdit();
-        this.setState({ showCategoryFormModal: false });
+        this.setState({ openCategoryFormDialog: false });
     }
 
-    handleRefresh() {
-        this.props.fetch(this.props.route.kind);
-    }
+    handleRefresh = () => this.props.onFetch();
 
-    handleEdit(id) {
-        this.setState({ showCategoryFormModal: true });
+    handleRequestEdit = (id) => {
+        this.setState({ openCategoryFormDialog: true });
         this.props.onEdit(id);
     }
 
-    handleDelete(id) {
+    handleRequestDelete = (toDeleteId) => {
         this.setState({
-            showCategoryDeleteModal: true,
-            toDeleteId: id
-        })
+            openDeleteDialog: true,
+            toDeleteId
+        });
     }
 
-    handleConfirmDelete() {
-        const {kind} = this.props.route;
-        this.props.onDelete(this.state.toDeleteId, kind).then(({result}) => {
+    handleConfirmDelete = () => {        
+        this.props.onDelete(this.state.toDeleteId).then(({result}) => {
             if (result == 'success') {
                 this.setState({
-                    showCategoryDeleteModal: false,
+                    openDeleteDialog: false,
                     toDeleteId: undefined
-                })
+                });
             }
         });
     }
 
-    handleHideDeleteModal() {
+    handleCloseDeleteDialog = () => {
         this.props.onFinishEdit();
         this.setState({
-            showCategoryDeleteModal: false,
+            openDeleteDialog: false,
             toDeleteId: undefined
-        })
+        });
     }
 
     render() {
-        const { isFetching } = this.props;
-        const { kind } = this.props.route;
-        const categories = this.props.categories.filter(category => category.kind === kind.id);
+        const { isFetching, classes, categories } = this.props;
 
         return (
-            <div className="category-page">
-                <h1>categoria</h1>
+            <div className={classes.root}>
+                <Paper>
 
-                <PanelContainer controls={false}>
-                    <Panel>
-                        <PanelBody>
-                            <Grid>
-                                <Row>
-                                    <Col xs={12}>
-                                        <ButtonGroup>
-                                            <Button bsStyle='primary' onClick={this.handleCreateCategory}>Nova</Button>
-                                            <Button bsStyle='blue' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
-                                        </ButtonGroup>
-                                    </Col>
-                                </Row>
+                    <div className={classes.table}>
+                        <CategoryTable
+                            categories={categories}
+                            onEdit={this.handleRequestEdit}
+                            onDelete={this.handleRequestDelete} />
+                    </div>
 
-                                <Row>
-                                    <Col xs={12}>
-                                        <CategoryList
-                                            categories={categories}
-                                            onEdit={this.handleEdit}
-                                            onDelete={this.handleDelete} />
-                                    </Col>
-                                </Row>
+                    <FloatingActionButton color="primary" onClick={this.handleRequestCreate}>
+                        <AddIcon />
+                    </FloatingActionButton>
+                </Paper>
 
-                                <Row>
-                                    <Col xs={12}>
-                                        <ButtonGroup>
-                                            <Button bsStyle='primary' onClick={this.handleCreateCategory}>Nova</Button>
-                                            <Button bsStyle='blue' onClick={this.handleRefresh} disabled={isFetching}>Atualizar</Button>
-                                        </ButtonGroup>
-                                    </Col>
-                                </Row>
-                            </Grid>
-                        </PanelBody>
-                    </Panel>
-                </PanelContainer>
-
-                <CategoryFormModal
-                    show={this.state.showCategoryFormModal}
-                    onHide={this.handleHideFormModal}
+                <CategoryFormDialog
+                    open={this.state.openCategoryFormDialog}
+                    onRequestClose={this.handleCloseFormDialog}
                     title={this.props.editingCategory.id ? "Editar categoria" : "Criar categoria"}
 
                     isFetching={isFetching}
@@ -171,15 +131,14 @@ class CategoryPage extends React.Component {
                     category={this.props.editingCategory}
                 />
 
-                <ConfirmDeleteModal 
-                    show={this.state.showCategoryDeleteModal} 
-                    onHide={this.handleHideDeleteModal} 
-                    onConfirmDelete={this.handleConfirmDelete}
-                    error={this.props.errors['detail']} >
+                <ConfirmDeleteDialog 
+                    open={this.state.openDeleteDialog} 
+                    onRequestClose={this.handleCloseDeleteDialog} 
+                    onConfirm={this.handleConfirmDelete}
+                    error={this.props.errors.detail} >
 
                     Tem certeza que deseja deletar esta categoria?
-                </ConfirmDeleteModal>
-
+                </ConfirmDeleteDialog>
             </div>
         );
     }
@@ -188,17 +147,23 @@ class CategoryPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         ...state.categories
-    }
-}
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch: (kind) => dispatch(operations.fetchCategories(kind)),
-        onSubmit: (name, kind) => dispatch(operations.saveCategory(name, kind)),
-        onDelete: (id, kind) => dispatch(operations.deleteCategory(id, kind)),
-        onEdit: (id) => dispatch(operations.editCategory(id)),        
+        onFetch: () => { //TO DO: add one unique fetch endpoint
+            dispatch(operations.fetchCategories(EXPENSE));
+            dispatch(operations.fetchCategories(INCOME));
+        },
+        onSubmit: (category) => dispatch(operations.saveCategory(category)),
+        onDelete: (id) => dispatch(operations.deleteCategory(id, EXPENSE)),//TO DO: remove static kind
+        onEdit: (id) => dispatch(operations.editCategory(id)),
         onFinishEdit: () => dispatch(operations.finishEditCategory())
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage);
+
+export default withStyles(styles)(
+    connect(mapStateToProps, mapDispatchToProps)(CategoryPage)
+);

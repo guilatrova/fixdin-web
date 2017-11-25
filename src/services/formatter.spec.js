@@ -1,7 +1,5 @@
-import axios from 'axios'
-
 import { EXPENSE, INCOME } from '../transactions/kinds';
-
+import moment from 'moment';
 import {
     formatCurrency, 
     formatDate, 
@@ -41,7 +39,7 @@ describe('services/formatter', () => {
             expect(formatCurrency("R$ 59,99", EXPENSE)).to.be.equal(-59.99);
         });
         
-    })
+    });
 
     describe('formatTransaction...()', () => {
 
@@ -63,7 +61,7 @@ describe('services/formatter', () => {
                     value: -15,
                     periodic: undefined,
                     priority: undefined
-                }
+                };
 
                 expect(formatTransactionToSend(transactionPreFormatted, EXPENSE)).to.be.deep.equal(transactionPostFormatted);
             });
@@ -96,7 +94,7 @@ describe('services/formatter', () => {
                         how_many: undefined,
                         interval: 1
                     }
-                }
+                };
 
                 expect(formatTransactionToSend(transactionPreFormatted, EXPENSE)).to.be.deep.equal(transactionPostFormatted);
             });
@@ -104,7 +102,6 @@ describe('services/formatter', () => {
         });
 
         it('formatTransactionReceived()', () => {
-            const dueDate = moment(new Date(2017, 0, 1));
             const transactionPreFormatted = {
                 id: 1,
                 due_date: '2014-07-01',
@@ -116,7 +113,7 @@ describe('services/formatter', () => {
                 due_date: moment('2014-07-01', 'YYYY-MM-DD'),
                 payment_date: moment('2014-08-01', 'YYYY-MM-DD'),
                 value: -18,
-            }
+            };
 
             expect(formatTransactionReceived(transactionPreFormatted, EXPENSE)).to.be.deep.equal(transactionPostFormatted);
         });
@@ -133,7 +130,7 @@ describe('services/formatter', () => {
             const periodic = {
                 how_many: 'how_many',
                 until: moment(new Date(2017, 0, 1))
-            }
+            };
 
             expect(formatPeriodic(periodic)).to.be.deep.equal({
                 how_many: undefined,

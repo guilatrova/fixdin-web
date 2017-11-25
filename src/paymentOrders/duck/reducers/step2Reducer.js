@@ -7,7 +7,7 @@ const initialState = {
     checked: [],
     totalChecked: 0,
     visibleExpenses: []
-}
+};
 
 const toggleExpense = (state, action) => {
     const { newChecked, diffTotalChecked, totalChecked } = 
@@ -19,7 +19,7 @@ const toggleExpense = (state, action) => {
         checked: newChecked,
         totalChecked,
         remainingBalance
-    }
+    };
 };
 
 const checkDefaultExpenses = (state, action) => {
@@ -45,8 +45,8 @@ const checkDefaultExpenses = (state, action) => {
         checked,
         totalChecked,
         remainingBalance
-    }
-}
+    };
+};
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
@@ -64,7 +64,7 @@ export default function reducer(state = initialState, action) {
                 visibleExpenses: action.visibleExpenses,
                 checked: [],
                 totalChecked: 0
-            }
+            };
 
         default:
             return state;

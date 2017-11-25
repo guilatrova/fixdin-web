@@ -1,41 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import DatetimeInput from 'react-datetime';
-import CurrencyInput from 'react-currency-input';
-import Slider, { Handle } from 'rc-slider';
 
-import {    
-  Row,
-  Col,
-  Icon,
-  Grid,
-  Form,
-  Badge,
-  Panel,
-  Checkbox,
-  Button,
-  SplitHoverButton,
-  MenuItem as RbxMenuItem,
-  HelpBlock,
-  PanelBody,
-  ControlLabel,
-  FormGroup,
-  InputGroup,
-  FormControl as RbxFormControl
-} from '@sketchpixy/rubix';
-
+import { withStyles } from 'material-ui/styles';
+import { DatePicker } from 'material-ui-pickers';
+import Button from 'material-ui/Button';
+import Slider from 'rc-slider';
 import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
+import { DialogActions, DialogContent } from 'material-ui/Dialog';
+import { InputLabel } from 'material-ui/Input';
+import TextFieldCurrency from '../../../common/material/TextFieldCurrency';
+import TextFieldError from '../../../common/material/TextFieldError';
 
-import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
-import CategorySelectPicker from './../../categories/components/CategorySelectPicker';
-import TransactionDescription from './TransactionDescription';
-import KindSwitch from './KindSwitch';
+import KindSwitch from '../../components/KindSwitch';
 import Periodic from './Periodic';
+import CategorySelectPicker from '../../categories/components/CategorySelectPicker';
+import { EXPENSE, getKind } from '../../kinds';
 import { types } from '../duck';
-
-import { EXPENSE, INCOME, getKind } from '../../kinds';
 
 export const CLOSE = "CLOSE";
 export const NEW = "NEW";
@@ -45,43 +27,55 @@ const emptyTransaction = {
     due_date: moment(new Date()),
     description: '',
     category: undefined,
-    value: '0,00',
+    value: 0,
     deadline: undefined,
     priority: 0,
     payment_date: undefined,
     details: '',
     periodic: undefined,
     kind: EXPENSE.id
-}
+};
 
-const regularActions = (onClick, disabled) => {
-    return (
-        <SplitHoverButton id="transaction-form-save-dropdown" bsStyle='primary' title="Salvar" disabled={disabled} 
-            onClick={(e) => onClick(CLOSE, e)} 
-            onSelect={onClick}>
-
-            <RbxMenuItem eventKey={NEW} disabled={disabled}>Salvar e novo</RbxMenuItem>
-            <RbxMenuItem eventKey={NEW_SAME_CATEGORY} disabled={disabled}>Salvar e novo (manter categoria)</RbxMenuItem>
-
-        </SplitHoverButton>
-    );
-}
-
-const editingPeriodicActions = (onClick, disabled) => {
+const regularActions = (onClick, disabled, classes) => {
     return (
         <div>
-            <Button onClick={() => onClick(types.SAVE_TRANSACTION)} disabled={disabled}>
+            <Button raised color="primary" onClick={() => onClick(types.CLOSE)} disabled={disabled} className={classes.button}>
+                Salvar</Button>
+            <Button raised color="default" onClick={() => onClick(types.NEW)} disabled={disabled} className={classes.button}>
+                Salvar e novo</Button>                
+        </div>        
+    );
+};
+
+const editingPeriodicActions = (onClick, disabled, classes) => {
+    return (
+        <div>
+            <Button raised color="primary" onClick={() => onClick(types.SAVE_TRANSACTION)} disabled={disabled} className={classes.button}>
                 Somenta esta</Button>
-            <Button onClick={() => onClick(types.SAVE_THIS_AND_NEXT_TRANSACTIONS)} disabled={disabled}>
+            <Button raised color="default" onClick={() => onClick(types.SAVE_THIS_AND_NEXT_TRANSACTIONS)} disabled={disabled} className={classes.button}>
                 Esta e futuras</Button>
-            <Button onClick={() => onClick(types.SAVE_ALL_PERIODIC_TRANSACTIONS)} disabled={disabled}>
+            <Button raised color="default" onClick={() => onClick(types.SAVE_ALL_PERIODIC_TRANSACTIONS)} disabled={disabled} className={classes.button}>
                 Todas as recorrências</Button>
         </div>
     );
-}
+};
 
-export default class TransactionForm extends React.Component {
+const styles = theme => ({
+    root: {
+        minWidth: 500,
+        padding: 20
+    },
+    widthLimit: {
+        maxWidth: 300
+    },
+    button: {
+        margin: theme.spacing.unit,
+    }
+});
+
+class TransactionForm extends React.Component {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         onSubmit: PropTypes.func.isRequired,
         errors: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
@@ -90,7 +84,10 @@ export default class TransactionForm extends React.Component {
     
     static defaultProps = {
         errors: { },
-        transaction: emptyTransaction
+        transaction: emptyTransaction,
+
+        onSubmit: () => {},
+        isFetching: false,    
     }
 
     constructor(props) {
@@ -121,11 +118,11 @@ export default class TransactionForm extends React.Component {
 
         switch(postSaveOption) {
             case NEW:
-                this.setState({ ...emptyTransaction, errors: {} })
+                this.setState({ ...emptyTransaction, errors: {} });
                 break;
 
             case NEW_SAME_CATEGORY:
-                this.setState({ ...emptyTransaction, errors: {}, category: this.state.category })
+                this.setState({ ...emptyTransaction, errors: {}, category: this.state.category });
                 break;
         }
     }
@@ -143,7 +140,7 @@ export default class TransactionForm extends React.Component {
         }
     }
 
-    handlePayedChange(e, checked) {
+    handlePayedChange = (e, checked) => {
         this.setState({
             payed: checked,
             payment_date: checked ? moment(new Date()) : null
@@ -176,116 +173,140 @@ export default class TransactionForm extends React.Component {
     }
     
     render() {
-        const { errors } = this.props;
+        const { errors, classes } = this.props;
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
         const isCreate = !isEdit;
         const actions = (this.state.periodic_transaction) ? 
-            (disabled) => editingPeriodicActions(this.handleSubmit, disabled) : 
-            (disabled) => regularActions(this.handleOptionSelected, disabled);
+            (disabled) => editingPeriodicActions(this.handleSubmit, disabled, classes) : 
+            (disabled) => regularActions(this.handleOptionSelected, disabled, classes);
 
         return (
-        <Form horizontal>
-            
-            <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
+        <div className={classes.root}>
+            <DialogContent>
 
-            <HorizontalFormGroupError id="due_date" label="Vencimento" error={errors.due_date} >
-                <DatetimeInput
-                    timeFormat={false}
-                    className='border-focus-blue'
-                    onChange={ (due_date) => this.setState({ due_date }) }
+                <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
+
+                <DatePicker
+                    label="Vencimento"
                     value={this.state.due_date}
-                    closeOnSelect={true}
-                    closeOnTab={true} />
-            </HorizontalFormGroupError>
+                    onChange={(due_date) => this.setState({ due_date })}
+                    autoOk={true}
+                    format="DD MMMM YYYY"
+                />
 
-            <HorizontalFormGroupError id="description" label="Descrição" error={errors.description}>
-                <TransactionDescription
+                <TextFieldError
                     name="description"
+                    label="Descrição"
+                    error={errors.description}
                     value={this.state.description}
                     onChange={this.handleChange}
                     maxLength="120"
                 />
-            </HorizontalFormGroupError>
 
-            <HorizontalFormGroupError id="category" label="Categoria" error={errors.category}>
-                <CategorySelectPicker 
-                    kind={this.state.kind} 
-                    value={this.state.category}
-                    onChange={ (category) => this.setState({ category }) } />
-            </HorizontalFormGroupError>
-
-            <HorizontalFormGroupError id="value" label="Valor" error={errors.value}>
-                <CurrencyInput 
-                    className='border-focus-blue form-control'
-                    onChange={ (value) => this.setState({ value }) }
-                    value={this.state.value}
-                    prefix="R$ "
-                    decimalSeparator=","
-                    thousandSeparator="." />
-            </HorizontalFormGroupError>
-
-            <HorizontalFormGroupError id="priority" label="Importancia" error={errors.priority}>
-                <Slider min={0} max={5} defaultValue={3} marks={ { 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'} }
-                        value={this.state.priority} onChange={(priority) => this.setState({priority})}/>
-            </HorizontalFormGroupError>
-
-            <HorizontalFormGroupError id="deadline" label="Tolerância" error={errors.deadline} >
-                <Slider min={0} max={60} step={null} marks={ { 0: '0', 15: '15', 30: '30', 60: '60'} }
-                        value={this.state.deadline} onChange={(deadline) => this.setState({deadline})}/>
-            </HorizontalFormGroupError>
-
-            <FormControlLabel
-                control={
-                    <Switch
-                    checked={this.state.payed}
-                    onChange={this.handlePayedChange}
-                    />
-                }
-                label="Pago?"
-            />
-
-            {this.state.payed && <HorizontalFormGroupError id="payment_date" label="Pago em" error={errors.payment_date} >
-                <DatetimeInput
-                    timeFormat={false}
-                    className='border-focus-blue'
-                    onChange={ (payment_date) => this.setState({ payment_date }) }
-                    value={this.state.payment_date}
-                    closeOnSelect={true}
-                    closeOnTab={true} />
-            </HorizontalFormGroupError>}
-
-            <HorizontalFormGroupError id="details" label="Detalhes" error={errors.details}>
-                <RbxFormControl
-                    className='border-focus-blue'
-                    componentClass='textarea'
-                    name="details"
+                {/* <TransactionDescription
+                    name="description"
+                    value={this.state.description}
                     onChange={this.handleChange}
-                    value={this.state.details}
-                    maxLength="500" />
-            </HorizontalFormGroupError>
+                    maxLength="120"
+                />*/}
 
-            {isCreate && <FormControlLabel
-                control={
-                    <Switch
-                    checked={this.state.isPeriodic}
-                    onChange={this.handleIsPeriodicChange}
+                <div className={classes.widthLimit}>
+                    <InputLabel htmlFor="category-picker">Categoria</InputLabel>
+
+                    <CategorySelectPicker 
+                        id="category-picker"
+                        kind={this.state.kind} 
+                        value={this.state.category}
+                        onChange={category => this.setState({ category })} />
+                </div>
+
+                {/* <TextFieldError id="category" label="Categoria" error={errors.category}> */}
+                    {/* <CategorySelectPicker 
+                        kind={this.state.kind} 
+                        value={this.state.category}
+                        onChange={ (category) => this.setState({ category }) } /> */}
+                {/* </HorizontalFormGroupError> */}
+
+                <TextFieldCurrency 
+                    id="value"
+                    label="Valor"
+                    error={errors.value}
+                    value={this.state.value}
+                    onChange={value => this.setState({ value: value.floatValue })}
+                />
+
+                <div className={classes.widthLimit}>
+                    <InputLabel htmlFor="priority-slider">Importância</InputLabel>
+
+                    <Slider id="priority-slider" min={0} max={5} defaultValue={3} marks={{ 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'}}
+                            value={this.state.priority} onChange={(priority) => this.setState({priority})}/>
+
+                    {/* ERRORS */}
+                </div>
+
+                <div className={classes.widthLimit}>
+                    <InputLabel htmlFor="priority-slider">Tolerância</InputLabel>
+
+                    <Slider min={0} max={60} step={null} marks={{ 0: '0', 5: '5', 15: '15', 30: '30', 60: '60'}}
+                            value={this.state.deadline} onChange={(deadline) => this.setState({deadline})}/>
+
+                    {/* ERRORS */}
+                </div>
+
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={this.state.payed}
+                            onClick={e => this.handlePayedChange(e, !this.state.payed)}
+                        />
+                    }
+                    label="Pago"
+                />
+
+                {this.state.payed && 
+                    <DatePicker 
+                        label="Pago em"
+                        value={this.state.payment_date}
+                        onChange={(payment_date) => this.setState({ payment_date })}
+                        autoOk={true}
+                        format="DD MMMM YYYY"
                     />
                 }
-                label="Periódico"
-            />}
 
-            <Periodic 
-                visible={this.state.isPeriodic}
-                onChange={ (periodic) => this.setState({ periodic }) } />
+                <TextFieldError
+                    multiline
+                    name="details"
+                    label="Detalhes"
+                    rows="4"
+                    value={this.state.details}
+                    onChange={this.handleChange}
+                    error={errors.details}
+                />
 
-            <FormGroup>
-                <Col smOffset={2} sm={10} className='text-right'>
-                    {actions(disabled)}
-                </Col>
-            </FormGroup>            
+                {isCreate && <FormControlLabel
+                    control={
+                        <Switch
+                            checked={this.state.isPeriodic}
+                            onClick={e => this.handleIsPeriodicChange(e, !this.state.isPeriodic)}
+                        />
+                    }
+                    label="Periódico"
+                />}
 
-            </Form>
+                <Periodic 
+                    visible={this.state.isPeriodic}
+                    onChange={periodic => this.setState({ periodic })} />
+
+            </DialogContent>
+
+            <DialogActions>
+                {actions(disabled)}
+            </DialogActions>
+
+        </div>
         );
     }
 } 
+
+export default withStyles(styles)(TransactionForm);

@@ -4,7 +4,7 @@ import types from './types';
 function requestCategories() {
     return {
         type: types.FETCH_TRANSACTION_CATEGORIES
-    }    
+    };
 }
 
 function receiveCategories(result, data, kind) {
@@ -14,21 +14,21 @@ function receiveCategories(result, data, kind) {
             result,
             kind,
             categories: data
-        }
+        };
     }
 
     return {
         type: types.FETCH_TRANSACTION_CATEGORIES,
         result,
         errors: data
-    }
+    };
 }
 
 //SAVE
 function requestSaveCategory() {
     return {
         type: types.SAVE_TRANSACTION_CATEGORY
-    }
+    };
 }
 
 function receiveSaveCategory(result, data) {
@@ -37,14 +37,14 @@ function receiveSaveCategory(result, data) {
             type: types.SAVE_TRANSACTION_CATEGORY,            
             result,
             category: data
-        }
+        };
     }
 
     return {
         type: types.SAVE_TRANSACTION_CATEGORY,
         result,
         errors: data
-    }
+    };
 }
 
 //EDIT
@@ -52,13 +52,13 @@ function editCategory(id) {
     return {
         type: types.EDIT_TRANSACTION_CATEGORY,
         id
-    }
+    };
 }
 
 function finishEditCategory() {
     return {
         type: types.FINISH_EDIT_TRANSACTION_CATEGORY
-    }
+    };
 }
 
 //DELETE
@@ -66,7 +66,7 @@ function requestDeleteCategory(id) {
     return {
         type: types.DELETE_TRANSACTION_CATEGORY,
         id
-    }
+    };
 }
 
 function receiveDeleteCategory(id, result, errors) {
@@ -75,14 +75,14 @@ function receiveDeleteCategory(id, result, errors) {
             type: types.DELETE_TRANSACTION_CATEGORY,
             id,
             result
-        }
+        };
     }
 
     return {
         type: types.DELETE_TRANSACTION_CATEGORY,
         result,
         errors
-    }
+    };
 }
 
 export default {

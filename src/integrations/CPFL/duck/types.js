@@ -6,4 +6,4 @@ export default {
     FETCH_SETTINGS,
     UPDATE_SETTINGS,
     RUN_SERVICE
-}
+};

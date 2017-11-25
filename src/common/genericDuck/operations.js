@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import createApi from './../../services/api';
 import handleError from './../../services/genericErrorHandler';
 
@@ -14,7 +15,7 @@ export class Operation {
         return this.getApiPromise(api)
             .then(response => response.data)
             .then(data => this.onSucceed(dispatch, this.receiveAction, this.getSucceedData(data)))
-            .catch(err => this.onFailed(dispatch, this.receiveAction, err))
+            .catch(err => this.onFailed(dispatch, this.receiveAction, err));
     }
 
     createApiService() {
@@ -64,7 +65,7 @@ export class DeleteOperation extends Operation {
         return this.getApiPromise(api, id, extra)
             .then(response => response.data)
             .then(data => this.onSucceed(dispatch, this.receiveAction, this.getSucceedData(data), id))
-            .catch(err => this.onFailed(dispatch, this.receiveAction, err, id))
+            .catch(err => this.onFailed(dispatch, this.receiveAction, err, id));
     }
 
     onRequest(dispatch, requestAction, id) {

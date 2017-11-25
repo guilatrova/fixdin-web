@@ -1,4 +1,5 @@
 import comparators from './comparators';
+import moment from 'moment';
 
 xdescribe('transactions/duck/comparators', () => {
     
@@ -23,7 +24,7 @@ xdescribe('transactions/duck/comparators', () => {
 
             expect(comparator(a, b)).to.equal(0);
         });
-    }
+    };
 
     describe('compareByPriority', () => {
 

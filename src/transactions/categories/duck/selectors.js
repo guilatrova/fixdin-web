@@ -8,7 +8,7 @@ const getCategoryNameById = (state) => (id, whenMissing = 'Carregando nome...') 
     if (found)
         return found.name;
     return whenMissing;
-}
+};
 
 export default {
     getNameError,

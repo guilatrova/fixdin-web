@@ -11,5 +11,4 @@ export default {
     isFetching,
     getHistoric,
     getLastHistory
-}
-
+};

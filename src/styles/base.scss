@@ -1,0 +1,15 @@
+/* Styles */
+html, body {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+@import '~react-select/dist/react-select';
+@import '~rc-slider/assets/index';

@@ -5,7 +5,7 @@ import { formatTransactionReceived } from '../../../services/formatter';
 function requestTransactions() {
     return {
         type: types.FETCH_TRANSACTIONS
-    }
+    };
 }
 
 function receiveTransactions(result, data) {
@@ -14,21 +14,21 @@ function receiveTransactions(result, data) {
             type: types.FETCH_TRANSACTIONS,
             result,
             transactions: data.map(transaction => formatTransactionReceived(transaction))
-        }
+        };
     }
 
     return {
         type: types.FETCH_TRANSACTIONS,
         result,
         errors: data
-    }
+    };
 }
 
 //SAVE
 function requestSaveTransaction(type) {
     return {
         type
-    }
+    };
 }
 
 function receiveSaveTransaction(result, data, type) {
@@ -37,14 +37,14 @@ function receiveSaveTransaction(result, data, type) {
             type,
             result,
             transactions: data.map(raw => formatTransactionReceived(raw))
-        }
+        };
     }
 
     return {
         type,
         result,
         errors: data
-    }
+    };
 }
 
 //COPY
@@ -52,7 +52,7 @@ function copyTransaction(id) {
     return {
         type: types.COPY_TRANSACTION,
         id
-    }
+    };
 }
 
 //EDIT
@@ -60,13 +60,13 @@ function editTransaction(id) {
     return {
         type: types.EDIT_TRANSACTION,
         id
-    }
+    };
 }
 
 function finishEditTransaction() {
     return {
         type: types.FINISH_EDIT_TRANSACTION
-    }
+    };
 }
 
 //DELETE
@@ -74,7 +74,7 @@ function requestDeleteTransaction(id, type) {
     return {
         type,
         id
-    }
+    };
 }
 
 function receiveDeleteTransaction(result, id, type, errors) {
@@ -83,21 +83,21 @@ function receiveDeleteTransaction(result, id, type, errors) {
             type,
             id,
             result
-        }
+        };
     }
 
     return {
         type,
         result,
         errors
-    }
+    };
 }
 
 //FILTER
 function requestFilterTransactions() {
     return {
         type: types.FILTER_TRANSACTIONS
-    }
+    };
 }
 
 function receiveFilteredTransactions(result, data) {
@@ -106,27 +106,28 @@ function receiveFilteredTransactions(result, data) {
             type: types.FILTER_TRANSACTIONS,
             result,
             transactions: data.map(transaction => formatTransactionReceived(transaction))
-        }
+        };
     }
 
     return {
         type: types.FILTER_TRANSACTIONS,
         result,
         errors: data
-    }
+    };
 }
 
 function clearFilters() {
     return {
         type: types.CLEAR_FILTERS
-    }
+    };
 }
 
-function setFilters(filters) {
+function setFilters(filters, concatFilters = false) {
     return {
         type: types.SET_FILTERS,
+        concatFilters,
         filters
-    }
+    };
 }
 
 //PAY
@@ -134,7 +135,7 @@ function payTransactions(ids) {
     return {
         type: types.PAY_TRANSACTIONS,
         ids
-    }
+    };
 }
 
 function receivePayTransactions(result, data) {
@@ -143,14 +144,14 @@ function receivePayTransactions(result, data) {
             type: types.PAY_TRANSACTIONS,
             result,
             transactions: data.map(transaction => formatTransactionReceived(transaction))
-        }
+        };
     }
 
     return {
         type: types.PAY_TRANSACTIONS,
         result,
         errors: data
-    }
+    };
 }
 
 export default {
@@ -175,4 +176,4 @@ export default {
 
     payTransactions,
     receivePayTransactions
-}
+};

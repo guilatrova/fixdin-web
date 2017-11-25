@@ -34,4 +34,4 @@ export default {
     step3: {
         getExpectedBalanceAfterPayment
     }
-}
+};

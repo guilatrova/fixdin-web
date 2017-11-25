@@ -7,7 +7,7 @@ export function saveToken(value)
 
 export function getToken()
 {
-    return localStorage.getItem(TOKEN_KEY)
+    return localStorage.getItem(TOKEN_KEY);
 }
 
 export function isAuthenticated() {

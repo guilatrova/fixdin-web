@@ -11,7 +11,7 @@ const initialState = {
     total: 0,
     toSave: 0,
     totalChecked: 0
-}
+};
 
 const checkDefaultIncomes = (state, action) => {
     const filtered = state.visibleIncomes.filter(income => income.due_date.isSameOrAfter(today()));
@@ -23,7 +23,7 @@ const checkDefaultIncomes = (state, action) => {
         checked,
         totalChecked,
         total: action.balance + totalChecked
-    }
+    };
 };
 
 const changeUntilDate = (state, action) => {
@@ -45,7 +45,7 @@ const changeUntilDate = (state, action) => {
         untilDate: action.untilDate,
         total,
         totalChecked
-    }
+    };
 };
 
 const toggleIncome = (state, action) => {
@@ -58,7 +58,7 @@ const toggleIncome = (state, action) => {
         checked: newChecked,
         total,
         totalChecked
-    }
+    };
 };
 
 const changeValueToSave = (state, action) => {
@@ -69,8 +69,8 @@ const changeValueToSave = (state, action) => {
         ...state,
         toSave: action.toSave,
         total
-    }
-}
+    };
+};
 
 const reset = (state, action) => {
     return {
@@ -81,8 +81,8 @@ const reset = (state, action) => {
         total: action.balance,
         totalChecked: 0,
         toSave: 0,
-    }
-}
+    };
+};
 
 export default function reducer(state = initialState, action) {    
     switch (action.type) {

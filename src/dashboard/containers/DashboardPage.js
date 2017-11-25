@@ -2,130 +2,126 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {    
-    Row,
-    Col,
-    Icon,
-    Grid,
-    Form,
-    Badge,
-    Modal,
-    Panel,
-    PanelContainer,  
-    Checkbox,
-    Table,
-    Button,
-    ButtonGroup,
-    PanelBody,
-    ControlLabel,
-    FormGroup,
-    InputGroup,
-    FormControl
-} from '@sketchpixy/rubix';
+import { withStyles } from 'material-ui/styles';
+import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 
 import { operations as balanceOperations, selectors as balanceSelectors } from './../../balances/duck';
-import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
-import { EXPENSE, INCOME } from './../../transactions/kinds';
-
 import BalanceCard from './../../balances/components/BalanceCard';
-import Last13MonthsChart from './../../reports/components/Last13MonthsChartContainer';
-import ValuesByCategoryPieChartContainer from './../../reports/components/ValuesByCategoryPieChartContainer';
+import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
+import ValuesByCategoryPieChartContainer from './../../reports/containers/ValuesByCategoryPieChartContainer';
+import Last13MonthsChart from './../../reports/containers/Last13MonthsChartContainer';
+import { EXPENSE, INCOME } from './../../transactions/kinds';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
 import { formatCurrencyDisplay } from '../../services/formatter';
 
+const styles = () => ({
+    root: {
+        flexGrow: 1,
+        marginTop: 30,
+    }
+});
+
 class DashboardPage extends React.Component {
+    static propTypes = {
+        onFetch: PropTypes.func.isRequired,
+        balance: PropTypes.number.isRequired,
+        realBalance: PropTypes.number.isRequired,
+        expectedBalance: PropTypes.number.isRequired,
+        overdueExpenses: PropTypes.array.isRequired,
+        nextPendingExpenses: PropTypes.array.isRequired,
+        overdueIncomes: PropTypes.array.isRequired,
+        nextPendingIncomes: PropTypes.array.isRequired,
+        incomesByCategory: PropTypes.array.isRequired,
+        expensesByCategory: PropTypes.array.isRequired,
+        classes: PropTypes.object.isRequired,
+    }
+
     componentDidMount() {
-        this.props.fetchBalance();
-        this.props.fetchPendingTransactions();
+        this.props.onFetch();
     }
 
     render() {
+        const { classes } = this.props;
         const balance = formatCurrencyDisplay(this.props.balance);
         const realBalance = formatCurrencyDisplay(this.props.realBalance);
         const expectedBalance = formatCurrencyDisplay(this.props.expectedBalance);
 
         return (
-            <div className="dashboard-page">
-                <PanelContainer controls={false}>
-                    <Panel>
-                        <PanelBody>
-                            <Grid>
-                                <Row>
-                                    <Col xs={6} md={3}>
-                                        <BalanceCard title="Saldo">
-                                            {balance}
-                                        </BalanceCard>
-                                    </Col>
+            <div className={classes.root}>
+                <Grid container spacing={24}>
 
-                                    <Col xs={6} md={3}>
-                                        <BalanceCard title="Saldo real">
-                                            {realBalance}
-                                        </BalanceCard>
-                                    </Col>
+                    <Grid item xs={6} md={3}>
+                        <BalanceCard title="Saldo">
+                            {balance}
+                        </BalanceCard>
+                    </Grid>
 
-                                    <Col xs={6} md={3}>
-                                        <BalanceCard title="Saldo esperado">
-                                            {expectedBalance}
-                                        </BalanceCard>
-                                    </Col>
-                                </Row>
-                            </Grid>
-                        </PanelBody>
-                    </Panel>
-                </PanelContainer>
+                    <Grid item xs={6} md={3}>
+                        <BalanceCard title="Saldo real">
+                            {realBalance}
+                        </BalanceCard>
+                    </Grid>
 
-                <ValuesByCategoryPieChartContainer />
+                    <Grid item xs={6} md={3}>
+                        <BalanceCard title="Saldo esperado">
+                            {expectedBalance}
+                        </BalanceCard>
+                    </Grid>
 
-                <Last13MonthsChart />
+                </Grid>                
 
-                <PanelContainer>
-                    <Panel>
-                        <PanelBody>
-                            <Grid>
-                                <Row>
-                                    <Col xs={12}>
-                                        <Typography type="title">Próximas despesas</Typography>
-                                    </Col>
+                <Grid container spacing={24}>
 
-                                    <Col xs={12} md={6}>
-                                        <Typography type="subheading">Despesas vencidas</Typography>
-                                        <TransactionList transactions={this.props.overdueExpenses} />
-                                    </Col>
+                    <Grid item xs={12} xl={6}>
+                        <Last13MonthsChart />
+                    </Grid>
 
-                                    <Col xs={12} md={6}>
-                                        <Typography type="subheading">Despesas pendentes</Typography>
-                                        <TransactionList transactions={this.props.nextPendingExpenses} />
-                                    </Col>
-                                </Row>
-                            </Grid>
-                        </PanelBody>
-                    </Panel>
-                </PanelContainer>
+                    <Grid item xs={12} md={6}>
+                        <ValuesByCategoryPieChartContainer title="Despesas por categoria" data={this.props.expensesByCategory} />
+                    </Grid>
 
-                <PanelContainer>
-                    <Panel>
-                        <PanelBody>
-                            <Grid>
-                                <Row>
-                                    <Col xs={12}>
-                                        <Typography type="title">Próximas receitas</Typography>
-                                    </Col>
+                    <Grid item xs={12} md={6}>
+                        <ValuesByCategoryPieChartContainer title="Receitas por categoria" data={this.props.incomesByCategory} />
+                    </Grid>
 
-                                    <Col xs={12} md={6}>
-                                        <Typography type="subheading">Receitas vencidas</Typography>
-                                        <TransactionList transactions={this.props.overdueIncomes} />
-                                    </Col>
+                </Grid>
 
-                                    <Col xs={12} md={6}>
-                                        <Typography type="subheading">Receitas pendentes</Typography>
-                                        <TransactionList transactions={this.props.nextPendingIncomes} />
-                                    </Col>
-                                </Row>
-                            </Grid>
-                        </PanelBody>
-                    </Panel>
-                </PanelContainer>
+                <Grid container spacing={24}>
+                    
+                    <Grid item xs={12}>
+                        <Typography type="title">Próximas despesas</Typography>
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <Typography type="subheading">Despesas vencidas</Typography>
+                        <TransactionList transactions={this.props.overdueExpenses} />
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <Typography type="subheading">Despesas pendentes</Typography>
+                        <TransactionList transactions={this.props.nextPendingExpenses} />
+                    </Grid>
+
+                </Grid>
+
+                <Grid container spacing={24}>
+                    
+                    <Grid item xs={12}>
+                        <Typography type="title">Receitas pendentes</Typography>
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <Typography type="subheading">Receitas vencidas</Typography>
+                        <TransactionList transactions={this.props.overdueIncomes} />
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <Typography type="subheading">Próximas receitas</Typography>
+                        <TransactionList transactions={this.props.nextPendingIncomes} />
+                    </Grid>
+
+                </Grid>
             </div>
         );
     }
@@ -133,28 +129,32 @@ class DashboardPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        balance: balanceSelectors.getBalance(state),
-        realBalance: balanceSelectors.getRealBalance(state),
-        expectedBalance: balanceSelectors.getExpectedBalance(state),
+        balance: balanceSelectors.getBalance(state) || 0,
+        realBalance: balanceSelectors.getRealBalance(state) || 0,
+        expectedBalance: balanceSelectors.getExpectedBalance(state) || 0,
         nextPendingExpenses: reportSelectors.getNextPendingExpenses(state),
         overdueExpenses: reportSelectors.getOverdueExpenses(state),
         nextPendingIncomes: reportSelectors.getNextPendingIncomes(state),
-        overdueIncomes: reportSelectors.getOverdueIncomes(state)
+        overdueIncomes: reportSelectors.getOverdueIncomes(state),
+        incomesByCategory: reportSelectors.getIncomesByCategory(state),
+        expensesByCategory: reportSelectors.getExpensesByCategory(state)
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchBalance: () => {
+        onFetch: () => {
             dispatch(balanceOperations.fetchBalance());
             dispatch(balanceOperations.fetchRealBalance());
             dispatch(balanceOperations.fetchExpectedBalance());
-        },
-        fetchPendingTransactions: () => {
             dispatch(reportOperations.fetchPendingTransactionsReport(EXPENSE));
             dispatch(reportOperations.fetchPendingTransactionsReport(INCOME));
+            dispatch(reportOperations.fetchValuesByCategoryReport(INCOME));
+            dispatch(reportOperations.fetchValuesByCategoryReport(EXPENSE));
         }
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);
+export default withStyles(styles)(
+    connect(mapStateToProps, mapDispatchToProps)(DashboardPage)
+);

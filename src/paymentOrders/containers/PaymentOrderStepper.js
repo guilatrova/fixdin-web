@@ -1,3 +1,4 @@
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -25,7 +26,8 @@ const styles = {
 class PaymentOrderStepper extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        theme: PropTypes.object.isRequired
+        theme: PropTypes.object.isRequired,
+        onStart: PropTypes.func.isRequired
     };
 
     state = {
@@ -52,17 +54,17 @@ class PaymentOrderStepper extends React.Component {
         switch(this.state.activeStep) {
 
             case 0:
-                return <Step1 />
+                return <Step1 />;
 
             case 1:
-                return <Step2 />
+                return <Step2 />;
             
             case 2:
-                return <Step3 />
+                return <Step3 />;
 
             default:
                 console.error("step: " + this.state.activeStep);
-                return <h1>INVALID STEP</h1>
+                return <h1>INVALID STEP</h1>;
         }
     }
     
@@ -106,8 +108,8 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(operations.checkDefaultIncomes());
             });
         }
-    }
-}
+    };
+};
 
 export default withStyles(styles, { withTheme: true })(
     connect(null, mapDispatchToProps)(PaymentOrderStepper)

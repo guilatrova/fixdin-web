@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Form } from '@sketchpixy/rubix';
-
-import HorizontalFormGroupError from './../../../common/components/forms/HorizontalFormGroupError';
+import TextFieldError from '../../../common/material/TextFieldError';
 
 class CPFLSettings extends React.Component {
     static propTypes = {
@@ -25,30 +23,27 @@ class CPFLSettings extends React.Component {
     render() {
         const { name, documento, imovel, errors } = this.props;
         return (
-            <Form horizontal>
+            <form>
 
-                <HorizontalFormGroupError
-                    id="name"
+                <TextFieldError
                     label="Descrição"
                     error={errors.name}
                     value={name}
                     onChange={this.handleChange} />
 
-                <HorizontalFormGroupError
-                    id="documento"
+                <TextFieldError
                     label="Documento"
                     error={errors.documento}
                     value={documento}
                     onChange={this.handleChange} />
 
-                <HorizontalFormGroupError
-                    id="imovel"
+                <TextFieldError
                     label="Imóvel"
                     error={errors.imovel}
                     value={imovel}
                     onChange={this.handleChange} />
-            </Form>
-        )
+            </form>
+        );
     }
 }
 

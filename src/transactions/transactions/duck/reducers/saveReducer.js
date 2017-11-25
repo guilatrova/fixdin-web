@@ -10,7 +10,7 @@ export default function reducer(state, action) {
                 ...state,
                 isFetching: false,
                 errors: action.errors
-            }
+            };
 
         default:
             return { 

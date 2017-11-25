@@ -1,5 +1,6 @@
 import reducer from './step2Reducer';
 import actions from '../actions';
+import moment from 'moment';
 
 describe('paymentOrders/duck/reducers/Step2', () => {
 
@@ -12,7 +13,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         checked: [],
         totalChecked: 0,
         visibleExpenses: []
-    }
+    };
 
     const createExpenses = (values) => {
         let arr = [];
@@ -22,7 +23,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             id++;
         }
         return arr;
-    }
+    };
 
     it('should return initial state', () => {
         expect(reducer(undefined, {})).to.deep.equal(initialState);
@@ -61,7 +62,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 checked: [ 1 ],
                 remainingBalance: 20,
                 totalChecked: -10
-            }
+            };
 
             expect(
                 reducer(state, actions.toggleExpense(2))
@@ -80,7 +81,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 checked: [ 1, 2 ],
                 remainingBalance: 5,
                 totalChecked: -25
-            }
+            };
 
             expect(
                 reducer(state, actions.toggleExpense(2))

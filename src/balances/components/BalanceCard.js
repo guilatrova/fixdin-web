@@ -32,12 +32,12 @@ const BalanceCard = ({ children, title, classes }) => {
             </CardContent>
         </Card>
     );
-}
+};
 
 BalanceCard.propTypes = {
     children: PropTypes.node,
     title: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired
-}
+};
 
 export default withStyles(styles)(BalanceCard);

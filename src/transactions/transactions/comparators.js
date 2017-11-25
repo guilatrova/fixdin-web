@@ -16,7 +16,7 @@ const aggregatedComparator = (comparators) => (a, b) => {
     }
 
     return result;
-}
+};
 
 const expensesToBePaidCompare = (a, b) => 
     aggregatedComparator([compareByPriority, compareByDueDate, compareByDeadline, compareByValue])(a, b);
@@ -27,4 +27,4 @@ export default {
     compareByDeadline,
     compareByValue,
     expensesToBePaidCompare
-}
+};
