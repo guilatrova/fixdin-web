@@ -16,7 +16,7 @@ import FilterListIcon from 'material-ui-icons/FilterList';
 const styles = theme => ({
     popoverPaper: {
         padding: 16,
-        minWidth: 500,
+        maxWidth: 500,
         marginTop: theme.spacing.unit * 3,
         overflow: "visible",
     },

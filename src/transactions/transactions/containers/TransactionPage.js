@@ -9,7 +9,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import AddIcon from 'material-ui-icons/Add';
-import FilterListIcon from 'material-ui-icons/FilterList';
+import ClearAllIcon from 'material-ui-icons/ClearAll';
 import RefreshIcon from 'material-ui-icons/Refresh';
 
 import { formatCurrencyDisplay } from '../../../services/formatter';
@@ -60,8 +60,7 @@ class TransactionPage extends React.Component {
         totalExpenses: PropTypes.string.isRequired,
 
         onPay: PropTypes.func.isRequired,
-        onFetch: PropTypes.func.isRequired,
-        onFilter: PropTypes.func.isRequired,
+        onFetch: PropTypes.func.isRequired,        
         onClearFilters: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
@@ -72,8 +71,7 @@ class TransactionPage extends React.Component {
 
     state = {
         openTransactionFormDialog: false,
-        openDeleteDialog: false,
-        showFilterForm: false
+        openDeleteDialog: false
     }
 
     componentDidMount() {
@@ -157,18 +155,7 @@ class TransactionPage extends React.Component {
         });
     }
 
-    handleShowFilter = () => {
-        this.setState({ showFilterForm: !this.state.showFilterForm });
-    }
-
-    handleFilter = filters => {
-        if (filters) {
-            this.props.onFilter(filters);
-        }
-        else {
-            this.props.onClearFilters();
-        }
-    }
+    handleClearFilters = () => this.props.onClearFilters();
 
     render() {
         const { isFetching, transactions, categories, classes, totalIncomes, totalExpenses, total } = this.props;        
@@ -184,7 +171,7 @@ class TransactionPage extends React.Component {
                         <div className={classes.spacer} />
                         <div className={classes.actions}>
                             <IconButton aria-label="Refresh" onClick={this.handleRefresh} disabled={isFetching}><RefreshIcon /></IconButton>
-                            <IconButton aria-label="Filter list" onClick={this.handleFilter}><FilterListIcon /></IconButton>
+                            <IconButton aria-label="Filter list" onClick={this.handleClearFilters}><ClearAllIcon /></IconButton>
                         </div>
                     </Toolbar>
 
@@ -194,7 +181,6 @@ class TransactionPage extends React.Component {
                             transactions={transactions} 
                             categories={categories}
                             isFetching={isFetching}
-                            onFilter={this.handleShowFilter}
                             onRefresh={this.handleRefresh}
                             onEdit={this.handleEdit}
                             onPay={this.handlePay}
@@ -256,8 +242,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(categoryOperations.fetchCategories(INCOME));
             dispatch(categoryOperations.fetchCategories(EXPENSE));
             dispatch(operations.fetchTransactions(ALL));
-        },
-        onFilter: (filters) => dispatch(operations.filterTransactions(filters)),
+        },        
         onClearFilters: () => dispatch(operations.clearFilters()),
         onSubmit: (transaction, kind, type) => dispatch(operations.saveTransaction(transaction, kind, type)),
         onDelete: (id, kind, type) => dispatch(operations.deleteTransaction(id, kind, type)),

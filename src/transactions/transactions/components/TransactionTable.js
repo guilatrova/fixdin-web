@@ -137,7 +137,7 @@ class TransactionTable extends React.Component {
         return (
             <TableSort data={this.props.transactions} initialOrderBy="due_date">
 
-                <DataColumn sortable field="kind" onRender={this.formatKind}>Tipo</DataColumn>
+                <DataColumn sortable field="kind" onRenderFilter={<KindFilter />} onRender={this.formatKind}>Tipo</DataColumn>
                 <DataColumn sortable field="due_date" onRenderFilter={<DueDateFilter />} onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
                 <DataColumn sortable field="description" onRenderFilter={<DescriptionFilter />}>Descrição</DataColumn>
 

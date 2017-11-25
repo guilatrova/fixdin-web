@@ -40,8 +40,9 @@ class PriorityFilter extends React.Component {
                     value={this.state.priority} 
                     onChange={e => this.setState({ priority: e.target.value })}
                 /> 
+                <br />
                 
-                <Button onClick={this.handleSubmit}>Aplicar</Button>
+                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
     }

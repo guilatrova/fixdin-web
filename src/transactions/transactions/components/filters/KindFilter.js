@@ -40,7 +40,7 @@ class KindFilter extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{width: 200}}>
                 <Select 
                     placeholder="Tipo"
                     value={this.state.kind}
