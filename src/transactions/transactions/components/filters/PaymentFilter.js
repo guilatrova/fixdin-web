@@ -6,7 +6,7 @@ import moment from 'moment';
 import Button from 'material-ui/Button';
 import { MenuItem } from 'material-ui/Menu';
 import Select from 'material-ui/Select';
-import DatetimeInput from 'react-datetime';
+import { DatePicker } from 'material-ui-pickers';
 
 import { selectors, operations } from '../../duck';
 
@@ -44,12 +44,6 @@ class PaymentFilter extends React.Component {
         }
     }
 
-    handleDateOnBlur = (id, value) => {
-        if (!moment.isMoment(value)) {
-            this.setState({ [id]: moment() });
-        }
-    }
-
     render() {
         return (
             <div>
@@ -66,27 +60,25 @@ class PaymentFilter extends React.Component {
 
                 {this.state.payed == "1" && <div>
 
-                    <label>De</label>
-                    <DatetimeInput
-                        timeFormat={false}
-                        onChange={(payment_date_from) => this.setState({ payment_date_from })}
-                        onBlur={(value) => this.handleDateOnBlur('payment_date_from', value)}
+                    <DatePicker
+                        label="De"
                         value={this.state.payment_date_from}
-                        closeOnSelect={true}
-                        closeOnTab={true} />
+                        onChange={(payment_date_from) => this.setState({ payment_date_from })}
+                        autoOk={true}
+                        format="DD MMMM YYYY"
+                    /> 
 
-                    <label>Até</label>
-                    <DatetimeInput
-                        timeFormat={false}
-                        onChange={(payment_date_until) => this.setState({ payment_date_until })}
-                        onBlur={(value) => this.handleDateOnBlur('payment_date_until', value)}
+                    <DatePicker
+                        label="Até"
                         value={this.state.payment_date_until}
-                        closeOnSelect={true}
-                        closeOnTab={true} />
+                        onChange={(payment_date_until) => this.setState({ payment_date_until })}
+                        autoOk={true}
+                        format="DD MMMM YYYY"
+                    /> 
 
                 </div>}
 
-                <Button raised onClick={this.handleSubmit}>Aplicar</Button>
+                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
     }

@@ -38,7 +38,7 @@ class CategoryFilter extends React.Component {
                     value={this.state.category}
                     onChange={(category) => this.setState({ category })} />
 
-                <Button raised onClick={this.handleSubmit}>Aplicar</Button>
+                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
     }

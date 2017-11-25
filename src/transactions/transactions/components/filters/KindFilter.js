@@ -48,7 +48,7 @@ class KindFilter extends React.Component {
                     options={kindOptions}
                 />
 
-                <Button raised onClick={this.handleSubmit}>Aplicar</Button>
+                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
     }

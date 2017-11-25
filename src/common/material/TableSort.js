@@ -14,7 +14,7 @@ import IconButton from 'material-ui/IconButton';
 import FilterListIcon from 'material-ui-icons/FilterList';
 
 const styles = theme => ({
-    paper: {
+    popoverPaper: {
         padding: 16,
         minWidth: 500,
         marginTop: theme.spacing.unit * 3,
@@ -110,7 +110,7 @@ class TableSort extends React.Component {
                     </IconButton>
 
                     <Popover
-                        classes={{ paper: this.props.classes.paper}}
+                        classes={{ paper: this.props.classes.popoverPaper}}
                         open={popover == child.props.field}
                         onRequestClose={() => this.setState({ popover: "" })}
                         anchorEl={this.state.popoverRef}

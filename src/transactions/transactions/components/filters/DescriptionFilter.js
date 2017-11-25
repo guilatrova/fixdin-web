@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 
 import { selectors, operations } from '../../duck';
-import TransactionDescription from '../TransactionDescription';
+import TextField from 'material-ui/TextField'; //TODO: Change to use autocomplete (take Description as example)
 
 class DescriptionFilter extends React.Component {
     static propTypes = {
@@ -34,14 +34,14 @@ class DescriptionFilter extends React.Component {
     render() {
         return (
             <div>
-                <TransactionDescription
-                    name="description"
+                <TextField
+                    label="Descrição"
                     value={this.state.description}
                     onChange={e => this.setState({ description: e.target.value })}
                     maxLength="120"
                 />
 
-                <Button raised onClick={this.handleSubmit}>Aplicar</Button>
+                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
     }

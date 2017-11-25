@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Autocomplete from '../../../../common/components/FixedAutocomplete';
+import TextField from 'material-ui/TextField'; //TODO: Change to use autocomplete
 import Button from 'material-ui/Button';
 
 import { selectors, operations } from '../../duck';
@@ -35,13 +35,14 @@ class DeadlineFilter extends React.Component {
     render() {
         return (
             <div>
-                <Autocomplete 
+                <TextField 
                     name="deadline" 
+                    label="Tolerância"
                     value={this.state.deadline} 
                     onChange={e => this.setState({ deadline: e.target.value })}
-                    source={this.props.deadlineSource} /> 
+                /> 
                 
-                <Button raised onClick={this.handleSubmit}>Aplicar</Button>
+                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
     }
