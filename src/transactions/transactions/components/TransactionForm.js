@@ -29,7 +29,7 @@ const emptyTransaction = {
     category: undefined,
     value: 0,
     deadline: undefined,
-    priority: 0,
+    priority: 1,
     payment_date: undefined,
     details: '',
     periodic: undefined,
@@ -239,7 +239,7 @@ class TransactionForm extends React.Component {
                 <div className={classes.widthLimit}>
                     <InputLabel htmlFor="priority-slider">Importância</InputLabel>
 
-                    <Slider id="priority-slider" min={0} max={5} defaultValue={3} marks={{ 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'}}
+                    <Slider id="priority-slider" min={1} max={5} defaultValue={3} marks={{ 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'}}
                             value={this.state.priority} onChange={(priority) => this.setState({priority})}/>
 
                     {/* ERRORS */}
