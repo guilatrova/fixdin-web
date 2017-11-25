@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Um teste sobre esse starter kit",
   "engines": {
+    "node": "6.11.1",
     "npm": ">=3"
   },
   "scripts": {
