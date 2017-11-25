@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link, Redirect, browserHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
     handleSubmit = () => {
         this.props.onSubmit(this.state).then((action) => {
             if (action.result === 'success') {
-                browserHistory.push('/');
+                this.setState({ redirect: true });
             }
         });
     }
@@ -43,6 +43,10 @@ class LoginForm extends React.Component {
     handleChange = e => this.setState({ [e.target.name]: e.target.value });
     
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/" />;
+        }
+
         const { isFetching, error, classes } = this.props;
         let submitDisabled = true;
         if (this.state.email && this.state.password && !isFetching) {
