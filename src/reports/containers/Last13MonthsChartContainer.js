@@ -9,7 +9,7 @@ import Switch from 'material-ui/Switch';
 import Typography from 'material-ui/Typography';
 
 import { operations, selectors } from './../duck';
-import Last13MonthsChart from './Last13MonthsChart';
+import Last13MonthsChart from '../components/Last13MonthsChart';
 
 const styles = theme => ({
 	paper: {
