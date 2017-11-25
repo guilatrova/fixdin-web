@@ -11,7 +11,7 @@ import TransactionsList from '../components/TransactionsList';
 import TextFieldCurrency from '../../common/material/TextFieldCurrency';
 import { selectors as balancesSelectors } from '../../balances/duck';
 import { operations, selectors } from '../duck';
-import { formatCurrencyDisplay, formatCurrency } from '../../services/formatter';
+import { formatCurrencyDisplay } from '../../services/formatter';
 
 const styles = theme => ({
     root: {
