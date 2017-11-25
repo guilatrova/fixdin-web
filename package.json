@@ -1,7 +1,7 @@
 {
-  "name": "testing-slingshot",
-  "version": "0.1.0",
-  "description": "Um teste sobre esse starter kit",
+  "name": "fixdin",
+  "version": "3.0.0",
+  "description": "Projeto abençoado por Deus",
   "engines": {
     "node": "6.11.1",
     "npm": ">=3"
