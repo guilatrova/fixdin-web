@@ -10,7 +10,7 @@ import { operations as balanceOperations, selectors as balanceSelectors } from '
 import BalanceCard from './../../balances/components/BalanceCard';
 import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
 // import ValuesByCategoryPieChartContainer from './../../reports/components/ValuesByCategoryPieChartContainer';
-// import Last13MonthsChart from './../../reports/components/Last13MonthsChartContainer';
+import Last13MonthsChart from './../../reports/components/Last13MonthsChartContainer';
 import { EXPENSE, INCOME } from './../../transactions/kinds';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
 import { formatCurrencyDisplay } from '../../services/formatter';
@@ -37,8 +37,6 @@ class DashboardPage extends React.Component {
 
     componentDidMount() {
         this.props.onFetch();
-        // this.props.fetchBalance();
-        // this.props.fetchPendingTransactions();
     }
 
     render() {
@@ -71,9 +69,11 @@ class DashboardPage extends React.Component {
 
                 </Grid>                
 
-                    {/* <ValuesByCategoryPieChartContainer />
+                <Grid item xs={12} xl={6}>
+                    <Last13MonthsChart />
+                </Grid>
 
-                    <Last13MonthsChart /> */}
+                    {/* <ValuesByCategoryPieChartContainer /> */}
 
                 <Grid container spacing={24}>
                     

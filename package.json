@@ -45,7 +45,8 @@
     "react-select": "^1.0.0-rc.10",
     "redux": "3.6.0",
     "redux-thunk": "2.1.0",
-    "typeface-roboto": "0.0.43"
+    "typeface-roboto": "0.0.43",
+    "victory": "^0.24.2"
   },
   "devDependencies": {
     "autoprefixer": "7.1.4",
