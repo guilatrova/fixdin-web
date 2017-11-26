@@ -1,3 +1,7 @@
+describe('<CategoryForm />', () => {
+    xit('MISSING');
+});
+
 // import { EXPENSE } from '../../kinds';
 // import CategoryForm from './CategoryForm';
 
@@ -47,4 +51,4 @@
 //         });
 //     });
 
-// });
+// })
