@@ -3,7 +3,6 @@ import moment from 'moment';
 import {
     formatCurrency, 
     formatDate, 
-    formatTransactionFilters,
     clean,
     formatTransactionReceived, 
     formatTransactionToSend,

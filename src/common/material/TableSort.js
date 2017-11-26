@@ -28,7 +28,8 @@ class TableSort extends React.Component {
         columnKey: PropTypes.string.isRequired,
         children: PropTypes.node,
         initialOrder: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
-        initialOrderBy: PropTypes.string.isRequired
+        initialOrderBy: PropTypes.string.isRequired,
+        classes: PropTypes.object.isRequired
     }
 
     static defaultProps = {
@@ -45,7 +46,7 @@ class TableSort extends React.Component {
             orderBy: props.initialOrderBy,
             data: props.data,
             popover: "",
-        }
+        };
         this.handleHeaderClick = this.handleHeaderClick.bind(this);
     }
 
@@ -101,7 +102,7 @@ class TableSort extends React.Component {
                     <div>
                     <IconButton 
                         aria-label="Filter list"
-                        ref={node => { buttonRef = node }}
+                        ref={node => { buttonRef = node; }}
                         onClick={() => this.setState({ 
                             popover: child.props.field,
                             popoverRef: findDOMNode(buttonRef) })}
@@ -121,9 +122,9 @@ class TableSort extends React.Component {
                     </Popover>
                     </div>
                 );
-            };
+            }
             return null;
-        }
+        };
 
         const headers = React.Children.map(children,
             child => {
