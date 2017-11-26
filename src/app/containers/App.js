@@ -5,6 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import AppBodyContainer from './AppBodyContainer';
 import LoginPage from '../../users/containers/LoginPage';
+import SignupPage from '../../users/containers/SignupPage';
 import DashboardPage from '../../dashboard/containers/DashboardPage';
 import CategoryPage from  '../../transactions/categories/containers/CategoryPage';
 import TransactionPage from '../../transactions/transactions/containers/TransactionPage';
@@ -30,6 +31,7 @@ class App extends React.Component {
 			<div>
 				<Switch>
 					<Route exact path="/login" component={LoginPage} />
+					<Route exact path="/signup" component={SignupPage} />
 
 					<AppBodyContainer>
 
