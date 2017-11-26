@@ -4,4 +4,4 @@ const SIGNUP = 'fixdin/users/SIGNUP';
 export default {
     FETCH_TOKEN,
     SIGNUP
-}
+};

@@ -31,7 +31,7 @@ class MultiCategorySelectPicker extends React.Component {
             return {
                 value: category.id, 
                 label: category.name
-            }
+            };
         });
 
         return (

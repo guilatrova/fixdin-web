@@ -5,13 +5,13 @@ describe('users/duck/reducers/signup', () => {
     const initialState = {
         isFetching: false,
         errors: {}
-    }
+    };
 
     it('should return the initial state', () => {
         expect(
             reducer(undefined, {})
         ).to.deep.equal(initialState);
-    })
+    });
 
     it('should handle SIGNUP', () => {
         expect(
@@ -20,7 +20,7 @@ describe('users/duck/reducers/signup', () => {
             isFetching: true,
             errors: {}
         });
-    })
+    });
 
     it('should handle successful SIGNUP', () => {
         expect(
@@ -29,13 +29,13 @@ describe('users/duck/reducers/signup', () => {
             isFetching: false,
             errors: {}
         });
-    })
+    });
 
     it('should handle failed SIGNUP', () => {
         const errors = {
             email: 'invalid address',
             password: 'too short'
-        }
+        };
 
         expect(
             reducer(undefined, actions.receiveSignup('fail', errors))
@@ -43,5 +43,5 @@ describe('users/duck/reducers/signup', () => {
             isFetching: false,                
             errors
         });
-    })
-})
+    });
+});

@@ -12,7 +12,7 @@ describe('users/duck/reducers/login', () => {
         expect(
             reducer(undefined, {})
         ).to.deep.equal(initialState);
-    })
+    });
 
     it('should handle FETCH_TOKEN', () => {
         expect(
@@ -21,8 +21,8 @@ describe('users/duck/reducers/login', () => {
             isFetching: true,
             error: '',
             token: ''
-        })
-    })
+        });
+    });
 
     it('should handle successful FETCH_TOKEN', () => {
         expect(
@@ -33,7 +33,7 @@ describe('users/duck/reducers/login', () => {
             error: '',
             token: 'abc123'
         });
-    })
+    });
 
     it('should handle failed FETCH_TOKEN', () => {
         expect(
@@ -43,6 +43,6 @@ describe('users/duck/reducers/login', () => {
             error: 'General error',
             token: ''
         });
-    })
+    });
 
 });

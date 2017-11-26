@@ -4,7 +4,7 @@ const initialState = {
     isFetching: false,
     error: '',
     token: ''
-}
+};
 
 export default function reducer(state = initialState, action) {
     if (action.type != types.FETCH_TOKEN)
@@ -17,7 +17,7 @@ export default function reducer(state = initialState, action) {
                 isFetching: false,
                 token: action.token,
                 error: ''
-            }
+            };
             
         case 'fail':
             return {
@@ -25,12 +25,12 @@ export default function reducer(state = initialState, action) {
                 isFetching: false,
                 error: action.error,
                 token: ''
-            }            
+            };
             
         default: 
             return {
                 ...state,
                 isFetching: true
-            }
+            };
     }
 }
