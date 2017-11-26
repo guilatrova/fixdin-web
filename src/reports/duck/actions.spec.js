@@ -1,62 +1,57 @@
 import operations from './operations';
 import types from './types';
 import { EXPENSE, INCOME } from '../../transactions/kinds';
-import * as apiModule from '../../services/api';
 
 describe('reports/duck/actions', () => {
-	
-	const testHelper = new ActionsTestHelper();
-	let store;
+	let store, mock, restoreMock;
 
 	beforeEach(() => {
-		testHelper.mock(apiModule);
-		store = testHelper.createStore();
-	})
+		const mockHelper = mockAxios();
+		mock = mockHelper.mock;
+		store = mockHelper.store;
+		restoreMock = mockHelper.restoreMock;
+	});
 
 	afterEach(() => {
-		testHelper.clearMock();
-	})
+		restoreMock();
+	});
 
 	describe('FETCH_LAST_13_MONTHS', () => {
 
-		it('should dispatch success action after successful request', (done) => {
+		it('should dispatch success action after successful request', () => {
             const data = [ { id: 1 }, { id: 2 } ];
 			const expectedActions = [
 				{ type: types.FETCH_LAST_13_MONTHS, real: undefined },
 				{ type: types.FETCH_LAST_13_MONTHS, real: false, result: 'success', data }
-			]
+			];
 
-			store.dispatch(operations.fetchLast13MonthsReport());
+			mock.onGet().reply(200, data);
 
-			testHelper.apiRespondsWith({
-				status: 200,
-				response: data
-			})
-			.expectActionsAsync(done, expectedActions);
-		})
+			return store.dispatch(operations.fetchLast13MonthsReport()).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+		});
 
-		it('should dispatch fail action after failed request', (done) => {
+		it('should dispatch fail action after failed request', () => {
 			const expectedResponse = {
 				detail: 'data unavailable',
-			}
+			};
 			const expectedActions = [
 				{ type: types.FETCH_LAST_13_MONTHS, real: undefined },
 				{ type: types.FETCH_LAST_13_MONTHS, result: 'fail', errors: expectedResponse }
-			]
+			];
 
-			store.dispatch(operations.fetchLast13MonthsReport());
+			mock.onGet().reply(400, expectedResponse);
 
-			testHelper.apiRespondsWith({
-				status: 400,
-				response: expectedResponse
-			})
-			.expectActionsAsync(done, expectedActions);
-		})
-	})
+			return store.dispatch(operations.fetchLast13MonthsReport()).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+		});
+	});
 	
 	describe('FETCH_PENDING_TRANSACTIONS', () => {
 		
-		it('should dispatch success action after successful request', (done) => {
+		it('should dispatch success action after successful request', () => {
 			const data = [
 				{ id: 1 },
 				{ id: 2 }
@@ -64,40 +59,35 @@ describe('reports/duck/actions', () => {
 			const expectedActions = [
 				{ type: types.FETCH_PENDING_TRANSACTIONS, kind: EXPENSE },
 				{ type: types.FETCH_PENDING_TRANSACTIONS, result: 'success', data, kind: EXPENSE }
-			]
+			];
 
-			store.dispatch(operations.fetchPendingTransactionsReport(EXPENSE));
+			mock.onGet().reply(200, data);
 
-			testHelper.apiRespondsWith({
-				status: 200,
-				response: data
-			})
-			.expectActionsAsync(done, expectedActions);
-		})
+			return store.dispatch(operations.fetchPendingTransactionsReport(EXPENSE)).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+		});
 
-		it('should dispatch fail action after failed request', (done) => {
+		it('should dispatch fail action after failed request', () => {
 			const errors = {
 				detail: 'random error'
-			}
+			};
 			const expectedActions = [
 				{ type: types.FETCH_PENDING_TRANSACTIONS, kind: INCOME },
 				{ type: types.FETCH_PENDING_TRANSACTIONS, result: 'fail', errors, kind: INCOME }
-			]
+			];
 
-			store.dispatch(operations.fetchPendingTransactionsReport(INCOME));
+			mock.onGet().reply(400, errors);
 
-			testHelper.apiRespondsWith({
-				status: 400,
-				response: errors
-			})
-			.expectActionsAsync(done, expectedActions);
-		})
-
-	})
+			return store.dispatch(operations.fetchPendingTransactionsReport(INCOME)).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+		});
+	});
 
 	describe('FETCH_VALUES_BY_CATEGORY', () => {
 		
-		it('should dispatch success action after successful request', (done) => {
+		it('should dispatch success action after successful request', () => {
 			const data = [
 				{ id: 1 },
 				{ id: 2 }
@@ -105,18 +95,16 @@ describe('reports/duck/actions', () => {
 			const expectedActions = [
 				{ type: types.FETCH_VALUES_BY_CATEGORY, kind: EXPENSE },
 				{ type: types.FETCH_VALUES_BY_CATEGORY, result: 'success', data, kind: EXPENSE }
-			]
+			];
 
-			store.dispatch(operations.fetchValuesByCategoryReport(EXPENSE));
+			mock.onGet().reply(200, data);
 
-			testHelper.apiRespondsWith({
-				status: 200,
-				response: data
-			})
-			.expectActionsAsync(done, expectedActions);
-		})
+			return store.dispatch(operations.fetchValuesByCategoryReport(EXPENSE)).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+		});
 
-		it('should dispatch fail action after failed request', (done) => {
+		it('should dispatch fail action after failed request', () => {
 			const errors = [
 				{ id: 1 },
 				{ id: 2 }
@@ -124,17 +112,15 @@ describe('reports/duck/actions', () => {
 			const expectedActions = [
 				{ type: types.FETCH_VALUES_BY_CATEGORY, kind: EXPENSE },
 				{ type: types.FETCH_VALUES_BY_CATEGORY, result: 'fail', errors, kind: EXPENSE }
-			]
+			];
 
-			store.dispatch(operations.fetchValuesByCategoryReport(EXPENSE));
+			mock.onGet().reply(400, errors);
 
-			testHelper.apiRespondsWith({
-				status: 400,
-				response: errors
-			})
-			.expectActionsAsync(done, expectedActions);
-		})
+			return store.dispatch(operations.fetchValuesByCategoryReport(EXPENSE)).then(() => {
+				expect(store.getActions()).toEqual(expectedActions);
+			});
+		});
 
-	})
+	});
     
-})
+});

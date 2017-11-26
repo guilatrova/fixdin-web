@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import { MenuItem } from 'material-ui/Menu';
 
-import Popover from 'material-ui/Popover';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
