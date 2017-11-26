@@ -29,7 +29,7 @@ describe('reports/duck/reducers/pendingTransactionsReducer', () => {
             isFetching: true
         },
         errors: {}
-    }
+    };
 
     it ('should return initial state', () => {
         expect(
@@ -97,7 +97,7 @@ describe('reports/duck/reducers/pendingTransactionsReducer', () => {
     });
     
     it('should be handled when failed', () => {
-        const errors = { 'detail':'random error' }
+        const errors = { 'detail':'random error' };
         expect(
             reducer(fetchingState, actions.receivePendingTransactionsReport('fail', errors, INCOME))
         ).to.deep.equal({                

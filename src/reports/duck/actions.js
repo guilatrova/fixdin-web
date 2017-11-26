@@ -4,7 +4,7 @@ const requestLast13MonthsReport = (real) => {
     return {
         type: types.FETCH_LAST_13_MONTHS,
         real
-    }
+    };
 };
 
 const receiveLast13MonthsReport = (result, data, real) => {
@@ -14,21 +14,21 @@ const receiveLast13MonthsReport = (result, data, real) => {
             result,
             real,
             data
-        }
+        };
     }
 
     return {
         type: types.FETCH_LAST_13_MONTHS,
         result,
         errors: data
-    }
+    };
 };
 
 const requestPendingTransactionsReport = (kind) => {
     return {
         type: types.FETCH_PENDING_TRANSACTIONS,
         kind
-    }
+    };
 };
 
 const receivePendingTransactionsReport = (result, data, kind) => {
@@ -38,7 +38,7 @@ const receivePendingTransactionsReport = (result, data, kind) => {
             result,
             kind,
             data
-        }
+        };
     }
 
     return {
@@ -46,14 +46,14 @@ const receivePendingTransactionsReport = (result, data, kind) => {
         result,
         kind,
         errors: data
-    }
+    };
 };
 
 const requestValuesByCategoryReport = (kind) => {
     return {
         type: types.FETCH_VALUES_BY_CATEGORY,
         kind
-    }
+    };
 };
 
 const receiveValuesByCategoryReport = (result, data, kind) => {
@@ -63,7 +63,7 @@ const receiveValuesByCategoryReport = (result, data, kind) => {
             kind,
             result,
             data
-        }
+        };
     }
 
     return {
@@ -71,7 +71,7 @@ const receiveValuesByCategoryReport = (result, data, kind) => {
         kind,
         result,
         errors: data
-    }
+    };
 };
 
 export default {
@@ -83,4 +83,4 @@ export default {
 
     requestValuesByCategoryReport,
     receiveValuesByCategoryReport
-}
+};

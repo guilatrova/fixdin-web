@@ -30,7 +30,7 @@ export default function reducer(state = initialState, action) {
                     ...action.data,
                     isFetching: false
                 }
-            }
+            };
 
         case 'fail':
             return {
@@ -40,7 +40,7 @@ export default function reducer(state = initialState, action) {
                     ...state[kind],
                     isFetching: false
                 }
-            }
+            };
 
         default:
             return {
@@ -49,6 +49,6 @@ export default function reducer(state = initialState, action) {
                     ...state[kind],
                     isFetching: true
                 }
-            }
+            };
     }
 }

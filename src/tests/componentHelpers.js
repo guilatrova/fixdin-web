@@ -33,7 +33,7 @@ export class ComponentsTestHelper {
     
             const errors = {
                 [field]: message
-            }
+            };
             wrapper.setProps({errors});
             const formGroup = wrapper.find(`FormGroup[controlId="${controlId}"]`);
     
@@ -41,7 +41,7 @@ export class ComponentsTestHelper {
             expect(wrapper.contains(
                 message
             )).to.be.true;
-        })
+        });
         
     }
 
@@ -57,7 +57,7 @@ export class ComponentsTestHelper {
                 wrapper.setState(state);
     
             expect((wrapper).find(`HorizontalFormGroupError[id="${field}"]`).prop('error')).to.be.equal(errors[field]);
-        })
+        });
     }
 }
 
@@ -67,7 +67,7 @@ export function itShouldDisplayErrorForField(wrapper, field, controlId, message)
 
         const errors = {
             [field]: message
-        }
+        };
         wrapper.setProps({errors});
         const formGroup = wrapper.find(`FormGroup[controlId="${controlId}"]`);
 
@@ -75,7 +75,7 @@ export function itShouldDisplayErrorForField(wrapper, field, controlId, message)
         expect(wrapper.contains(
             message
         )).to.be.true;
-    })
+    });
     
 }
 
@@ -90,7 +90,7 @@ export function itShouldPassErrorMessageTo(wrapper, field, state = undefined) {
             wrapper.setState(state);
 
         expect((wrapper).find(`HorizontalFormGroupError[id="${field}"]`).prop('error')).to.be.equal(errors[field]);
-    })
+    });
 }
 
 export function fillAllRequiredFields(inputChangeTrigger, requiredFields, fieldsValue = {}) {

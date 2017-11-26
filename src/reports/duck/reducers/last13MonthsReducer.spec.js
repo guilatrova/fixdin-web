@@ -65,7 +65,7 @@ describe('reports/duck/reducers/last13MonthsReducer', () => {
     
     
     it('should be handled when failed', () => {
-        const errors = { 'detail':'random error' }
+        const errors = { 'detail':'random error' };
         expect(
             reducer(initialState, actions.receiveLast13MonthsReport('fail', errors))
         ).to.deep.equal({                

@@ -1,4 +1,4 @@
-import actions from './actions.js';
+import actions from './actions';
 import { GetOperation } from './../../common/genericDuck/operations';
 import handleError from '../../services/genericErrorHandler';
 

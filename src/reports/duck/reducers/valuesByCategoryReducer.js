@@ -12,7 +12,7 @@ const initialState = {
         data: [],
         errors: {}
     }
-}
+};
 
 function innerKindReducer(innerState, action) {
     switch (action.result) {
@@ -22,21 +22,21 @@ function innerKindReducer(innerState, action) {
                 isFetching: false,
                 data: action.data,
                 errors: {}
-            }
+            };
 
         case 'fail':
             return {
                 ...innerState,
                 isFetching: false,
                 errors: action.errors
-            }
+            };
 
 
         default:
             return {
                 ...innerState,
                 isFetching: true
-            }
+            };
     }
 }
 
@@ -51,7 +51,7 @@ export default function reducer(state = initialState, action) {
                     ...state.expenses
                 },
                 incomes: innerKindReducer(state.incomes, action)
-            }
+            };
 
         case EXPENSE:
             return {
@@ -59,7 +59,7 @@ export default function reducer(state = initialState, action) {
                 incomes: {
                     ...state.incomes
                 }
-            }
+            };
 
         default:
             return state;
