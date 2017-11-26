@@ -1,104 +1,93 @@
 import * as sessionModule from '../../services/session';
 import operations from './operations';
 import types from './types';
-import * as apiModule from '../../services/api';
 
 describe('users/duck/actions', () => {
-    
-    const testHelper = new ActionsTestHelper();
     const token = 'abc123456';
-    let store;
+	let store, mock, restoreMock;
     
     beforeEach(() => {
-        testHelper.mock(apiModule);
-        store = testHelper.createStore();
-    })
-    
+        const mockHelper = mockAxios();
+        mock = mockHelper.mock;
+        store = mockHelper.store;
+        restoreMock = mockHelper.restoreMock;
+    });
+
     afterEach(() => {
-        testHelper.clearMock();
-    })
+        restoreMock();
+    });
     
     describe('login', () => {
-        it('should call save token when login request is successful', (done) => {
+        it('should call save token when login request is successful', () => {
             let expectedResponse = { token };
-            let sessionSpy = sinon.spy(sessionModule, 'saveToken');
+            let sessionSpy = jest.spyOn(sessionModule, 'saveToken');
             
-            store.dispatch(operations.fetchToken({ email:'any', password:'any' }));
-            
-            testHelper.apiRespondsWith({
-                status: 200,
-                response: expectedResponse
-            })
-            .expectAsync(done, () => {
-                expect(sessionSpy.calledWith(expectedResponse.token)).to.be.true;
+            mock.onPost().reply(200, expectedResponse);
+
+            return store.dispatch(operations.fetchToken({ email:'any', password:'any' })).then(() => {
+                expect(sessionSpy).toHaveBeenCalledWith(expectedResponse.token);
+                sessionSpy.mockRestore(); 
             });
-        })
+        });
         
-        it('should dispatch actions before and after fetching token when successful', (done) => {
+        it('should dispatch actions before and after fetching token when successful', () => {
             const expectedActions = [
                 { type: types.FETCH_TOKEN },
                 { type: types.FETCH_TOKEN, result: 'success', token }
-            ]
+            ];
+
+            mock.onPost().reply(200, {token});
             
-            store.dispatch(operations.fetchToken({ email:'any', password:'any' }));
-            
-            testHelper.apiRespondsWith({
-                status: 200,
-                response: { token }
-            })
-            .expectActionsAsync(done, expectedActions);
-        })
+            return store.dispatch(operations.fetchToken({ email:'any', password:'any' })).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
         
-        it('should dispatch finished with error when fetching token fails', (done) => {
+        it('should dispatch finished with error when fetching token fails', () => {
             const expectedActions = [
                 { type: types.FETCH_TOKEN },
                 { type: types.FETCH_TOKEN, result: 'fail', error: 'You shall not pass' }
-            ]
+            ];
+            const response = { detail: 'You shall not pass' };
+
+            mock.onPost().reply(400, response);
             
-            store.dispatch(operations.fetchToken({ email:'any', password:'any' }));
-            
-            testHelper.apiRespondsWith({
-                status: 400,
-                response: { detail: 'You shall not pass' }
-            })
-            .expectActionsAsync(done, expectedActions);
-        })
-    })
+            return store.dispatch(operations.fetchToken({ email:'any', password:'any' })).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+    });
 
     describe('signup', () => {
 
-        it('should dispatch actions before and after signup when successful', (done) => {
+        it('should dispatch actions before and after signup when successful', () => {
             const user = { id: 2 };
             const expectedActions = [
                 { type: types.SIGNUP },
                 { type: types.SIGNUP, result: 'success', user }
-            ]
+            ];
 
-            store.dispatch(operations.requestSignup({}));
+            mock.onPost().reply(200, user);
 
-            testHelper.apiRespondsWith({
-                status: 200,
-                response: user
-            })
-            .expectActionsAsync(done, expectedActions);
-        })
+            return store.dispatch(operations.requestSignup({})).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
 
-        it('should dispatch finished with error when signup fails', (done) => {
-            const errors = { email: 'You shall not pass'}
+        it('should dispatch finished with error when signup fails', () => {
+            const errors = { email: 'You shall not pass' };
             const expectedActions = [
                 { type: types.SIGNUP },
                 { type: types.SIGNUP, result: 'fail', errors }
-            ]
+            ];
 
-            store.dispatch(operations.requestSignup({}));
+            mock.onPost().reply(400, errors);
 
-            testHelper.apiRespondsWith({
-                status: 400,
-                response: errors
-            })
-            .expectActionsAsync(done, expectedActions);
-        })
+            return store.dispatch(operations.requestSignup({})).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
 
-    })
+    });
     
 });
