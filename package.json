@@ -9,8 +9,8 @@
   "scripts": {
     "preinstall": "node tools/nodeVersionCheck.js",
     "prestart": "npm run start-message",
-    "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
-    "heroku-postbuild": "babel-node tools/buid.js",
+    "heroku-prebuild": "",
+    "heroku-postbuild": "babel-node tools/build.js",
     "dev": "concurrently -k -r -s first \"npm run test:watch\" \"npm run open:src\" \"npm run lint:watch\"",
     "start": "node server.js",
     "build": "babel-node tools/build.js && npm run open:dist",
