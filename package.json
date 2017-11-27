@@ -9,11 +9,11 @@
   "scripts": {
     "preinstall": "node tools/nodeVersionCheck.js",
     "prestart": "npm run start-message",
+    "prebuild": "npm run clean-dist && npm run lint && npm run test",
     "heroku-prebuild": "",
     "heroku-postbuild": "babel-node tools/build.js",
-    "dev": "concurrently -k -r -s first \"npm run test:watch\" \"npm run open:src\" \"npm run lint:watch\"",
-    "start": "node server.js",
     "build": "babel-node tools/build.js && npm run open:dist",
+    "start": "concurrently -k -r -s first \"npm run test:watch\" \"npm run open:src\" \"npm run lint:watch\"",
     "start-message": "babel-node tools/startMessage.js",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
@@ -21,7 +21,6 @@
     "lint:watch": "npm run lint -- --watch",
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "rimraf ./dist",
-    "prebuild": "npm run clean-dist && npm run lint && npm run test",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",
     "test:cover": "npm run test -- --coverage ",
@@ -112,10 +111,6 @@
     "webpack-md5-hash": "0.0.5"
   },
   "keywords": [],
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
   "jest": {
     "globals": {
       "window": true
