@@ -16,8 +16,8 @@ export default class Periodic extends React.Component{
     }
 
     state = {
-        frequency: 'daily',
-        interval: "",
+        frequency: 'monthly',
+        interval: "1",
         how_many: "",
         until: undefined
     }
@@ -73,15 +73,13 @@ export default class Periodic extends React.Component{
                 value={this.state.how_many}
                 onChange={e => this.handleLimitChange('how_many', e.target.value)} />
 
-            <FormControl>
-                <InputLabel htmlFor="until">Até</InputLabel>
-                <DatePicker
-                    value={this.state.until}
-                    onChange={value => this.handleLimitChange('until', value)}
-                    autoOk={true}
-                    format="DD MMMM YYYY"
-                />
-            </FormControl>
+            <DatePicker
+                label="Até"
+                value={this.state.until}
+                onChange={value => this.handleLimitChange('until', value)}
+                autoOk={true}
+                format="DD MMMM YYYY"
+            />
             </div>
         );
     }
