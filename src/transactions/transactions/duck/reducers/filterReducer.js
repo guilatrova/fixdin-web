@@ -7,7 +7,7 @@ export default function reducer(state, action) {
             const newState = {
                 ...state,
                 isFetching: false,
-                visibleTransactions: action.transactions
+                visibleTransactions: action.transactions.map(transaction => transaction.id)
             };
             return updateTransactions(newState, action.transactions);
         }
