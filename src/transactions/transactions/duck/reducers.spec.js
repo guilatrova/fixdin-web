@@ -41,7 +41,7 @@ describe('transactions/duck/reducers', () => {
     it('should return the initial state', () => {
         expect(
             reducer(undefined, {})
-        ).to.deep.equal(initialState);
+        ).toEqual(initialState);
     });
 
     describe('SAVE_TRANSACTION', () => {
@@ -49,7 +49,7 @@ describe('transactions/duck/reducers', () => {
         it('should be handled', () => {
             expect(
                 reducer(undefined, actions.requestTransactions(types.SAVE_TRANSACTION))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: true,
             });
@@ -65,7 +65,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(fetchingState, actions.receiveSaveTransaction('success', [transaction.send], types.SAVE_TRANSACTION))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 errors: {},
@@ -85,7 +85,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(fetchingState, actions.receiveTransactions('fail', errors))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 errors,
@@ -104,7 +104,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(state, actions.receiveSaveTransaction('success', [transactionToSave.send], types.SAVE_TRANSACTION))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 errors: {},
@@ -123,7 +123,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(state, actions.receiveSaveTransaction('success', [transactionToSave.send], types.SAVE_TRANSACTION))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 errors: {},
@@ -146,7 +146,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(state, actions.receiveSaveTransaction('success', transactionsSent, types.SAVE_TRANSACTION))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 errors: {},
@@ -161,7 +161,7 @@ describe('transactions/duck/reducers', () => {
         it('should be handled', () => {
             expect(
                 reducer(undefined, actions.requestTransactions())
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: true
             });
@@ -172,7 +172,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(undefined, actions.receiveTransactions('success', transactions.map(t => t.send)))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 transactions: transactions.map(t => t.expect),
@@ -184,7 +184,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(undefined, actions.receiveTransactions('fail', errors))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 errors,
             });
@@ -203,7 +203,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(initialState, actions.receiveTransactions('success', newTransactions))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 transactions: transactionsAfter
@@ -226,7 +226,7 @@ describe('transactions/duck/reducers', () => {
                     result: 'success',
                     transactions: overrideTransactions
                 })
-            ).to.deep.equal({                
+            ).toEqual({                
                 ...initialState,
                 isFetching: false,
                 transactions: overrideTransactions
@@ -246,7 +246,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(state, actions.editTransaction(1))
-            ).to.deep.equal({
+            ).toEqual({
                 transactions,
                 isFetching: false,
                 errors: {},            
@@ -265,7 +265,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(state, actions.finishEditTransaction())
-            ).to.deep.equal({
+            ).toEqual({
                 isFetching: false,
                 errors: {},
                 transactions,
@@ -288,7 +288,7 @@ describe('transactions/duck/reducers', () => {
         it('should be handled', () => {
             expect(
                 reducer(initialCopyState, actions.copyTransaction(3))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 transactions: initialCopyState.transactions,
                 editingTransaction: {
@@ -309,7 +309,7 @@ describe('transactions/duck/reducers', () => {
         it('should be handled', () => {
             expect(
                 reducer(initialDeleteState, actions.requestDeleteTransaction(2, types.DELETE_TRANSACTION))
-            ).to.deep.equal({
+            ).toEqual({
                 isFetching: true,
                 errors: {},
                 transactions,
@@ -338,7 +338,7 @@ describe('transactions/duck/reducers', () => {
 
                 expect(
                     reducer(fetchingState, actions.receiveDeleteTransaction('success', 2, types.DELETE_TRANSACTION))
-                ).to.deep.equal({
+                ).toEqual({
                     isFetching: false,
                     errors: {},
                     transactions: expectedTransactions,
@@ -358,7 +358,7 @@ describe('transactions/duck/reducers', () => {
 
                 expect(
                     reducer(fetchingState, actions.receiveDeleteTransaction('success', 2, types.DELETE_ALL_PERIODIC_TRANSACTIONS))
-                ).to.deep.equal({
+                ).toEqual({
                     isFetching: false,
                     errors: {},
                     transactions: expectedTransactions,
@@ -379,7 +379,7 @@ describe('transactions/duck/reducers', () => {
 
                 expect(
                     reducer(fetchingState, actions.receiveDeleteTransaction('success', 3, types.DELETE_THIS_AND_NEXT_TRANSACTIONS))
-                ).to.deep.equal({
+                ).toEqual({
                     isFetching: false,
                     errors: {},
                     transactions: expectedTransactions,
@@ -399,7 +399,7 @@ describe('transactions/duck/reducers', () => {
 
             expect(
                 reducer(fetchingState, actions.receiveDeleteTransaction('fail', 2, types.DELETE_TRANSACTION, errors))
-            ).to.deep.equal({
+            ).toEqual({
                 isFetching: false,
                 errors,
                 transactions,
@@ -414,7 +414,7 @@ describe('transactions/duck/reducers', () => {
         it('should be handled', () => {
             expect(
                 reducer(undefined, actions.requestFilterTransactions())
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: true,
             });
@@ -422,16 +422,16 @@ describe('transactions/duck/reducers', () => {
 
         it('should be handled when successful', () => {
             const filtered = [
-                createTransaction({ id:1 }),
-                createTransaction({ id:2 })
+                createTransaction({ id: 1, description: '1' }),
+                createTransaction({ id: 2, description: '2' })
             ];
             expect(
                 reducer(undefined, actions.receiveFilteredTransactions('success', filtered.map(t => t.send)))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 transactions: filtered.map(t => t.expect),
-                visibleTransactions: filtered.map(t => t.expect)
+                visibleTransactions: filtered.map(t => t.expect.id)
             });
         });
 
@@ -441,7 +441,7 @@ describe('transactions/duck/reducers', () => {
             };
             expect(
                 reducer(undefined, actions.receiveFilteredTransactions('fail', errors))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 errors
@@ -472,7 +472,7 @@ describe('transactions/duck/reducers', () => {
             expect(
                 reducer(initialState, actions.setFilters(filters))
             )
-            .to.deep.equal({
+            .toEqual({
                 ...initialState,
                 filters
             });
@@ -484,7 +484,7 @@ describe('transactions/duck/reducers', () => {
         it('should be handled', () => {
             expect(
                 reducer(undefined, actions.payTransactions([ 1, 2]))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: true
             });
@@ -495,7 +495,7 @@ describe('transactions/duck/reducers', () => {
             
             expect(
                 reducer(undefined, actions.receivePayTransactions('success', transactions.map(t => t.send)))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 transactions: transactions.map(t => t.expect),
@@ -507,7 +507,7 @@ describe('transactions/duck/reducers', () => {
                         
             expect(
                 reducer(undefined, actions.receivePayTransactions('fail', errors))
-            ).to.deep.equal({
+            ).toEqual({
                 ...initialState,
                 isFetching: false,
                 errors,

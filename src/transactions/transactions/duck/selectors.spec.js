@@ -9,10 +9,10 @@ describe('transactions/duck/selectors', () => {
         };
     };
 
-    const buildTransactionsUntil = (length) => {
+    const buildTransactionsUntil = (length, ...other) => {
         const transactions = [];
         for (let i = 0; i < length; i++) {
-            transactions[i] = { id: i+1 };
+            transactions[i] = { id: i+1, ...other };
         }
         return transactions;
     };
@@ -25,7 +25,7 @@ describe('transactions/duck/selectors', () => {
         expect(
             selectors.getErrors(state)
         )
-        .to.deep.equal('errors');
+        .toEqual('errors');
     });
 
     it('getEditingTransaction', () => {
@@ -37,7 +37,7 @@ describe('transactions/duck/selectors', () => {
         expect(
             selectors.getEditingTransaction(state)
         )
-        .to.equal(editingTransaction);
+        .toEqual(editingTransaction);
     });
 
     it('isFetching', () => {
@@ -58,13 +58,13 @@ describe('transactions/duck/selectors', () => {
         expect(
             selectors.getFilters(state)
         )
-        .to.deep.equal(filters);
+        .toEqual(filters);
     });
 
     describe('getTransactionsToDisplay', () => {
         
         it('should return visibleTransactions', () => {        
-            const visibleTransactions = buildTransactionsUntil(3);
+            const visibleTransactions = buildTransactionsUntil(3).map(t => t.id);
             const transactions = buildTransactionsUntil(5);
             const state = buildState({
                 transactions,
@@ -74,7 +74,7 @@ describe('transactions/duck/selectors', () => {
             expect(
                 selectors.getTransactionsToDisplay(state)
             )
-            .to.deep.equal(visibleTransactions);
+            .toEqual(transactions.slice(0,3));
         });
 
         it('should return all when visibleTransactions is undefined', () => {
@@ -87,7 +87,7 @@ describe('transactions/duck/selectors', () => {
             expect(
                 selectors.getTransactionsToDisplay(state)
             )
-            .to.deep.equal(transactions);
+            .toEqual(transactions);
         });        
 
     });
@@ -115,7 +115,7 @@ describe('transactions/duck/selectors', () => {
             expect(
                 selectors.getPendingIncomesUntil(state)
             )
-            .to.deep.equal(expected);
+            .toEqual(expected);
         });
 
         it('until specified moment', () => {
@@ -126,7 +126,7 @@ describe('transactions/duck/selectors', () => {
             expect(
                 selectors.getPendingIncomesUntil(state, moment(new Date(2017, 0, 1)))
             )
-            .to.deep.equal(expected);
+            .toEqual(expected);
         });
 
     });
