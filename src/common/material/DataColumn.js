@@ -15,11 +15,13 @@ export default class DataColumn extends React.Component {
         sortable: PropTypes.bool.isRequired,
         onSort: PropTypes.func.isRequired,
         onRenderFilter: PropTypes.node,
+        filterActive: PropTypes.bool
     };
 
     static defaultProps = {
         sortable: false,
         onRender: defaultOnRender,
+        filterActive: false,
         onSort: defaultOnSort
     }
     

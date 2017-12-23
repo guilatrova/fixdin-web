@@ -185,7 +185,8 @@ class TransactionPage extends React.Component {
                             onEdit={this.handleEdit}
                             onPay={this.handlePay}
                             onDelete={this.handleDelete}
-                            onCopy={this.handleCopy} />
+                            onCopy={this.handleCopy}
+                            activeFilters={this.props.activeFilters} />
                     </div>
 
                     <FloatingActionButton color="primary" onClick={this.handleCreateTransaction}>
@@ -233,6 +234,7 @@ const mapStateToProps = (state) => {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
         },
+        activeFilters: selectors.getActiveFilters(state)
     };
 };
 

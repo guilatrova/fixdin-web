@@ -1,4 +1,5 @@
-import { INCOME, EXPENSE } from '../../kinds';
+import { ALL, INCOME, EXPENSE } from '../../kinds';
+import moment from 'moment';
 
 const getErrors = (state) => state.transactions.errors;
 
@@ -48,6 +49,37 @@ const getTotalValueOfDisplayedExpenses = (state) =>
 const getTotalValueOfDisplayedIncomes = (state) =>
     sumTransactions(getTransactionsToDisplay(state).filter(t => t.kind === INCOME.id));
 
+const isFilterActive = (state, key, isDefaultValue) => {
+    const filters = getFilters(state);
+
+    if (!(key in filters)) {
+        return false;
+    }
+
+    if (!filters[key])
+        return false;
+
+    if (isDefaultValue && isDefaultValue(filters[key]))
+        return false;
+
+    return true;
+};
+
+const getActiveFilters = (state) => {
+    return {
+        kind: isFilterActive(state, "kind", (kind) => kind.value.id === ALL.id),
+        due_date: (
+            isFilterActive(state, "due_date_from", (from) => from.isSame(moment().startOf('month'))) ||
+            isFilterActive(state, "due_date_until", (until) => until.isSame(moment().endOf('month')))
+        ),
+        description: isFilterActive(state, "description"),
+        category: isFilterActive(state, "category", (category) => category.length === 0),
+        priority: isFilterActive(state, "priority"),
+        deadline: isFilterActive(state, "deadline"),
+        payment_date: isFilterActive(state, "payed", (payed) => payed === "-1")
+    };
+};
+
 export default {
     getErrors,
     isFetching,
@@ -61,5 +93,6 @@ export default {
     getVisiblePriorities,
     getTotalValueOfDisplayedTransactions,
     getTotalValueOfDisplayedIncomes,
-    getTotalValueOfDisplayedExpenses
+    getTotalValueOfDisplayedExpenses,
+    getActiveFilters
 };
