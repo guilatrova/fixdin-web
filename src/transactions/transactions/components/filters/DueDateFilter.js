@@ -8,6 +8,9 @@ import { DatePicker } from 'material-ui-pickers';
 
 import { selectors, operations } from '../../duck';
 
+const defaultStart = () => moment().startOf('month');
+const defaultEnd = () => moment().endOf('month');
+
 class DueDateFilter extends React.Component {
     static propTypes = {
         due_date_from: PropTypes.object.isRequired,
@@ -33,6 +36,8 @@ class DueDateFilter extends React.Component {
 
     handleSubmit = () => this.props.onSubmit(this.state.due_date_from, this.state.due_date_until);
 
+    handleClear = () => this.props.onSubmit(defaultStart(), defaultEnd());
+
     render() {
         return (
             <div>
@@ -50,6 +55,7 @@ class DueDateFilter extends React.Component {
                     autoOk={true}
                     format="DD MMMM YYYY" />
 
+                <Button color="accent" onClick={this.handleClear}>Limpar</Button>
                 <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
@@ -58,8 +64,8 @@ class DueDateFilter extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        due_date_from: selectors.getFilters(state).due_date_from || moment().startOf('month'),
-        due_date_until: selectors.getFilters(state).due_date_until || moment().endOf('month'),
+        due_date_from: selectors.getFilters(state).due_date_from || defaultStart(),
+        due_date_until: selectors.getFilters(state).due_date_until || defaultEnd(),
     };
 };
 

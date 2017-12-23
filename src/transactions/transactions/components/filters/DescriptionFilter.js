@@ -31,6 +31,8 @@ class DescriptionFilter extends React.Component {
 
     handleSubmit = () => this.props.onSubmit(this.state.description);
 
+    handleClear = () => this.props.onSubmit(undefined);
+
     render() {
         return (
             <div>
@@ -40,7 +42,9 @@ class DescriptionFilter extends React.Component {
                     onChange={e => this.setState({ description: e.target.value })}
                     maxLength="120"
                 />
+                <br />
 
+                <Button color="accent" onClick={this.handleClear}>Limpar</Button>
                 <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );

@@ -32,6 +32,8 @@ class PriorityFilter extends React.Component {
 
     handleSubmit = () => this.props.onSubmit(this.state.priority);
 
+    handleClear = () => this.props.onSubmit(undefined);
+
     render() {
         return (
             <div>
@@ -42,6 +44,7 @@ class PriorityFilter extends React.Component {
                 /> 
                 <br />
                 
+                <Button color="accent" onClick={this.handleClear}>Limpar</Button>
                 <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );

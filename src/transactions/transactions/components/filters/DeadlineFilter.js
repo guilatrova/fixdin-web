@@ -32,6 +32,8 @@ class DeadlineFilter extends React.Component {
 
     handleSubmit = () => this.props.onSubmit(this.state.deadline);
 
+    handleClear = () => this.props.onSubmit(undefined);
+
     render() {
         return (
             <div>
@@ -40,8 +42,10 @@ class DeadlineFilter extends React.Component {
                     label="Tolerância"
                     value={this.state.deadline} 
                     onChange={e => this.setState({ deadline: e.target.value })}
-                /> 
+                />
+                <br />
                 
+                <Button color="accent" onClick={this.handleClear}>Limpar</Button>
                 <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
