@@ -10,6 +10,9 @@ import { DatePicker } from 'material-ui-pickers';
 
 import { selectors, operations } from '../../duck';
 
+const defaultStart = () => moment().startOf('month');
+const defaultEnd = () => moment().endOf('month');
+
 class PaymentFilter extends React.Component {
     static propTypes = {
         payed: PropTypes.string.isRequired,
@@ -29,7 +32,8 @@ class PaymentFilter extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ 
+        this.setState({
+            payed: nextProps.payed,
             payment_date_from: nextProps.payment_date_from,
             payment_date_until: nextProps.payment_date_until
         });
@@ -44,10 +48,13 @@ class PaymentFilter extends React.Component {
         }
     }
 
+    handleClear = () => this.props.onSubmit("-1", null, null);
+
     render() {
         return (
             <div>
                 <label>Pago?</label>
+                <br />
 
                 <Select
                     value={this.state.payed}
@@ -57,6 +64,7 @@ class PaymentFilter extends React.Component {
                     <MenuItem value="0">NÃO</MenuItem>
                     <MenuItem value="1">SIM</MenuItem>
                 </Select>
+                <br />
 
                 {this.state.payed == "1" && <div>
 
@@ -78,6 +86,7 @@ class PaymentFilter extends React.Component {
 
                 </div>}
 
+                <Button color="accent" onClick={this.handleClear}>Limpar</Button>
                 <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
@@ -87,14 +96,15 @@ class PaymentFilter extends React.Component {
 const mapStateToProps = (state) => {
     return {
         payed: selectors.getFilters(state).payed || "-1",
-        payment_date_from: selectors.getFilters(state).payment_date_from || moment().startOf('month'),
-        payment_date_until: selectors.getFilters(state).payment_date_until || moment().endOf('month'),
+        payment_date_from: selectors.getFilters(state).payment_date_from || defaultStart(),
+        payment_date_until: selectors.getFilters(state).payment_date_until || defaultEnd(),
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {        
         onSubmit: (payed, payment_date_from, payment_date_until) => {
+            console.log('payed', payed);
             dispatch(operations.setFilters({ payed, payment_date_from, payment_date_until }, true));
             dispatch(operations.filterTransactions());
         }
