@@ -36,7 +36,10 @@ class KindFilter extends React.Component {
         this.setState({ kind: nextProps.kind });
     }
 
+    //Need to pass options below to keep UI in sync. We handle "value" prop in formatters
     handleSubmit = () => this.props.onSubmit(this.state.kind);
+
+    handleClear = () => this.props.onSubmit(kindOptions[0]);
 
     render() {
         return (
@@ -48,6 +51,7 @@ class KindFilter extends React.Component {
                     options={kindOptions}
                 />
 
+                <Button color="accent" onClick={this.handleClear}>Limpar</Button>
                 <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
@@ -56,7 +60,7 @@ class KindFilter extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        kind: selectors.getFilters(state).kind || ALL
+        kind: selectors.getFilters(state).kind || kindOptions[0]
     };
 };
 

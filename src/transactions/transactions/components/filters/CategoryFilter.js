@@ -31,6 +31,8 @@ class CategoryFilter extends React.Component {
 
     handleSubmit = () => this.props.onSubmit(this.state.category);
 
+    handleClear = () => this.props.onSubmit([]);
+
     render() {
         return (
             <div>
@@ -38,6 +40,7 @@ class CategoryFilter extends React.Component {
                     value={this.state.category}
                     onChange={(category) => this.setState({ category })} />
 
+                <Button color="accent" onClick={this.handleClear}>Limpar</Button>
                 <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
             </div>
         );
