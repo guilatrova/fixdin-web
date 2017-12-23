@@ -18,6 +18,23 @@ export class Operation {
             .catch(err => this.onFailed(dispatch, this.receiveAction, err));
     }
 
+    getId() {
+        let seedId = "";
+        let hash = "";
+        for (let key in this) {
+            if (this.hasOwnProperty(key) && typeof this[key] !== 'function') {
+                seedId += this[key];
+            }
+        }
+
+        for (let i = 0; i < seedId.length; i++) {
+            let chr   = seedId.charCodeAt(i);
+            hash  = ((hash << 5) - hash) + chr;
+            hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
+    }
+
     createApiService() {
         return createApi();
     }
