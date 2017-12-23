@@ -7,7 +7,13 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "node_modules": true,
-        "tmp": true
+        "tmp": true,
+        "server.js": true,
+        "webpack*": true,
+        "Procfile": true,
+        "tools": true,
+        ".gitignore": true,
+        "*yml": true
     },
     "editor.minimap.enabled": false
 }
