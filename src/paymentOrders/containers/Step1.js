@@ -6,7 +6,6 @@ import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 import { DatePicker } from 'material-ui-pickers';
 
-
 import TransactionsList from '../components/TransactionsList';
 import TextFieldCurrency from '../../common/material/TextFieldCurrency';
 import { selectors as balancesSelectors } from '../../balances/duck';

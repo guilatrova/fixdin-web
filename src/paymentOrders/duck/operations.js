@@ -33,8 +33,9 @@ const checkDefaultExpenses = () => (dispatch, getState) => {
 };
 
 const resetStep2 = () => (dispatch, getState) => {
+    const untilDate = selectors.step1.getUntilDate(getState());
     const balance = selectors.step1.getTotal(getState());
-    const expenses = transactionsSelectors.getPendingExpensesUntil(getState());    
+    const expenses = transactionsSelectors.getPendingExpensesUntil(getState(), untilDate);
     dispatch(actions.resetStep2(balance, expenses));
 };
 
