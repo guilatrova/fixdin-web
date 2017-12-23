@@ -58,7 +58,8 @@ class TransactionPage extends React.Component {
         total: PropTypes.string.isRequired,
         totalIncomes: PropTypes.string.isRequired,
         totalExpenses: PropTypes.string.isRequired,
-
+        activeFilters: PropTypes.object.isRequired,
+        
         onPay: PropTypes.func.isRequired,
         onFetch: PropTypes.func.isRequired,        
         onClearFilters: PropTypes.func.isRequired,
@@ -66,7 +67,7 @@ class TransactionPage extends React.Component {
         onDelete: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
         onCopy: PropTypes.func.isRequired,
-        onFinishEdit: PropTypes.func.isRequired,
+        onFinishEdit: PropTypes.func.isRequired,        
     }
 
     state = {
