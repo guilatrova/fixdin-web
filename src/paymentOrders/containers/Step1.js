@@ -34,11 +34,6 @@ class Step1 extends React.Component {
         onChangeUntilDate: PropTypes.func.isRequired,
         onChangeValueToSave: PropTypes.func.isRequired,
         onToggle: PropTypes.func.isRequired,
-        onStart: PropTypes.func.isRequired,
-    }
-
-    componentDidMount() {
-        this.props.onStart();
     }
 
     handleDateChange = untilDate => {
@@ -120,11 +115,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onChangeUntilDate: (untilDate) => dispatch(operations.changeUntilDate(untilDate)),
         onChangeValueToSave: (value) => dispatch(operations.changeValueToSave(value)),
-        onToggle: (ids) => dispatch(operations.toggleIncome(ids)),
-        onStart: () => {
-            dispatch(operations.resetStep1());
-            dispatch(operations.checkDefaultIncomes());
-        }
+        onToggle: (ids) => dispatch(operations.toggleIncome(ids))
     };
 };
 

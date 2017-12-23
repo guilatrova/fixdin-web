@@ -27,11 +27,13 @@ class PaymentOrderStepper extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         theme: PropTypes.object.isRequired,
-        onStart: PropTypes.func.isRequired
+        onStart: PropTypes.func.isRequired,
+        onStep2: PropTypes.func.isRequired,
     };
 
     state = {
         activeStep: 0,
+        previousStep: 0
     };
     
     componentDidMount() {
@@ -39,16 +41,28 @@ class PaymentOrderStepper extends React.Component {
     }
 
     handleNext = () => {
+        const newStep = this.state.activeStep + 1;
+        this.onStepChange(this.state.activeStep, newStep);
         this.setState({
-            activeStep: this.state.activeStep + 1,
+            activeStep: newStep,
         });
     };
     
     handleBack = () => {
+        const newStep = this.state.activeStep - 1;
+        this.onStepChange(this.state.activeStep, newStep);
         this.setState({
-            activeStep: this.state.activeStep - 1,
+            activeStep: newStep,
         });
-    };    
+    };
+    
+    onStepChange = (prevStep, newStep) => {
+        if (prevStep < newStep) {
+            if (newStep == 1) {
+                this.props.onStep2();
+            }
+        }
+    }
 
     renderStep = () => {
         switch(this.state.activeStep) {
@@ -107,6 +121,10 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(operations.resetStep1());
                 dispatch(operations.checkDefaultIncomes());
             });
+        },
+        onStep2: () => {
+            dispatch(operations.resetStep2());
+            dispatch(operations.checkDefaultExpenses());
         }
     };
 };

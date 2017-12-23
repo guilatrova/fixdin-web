@@ -24,15 +24,10 @@ class Step2 extends React.Component {
         remainingBalance: PropTypes.number.isRequired,
 
         onToggle: PropTypes.func.isRequired,
-        onStart: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
         remainingBalance: 0
-    }
-
-    componentDidMount() {
-        this.props.onStart();
     }
 
     handleToggle = value => {
@@ -76,11 +71,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onToggle: (id) => dispatch(operations.toggleExpense(id)),
-        onStart: () => {
-            dispatch(operations.resetStep2());
-            dispatch(operations.checkDefaultExpenses());
-        }
+        onToggle: (id) => dispatch(operations.toggleExpense(id))
     };
 };
 
