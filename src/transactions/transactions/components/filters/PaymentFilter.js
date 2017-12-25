@@ -104,7 +104,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {        
         onSubmit: (payed, payment_date_from, payment_date_until) => {
-            console.log('payed', payed);
             dispatch(operations.setFilters({ payed, payment_date_from, payment_date_until }, true));
             dispatch(operations.filterTransactions());
         }
