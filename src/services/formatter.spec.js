@@ -6,7 +6,8 @@ import {
     clean,
     formatTransactionReceived, 
     formatTransactionToSend,
-    formatPeriodic
+    formatPeriodic,
+    formatCurrencyDisplay
 } from './formatter';
 
 describe('services/formatter', () => {
@@ -38,6 +39,20 @@ describe('services/formatter', () => {
             expect(formatCurrency("R$ 59,99", EXPENSE)).to.be.equal(-59.99);
         });
         
+    });
+
+    describe('formatCurrencyDisplay()', () => {
+        it('returns R$ 0,00 by default', () => {
+            expect(formatCurrencyDisplay()).toEqual("R$ 0,00");
+        });
+
+        it('returns R$ 0,00 ', () => {
+            expect(formatCurrencyDisplay()).toEqual("R$ 0,00");
+        });
+
+        it('returns correct number to display', () => {
+            expect(formatCurrencyDisplay(45.32)).toEqual("R$ 45,32");
+        });
     });
 
     describe('formatTransaction...()', () => {
@@ -138,9 +153,7 @@ describe('services/formatter', () => {
         });
     });
 
-    xit('formatTransactionFilters', () => {
-
-    });
+    xit('formatTransactionFilters');
 
     it('clean', () => {
         const obj = {

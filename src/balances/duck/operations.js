@@ -5,13 +5,11 @@ import handleError from '../../services/genericErrorHandler';
 import { GetOperation } from '../../common/genericDuck/operations';
 import getQueryParams from '../../services/query';
 
-class GetBalanceOperation extends GetOperation {
+export class GetBalanceOperation extends GetOperation {
     constructor(storeKey, filters = {}) {
         super('balances/current', actions.requestBalance, actions.receiveBalance);
         this.storeKey = storeKey;
         this.filters = filters;
-
-        return this.dispatch();
     }
 
     onRequest(dispatch, requestAction) {
@@ -37,13 +35,15 @@ class GetBalanceOperation extends GetOperation {
     }
 }
 
-const fetchBalance = () => new GetBalanceOperation('balance');
-const fetchRealBalance = () => new GetBalanceOperation('realBalance', {'payed': '1'});
+const dispatchGetOperation = (storeKey, filters) => 
+    new GetBalanceOperation(storeKey, filters).dispatch();
+
+const fetchBalance = () => dispatchGetOperation('balance');
+const fetchRealBalance = () => dispatchGetOperation('realBalance', {'payed': '1'});
 const fetchExpectedBalance = () => {
-    const today = new Date();
-    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth()+1, 0);
-    const until = formatDate(moment(lastDayOfMonth));
-    return new GetBalanceOperation('expectedBalance', { until });
+    const lastDayOfMonth = moment().endOf('month');
+    const until = formatDate(lastDayOfMonth);
+    return dispatchGetOperation('expectedBalance', { until });
 };
 
 export default {
