@@ -8,12 +8,12 @@ import Dialog, {
   
 import TransactionForm from '../components/TransactionForm';
 
-const TransactionFormDialog = ({open, onRequestClose, title, fullScreen, onSubmit, isFetching, transaction, errors}) => {
+const TransactionFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetching, transaction, errors}) => {
     return (
         <Dialog
             fullScreen={fullScreen}
             open={open}
-            onRequestClose={onRequestClose}>
+            onClose={onClose}>
 
             <DialogTitle>{title}</DialogTitle>
 
@@ -30,7 +30,7 @@ const TransactionFormDialog = ({open, onRequestClose, title, fullScreen, onSubmi
 TransactionFormDialog.propTypes = {
     //Modal
     open: PropTypes.bool.isRequired,
-    onRequestClose: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     fullScreen: PropTypes.bool.isRequired,
     //TransactionForm

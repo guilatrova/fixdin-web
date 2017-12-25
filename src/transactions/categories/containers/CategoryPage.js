@@ -122,7 +122,7 @@ class CategoryPage extends React.Component {
 
                 <CategoryFormDialog
                     open={this.state.openCategoryFormDialog}
-                    onRequestClose={this.handleCloseFormDialog}
+                    onClose={this.handleCloseFormDialog}
                     title={this.props.editingCategory.id ? "Editar categoria" : "Criar categoria"}
 
                     isFetching={isFetching}
@@ -133,7 +133,7 @@ class CategoryPage extends React.Component {
 
                 <ConfirmDeleteDialog 
                     open={this.state.openDeleteDialog} 
-                    onRequestClose={this.handleCloseDeleteDialog} 
+                    onClose={this.handleCloseDeleteDialog} 
                     onConfirm={this.handleConfirmDelete}
                     error={this.props.errors.detail} >
 

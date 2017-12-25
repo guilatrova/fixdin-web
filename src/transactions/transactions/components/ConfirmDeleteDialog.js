@@ -50,7 +50,7 @@ export default class ConfirmDeleteDialog extends React.Component {
     static propTypes = {
         open: PropTypes.bool.isRequired,
         onConfirm: PropTypes.func.isRequired,
-        onRequestClose: PropTypes.func.isRequired,
+        onClose: PropTypes.func.isRequired,
         isPeriodic: PropTypes.bool,
         error: PropTypes.string,
         children: PropTypes.node.isRequired
@@ -65,7 +65,7 @@ export default class ConfirmDeleteDialog extends React.Component {
         const periodicText = this.props.isPeriodic ? "Notamos que é uma transação periódica, como deseja deletar?" : "";
 
         return (
-            <Dialog open={this.props.open} onRequestClose={this.props.onRequestClose}>
+            <Dialog open={this.props.open} onClose={this.props.onClose}>
                 <DialogTitle>Confirmar ação</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -74,7 +74,7 @@ export default class ConfirmDeleteDialog extends React.Component {
                     </DialogContentText>
                 </DialogContent>
 
-                {actions(this.props.onRequestClose, this.props.onConfirm)}
+                {actions(this.props.onClose, this.props.onConfirm)}
             </Dialog>
         );
     }

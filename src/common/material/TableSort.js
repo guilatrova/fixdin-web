@@ -114,7 +114,7 @@ class TableSort extends React.Component {
                     <Popover
                         classes={{ paper: this.props.classes.popoverPaper}}
                         open={popover == child.props.field}
-                        onRequestClose={() => this.setState({ popover: "" })}
+                        onClose={() => this.setState({ popover: "" })}
                         anchorEl={this.state.popoverRef}
                         anchorReference="anchorEl"
                         anchorOrigin={{ horizontal:"left", vertical:"bottom"}}
