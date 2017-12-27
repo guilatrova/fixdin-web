@@ -12,7 +12,7 @@ const cacheResponse = operations.cacheResponse; // To avoid mess up with operati
 
 const cacheOperation = (operation, timeout) => (dispatch, getState) => {
     const cache = selectors.getCacheFromId(getState(), operation.getId());
-    const isStale = (Date.now() - cache.time) > timeout;
+    const isStale = cache ? (Date.now() - cache.time) > timeout : true;
 
     if (isStale) {
         // Do API request as usual, but when succeed cache result
