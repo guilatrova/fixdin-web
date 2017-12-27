@@ -16,14 +16,9 @@ const cacheOperation = (operation, timeout) => (dispatch, getState) => {
 
     if (isStale) {
         // Do API request as usual, but when succeed cache result
-    
-        const originalGetApiPromise = operation.getApiPromise;
-        operation.getApiPromise = () => {
-            return originalGetApiPromise.apply(operation, arguments)
-                .then(response => {
-                    dispatch(cacheResponse(operation.getId(), Date.now(), response));
-                    return response;
-                });
+        operation.onGetResponse = (response) => {
+            dispatch(cacheResponse(operation.getId(), Date.now(), response));
+            return response.data;
         };
     }    
     else {

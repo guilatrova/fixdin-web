@@ -13,7 +13,7 @@ export class Operation {
         
         const api = this.createApiService();
         return this.getApiPromise(api)
-            .then(response => response.data)
+            .then(response => this.onGetResponse(response))
             .then(data => this.onSucceed(dispatch, this.receiveAction, this.getSucceedData(data)))
             .catch(err => this.onFailed(dispatch, this.receiveAction, err));
     }
@@ -37,6 +37,10 @@ export class Operation {
 
     createApiService() {
         return createApi();
+    }
+
+    onGetResponse(response) {
+        return response.data;
     }
     
     onRequest(dispatch, requestAction) {

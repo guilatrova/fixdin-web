@@ -6,13 +6,12 @@ import handleError from '../../../services/genericErrorHandler';
 import { formatTransactionToSend, formatTransactionFilters, formatDate } from '../../../services/formatter';
 import getQueryParams from '../../../services/query';
 import { Operation } from './../../../common/genericDuck/operations';
+import cache from './../../../common/genericDuck/cacheOperation';
 
 class FetchOperation extends Operation {
     constructor(kind) {
         super(actions.requestTransactions, actions.receiveTransactions);
         this.kind = kind;
-
-        return this.dispatch();
     }
 
     getApiPromise(api) {
@@ -162,7 +161,7 @@ const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
 const clearFilters = actions.clearFilters;
 const setFilters = actions.setFilters;
-const fetchTransactions = (kind) => new FetchOperation(kind);
+const fetchTransactions = (kind, timeout = 10000) => cache(new FetchOperation(kind), timeout);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
 const payTransactions = (kind, ids) => new PayOperation(kind, ids);
