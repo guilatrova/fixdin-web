@@ -8,23 +8,23 @@
  */
 import { operations, selectors } from '../../app/duck';
 
+const cacheResponse = operations.cacheResponse; // To avoid mess up with operation object
+
 const cacheOperation = (operation, timeout) => (dispatch, getState) => {
     const cache = selectors.getCacheFromId(getState(), operation.getId());
     const isStale = (Date.now() - cache.time) > timeout;
 
     if (isStale) {
-        // Do API request as usual, but when succeed cache result        
+        // Do API request as usual, but when succeed cache result
+    
+        const originalGetApiPromise = operation.getApiPromise;
         operation.getApiPromise = () => {
-            return operation.getApiPromise.apply(operations, arguments)
+            return originalGetApiPromise.apply(operation, arguments)
                 .then(response => {
-                    dispatch(operations.cacheResponse(operation.getId(), Date.now(), response));
+                    dispatch(cacheResponse(operation.getId(), Date.now(), response));
                     return response;
                 });
         };
-        // operation.onSucceed = (dispatch, receiveAction, data) => {
-        //     dispatch(operations.cacheResponse(operation.getId(), Date.now(), data));
-        //     return operation.onSucceed.apply(operation, arguments);
-        // };
     }    
     else {
         // Don't do any request, use cached result
