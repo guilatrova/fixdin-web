@@ -10,7 +10,8 @@ const isFetching = (state) => state.transactions.isFetching;
 const getTransactionsToDisplay = (state) => {
     if (state.transactions.visibleTransactions) {
         return state.transactions.visibleTransactions
-            .map(id => state.transactions.transactions.find(transaction => transaction.id === id));
+            .map(id => state.transactions.transactions.find(transaction => transaction.id === id))
+            .filter(found => found);
     }
     return state.transactions.transactions;
 };
