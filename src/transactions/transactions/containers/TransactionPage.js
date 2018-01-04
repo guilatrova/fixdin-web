@@ -209,7 +209,7 @@ class TransactionPage extends React.Component {
                     open={this.state.openDeleteDialog} 
                     onRequestClose={this.handleHideDeleteModal}
                     onConfirm={this.handleConfirmDelete}
-                    isPeriodic={this.state.toDeletePeriodicTransaction}
+                    isPeriodic={!!this.state.toDeletePeriodicTransaction}
                     error={this.props.errors['detail']}>
 
                     Tem certeza que deseja deletar esta movimentação?

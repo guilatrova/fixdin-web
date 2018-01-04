@@ -102,7 +102,7 @@ class TableSort extends React.Component {
                     <div>
                     <IconButton 
                         aria-label="Filter list"
-                        color={child.props.filterActive ? "accent" : "action"}
+                        color={child.props.filterActive ? "accent" : "default"}
                         ref={node => { buttonRef = node; }}
                         onClick={() => this.setState({ 
                             popover: child.props.field,
