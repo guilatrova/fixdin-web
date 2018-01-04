@@ -80,7 +80,7 @@ class TransactionPage extends React.Component {
     }    
 
     handleRefresh = () => {
-        this.props.onFetch();
+        this.props.onFetch(0);
     }
 
     handleCreateTransaction = () => {
@@ -241,10 +241,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: () => {
+        onFetch: (timeout = 5) => {
             dispatch(categoryOperations.fetchCategories(INCOME));
             dispatch(categoryOperations.fetchCategories(EXPENSE));
-            dispatch(operations.fetchTransactions(ALL));
+            dispatch(operations.fetchTransactions(ALL, timeout));
         },        
         onClearFilters: () => dispatch(operations.clearFilters()),
         onSubmit: (transaction, kind, type) => dispatch(operations.saveTransaction(transaction, kind, type)),
