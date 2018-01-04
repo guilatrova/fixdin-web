@@ -51,7 +51,7 @@ describe('categories/duck/actions', () => {
 
 	describe("FETCH_TRANSACTION_CATEGORIES", () => {
 
-		it('should dispatch success action after FETCH_TRANSACTION_CATEGORIES', () => {
+		xit('should dispatch success action after FETCH_TRANSACTION_CATEGORIES', () => {
             const categories = [
 				{ id: 1, name: 'Car', kind: EXPENSE.id }, 
 				{ id: 2, name: 'Feeding', kind: EXPENSE.id }
@@ -68,7 +68,7 @@ describe('categories/duck/actions', () => {
 			});
         });
 
-		it('should dispatch fail action after FETCH_TRANSACTION_CATEGORIES when something goes wrong', () => {
+		xit('should dispatch fail action after FETCH_TRANSACTION_CATEGORIES when something goes wrong', () => {
 			const expectedResponse = {
 				detail: 'failed connection'
 			};
