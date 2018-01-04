@@ -152,12 +152,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: (timeout) => { //TO DO: add one unique fetch endpoint
+        onFetch: (timeout) => { //TODO: add one unique fetch endpoint
             dispatch(operations.fetchCategories(EXPENSE, timeout));
             dispatch(operations.fetchCategories(INCOME, timeout));
         },
         onSubmit: (category) => dispatch(operations.saveCategory(category)),
-        onDelete: (id) => dispatch(operations.deleteCategory(id, EXPENSE)),//TO DO: remove static kind
+        onDelete: (id) => dispatch(operations.deleteCategory(id, EXPENSE)),//TODO: remove static kind
         onEdit: (id) => dispatch(operations.editCategory(id)),
         onFinishEdit: () => dispatch(operations.finishEditCategory())
     };
