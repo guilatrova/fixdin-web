@@ -1,23 +1,16 @@
-/* CACHE Operations
- **** REQUIREMENTS
- *
- * 1. Avoid repeating same requests in a small pre-defined timeout
- * 2. Be transparent to operation and user
- * 3. Act exactly like a regular operation, to meet item 2
- * 4. When stale cache new result x request time
- */
 import { operations, selectors } from '../../app/duck';
 
 const cacheResponse = operations.cacheResponse; // To avoid mess up with operation object
 
 const cacheOperation = (operation, timeout) => (dispatch, getState) => {
+    timeout = timeout * 1000 * 60;  // To minutes
     const cache = selectors.getCacheFromId(getState(), operation.getId());
     const isStale = cache ? (Date.now() - cache.time) > timeout : true;
 
     if (isStale) {
         // Do API request as usual, but when succeed cache result
         operation.onGetResponse = (response) => {
-            dispatch(cacheResponse(operation.getId(), Date.now(), response));
+            dispatch(cacheResponse(operation.getId(), Date.now(), response.data));
             return response.data;
         };
     }    
@@ -25,7 +18,10 @@ const cacheOperation = (operation, timeout) => (dispatch, getState) => {
         // Don't do any request, use cached result
         operation.getApiPromise = () => {
             return Promise.resolve(cache.result);
-        };        
+        };
+        operation.onGetResponse = (data) => {
+            return data;
+        };
     }
 
     return operation.dispatch()(dispatch, getState);
