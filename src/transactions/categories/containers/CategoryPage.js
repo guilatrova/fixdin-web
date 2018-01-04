@@ -11,7 +11,7 @@ import CategoryFormDialog from './CategoryFormDialog';
 import CategoryTable from '../components/CategoryTable';
 import ConfirmDeleteDialog from '../components/ConfirmDeleteDialog';
 import { operations } from '../duck';
-import { EXPENSE, INCOME } from '../../kinds';
+import { EXPENSE, INCOME, getKind } from '../../kinds';
 
 const styles = theme => ({
     root: {
@@ -82,8 +82,11 @@ class CategoryPage extends React.Component {
         });
     }
 
-    handleConfirmDelete = () => {        
-        this.props.onDelete(this.state.toDeleteId).then(({result}) => {
+    handleConfirmDelete = () => {
+        const kindId = this.props.categories.find(cat => cat.id == this.state.toDeleteId).kind;
+        const kind = getKind(kindId);
+        
+        this.props.onDelete(this.state.toDeleteId, kind).then(({result}) => {
             if (result == 'success') {
                 this.setState({
                     openDeleteDialog: false,
@@ -157,7 +160,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(operations.fetchCategories(INCOME, timeout));
         },
         onSubmit: (category) => dispatch(operations.saveCategory(category)),
-        onDelete: (id) => dispatch(operations.deleteCategory(id, EXPENSE)),//TODO: remove static kind
+        onDelete: (id, kind) => dispatch(operations.deleteCategory(id, kind)),
         onEdit: (id) => dispatch(operations.editCategory(id)),
         onFinishEdit: () => dispatch(operations.finishEditCategory())
     };
