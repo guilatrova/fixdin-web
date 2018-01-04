@@ -18,9 +18,9 @@ const ConfirmDeleteDialog = ({open, onConfirm, onRequestClose, error, children})
                     {children}
                 </DialogContentText>
 
-                <Typography color="error" type="body2">
+                {error && <Typography color="error" type="body2">
                     {error}
-                </Typography>
+                </Typography>}
             </DialogContent>
 
             <DialogActions>
