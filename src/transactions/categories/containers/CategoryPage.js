@@ -68,7 +68,7 @@ class CategoryPage extends React.Component {
         this.setState({ openCategoryFormDialog: false });
     }
 
-    handleRefresh = () => this.props.onFetch();
+    handleRefresh = () => this.props.onFetch(0);
 
     handleRequestEdit = (id) => {
         this.setState({ openCategoryFormDialog: true });
@@ -152,9 +152,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: () => { //TO DO: add one unique fetch endpoint
-            dispatch(operations.fetchCategories(EXPENSE));
-            dispatch(operations.fetchCategories(INCOME));
+        onFetch: (timeout) => { //TO DO: add one unique fetch endpoint
+            dispatch(operations.fetchCategories(EXPENSE, timeout));
+            dispatch(operations.fetchCategories(INCOME, timeout));
         },
         onSubmit: (category) => dispatch(operations.saveCategory(category)),
         onDelete: (id) => dispatch(operations.deleteCategory(id, EXPENSE)),//TO DO: remove static kind
