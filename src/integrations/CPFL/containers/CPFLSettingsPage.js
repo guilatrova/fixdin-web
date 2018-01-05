@@ -28,7 +28,10 @@ class CPFLSettingsPage extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const settings = nextProps.settings.cpfl_settings || [ {} ];
+        let settings = [{}];
+        if (nextProps.settings && nextProps.settings.cpfl_settings) {
+            settings = nextProps.settings.cpfl_settings;
+        }
 
         this.setState({
             name: settings[0].name,
@@ -56,7 +59,7 @@ class CPFLSettingsPage extends React.Component {
     }
 
     render() {
-        const { name, documento, imovel } = this.state;
+        const { name = "", documento = "", imovel = "" } = this.state;
         const { errors } = this.props;
         return (
             <div>
