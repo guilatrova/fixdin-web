@@ -7,12 +7,13 @@ import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 const DrawerItem = ({ icon, text, to }) => {
     return (
         <Link to={to}>
-        <ListItem button>
+            <ListItem button>
                 <ListItemIcon>
                     {icon}
                 </ListItemIcon>
+                
                 <ListItemText primary={text} />
-        </ListItem>    
+            </ListItem>    
         </Link>
     );
 };

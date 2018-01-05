@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import AppBodyContainer from './AppBodyContainer';
+import AppBody from './AppBody';
 import LoginPage from '../../users/containers/LoginPage';
 import SignupPage from '../../users/containers/SignupPage';
 import DashboardPage from '../../dashboard/containers/DashboardPage';
@@ -33,7 +33,7 @@ class App extends React.Component {
 					<Route exact path="/login" component={LoginPage} />
 					<Route exact path="/signup" component={SignupPage} />
 
-					<AppBodyContainer>
+					<AppBody>
 
 						<PrivateRoute exact path="/" component={DashboardPage} />
 						<PrivateRoute exact path="/categories" component={CategoryPage} />
@@ -41,7 +41,7 @@ class App extends React.Component {
 						<PrivateRoute exact path="/payment-order" component={PaymentOrderPage} />
 						<PrivateRoute exact path="/cpfl" component={CPFLSettingsPage} />
 
-					</AppBodyContainer>
+					</AppBody>
 
 					<Route component={() => "not found"} />
 				</Switch>
