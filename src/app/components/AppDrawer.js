@@ -31,16 +31,17 @@ const styles = theme => ({
 const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
     return (
         <Drawer
-          type="persistent"
-          classes={{ paper: classes.drawerPaper, }}
-          open={open} >
+            type="persistent"
+            classes={{ paper: classes.drawerPaper, }}
+            open={open} 
+        >
         
-          <div className={classes.drawerInner}>
+            <div className={classes.drawerInner}>
 
             <div className={classes.drawerHeader}>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-              </IconButton>
+                <IconButton onClick={handleDrawerClose}>
+                    {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                </IconButton>
             </div>
 
             <Divider />
@@ -48,10 +49,8 @@ const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
                 <DrawerItem icon={<LabelIcon />} text="Início" to="/" />
                 <DrawerItem icon={<LabelIcon />} text="Movimentações" to="/transactions" />
                 <DrawerItem icon={<LabelIcon />} text="Categorias" to="/categories" />
-                <DrawerItem icon={<LabelIcon />} text="Decisões" to="/payment-order" />                
+                <DrawerItem icon={<LabelIcon />} text="Decisões" to="/payment-order" />
             </List>
-            {/* <Divider /> */}
-            {/* <List className={classes.list}>{otherMailFolderListItems}</List> */}
           </div>
       </Drawer>        
     );

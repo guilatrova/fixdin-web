@@ -5,19 +5,19 @@ import { Provider } from 'react-redux';
 import App from './App';
 
 export default class Root extends Component {
-  render() {
-    const { store, history } = this.props;
-    return (
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </Provider>
-    );
-  }
+	render() {
+		const { store, history } = this.props;
+		return (
+			<Provider store={store}>
+				<ConnectedRouter history={history}>
+					<App />
+				</ConnectedRouter>
+			</Provider>
+		);
+	}
 }
 
 Root.propTypes = {
-  store: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+	store: PropTypes.object.isRequired,
+	history: PropTypes.object.isRequired
 };

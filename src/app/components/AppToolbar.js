@@ -58,12 +58,13 @@ const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
                 >
                     <MenuIcon />
                 </IconButton>
-                
+
                 <Typography type="title" color="inherit" noWrap>
                     {title}
                 </Typography>
             </Toolbar>
-    </AppBar>);
+        </AppBar>
+    );
 };
 
 AppToolbar.propTypes = {
