@@ -40,7 +40,7 @@ class CollapsibleMenu extends React.Component {
                 <Menu
                     anchorEl={this.state.anchorEl}
                     open={this.state.open}
-                    onRequestClose={this.handleRequestClose}
+                    onClose={this.handleRequestClose}
                 >
                     {Children}
                 </Menu>

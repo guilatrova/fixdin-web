@@ -9,7 +9,7 @@ import Typography from 'material-ui/Typography';
 import MenuIcon from 'material-ui-icons/Menu';
 import IconButton from 'material-ui/IconButton';
 
-import { drawerWidth } from '../contants';
+import { drawerWidth, anchor, title } from '../contants';
 
 const styles = theme => ({
     appBar: {
@@ -20,13 +20,18 @@ const styles = theme => ({
         }),
     },
     appBarShift: {
-        marginLeft: drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
         transition: theme.transitions.create(['margin', 'width'], {
           easing: theme.transitions.easing.easeOut,
           duration: theme.transitions.duration.enteringScreen,
         }),
     },
+    'appBarShift-left': {
+		marginLeft: drawerWidth,
+	},
+	'appBarShift-right': {
+		marginRight: drawerWidth,
+	},
     menuButton: {
       marginLeft: 12,
       marginRight: 20,
@@ -38,21 +43,28 @@ const styles = theme => ({
 
 const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
     return (
-    <AppBar className={classNames(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar disableGutters={!open}>
-            <IconButton
-            color="contrast"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={classNames(classes.menuButton, open && classes.hide)}
-            >
-            <MenuIcon />
-            </IconButton>
-            <Typography type="title" color="inherit" noWrap>
-            fixdin
-            </Typography>
-        </Toolbar>
-    </AppBar>);
+        <AppBar 
+            className={classNames(classes.appBar, {
+                [classes.appBarShift]: open,
+                [classes[`appBarShift-${anchor}`]]: open,
+            })}
+        >
+            <Toolbar disableGutters={!open}>
+                <IconButton
+                    color="contrast"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    className={classNames(classes.menuButton, open && classes.hide)}
+                >
+                    <MenuIcon />
+                </IconButton>
+
+                <Typography type="title" color="inherit" noWrap>
+                    {title}
+                </Typography>
+            </Toolbar>
+        </AppBar>
+    );
 };
 
 AppToolbar.propTypes = {

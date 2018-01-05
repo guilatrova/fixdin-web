@@ -197,7 +197,7 @@ class TransactionPage extends React.Component {
 
                 <TransactionFormDialog
                     open={this.state.openTransactionFormDialog}
-                    onRequestClose={this.handleHideTransactionFormModal}
+                    onClose={this.handleHideTransactionFormModal}
                     title={this.props.editingTransaction.id ? `Editar` : `Criar`}
 
                     onSubmit={this.handleTransactionFormSubmit}
@@ -207,7 +207,7 @@ class TransactionPage extends React.Component {
 
                 <ConfirmDeleteDialog
                     open={this.state.openDeleteDialog} 
-                    onRequestClose={this.handleHideDeleteModal}
+                    onClose={this.handleHideDeleteModal}
                     onConfirm={this.handleConfirmDelete}
                     isPeriodic={!!this.state.toDeletePeriodicTransaction}
                     error={this.props.errors['detail']}>
