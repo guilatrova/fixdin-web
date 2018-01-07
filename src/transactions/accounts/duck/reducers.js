@@ -52,14 +52,10 @@ function saveReducer(state, action) {
 function fetchReducer(state, action) {
     switch(action.result) {
         case 'success': {
-            const { accounts } = state;
             return {
                 ...state,
                 isFetching: false,
-                accounts: [
-                    accounts.filter(item => !action.accounts.map(acc => acc.id).includes(item.id)),
-                    ...action.accounts
-                ]
+                accounts: action.accounts
             };
         }
 

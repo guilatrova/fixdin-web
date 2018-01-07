@@ -8,6 +8,7 @@ import LoginPage from '../../users/containers/LoginPage';
 import SignupPage from '../../users/containers/SignupPage';
 import DashboardPage from '../../dashboard/containers/DashboardPage';
 import CategoryPage from  '../../transactions/categories/containers/CategoryPage';
+import AccountPage from  '../../transactions/accounts/containers/AccountPage';
 import TransactionPage from '../../transactions/transactions/containers/TransactionPage';
 import PaymentOrderPage from '../../paymentOrders/containers/PaymentOrderPage';
 import CPFLSettingsPage from '../../integrations/CPFL/containers/CPFLSettingsPage';
@@ -36,6 +37,7 @@ class App extends React.Component {
 					<AppBody>
 
 						<PrivateRoute exact path="/" component={DashboardPage} />
+						<PrivateRoute exact path="/accounts" component={AccountPage} />
 						<PrivateRoute exact path="/categories" component={CategoryPage} />
 						<PrivateRoute exact path="/transactions" component={TransactionPage} />
 						<PrivateRoute exact path="/payment-order" component={PaymentOrderPage} />

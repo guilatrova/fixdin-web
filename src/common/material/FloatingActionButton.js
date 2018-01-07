@@ -1,26 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Button from 'material-ui/Button';
+import AddIcon from 'material-ui-icons/Add';
+import { withStyles } from 'material-ui/styles';
 
-const fabStyle = {
-    // position: 'fixed',
-    // right: '18px',
-    // bottom: '15px'
-    float: 'right'
-};
+const styles = theme => ({
+    button: {
+		margin: theme.spacing.unit,
+		position: 'fixed',
+		bottom: 10,
+		right: 10
+	}
+});
 
-const FloatingActionButton = ({ color, onClick, children }) => {
+const FloatActionButton = ({ children, classes, ...props }) => {
     return (
-        <Button fab color={color} onClick={onClick} style={fabStyle}>
-            {children}
+        <Button fab aria-label="add" className={classes.button} {...props}>
+            {children || <AddIcon />}
         </Button>
     );
 };
 
-FloatingActionButton.propTypes = {
+FloatActionButton.propTypes = {
+    children: PropTypes.node,
+    classes: PropTypes.object.isRequired,
     color: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired
+    onClick: PropTypes.func
 };
 
-export default FloatingActionButton;
+FloatActionButton.defaultProps = {
+    color: 'primary'
+};
+
+export default withStyles(styles)(FloatActionButton);

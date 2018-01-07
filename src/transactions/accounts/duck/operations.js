@@ -47,7 +47,7 @@ class TransferOperation extends Operation {
     }
 }
 
-const fetchAccounts = (timeout = 15) => cache(new FetchOperation(), timeout);
+const fetchAccounts = (timeout = 0) => cache(new FetchOperation(), timeout);
 const saveAccount = (id, account) => new SaveOperation(id, account).dispatch();
 const transferBetweenAccounts = (value, from, to) => new TransferOperation(value, from, to).dispatch();
 

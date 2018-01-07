@@ -3,6 +3,7 @@ import app from '../app/duck';
 import users from '../users/duck';
 import transactions from '../transactions/transactions/duck';
 import categories from '../transactions/categories/duck';
+import accounts from '../transactions/accounts/duck';
 import balances from '../balances/duck';
 import reports from '../reports/duck';
 import paymentOrders from '../paymentOrders/duck';
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     app,
     users,
     transactions,
+    accounts,
     balances,
     categories,
     paymentOrders,

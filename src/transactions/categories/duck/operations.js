@@ -40,7 +40,7 @@ class SaveOperation extends Operation {
 
 const editCategory = actions.editCategory;
 const finishEditCategory = actions.finishEditCategory;
-const fetchCategories = (kind, timeout = 15) => cache(new FetchOperation(kind), timeout);
+const fetchCategories = (kind, timeout = 0) => cache(new FetchOperation(kind), timeout);
 const fetchAllCategories = () => {
     throw 'Not implemented yet';
 };
