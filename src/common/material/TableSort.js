@@ -82,14 +82,7 @@ class TableSort extends React.Component {
         if (orderBy) {
             const sortFunc = React.Children.toArray(this.props.children).find(column => column.props.field == orderBy).props.onSort;
 
-            try {
-                return this.state.data.slice().sort((a, b) => sortFunc(a[orderBy], b[orderBy], order));
-            }
-            catch(err) {
-                console.log('orderBy', orderBy);
-                console.log('data', this.state.data);
-                throw err;
-            }
+            return this.state.data.slice().sort((a, b) => sortFunc(a[orderBy], b[orderBy], order));
         }
         
         return this.state.data.slice();
