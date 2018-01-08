@@ -1,3 +1,4 @@
+import types from './types';
 import actions from './actions';
 import { Operation } from './../../../common/genericDuck/operations';
 import cache from '../../../common/genericDuck/cacheOperation';
@@ -5,6 +6,10 @@ import cache from '../../../common/genericDuck/cacheOperation';
 class FetchOperation extends Operation {
     constructor() {
         super(actions.fetchAccounts, actions.receiveAccounts);
+    }
+
+    getId() {
+        return types.FETCH_ACCOUNTS;
     }
 
     getApiPromise(api) {
@@ -47,7 +52,7 @@ class TransferOperation extends Operation {
     }
 }
 
-const fetchAccounts = (timeout = 0) => cache(new FetchOperation(), timeout);
+const fetchAccounts = (timeout = 15) => cache(new FetchOperation(), timeout);
 const saveAccount = (id, account) => new SaveOperation(id, account).dispatch();
 const transferBetweenAccounts = (value, from, to) => new TransferOperation(value, from, to).dispatch();
 

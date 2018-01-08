@@ -14,6 +14,10 @@ class FetchOperation extends Operation {
         this.kind = kind;
     }
 
+    getId() {
+        return `${types.FETCH_TRANSACTIONS}_${this.kind.id}`;
+    }
+
     getApiPromise(api) {
         return api.get(this.kind.apiEndpoint);
     }
@@ -161,7 +165,7 @@ const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
 const clearFilters = actions.clearFilters;
 const setFilters = actions.setFilters;
-const fetchTransactions = (kind, timeout = 0) => cache(new FetchOperation(kind), timeout);
+const fetchTransactions = (kind, timeout = 5) => cache(new FetchOperation(kind), timeout);
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
 const payTransactions = (kind, ids) => new PayOperation(kind, ids);
