@@ -72,6 +72,20 @@ function receiveTransfer(result, data) {
     };
 }
 
+//EDIT
+function editAccount(id) {
+    return {
+        type: types.EDIT_ACCOUNT,
+        id
+    };
+}
+
+function finishEditAccount() {
+    return {
+        type: types.FINISH_EDIT_ACCOUNT
+    };
+}
+
 export default {
     fetchAccounts,
     receiveAccounts,
@@ -80,5 +94,8 @@ export default {
     receiveSaveAccount,
 
     requestTransfer,
-    receiveTransfer
+    receiveTransfer,
+
+    editAccount,
+    finishEditAccount
 };

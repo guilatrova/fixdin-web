@@ -4,6 +4,7 @@ const initialState = {
     isFetching: false,
     errors: {},
     accounts: [],
+    editingAccount: {}
 };
 
 function saveReducer(state, action) {
@@ -82,6 +83,18 @@ export default function reducer(state = initialState, action) {
         case types.FETCH_ACCOUNTS:
         case types.TRANSFER_BETWEEN_ACCOUNTS:
             return fetchReducer(state, action);
+
+        case types.EDIT_ACCOUNT:
+            return {
+                ...state,
+                editingAccount: state.accounts.find(acc => acc.id === action.id)
+            };
+
+        case types.FINISH_EDIT_ACCOUNT:
+            return {
+                ...state,
+                editingAccount: {}
+            };
 
         default:
             return state;

@@ -13,21 +13,31 @@ class AccountForm extends React.Component {
         onSubmit: PropTypes.func.isRequired,
         onClose: PropTypes.func.isRequired,
         errors: PropTypes.object.isRequired,
-        isFetching: PropTypes.bool.isRequired
+        isFetching: PropTypes.bool.isRequired,
+        account: PropTypes.object.isRequired
     };
 
-    state = {
-        name: ""
+    constructor(props) {
+        super(props);
+
+        const { account } = this.props;
+
+        this.state = {
+            id: account.id || null,
+            name: account.name || ""
+        };
     }
     
-    handleSubmit = () => this.props.onSubmit(null, this.state);
+    handleSubmit = () => this.props.onSubmit(this.state.id, { name: this.state.name });
 
     render() {
-        const { errors, onClose } = this.props;
+        const { errors, onClose, account } = this.props;
 
         let disabled = true;
         if (!this.props.isFetching && this.state.name) {
-            disabled = false;
+            if (this.state.name != account.name) { //If same name doesn't try to save
+                disabled = false;
+            }
         }
 
         return (

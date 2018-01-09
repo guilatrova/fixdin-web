@@ -30,9 +30,12 @@ class AccountPage extends React.Component {
         classes: PropTypes.object.isRequired,
         accounts: PropTypes.array.isRequired,
         errors: PropTypes.object.isRequired,
+        editingAccount: PropTypes.object.isRequired,
 
         onFetch: PropTypes.func.isRequired,
-        onSave: PropTypes.func.isRequired
+        onSave: PropTypes.func.isRequired,
+        onEdit: PropTypes.func.isRequired,
+        onFinishEdit: PropTypes.func.isRequired,
     };
 
     state = {
@@ -43,7 +46,7 @@ class AccountPage extends React.Component {
 
     handleRefresh = () => this.props.onFetch(0);
 
-    handleCreateClick = () => this.setState({ openAccountFormDialog: true });
+    handleOpenAccountFormDialog = () => this.setState({ openAccountFormDialog: true });
 
     handleAccountFormSubmit = (id, account) => {
         this.props.onSave(id, account).then(({result}) => {
@@ -53,29 +56,41 @@ class AccountPage extends React.Component {
         });
     }
 
-    handleCloseAccountFormDialog = () => this.setState({ openAccountFormDialog: false });
+    handleCloseAccountFormDialog = () => {
+        this.setState({ openAccountFormDialog: false });
+        this.props.onFinishEdit();
+    }
+
+    handleEdit = (id) => {
+        this.handleOpenAccountFormDialog();
+        this.props.onEdit(id);
+    }
 
     render() {
-        const { classes, accounts, errors, isFetching } = this.props;
+        const { classes, accounts, errors, isFetching, editingAccount } = this.props;
 
         return (
             <div className={classes.root}>
                 <Paper>
 
                     <div className={classes.table}>
-                        <AccountTable accounts={accounts} />
+                        <AccountTable 
+                            accounts={accounts} 
+                            onEdit={this.handleEdit} 
+                        />
                     </div>
 
                     <AccountFormDialog 
                         open={this.state.openAccountFormDialog}
                         onSubmit={this.handleAccountFormSubmit}
                         onClose={this.handleCloseAccountFormDialog}
-                        title="Criar conta"
+                        title={editingAccount.id ? "Editar conta" : "Criar conta"}
+                        account={editingAccount}
                         errors={errors}
                         isFetching={isFetching}
                     />
 
-                    <FloatingActionButton color="primary" onClick={this.handleCreateClick} />
+                    <FloatingActionButton color="primary" onClick={this.handleOpenAccountFormDialog} />
                 </Paper>
             </div>
         );
@@ -86,14 +101,17 @@ const mapStateToProps = (state) => {
     return {
         accounts: selectors.getAccounts(state),
         isFetching: selectors.getIsFetching(state),
-        errors: selectors.getErrors(state)
+        errors: selectors.getErrors(state),
+        editingAccount: selectors.getEditingAccount(state)
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onFetch: (timeout) => dispatch(operations.fetchAccounts(timeout)),
-        onSave: (id, account) => dispatch(operations.saveAccount(id, account))
+        onSave: (id, account) => dispatch(operations.saveAccount(id, account)),
+        onEdit: (id) => dispatch(operations.editAccount(id)),
+        onFinishEdit: () => dispatch(operations.finishEditAccount())
     };
 };
 

@@ -8,7 +8,7 @@ import Dialog, {
   
 import AccountForm from '../components/AccountForm';
 
-const AccountFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetching, errors}) => {
+const AccountFormDialog = ({open, onClose, title, fullScreen, ...other}) => {
     return (
         <Dialog
             fullScreen={fullScreen}
@@ -18,10 +18,9 @@ const AccountFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetchi
             <DialogTitle>{title}</DialogTitle>
 
             <AccountForm 
-                onSubmit={onSubmit}
                 onClose={onClose}
-                isFetching={isFetching}
-                errors={errors} />
+                {...other}
+            />
 
         </Dialog>
     );
@@ -36,7 +35,7 @@ AccountFormDialog.propTypes = {
     //Form
     onSubmit: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,    
 };
 
 export default withMobileDialog()(AccountFormDialog);
