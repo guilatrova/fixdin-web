@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
+import TypographyError from '../../../common/material/TypographyError'; 
 import Dialog, {
     DialogActions,
     DialogContent,
@@ -18,9 +18,9 @@ const ConfirmDeleteDialog = ({open, onConfirm, onClose, error, children}) => {
                     {children}
                 </DialogContentText>
 
-                {error && <Typography color="error" type="body2">
+                <TypographyError>
                     {error}
-                </Typography>}
+                </TypographyError>
             </DialogContent>
 
             <DialogActions>
