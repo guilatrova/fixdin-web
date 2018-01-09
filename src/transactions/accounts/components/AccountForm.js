@@ -11,7 +11,7 @@ class AccountForm extends React.Component {
 
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
-        onCancel: PropTypes.func.isRequired,
+        onClose: PropTypes.func.isRequired,
         errors: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired
     };
@@ -23,7 +23,7 @@ class AccountForm extends React.Component {
     handleSubmit = () => this.props.onSubmit(null, this.state);
 
     render() {
-        const { errors, onCancel } = this.props;
+        const { errors, onClose } = this.props;
 
         let disabled = true;
         if (!this.props.isFetching && this.state.name) {
@@ -48,7 +48,7 @@ class AccountForm extends React.Component {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={onCancel}>
+                    <Button onClick={onClose}>
                         Cancelar
                     </Button>
 

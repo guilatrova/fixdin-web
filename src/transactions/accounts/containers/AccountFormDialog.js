@@ -19,7 +19,7 @@ const AccountFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetchi
 
             <AccountForm 
                 onSubmit={onSubmit}
-                onCancel={onClose}
+                onClose={onClose}
                 isFetching={isFetching}
                 errors={errors} />
 

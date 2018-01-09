@@ -45,10 +45,18 @@ class AccountPage extends React.Component {
 
     handleCreateClick = () => this.setState({ openAccountFormDialog: true });
 
+    handleAccountFormSubmit = (id, account) => {
+        this.props.onSave(id, account).then(({result}) => {
+            if (result == 'success') {
+                this.handleCloseAccountFormDialog();
+            }
+        });
+    }
+
     handleCloseAccountFormDialog = () => this.setState({ openAccountFormDialog: false });
 
     render() {
-        const { classes, accounts, onSave, errors, isFetching } = this.props;
+        const { classes, accounts, errors, isFetching } = this.props;
 
         return (
             <div className={classes.root}>
@@ -60,9 +68,9 @@ class AccountPage extends React.Component {
 
                     <AccountFormDialog 
                         open={this.state.openAccountFormDialog}
+                        onSubmit={this.handleAccountFormSubmit}
                         onClose={this.handleCloseAccountFormDialog}
                         title="Criar conta"
-                        onSubmit={onSave}
                         errors={errors}
                         isFetching={isFetching}
                     />
