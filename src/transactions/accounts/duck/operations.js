@@ -29,7 +29,7 @@ class SaveOperation extends Operation {
         if (id)
             return api.put(`accounts/${id}`, account);
 
-        return api.post(`accounts`, account);
+        return api.post(`accounts/`, account);
     }
 }
 

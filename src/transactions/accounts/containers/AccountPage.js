@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 
+import AccountFormDialog from './AccountFormDialog';
 import AccountTable from '../components/AccountTable';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
 import { operations, selectors } from '../duck';
@@ -31,19 +32,23 @@ class AccountPage extends React.Component {
         errors: PropTypes.object.isRequired,
 
         onFetch: PropTypes.func.isRequired,
+        onSave: PropTypes.func.isRequired
     };
 
     state = {
+        openAccountFormDialog: false
     };
 
-    componentDidMount() {
-        this.props.onFetch();    
-    }
+    componentDidMount = () => this.props.onFetch();
 
     handleRefresh = () => this.props.onFetch(0);
 
+    handleCreateClick = () => this.setState({ openAccountFormDialog: true });
+
+    handleCloseAccountFormDialog = () => this.setState({ openAccountFormDialog: false });
+
     render() {
-        const { classes, accounts } = this.props;
+        const { classes, accounts, onSave, errors, isFetching } = this.props;
 
         return (
             <div className={classes.root}>
@@ -53,7 +58,16 @@ class AccountPage extends React.Component {
                         <AccountTable accounts={accounts} />
                     </div>
 
-                    <FloatingActionButton color="primary" />
+                    <AccountFormDialog 
+                        open={this.state.openAccountFormDialog}
+                        onClose={this.handleCloseAccountFormDialog}
+                        title="Criar conta"
+                        onSubmit={onSave}
+                        errors={errors}
+                        isFetching={isFetching}
+                    />
+
+                    <FloatingActionButton color="primary" onClick={this.handleCreateClick} />
                 </Paper>
             </div>
         );
@@ -70,7 +84,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: (timeout) => dispatch(operations.fetchAccounts(timeout))
+        onFetch: (timeout) => dispatch(operations.fetchAccounts(timeout)),
+        onSave: (id, account) => dispatch(operations.saveAccount(id, account))
     };
 };
 
