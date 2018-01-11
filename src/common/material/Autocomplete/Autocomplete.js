@@ -41,10 +41,15 @@ class IntegrationAutosuggest extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         suggestions: PropTypes.array.isRequired,
-        onChange: PropTypes.func,
+        onChange: PropTypes.func.isRequired,
         value: PropTypes.number,
-        label: PropTypes.string
+        label: PropTypes.string,
+        clearInvalidOnBlur: PropTypes.bool
     };
+
+    static defaultProps = {
+        clearInvalidOnBlur: true
+    }
 
     state = {
         value: '',
@@ -61,9 +66,27 @@ class IntegrationAutosuggest extends React.Component {
     
     handleChange = (event, { newValue }) => {
         this.setState({ value: newValue });
+
+        const { onChange } = this.props;
+        const { suggestions } = this.state;
+
+        const suggestion = suggestions.find(s => s.label === newValue);
+        onChange(suggestion);
     }
 
-    getSuggestionValue = (suggestion) => suggestion.label;
+    onBlur = () => {
+        const { value } = this.state;
+        const { suggestions, clearInvalidOnBlur } = this.props;
+
+        if (clearInvalidOnBlur) {            
+            const valid = suggestions.find(s => s.label === value);
+            if (!valid) {
+                this.setState({ value: "" });
+            }
+        }
+    }
+
+    getSuggestionText = (suggestion) => suggestion.label;
 
     getSuggestions = (value) => {
         const { suggestions } = this.props; 
@@ -87,7 +110,7 @@ class IntegrationAutosuggest extends React.Component {
     }
     
     render() {
-        const { classes, label } = this.props;
+        const { classes, label, onChange } = this.props;
         
         return (
             <Autosuggest
@@ -101,12 +124,14 @@ class IntegrationAutosuggest extends React.Component {
                 suggestions={this.state.suggestions}
                 onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
                 onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
-                getSuggestionValue={this.getSuggestionValue}
+                getSuggestionValue={this.getSuggestionText}
                 renderSuggestionsContainer={SuggestionsContainer}
                 renderSuggestion={Suggestion}
+                onSuggestionSelected={(e, suggestion) => onChange(suggestion)}
                 inputProps={{
                     label,
                     classes,
+                    onBlur: this.onBlur,
                     value: this.state.value,
                     onChange: this.handleChange
                 }}
