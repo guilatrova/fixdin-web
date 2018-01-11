@@ -147,14 +147,15 @@ class TransactionForm extends React.Component {
         if (this.props.isFetching) {
             disabled = true;
         }       
-        else if (this.state.value == '' || this.state.value == undefined) { //0 is enabled
+        else if (this.state.value === '' || this.state.value === undefined) { //0 is enabled
             disabled = true;
         }
         else if (!moment.isMoment(this.state.due_date)) {            
-            disabled = true;            
+            disabled = true;
         }
         else {
-            disabled = !(this.state.due_date && this.state.category && this.state.description);
+            disabled = !(this.state.due_date && 
+                this.state.category && this.state.description && this.state.account);
         }
         
         return disabled;
