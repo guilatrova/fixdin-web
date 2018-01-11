@@ -179,8 +179,8 @@ class TransactionForm extends React.Component {
                 <Autocomplete 
                     label="Conta" 
                     value={this.state.account} 
-                    onChange={account => { console.log('acc', account); this.setState({ account: account ? account.id : null });}}
-                    suggestions={accountsSuggestions}                    
+                    onChange={account => this.setState({ account: account ? account.id : null })}
+                    suggestions={accountsSuggestions}
                 />
 
                 <DatePicker

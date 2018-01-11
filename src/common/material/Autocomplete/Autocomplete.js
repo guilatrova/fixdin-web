@@ -44,11 +44,13 @@ class IntegrationAutosuggest extends React.Component {
         onChange: PropTypes.func.isRequired,
         value: PropTypes.number,
         label: PropTypes.string,
-        clearInvalidOnBlur: PropTypes.bool
+        clearInvalidOnBlur: PropTypes.bool.isRequired,
+        alwaysRenderSuggestions: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        clearInvalidOnBlur: true
+        clearInvalidOnBlur: true,
+        alwaysRenderSuggestions: true
     }
 
     constructor(props) {
@@ -61,7 +63,7 @@ class IntegrationAutosuggest extends React.Component {
 
         this.state = {
             value,
-            suggestions: [],
+            suggestions: this.getSuggestions(value),
         };
     }    
     
@@ -70,7 +72,8 @@ class IntegrationAutosuggest extends React.Component {
     }
     
     handleSuggestionsClearRequested = () => {
-        this.setState({ suggestions: [] });
+        const { suggestions, alwaysRenderSuggestions } = this.props; 
+        this.setState({ suggestions: alwaysRenderSuggestions ? suggestions : [] });
     }
     
     handleChange = (event, { newValue }) => {
@@ -97,13 +100,13 @@ class IntegrationAutosuggest extends React.Component {
     getSuggestionLabel = (suggestion) => suggestion.label;
 
     getSuggestions = (value) => {
-        const { suggestions } = this.props; 
+        const { suggestions, alwaysRenderSuggestions } = this.props; 
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
         let count = 0;
         
         if (inputLength === 0)
-            return [];
+            return alwaysRenderSuggestions ? suggestions : [];
 
         return suggestions.filter(suggestion => {
             const keep =
@@ -118,7 +121,7 @@ class IntegrationAutosuggest extends React.Component {
     }
     
     render() {
-        const { classes, label, onChange } = this.props;
+        const { classes, label, onChange, alwaysRenderSuggestions } = this.props;
         
         return (
             <Autosuggest
@@ -136,6 +139,7 @@ class IntegrationAutosuggest extends React.Component {
                 renderSuggestionsContainer={SuggestionsContainer}
                 renderSuggestion={Suggestion}
                 onSuggestionSelected={(e, suggestion) => onChange(suggestion.suggestion)}
+                alwaysRenderSuggestions={alwaysRenderSuggestions && this.state.value == ""}
                 inputProps={{
                     label,
                     classes,
