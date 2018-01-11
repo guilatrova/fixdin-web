@@ -10,9 +10,10 @@ import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 import { DialogActions, DialogContent } from 'material-ui/Dialog';
 import { InputLabel } from 'material-ui/Input';
+
 import TextFieldCurrency from '../../../common/material/TextFieldCurrency';
 import TextFieldError from '../../../common/material/TextFieldError';
-
+import Autocomplete from '../../../common/material/Autocomplete';
 import KindSwitch from '../../components/KindSwitch';
 import Periodic from './Periodic';
 import CategorySelectPicker from '../../categories/components/CategorySelectPicker';
@@ -80,14 +81,11 @@ class TransactionForm extends React.Component {
         errors: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
         transaction: PropTypes.object.isRequired,
+        accounts: PropTypes.array.isRequired
     }
     
     static defaultProps = {
-        errors: { },
-        transaction: emptyTransaction,
-
-        onSubmit: () => {},
-        isFetching: false,    
+        transaction: emptyTransaction
     }
 
     constructor(props) {
@@ -97,23 +95,15 @@ class TransactionForm extends React.Component {
         this.state = { 
             ...props.transaction,
             payed: !!props.transaction.payment_date,
-            kind,            
+            account: props.transaction.account || props.accounts[0].id,
+            kind,
             errors: {},
         };
-        
-        this.handleChange = this.handleChange.bind(this);
-        this.handlePayedChange = this.handlePayedChange.bind(this);
-        this.handleIsPeriodicChange = this.handleIsPeriodicChange.bind(this);
-        this.handleKindChange = this.handleKindChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleOptionSelected = this.handleOptionSelected.bind(this);
     }
 
-    handleSubmit(type, postSaveOption = CLOSE) {
-        this.props.onSubmit(type, postSaveOption, { ...this.state }, this.state.kind);
-    }
+    handleSubmit = (type, postSaveOption = CLOSE) => this.props.onSubmit(type, postSaveOption, { ...this.state }, this.state.kind);    
 
-    handleOptionSelected(postSaveOption) {
+    handleOptionSelected = (postSaveOption) => {
         this.handleSubmit(types.SAVE_TRANSACTION, postSaveOption);
 
         switch(postSaveOption) {
@@ -127,11 +117,9 @@ class TransactionForm extends React.Component {
         }
     }
 
-    handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
-    }
+    handleChange = e => this.setState({ [e.target.name]: e.target.value });
 
-    handleKindChange(kind) {
+    handleKindChange = (kind) => {
         if (this.state.kind != kind) {
             this.setState({ 
                 kind,
@@ -147,14 +135,14 @@ class TransactionForm extends React.Component {
         });
     }    
 
-    handleIsPeriodicChange(e, checked) {
+    handleIsPeriodicChange = (e, checked) => {
         this.setState({ 
             isPeriodic: checked,
             periodic: checked ? { frequency: "daily" } : null
         });
     }
 
-    isSubmitDisabled() {
+    isSubmitDisabled = () => {
         let disabled = false;
         if (this.props.isFetching) {
             disabled = true;
@@ -173,7 +161,8 @@ class TransactionForm extends React.Component {
     }
     
     render() {
-        const { errors, classes } = this.props;
+        const { errors, classes, accounts } = this.props;
+        const accountsSuggestions = accounts.map(account => ({ label: account.name, value: account.id }));
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
         const isCreate = !isEdit;
@@ -186,6 +175,13 @@ class TransactionForm extends React.Component {
             <DialogContent>
 
                 <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
+
+                <Autocomplete 
+                    label="Conta" 
+                    value={this.state.account} 
+                    onChange={e => {console.log('onchange'); this.setState({ account: e.target.value });}}
+                    suggestions={accountsSuggestions}                    
+                />
 
                 <DatePicker
                     label="Vencimento"

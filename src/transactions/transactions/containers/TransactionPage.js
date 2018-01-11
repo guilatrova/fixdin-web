@@ -12,6 +12,8 @@ import AddIcon from 'material-ui-icons/Add';
 import ClearAllIcon from 'material-ui-icons/ClearAll';
 import RefreshIcon from 'material-ui-icons/Refresh';
 
+import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
+import FloatingActionButton from '../../../common/material/FloatingActionButton';
 import { formatCurrencyDisplay } from '../../../services/formatter';
 import TransactionTable from '../components/TransactionTable';
 import TransactionFormDialog from './TransactionFormDialog';
@@ -19,8 +21,7 @@ import * as saveOptions from './../components/TransactionForm';
 import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
-import FloatingActionButton from '../../../common/material/FloatingActionButton';
-import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
+import { operations as accountsOperations, selectors as accountSelectors } from '../../accounts/duck';
 
 const styles = theme => ({
     root: {
@@ -49,6 +50,7 @@ const styles = theme => ({
 
 class TransactionPage extends React.Component {
     static propTypes = {
+        accounts: PropTypes.array.isRequired,
         transactions: PropTypes.array.isRequired,
         categories: PropTypes.array.isRequired,
         editingTransaction: PropTypes.object.isRequired,
@@ -203,7 +205,9 @@ class TransactionPage extends React.Component {
                     onSubmit={this.handleTransactionFormSubmit}
                     isFetching={isFetching}
                     errors={this.props.errors}
-                    transaction={Object.keys(this.props.editingTransaction).length > 0 ? this.props.editingTransaction : undefined} />
+                    transaction={Object.keys(this.props.editingTransaction).length > 0 ? this.props.editingTransaction : undefined}
+                    accounts={this.props.accounts}
+                />
 
                 <ConfirmDeleteDialog
                     open={this.state.openDeleteDialog} 
@@ -231,6 +235,7 @@ const mapStateToProps = (state) => {
         categories: categorySelectors.getCategories(state),
         editingTransaction: selectors.getEditingTransaction(state),
         isFetching: selectors.isFetching(state),
+        accounts: accountSelectors.getAccounts(state),
         errors: {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
@@ -245,7 +250,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(categoryOperations.fetchCategories(INCOME));
             dispatch(categoryOperations.fetchCategories(EXPENSE));
             dispatch(operations.fetchTransactions(ALL, timeout));
-        },        
+            dispatch(accountsOperations.fetchAccounts());
+        },
         onClearFilters: () => dispatch(operations.clearFilters()),
         onSubmit: (transaction, kind, type) => dispatch(operations.saveTransaction(transaction, kind, type)),
         onDelete: (id, kind, type) => dispatch(operations.deleteTransaction(id, kind, type)),

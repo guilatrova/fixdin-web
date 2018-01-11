@@ -8,7 +8,7 @@ import Dialog, {
   
 import TransactionForm from '../components/TransactionForm';
 
-const TransactionFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetching, transaction, errors}) => {
+const TransactionFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetching, transaction, errors, ...formProps}) => {
     return (
         <Dialog
             fullScreen={fullScreen}
@@ -21,7 +21,8 @@ const TransactionFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFe
                 onSubmit={onSubmit} 
                 isFetching={isFetching}
                 transaction={transaction}
-                errors={errors} />
+                errors={errors}
+                {...formProps} />
 
         </Dialog>
     );
