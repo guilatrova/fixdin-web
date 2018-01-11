@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { sort as defaultOnSort } from '../../utils/sorts';
+import { sort as defaultOnSort } from '../../../utils/sorts';
 
 function defaultOnRender(row, field) {
     return row[field];

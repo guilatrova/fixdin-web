@@ -6,8 +6,7 @@ import EditIcon from 'material-ui-icons/ModeEdit';
 import { MenuItem } from 'material-ui/Menu';
 
 import { EXPENSE } from '../../kinds';
-import TableSort from './../../../common/material/TableSort';
-import DataColumn from './../../../common/material/DataColumn';
+import { TableSort, DataColumn } from './../../../common/material/TableSort';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 
 const CategoryTable = ({categories, onEdit, onDelete}) => {

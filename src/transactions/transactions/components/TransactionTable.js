@@ -19,8 +19,7 @@ import {
     PaymentFilter
 } from './filters';
 import { sort } from './../../../utils/sorts';
-import TableSort from './../../../common/material/TableSort';
-import DataColumn from './../../../common/material/DataColumn';
+import { TableSort, DataColumn } from './../../../common/material/TableSort';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 import { getKind } from '../../kinds';
 

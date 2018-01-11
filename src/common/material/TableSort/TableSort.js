@@ -3,11 +3,11 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Table, {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableSortLabel,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+TableSortLabel,
 } from 'material-ui/Table';
 import Popover from 'material-ui/Popover';
 import IconButton from 'material-ui/IconButton';
