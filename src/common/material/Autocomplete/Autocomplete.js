@@ -7,29 +7,6 @@ import { withStyles } from 'material-ui/styles';
 import Input from './Input';
 import { Suggestion, SuggestionsContainer } from './Suggestions';
 
-function getSuggestionValue(suggestion) {
-    return suggestion.label;
-}
-
-function getSuggestions(suggestions, value) {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-    let count = 0;
-    
-    return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-        const keep =
-        count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
-        
-        if (keep) {
-            count += 1;
-        }
-        
-        return keep;
-    });
-}
-
 const styles = theme => ({
     container: {
         position: 'relative',
@@ -55,6 +32,9 @@ const styles = theme => ({
         backgroundColor: 'white',
 		zIndex: 1,
     },
+    textField: {
+        width: '100%',
+    }
 });
 
 class IntegrationAutosuggest extends React.Component {
@@ -65,15 +45,38 @@ class IntegrationAutosuggest extends React.Component {
     };
     
     handleSuggestionsFetchRequested = ({ value }) => {
-        const { suggestions } = this.props;
-        this.setState({ suggestions: getSuggestions(suggestions, value) });
+        this.setState({ suggestions: this.getSuggestions(value) });
     }
     
-    handleSuggestionsClearRequested = () =>
+    handleSuggestionsClearRequested = () => {
         this.setState({ suggestions: [] });
+    }
     
-    handleChange = (event, { newValue }) =>
+    handleChange = (event, { newValue }) => {
         this.setState({ value: newValue });
+    }
+
+    getSuggestionValue = (suggestion) => suggestion.label;
+
+    getSuggestions = (value) => {
+        const { suggestions } = this.props; 
+        const inputValue = value.trim().toLowerCase();
+        const inputLength = inputValue.length;
+        let count = 0;
+        
+        return inputLength === 0
+        ? []
+        : suggestions.filter(suggestion => {
+            const keep =
+            count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
+            
+            if (keep) {
+                count += 1;
+            }
+            
+            return keep;
+        });
+    }
     
     render() {
         const { classes, label } = this.props;
@@ -90,8 +93,8 @@ class IntegrationAutosuggest extends React.Component {
                 suggestions={this.state.suggestions}
                 onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
                 onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
+                getSuggestionValue={this.getSuggestionValue}
                 renderSuggestionsContainer={SuggestionsContainer}
-                getSuggestionValue={getSuggestionValue}
                 renderSuggestion={Suggestion}
                 inputProps={{
                     label,

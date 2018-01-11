@@ -29,8 +29,8 @@ export const Suggestion = (suggestion, { query, isHighlighted }) => {
     );
 };
 
-export const SuggestionsContainer = (options) => {
-    const { containerProps, children } = options;
+export const SuggestionsContainer = (props) => {
+    const { containerProps, children } = props;
     
     return (
         <Paper {...containerProps} square>
