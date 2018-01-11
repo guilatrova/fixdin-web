@@ -38,7 +38,14 @@ const styles = theme => ({
 });
 
 class IntegrationAutosuggest extends React.Component {
-    
+    static propTypes = {
+        classes: PropTypes.object.isRequired,
+        suggestions: PropTypes.array.isRequired,
+        onChange: PropTypes.func,
+        value: PropTypes.number,
+        label: PropTypes.string
+    };
+
     state = {
         value: '',
         suggestions: [],
@@ -64,11 +71,12 @@ class IntegrationAutosuggest extends React.Component {
         const inputLength = inputValue.length;
         let count = 0;
         
-        return inputLength === 0
-        ? []
-        : suggestions.filter(suggestion => {
+        if (inputLength === 0)
+            return [];
+
+        return suggestions.filter(suggestion => {
             const keep =
-            count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
+                count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
             
             if (keep) {
                 count += 1;
@@ -100,18 +108,11 @@ class IntegrationAutosuggest extends React.Component {
                     label,
                     classes,
                     value: this.state.value,
-                    onChange: this.handleChange,
+                    onChange: this.handleChange
                 }}
             />
         );
     }
 }
-
-IntegrationAutosuggest.propTypes = {
-    classes: PropTypes.object.isRequired,
-    suggestions: PropTypes.array.isRequired,
-    onChange: PropTypes.func,
-    value: PropTypes.object
-};
 
 export default withStyles(styles)(IntegrationAutosuggest);
