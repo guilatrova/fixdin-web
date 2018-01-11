@@ -162,7 +162,7 @@ class TransactionForm extends React.Component {
     
     render() {
         const { errors, classes, accounts } = this.props;
-        const accountsSuggestions = accounts.map(account => ({ label: account.name, value: account.id }));
+        const accountsSuggestions = accounts.map(account => ({ label: account.name, id: account.id }));
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
         const isCreate = !isEdit;

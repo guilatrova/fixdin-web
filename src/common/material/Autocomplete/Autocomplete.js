@@ -51,10 +51,19 @@ class IntegrationAutosuggest extends React.Component {
         clearInvalidOnBlur: true
     }
 
-    state = {
-        value: '',
-        suggestions: [],
-    };
+    constructor(props) {
+        super(props);
+
+        let value = "";
+        if (props.value) {
+            value = props.suggestions.find(s => s.id == props.value).label;
+        }
+
+        this.state = {
+            value,
+            suggestions: [],
+        };
+    }    
     
     handleSuggestionsFetchRequested = ({ value }) => {
         this.setState({ suggestions: this.getSuggestions(value) });
@@ -66,10 +75,9 @@ class IntegrationAutosuggest extends React.Component {
     
     handleChange = (event, { newValue }) => {
         this.setState({ value: newValue });
-
-        const { onChange } = this.props;
-        const { suggestions } = this.state;
-
+        
+        const { onChange, suggestions } = this.props;
+        
         const suggestion = suggestions.find(s => s.label === newValue);
         onChange(suggestion);
     }
@@ -86,7 +94,7 @@ class IntegrationAutosuggest extends React.Component {
         }
     }
 
-    getSuggestionText = (suggestion) => suggestion.label;
+    getSuggestionLabel = (suggestion) => suggestion.label;
 
     getSuggestions = (value) => {
         const { suggestions } = this.props; 
@@ -124,10 +132,10 @@ class IntegrationAutosuggest extends React.Component {
                 suggestions={this.state.suggestions}
                 onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
                 onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
-                getSuggestionValue={this.getSuggestionText}
+                getSuggestionValue={this.getSuggestionLabel}
                 renderSuggestionsContainer={SuggestionsContainer}
                 renderSuggestion={Suggestion}
-                onSuggestionSelected={(e, suggestion) => onChange(suggestion)}
+                onSuggestionSelected={(e, suggestion) => onChange(suggestion.suggestion)}
                 inputProps={{
                     label,
                     classes,
