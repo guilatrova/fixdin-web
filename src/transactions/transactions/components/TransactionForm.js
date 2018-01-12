@@ -14,6 +14,7 @@ import { InputLabel } from 'material-ui/Input';
 import TextFieldCurrency from '../../../common/material/TextFieldCurrency';
 import TextFieldError from '../../../common/material/TextFieldError';
 import Autocomplete from '../../../common/material/Autocomplete';
+import TransactionDescription from '../components/TransactionDescription';
 import KindSwitch from '../../components/KindSwitch';
 import Periodic from './Periodic';
 import CategorySelectPicker from '../../categories/components/CategorySelectPicker';
@@ -164,6 +165,7 @@ class TransactionForm extends React.Component {
     render() {
         const { errors, classes, accounts } = this.props;
         const accountsSuggestions = accounts.map(account => ({ label: account.name, id: account.id }));
+        const selectedAccount = accounts.find(account => account.id === this.state.account);
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
         const isCreate = !isEdit;
@@ -178,8 +180,8 @@ class TransactionForm extends React.Component {
                 <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
 
                 <Autocomplete 
-                    label="Conta" 
-                    value={this.state.account} 
+                    label="Conta"
+                    value={selectedAccount ? selectedAccount.name : ""}
                     onChange={account => this.setState({ account: account ? account.id : null })}
                     suggestions={accountsSuggestions}
                 />
@@ -192,21 +194,12 @@ class TransactionForm extends React.Component {
                     format="DD MMMM YYYY"
                 />
 
-                <TextFieldError
-                    name="description"
-                    label="Descrição"
+                <TransactionDescription
+                    value={this.state.description}
                     error={errors.description}
-                    value={this.state.description}
-                    onChange={this.handleChange}
-                    maxLength="120"
+                    onChange={description => this.setState({ description })}
+                    onlyVisible={false}
                 />
-
-                {/*TO DO: <TransactionDescription
-                    name="description"
-                    value={this.state.description}
-                    onChange={this.handleChange}
-                    maxLength="120"
-                />*/}
 
                 <div className={classes.widthLimit}>
                     <InputLabel htmlFor="category-picker">Categoria</InputLabel>

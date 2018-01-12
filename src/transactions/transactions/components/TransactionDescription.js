@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { selectors } from '../../transactions/duck';
 import Autocomplete from '../../../common/material/Autocomplete';
 
-const TransactionDescription = ({ label, onChange, onlyVisible, descriptions, visibleDescriptions }) => {    
+const TransactionDescription = ({ label, onChange, onlyVisible, descriptions, visibleDescriptions, ...props }) => {    
     const suggestions = onlyVisible ? visibleDescriptions : descriptions;
     const mappedSuggestions = suggestions.map(description => ({ label: description, value: description }));
 
@@ -17,6 +17,7 @@ const TransactionDescription = ({ label, onChange, onlyVisible, descriptions, vi
             allowInvalid={true}
             suggestions={mappedSuggestions}
             maxLength="120"
+            {...props}
         />
     );
 };

@@ -37,12 +37,12 @@ const styles = theme => ({
     }
 });
 
-class IntegrationAutosuggest extends React.Component {
+class Autocomplete extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         suggestions: PropTypes.array.isRequired,
         onChange: PropTypes.func.isRequired,
-        value: PropTypes.number,
+        value: PropTypes.string,
         label: PropTypes.string,
         alwaysRenderSuggestions: PropTypes.bool.isRequired,
         allowInvalid: PropTypes.bool.isRequired
@@ -56,16 +56,18 @@ class IntegrationAutosuggest extends React.Component {
     constructor(props) {
         super(props);
 
-        let value = "";
-        if (props.value) {
-            value = props.suggestions.find(s => s.id == props.value).label;
-        }
-
+        const value = props.value || "";
         this.state = {
             value,
             suggestions: this.getSuggestions(value),
         };
-    }    
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.value && this.state.value != nextProps.value) {            
+            this.setState({ value: nextProps.value });
+        }
+    }
     
     handleSuggestionsFetchRequested = ({ value }) => {
         this.setState({ suggestions: this.getSuggestions(value) });
@@ -157,4 +159,4 @@ class IntegrationAutosuggest extends React.Component {
     }
 }
 
-export default withStyles(styles)(IntegrationAutosuggest);
+export default withStyles(styles)(Autocomplete);
