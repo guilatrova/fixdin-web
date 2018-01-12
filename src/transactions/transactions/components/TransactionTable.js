@@ -52,7 +52,13 @@ class TransactionTable extends React.Component {
     formatCategory(row, field) {
         const cell = row[field];
         const { categories } = this.props;
-        return categories.length === 0 ? '' : categories.find((category) => category.id == cell).name;
+
+        if (categories.length === 0) {
+            return "";
+        }
+
+        const category = categories.find((category) => category.id == cell);
+        return category ? category.name : "Not found - " + cell;
     }
 
     formatValue(row, field) {
