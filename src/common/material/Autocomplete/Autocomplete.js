@@ -40,17 +40,22 @@ const styles = theme => ({
 class Autocomplete extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
+        inputProps: PropTypes.object,
+        
+        label: PropTypes.string,
+        value: PropTypes.string,
+
         suggestions: PropTypes.array.isRequired,
         onChange: PropTypes.func.isRequired,
-        value: PropTypes.string,
-        label: PropTypes.string,
         alwaysRenderSuggestions: PropTypes.bool.isRequired,
-        allowInvalid: PropTypes.bool.isRequired
+        allowInvalid: PropTypes.bool.isRequired,
+        maxSuggestionsDisplay: PropTypes.number.isRequired,
     };
 
     static defaultProps = {
         alwaysRenderSuggestions: true,
-        allowInvalid: false
+        allowInvalid: false,
+        maxSuggestionsDisplay: 5
     }
 
     constructor(props) {
@@ -112,7 +117,7 @@ class Autocomplete extends React.Component {
     getSuggestionLabel = (suggestion) => suggestion.label;
 
     getSuggestions = (value) => {
-        const { suggestions, alwaysRenderSuggestions } = this.props; 
+        const { suggestions, alwaysRenderSuggestions, maxSuggestionsDisplay } = this.props; 
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
         let count = 0;
@@ -122,7 +127,7 @@ class Autocomplete extends React.Component {
 
         return suggestions.filter(suggestion => {
             const keep =
-                count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
+                count < maxSuggestionsDisplay && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
             
             if (keep) {
                 count += 1;
@@ -133,7 +138,7 @@ class Autocomplete extends React.Component {
     }
     
     render() {
-        const { classes, label, onChange, alwaysRenderSuggestions } = this.props;
+        const { classes, label, onChange, alwaysRenderSuggestions, inputProps } = this.props;
         const { value, focused } = this.state;
         
         return (
@@ -159,7 +164,8 @@ class Autocomplete extends React.Component {
                     onFocus: this.onFocus,
                     onBlur: this.onBlur,
                     value: this.state.value,
-                    onChange: this.handleChange
+                    onChange: this.handleChange,
+                    ...inputProps
                 }}
             />
         );
