@@ -1,5 +1,6 @@
 import { ALL, INCOME, EXPENSE } from '../../kinds';
 import moment from 'moment';
+import { filterUniqueStringsArray } from '../../../utils/strings';
 
 const getErrors = (state) => state.transactions.errors;
 
@@ -16,9 +17,9 @@ const getTransactionsToDisplay = (state) => {
     return state.transactions.transactions;
 };
 
-const getAllTransactionDescriptions = (state) => state.transactions.transactions.map(t => t.description);
+const getAllTransactionDescriptions = (state) => filterUniqueStringsArray(state.transactions.transactions.map(t => t.description));
 
-const getVisibleTransactionDescriptions = (state) => getTransactionsToDisplay(state).map(t => t.description);
+const getVisibleTransactionDescriptions = (state) => filterUniqueStringsArray(getTransactionsToDisplay(state).map(t => t.description));
 
 const getPendingTransactionsUntil = (state, until) => {
     const pending = state.transactions.transactions.filter(transaction => !transaction.payment_date);
