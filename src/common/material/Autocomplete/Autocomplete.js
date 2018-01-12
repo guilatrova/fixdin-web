@@ -60,6 +60,7 @@ class Autocomplete extends React.Component {
         this.state = {
             value,
             suggestions: this.getSuggestions(value),
+            focused: false
         };
     }
     
@@ -92,6 +93,8 @@ class Autocomplete extends React.Component {
         }
     }
 
+    onFocus = () => this.setState({ focused: true });
+
     onBlur = () => {
         const { value } = this.state;
         const { suggestions, allowInvalid } = this.props;
@@ -102,6 +105,8 @@ class Autocomplete extends React.Component {
                 this.setState({ value: "" });
             }
         }
+
+        this.setState({ focused: false });
     }
 
     getSuggestionLabel = (suggestion) => suggestion.label;
@@ -129,6 +134,7 @@ class Autocomplete extends React.Component {
     
     render() {
         const { classes, label, onChange, alwaysRenderSuggestions } = this.props;
+        const { value, focused } = this.state;
         
         return (
             <Autosuggest
@@ -146,10 +152,11 @@ class Autocomplete extends React.Component {
                 renderSuggestionsContainer={SuggestionsContainer}
                 renderSuggestion={Suggestion}
                 onSuggestionSelected={(e, suggestion) => onChange(suggestion.suggestion)}
-                alwaysRenderSuggestions={alwaysRenderSuggestions && this.state.value == ""}
+                alwaysRenderSuggestions={alwaysRenderSuggestions && value == "" && focused}
                 inputProps={{
                     label,
                     classes,
+                    onFocus: this.onFocus,
                     onBlur: this.onBlur,
                     value: this.state.value,
                     onChange: this.handleChange
