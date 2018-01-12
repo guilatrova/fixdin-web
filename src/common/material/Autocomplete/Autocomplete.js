@@ -10,7 +10,6 @@ import { Suggestion, SuggestionsContainer } from './Suggestions';
 const styles = theme => ({
     container: {
         position: 'relative',
-        height: 50,
     },
     suggestionsContainerOpen: {
         position: 'absolute',
@@ -44,6 +43,7 @@ class Autocomplete extends React.Component {
         
         label: PropTypes.string,
         value: PropTypes.string,
+        error: PropTypes.string,
 
         suggestions: PropTypes.array.isRequired,
         onChange: PropTypes.func.isRequired,
@@ -138,7 +138,7 @@ class Autocomplete extends React.Component {
     }
     
     render() {
-        const { classes, label, onChange, alwaysRenderSuggestions, inputProps } = this.props;
+        const { classes, label, error, onChange, alwaysRenderSuggestions, inputProps } = this.props;
         const { value, focused } = this.state;
         
         return (
@@ -160,6 +160,7 @@ class Autocomplete extends React.Component {
                 alwaysRenderSuggestions={alwaysRenderSuggestions && value == "" && focused}
                 inputProps={{
                     label,
+                    error,
                     classes,
                     onFocus: this.onFocus,
                     onBlur: this.onBlur,
