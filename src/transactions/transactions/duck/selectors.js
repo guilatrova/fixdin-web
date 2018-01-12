@@ -16,6 +16,10 @@ const getTransactionsToDisplay = (state) => {
     return state.transactions.transactions;
 };
 
+const getAllTransactionDescriptions = (state) => state.transactions.transactions.map(t => t.description);
+
+const getVisibleTransactionDescriptions = (state) => getTransactionsToDisplay(state).map(t => t.description);
+
 const getPendingTransactionsUntil = (state, until) => {
     const pending = state.transactions.transactions.filter(transaction => !transaction.payment_date);
 
@@ -95,5 +99,7 @@ export default {
     getTotalValueOfDisplayedTransactions,
     getTotalValueOfDisplayedIncomes,
     getTotalValueOfDisplayedExpenses,
-    getActiveFilters
+    getActiveFilters,
+    getAllTransactionDescriptions,
+    getVisibleTransactionDescriptions
 };
