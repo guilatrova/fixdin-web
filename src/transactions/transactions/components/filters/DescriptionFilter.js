@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 
 import { selectors, operations } from '../../duck';
-import TextField from 'material-ui/TextField'; //TODO: Change to use autocomplete (take Description as example)
 import TransactionDescription from '../TransactionDescription';
 
 class DescriptionFilter extends React.Component {
