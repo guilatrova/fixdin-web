@@ -198,7 +198,6 @@ class TransactionForm extends React.Component {
                     value={this.state.description}
                     error={errors.description}
                     onChange={description => this.setState({ description })}
-                    onlyVisible={false}
                 />
 
                 <div className={classes.widthLimit}>

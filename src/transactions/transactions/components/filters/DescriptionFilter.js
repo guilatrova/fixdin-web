@@ -6,6 +6,7 @@ import Button from 'material-ui/Button';
 
 import { selectors, operations } from '../../duck';
 import TextField from 'material-ui/TextField'; //TODO: Change to use autocomplete (take Description as example)
+import TransactionDescription from '../TransactionDescription';
 
 class DescriptionFilter extends React.Component {
     static propTypes = {
@@ -36,11 +37,10 @@ class DescriptionFilter extends React.Component {
     render() {
         return (
             <div>
-                <TextField
-                    label="Descrição"
+                <TransactionDescription
                     value={this.state.description}
-                    onChange={e => this.setState({ description: e.target.value })}
-                    maxLength="120"
+                    onChange={description => this.setState({ description })}
+                    onlyVisible={true}
                 />
                 <br />
 
