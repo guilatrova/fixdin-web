@@ -44,13 +44,13 @@ class IntegrationAutosuggest extends React.Component {
         onChange: PropTypes.func.isRequired,
         value: PropTypes.number,
         label: PropTypes.string,
-        clearInvalidOnBlur: PropTypes.bool.isRequired,
-        alwaysRenderSuggestions: PropTypes.bool.isRequired
+        alwaysRenderSuggestions: PropTypes.bool.isRequired,
+        allowInvalid: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
-        clearInvalidOnBlur: true,
-        alwaysRenderSuggestions: true
+        alwaysRenderSuggestions: true,
+        allowInvalid: false
     }
 
     constructor(props) {
@@ -79,17 +79,22 @@ class IntegrationAutosuggest extends React.Component {
     handleChange = (event, { newValue }) => {
         this.setState({ value: newValue });
         
-        const { onChange, suggestions } = this.props;
+        const { onChange, suggestions, allowInvalid } = this.props;
         
-        const suggestion = suggestions.find(s => s.label === newValue);
-        onChange(suggestion);
+        if (allowInvalid) {
+            onChange({ label: newValue });
+        }
+        else {
+            const suggestion = suggestions.find(s => s.label === newValue);
+            onChange(suggestion);
+        }
     }
 
     onBlur = () => {
         const { value } = this.state;
-        const { suggestions, clearInvalidOnBlur } = this.props;
+        const { suggestions, allowInvalid } = this.props;
 
-        if (clearInvalidOnBlur) {            
+        if (!allowInvalid) {
             const valid = suggestions.find(s => s.label === value);
             if (!valid) {
                 this.setState({ value: "" });
