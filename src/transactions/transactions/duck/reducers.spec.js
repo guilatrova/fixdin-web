@@ -280,8 +280,8 @@ describe('transactions/duck/reducers', () => {
             ...initialState,
             transactions: [
                 { id: 1, value: '10' },
-                { id: 2, value: '11', periodic_transaction: 2 },
-                { id: 3, value: '12', periodic_transaction: 2 },
+                { id: 2, value: '11', bound_transaction: 2 },
+                { id: 3, value: '12', bound_transaction: 2 },
             ]
         };
 
@@ -320,10 +320,10 @@ describe('transactions/duck/reducers', () => {
         describe('when successful', () => {
             const periodicTransactions = [
                 { id: 1, value: '10' },
-                { id: 2, value: '11', periodic_transaction: 2 },
-                { id: 3, value: '12', periodic_transaction: 2 },
-                { id: 4, value: '12', periodic_transaction: 2 },
-                { id: 5, value: '12', periodic_transaction: 2 },
+                { id: 2, value: '11', bound_transaction: 2 },
+                { id: 3, value: '12', bound_transaction: 2 },
+                { id: 4, value: '12', bound_transaction: 2 },
+                { id: 5, value: '12', bound_transaction: 2 },
             ];
 
             it('should be handled with type DELETE_TRANSACTION', () => {
@@ -374,7 +374,7 @@ describe('transactions/duck/reducers', () => {
                 };
                 const expectedTransactions = [
                     { id: 1, value: '10' },
-                    { id: 2, value: '11', periodic_transaction: 2 }
+                    { id: 2, value: '11', bound_transaction: 2 }
                 ];
 
                 expect(

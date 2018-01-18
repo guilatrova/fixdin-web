@@ -73,7 +73,7 @@ class SaveOperation extends Operation {
 
         switch (this.type) {
             case types.SAVE_ALL_PERIODIC_TRANSACTIONS:
-                return api.patch(`${baseEndpoint}?periodic_transaction=${transaction.periodic_transaction}`, data);
+                return api.patch(`${baseEndpoint}?periodic_transaction=${transaction.bound_transaction}`, data);
 
             case types.SAVE_THIS_AND_NEXT_TRANSACTIONS:
                 return api.patch(`${baseEndpoint}${transaction.id}?next=1`, data);

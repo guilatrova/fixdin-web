@@ -62,7 +62,7 @@ export default function reducer(state = initialState, action) {
         case types.COPY_TRANSACTION: {
             const originalTransaction = state.transactions.find(transaction => transaction.id == action.id);
             // eslint-disable-next-line
-            const { id, periodic_transaction, ...copy } = originalTransaction;
+            const { id, bound_transaction, ...copy } = originalTransaction;
         
             return {
                 ...state,

@@ -22,6 +22,7 @@ import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 import { operations as accountsOperations, selectors as accountSelectors } from '../../accounts/duck';
+import specifications from '../specifications';
 
 const styles = theme => ({
     root: {
@@ -126,7 +127,9 @@ class TransactionPage extends React.Component {
     }
 
     handleDelete = id => {
-        const toDeletePeriodicTransaction = this.props.transactions.find(transaction => transaction.id == id).periodic_transaction;
+        const foundTransaction = this.props.transactions.find(transaction => transaction.id == id);
+        const toDeletePeriodicTransaction = specifications.isPeriodic(foundTransaction) ? foundTransaction.bound_transaction : null;
+
         this.setState({ 
             openDeleteDialog: true,
             toDeleteId: id,

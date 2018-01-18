@@ -20,6 +20,7 @@ import Periodic from './Periodic';
 import CategorySelectPicker from '../../categories/components/CategorySelectPicker';
 import { EXPENSE, getKind } from '../../kinds';
 import { types } from '../duck';
+import specifications from '../specifications';
 
 export const CLOSE = "CLOSE";
 export const NEW = "NEW";
@@ -169,7 +170,7 @@ class TransactionForm extends React.Component {
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
         const isCreate = !isEdit;
-        const actions = (this.state.periodic_transaction) ? 
+        const actions = (specifications.isPeriodic(this.state)) ? 
             (disabled) => editingPeriodicActions(this.handleSubmit, disabled, classes) : 
             (disabled) => regularActions(this.handleOptionSelected, disabled, classes);
 
