@@ -4,25 +4,27 @@ const initialState = {
     isFetching: false,
     errors: {},
     accounts: [],
-    editingAccount: {}
+    editingAccount: {},
+    transfers: []
 };
 
-function saveReducer(state, action) {
+function saveReducer(state, itemKey, action) {
     switch (action.result) {
         case 'success': {
-            const { accounts } = state;
-            const updatedAccount = accounts.find(item => item.id == action.account.id);
+            const stateKey = itemKey + "s"; // Pluralize
+            const items = state[stateKey];
+            const updatedItem = items.find(item => item.id == action[itemKey].id);
 
-            if (updatedAccount) {
-                const index = accounts.indexOf(updatedAccount);
+            if (updatedItem) {
+                const index = items.indexOf(updatedItem);
 
                 return {
                     ...state,
                     isFetching: false,
-                    accounts: [
-                        ...accounts.slice(0, index),
-                        action.account,
-                        ...accounts.slice(index + 1)
+                    [stateKey]: [
+                        ...items.slice(0, index),
+                        action[itemKey],
+                        ...items.slice(index + 1)
                     ]
                 };
             }
@@ -30,7 +32,7 @@ function saveReducer(state, action) {
             return {
                 ...state,
                 isFetching: false,
-                accounts: state.accounts.concat(action.account)
+                [stateKey]: state[stateKey].concat(action[itemKey])
             };
         }
 
@@ -50,13 +52,13 @@ function saveReducer(state, action) {
     }
 }
 
-function fetchReducer(state, action) {
+function fetchReducer(state, key, action) {
     switch(action.result) {
         case 'success': {
             return {
                 ...state,
                 isFetching: false,
-                accounts: action.accounts
+                [key]: action.accounts
             };
         }
 
@@ -78,11 +80,16 @@ function fetchReducer(state, action) {
 export default function reducer(state = initialState, action) {    
     switch (action.type) {
         case types.SAVE_ACCOUNT:
-            return saveReducer(state, action);
+            return saveReducer(state, 'account', action);
+        
+        case types.SAVE_TRANSFER:
+            return saveReducer(state, 'transfers', action);
 
         case types.FETCH_ACCOUNTS:
-        case types.TRANSFER_BETWEEN_ACCOUNTS:
-            return fetchReducer(state, action);
+            return fetchReducer(state, 'accounts', action);
+            
+        case types.FETCH_TRANSFERS:
+            return fetchReducer(state, 'transfers', action);
 
         case types.EDIT_ACCOUNT:
             return {

@@ -33,9 +33,9 @@ class SaveOperation extends Operation {
     }
 }
 
-class TransferOperation extends Operation {
+class SaveTransferOperation extends Operation {
     constructor(value, from, to) {
-        super(actions.requestTransfer, actions.receiveTransfer);
+        super(actions.saveTransfer, actions.receiveSaveTransfer);
         this.value = value;
         this.from = from;
         this.to = to;
@@ -44,11 +44,26 @@ class TransferOperation extends Operation {
     getApiPromise(api) {
         const { value, from, to } = this;
         const transfer = {
-            value,
-            to
+            account_from: from,
+            account_to: to,
+            value
         };
 
-        return api.post(`accounts/${from}/transfers`, transfer);
+        return api.post(`accounts/transfers`, transfer);
+    }
+}
+
+class FetchTransfersOperation extends Operation {
+    constructor() {
+        super(actions.fetchTransfers, actions.receiveTransfers);
+    }
+
+    getId() {
+        return types.FETCH_TRANSFERS;
+    }
+
+    getApiPromise(api) {
+        return api.get('accounts/transfers');
     }
 }
 
@@ -56,12 +71,14 @@ const editAccount = actions.editAccount;
 const finishEditAccount = actions.finishEditAccount;
 const fetchAccounts = (timeout = 15) => cache(new FetchOperation(), timeout);
 const saveAccount = (id, account) => new SaveOperation(id, account).dispatch();
-const transferBetweenAccounts = (value, from, to) => new TransferOperation(value, from, to).dispatch();
+const transferBetweenAccounts = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
+const fetchTransfers = (timeout = 15) => cache(new FetchTransfersOperation(), timeout);
 
 export default {
     fetchAccounts,
     saveAccount,
     transferBetweenAccounts,
     editAccount,
-    finishEditAccount
+    finishEditAccount,
+    fetchTransfers
 };

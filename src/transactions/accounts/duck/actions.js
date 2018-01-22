@@ -47,26 +47,48 @@ function receiveSaveAccount(result, data) {
 }
 
 //TRANSFER
-function requestTransfer(value, from, to) {
+function saveTransfer(value, from, to) {
     return {
-        type: types.TRANSFER_BETWEEN_ACCOUNTS,
+        type: types.SAVE_TRANSFER,
         value,
         from,
         to
     };
 }
 
-function receiveTransfer(result, data) {
+function receiveSaveTransfer(result, data) {
     if (result === 'success') {
         return {
-            type: types.TRANSFER_BETWEEN_ACCOUNTS,
+            type: types.SAVE_TRANSFER,
             result,
-            accounts: data
+            transfer: data
         };
     }
 
     return {
-        type: types.TRANSFER_BETWEEN_ACCOUNTS,
+        type: types.SAVE_TRANSFER,
+        result,
+        errors: data
+    };
+}
+
+function fetchTransfers() {
+    return {
+        type: types.FETCH_TRANSFERS        
+    };
+}
+
+function receiveTransfers(result, data) {
+    if (result === 'success') {
+        return {
+            type: types.FETCH_TRANSFERS,
+            result,
+            transfers: data
+        };
+    }
+
+    return {
+        type: types.FETCH_TRANSFERS,
         result,
         errors: data
     };
@@ -93,8 +115,11 @@ export default {
     requestSaveAccount,
     receiveSaveAccount,
 
-    requestTransfer,
-    receiveTransfer,
+    fetchTransfers,
+    receiveTransfers,
+
+    saveTransfer,
+    receiveSaveTransfer,
 
     editAccount,
     finishEditAccount

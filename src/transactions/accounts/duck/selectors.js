@@ -6,9 +6,12 @@ const getIsFetching = (state) => state.accounts.isFetching;
 
 const getEditingAccount = (state) => state.accounts.editingAccount;
 
+const getTransfers = (state) => state.accounts.transfers;
+
 export default {
     getAccounts,
     getErrors,
     getIsFetching,
-    getEditingAccount
+    getEditingAccount,
+    getTransfers
 };
