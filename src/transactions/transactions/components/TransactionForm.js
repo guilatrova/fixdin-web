@@ -13,7 +13,6 @@ import { InputLabel } from 'material-ui/Input';
 
 import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import TextFieldError from '../../../common/material/TextFieldError';
-import Autocomplete from '../../../common/material/Autocomplete';
 import TransactionDescription from '../components/TransactionDescription';
 import KindSwitch from '../../components/KindSwitch';
 import Periodic from './Periodic';
@@ -21,6 +20,7 @@ import CategorySelectPicker from '../../categories/components/CategorySelectPick
 import { EXPENSE, getKind } from '../../kinds';
 import { types } from '../duck';
 import specifications from '../specifications';
+import AccountAutocomplete from '../../accounts/components/AccountAutocomplete';
 
 export const CLOSE = "CLOSE";
 export const NEW = "NEW";
@@ -165,7 +165,6 @@ class TransactionForm extends React.Component {
     
     render() {
         const { errors, classes, accounts } = this.props;
-        const accountsSuggestions = accounts.map(account => ({ label: account.name, id: account.id }));
         const selectedAccount = accounts.find(account => account.id === this.state.account);
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
@@ -180,12 +179,11 @@ class TransactionForm extends React.Component {
 
                 <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
 
-                <Autocomplete 
-                    label="Conta"
-                    value={selectedAccount ? selectedAccount.name : ""}
-                    onChange={account => this.setState({ account: account ? account.id : null })}
-                    suggestions={accountsSuggestions}
+                <AccountAutocomplete
+                    value={selectedAccount}
+                    onChange={account => this.setState({ account })}
                 />
+
 
                 <DatePicker
                     label="Vencimento"
