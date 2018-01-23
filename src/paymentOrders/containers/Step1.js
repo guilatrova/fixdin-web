@@ -7,7 +7,7 @@ import { withStyles } from 'material-ui/styles';
 import { DatePicker } from 'material-ui-pickers';
 
 import TransactionsList from '../components/TransactionsList';
-import TextFieldCurrency from '../../common/material/TextFieldCurrency';
+import CurrencyTextField from '../../common/material/CurrencyTextField';
 import { selectors as balancesSelectors } from '../../balances/duck';
 import { operations, selectors } from '../duck';
 import { formatCurrencyDisplay } from '../../services/formatter';
@@ -73,10 +73,10 @@ class Step1 extends React.Component {
                         format="DD MMMM YYYY"
                     />
 
-                    <TextFieldCurrency
-                        id="valueSave"
+                    <CurrencyTextField
+                        id="savings"
                         label="Poupar"
-                        onChange={this.handleValueToSaveChange}
+                        onChange={(e, masked, value) => this.handleValueToSaveChange(value)}
                         value={valueToSave}
                     />
 

@@ -11,7 +11,7 @@ import Switch from 'material-ui/Switch';
 import { DialogActions, DialogContent } from 'material-ui/Dialog';
 import { InputLabel } from 'material-ui/Input';
 
-import TextFieldCurrency from '../../../common/material/TextFieldCurrency';
+import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import TextFieldError from '../../../common/material/TextFieldError';
 import Autocomplete from '../../../common/material/Autocomplete';
 import TransactionDescription from '../components/TransactionDescription';
@@ -218,12 +218,12 @@ class TransactionForm extends React.Component {
                         onChange={ (category) => this.setState({ category }) } /> */}
                 {/* </HorizontalFormGroupError> */}
 
-                <TextFieldCurrency 
+                <CurrencyTextField
                     id="value"
                     label="Valor"
                     error={errors.value}
                     value={this.state.value}
-                    onChange={value => this.setState({ value: value.floatValue })}
+                    onChangeEvent={(e, maskedValue, value) => this.setState({ value })}
                 />
 
                 <div className={classes.widthLimit}>
