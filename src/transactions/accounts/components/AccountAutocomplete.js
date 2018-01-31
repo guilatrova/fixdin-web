@@ -8,9 +8,9 @@ import { selectors } from '../duck';
 class AccountAutocomplete extends React.Component {
     static propTypes = {
         label: PropTypes.string.isRequired,
-        value: PropTypes.object.isRequired,
         onChange: PropTypes.func.isRequired,
         accounts: PropTypes.array.isRequired,
+        value: PropTypes.object,
         alwaysOpen: PropTypes.bool
     }
 
@@ -25,7 +25,7 @@ class AccountAutocomplete extends React.Component {
     }
 
     render() {
-        const { label, value, accounts, alwaysOpen } = this.props;
+        const { label, value, accounts, alwaysOpen, ...other } = this.props;
         const suggestions = accounts.map(account => ({ label: account.name, id: account.id }));
 
         return (
@@ -34,7 +34,8 @@ class AccountAutocomplete extends React.Component {
                 value={value ? value.name : ""}
                 onChange={this.handleChange}
                 suggestions={suggestions}
-                alwaysOpen={alwaysOpen} 
+                alwaysOpen={alwaysOpen}
+                {...other}
             />
         );
     }

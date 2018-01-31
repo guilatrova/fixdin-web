@@ -3,7 +3,7 @@ import actions from './actions';
 import { Operation } from './../../../common/genericDuck/operations';
 import cache from '../../../common/genericDuck/cacheOperation';
 
-class FetchOperation extends Operation {
+class FetchAccountsOperation extends Operation {
     constructor() {
         super(actions.fetchAccounts, actions.receiveAccounts);
     }
@@ -13,11 +13,11 @@ class FetchOperation extends Operation {
     }
 
     getApiPromise(api) {
-        return api.get(`accounts`);
+        return api.get(`accounts/`);
     }
 }
 
-class SaveOperation extends Operation {
+class SaveAccountOperation extends Operation {
     constructor(id, account) {
         super(actions.requestSaveAccount, actions.receiveSaveAccount);
         this.id = id;
@@ -41,6 +41,11 @@ class SaveTransferOperation extends Operation {
         this.to = to;
     }
 
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(new FetchAccountsOperation().dispatch()); //Fetch all accounts again
+        return super.onSucceed(dispatch, receiveAction, data);
+    }
+
     getApiPromise(api) {
         const { value, from, to } = this;
         const transfer = {
@@ -50,7 +55,7 @@ class SaveTransferOperation extends Operation {
         };
 
         return api.post(`accounts/transfers`, transfer);
-    }
+    }    
 }
 
 class FetchTransfersOperation extends Operation {
@@ -69,15 +74,15 @@ class FetchTransfersOperation extends Operation {
 
 const editAccount = actions.editAccount;
 const finishEditAccount = actions.finishEditAccount;
-const fetchAccounts = (timeout = 15) => cache(new FetchOperation(), timeout);
-const saveAccount = (id, account) => new SaveOperation(id, account).dispatch();
-const transferBetweenAccounts = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
+const fetchAccounts = (timeout = 15) => cache(new FetchAccountsOperation(), timeout);
+const saveAccount = (id, account) => new SaveAccountOperation(id, account).dispatch();
+const saveTransfer = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
 const fetchTransfers = (timeout = 15) => cache(new FetchTransfersOperation(), timeout);
 
 export default {
     fetchAccounts,
     saveAccount,
-    transferBetweenAccounts,
+    saveTransfer,
     editAccount,
     finishEditAccount,
     fetchTransfers

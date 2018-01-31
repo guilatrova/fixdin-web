@@ -83,7 +83,7 @@ export default function reducer(state = initialState, action) {
             return saveReducer(state, 'account', action);
         
         case types.SAVE_TRANSFER:
-            return saveReducer(state, 'transfers', action);
+            return saveReducer(state, 'transfer', action);
 
         case types.FETCH_ACCOUNTS:
             return fetchReducer(state, 'accounts', action);
