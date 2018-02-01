@@ -8,6 +8,7 @@ import Dialog, {
     DialogTitle,
 } from 'material-ui/Dialog';
 
+import TypographyError from '../../../common/material/TypographyError';
 import { types } from '../duck';
 
 const periodicActions = (onCancel, onConfirm) => {
@@ -68,10 +69,16 @@ export default class ConfirmDeleteDialog extends React.Component {
             <Dialog open={this.props.open} onClose={this.props.onClose}>
                 <DialogTitle>Confirmar ação</DialogTitle>
                 <DialogContent>
+
                     <DialogContentText>
+                        <TypographyError>
+                            {this.props.error}
+                        </TypographyError>
+
                         {this.props.children}
                         {" "}{periodicText}
                     </DialogContentText>
+
                 </DialogContent>
 
                 {actions(this.props.onClose, this.props.onConfirm)}
