@@ -28,15 +28,15 @@ class CPFLSettingsPage extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let settings = [{}];
-        if (nextProps.settings && nextProps.settings.cpfl_settings) {
-            settings = nextProps.settings.cpfl_settings;
+        let settings = {};
+        if (nextProps.settings && nextProps.settings.cpfl_settings && nextProps.settings.cpfl_settings.length > 0) {
+            settings = nextProps.settings.cpfl_settings[0];
         }
 
         this.setState({
-            name: settings[0].name,
-            documento: settings[0].documento,
-            imovel: settings[0].imovel
+            name: settings.name,
+            documento: settings.documento,
+            imovel: settings.imovel
         });
     }
 
