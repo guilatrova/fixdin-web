@@ -22,6 +22,7 @@ import { sort } from './../../../utils/sorts';
 import { TableSort, DataColumn } from './../../../common/material/TableSort';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 import { getKind } from '../../kinds';
+import specifications from '../specifications';
 
 class TransactionTable extends React.Component {
     static propTypes = {
@@ -73,6 +74,8 @@ class TransactionTable extends React.Component {
     formatOptions(transaction) {
         const { onEdit, onDelete, onCopy, onPay, isFetching } = this.props;
         const pendingPayment = !transaction.payment_date;
+        if (specifications.isTransfer(transaction))
+            return null;
 
         return (
             <div>
