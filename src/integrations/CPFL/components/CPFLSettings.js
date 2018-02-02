@@ -26,18 +26,21 @@ class CPFLSettings extends React.Component {
             <form>
 
                 <TextFieldError
+                    name="name"
                     label="Descrição"
                     error={errors.name}
                     value={name}
                     onChange={this.handleChange} />
 
                 <TextFieldError
+                    name="documento"
                     label="Documento"
                     error={errors.documento}
                     value={documento}
                     onChange={this.handleChange} />
 
                 <TextFieldError
+                    name="imovel"
                     label="Imóvel"
                     error={errors.imovel}
                     value={imovel}
