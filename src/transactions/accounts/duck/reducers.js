@@ -58,7 +58,7 @@ function fetchReducer(state, key, action) {
             return {
                 ...state,
                 isFetching: false,
-                [key]: action.accounts
+                [key]: action[key]
             };
         }
 

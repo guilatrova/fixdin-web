@@ -5,6 +5,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import TransferIcon from 'material-ui-icons/CompareArrows';
 import { MenuItem } from 'material-ui/Menu';
+import { Link } from 'react-router-dom';
 
 import { TableSort, DataColumn } from './../../../common/material/TableSort';
 import { formatCurrencyDisplay } from '../../../services/formatter';
@@ -13,11 +14,15 @@ import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 const AccountTable = ({ accounts, onEdit, onDisable, onTransfer }) => {
     const formatOptions = (account) => {
         return (
-            <CollapsibleMenu>
-                <MenuItem onClick={() => onTransfer(account)}><TransferIcon /> Transferir</MenuItem>
-                <MenuItem onClick={() => onEdit(account.id)}><EditIcon /> Editar</MenuItem>
-                <MenuItem onClick={() => onDisable(account.id)}><DeleteIcon /> Desativar</MenuItem>
-            </CollapsibleMenu>
+            <div>
+                <Link to={`accounts/${account.id}/transfers`}>Transferências</Link>
+
+                <CollapsibleMenu>
+                    <MenuItem onClick={() => onTransfer(account)}><TransferIcon /> Transferir</MenuItem>
+                    <MenuItem onClick={() => onEdit(account.id)}><EditIcon /> Editar</MenuItem>
+                    <MenuItem onClick={() => onDisable(account.id)}><DeleteIcon /> Desativar</MenuItem>
+                </CollapsibleMenu>
+            </div>
         );
     };
 

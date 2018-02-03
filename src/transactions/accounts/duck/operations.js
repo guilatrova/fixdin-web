@@ -59,15 +59,21 @@ class SaveTransferOperation extends Operation {
 }
 
 class FetchTransfersOperation extends Operation {
-    constructor() {
+    constructor(accountId = "") {
         super(actions.fetchTransfers, actions.receiveTransfers);
+        this.accountId = accountId;
     }
 
     getId() {
-        return types.FETCH_TRANSFERS;
+        return types.FETCH_TRANSFERS + this.accountId;
     }
 
     getApiPromise(api) {
+        const { accountId } = this;
+        if (accountId) {
+            return api.get(`accounts/${accountId}/transfers`);
+        }
+
         return api.get('accounts/transfers');
     }
 }
@@ -77,7 +83,7 @@ const finishEditAccount = actions.finishEditAccount;
 const fetchAccounts = (timeout = 15) => cache(new FetchAccountsOperation(), timeout);
 const saveAccount = (id, account) => new SaveAccountOperation(id, account).dispatch();
 const saveTransfer = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
-const fetchTransfers = (timeout = 15) => cache(new FetchTransfersOperation(), timeout);
+const fetchTransfers = (accountId = "", timeout = 15) => cache(new FetchTransfersOperation(accountId), timeout);
 
 export default {
     fetchAccounts,
