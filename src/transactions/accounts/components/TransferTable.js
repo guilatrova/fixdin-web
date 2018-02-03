@@ -9,7 +9,7 @@ import { TableSort, DataColumn } from './../../../common/material/TableSort';
 import { formatCurrencyDisplay } from '../../../services/formatter';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 
-const TransferTable = ({ transfers, accountNames, onEdit, onDelete }) => {
+const TransferTable = ({ transfers, accountsNames, onEdit, onDelete }) => {
     const formatOptions = (transfer) => {
         return (
             <CollapsibleMenu>
@@ -21,7 +21,7 @@ const TransferTable = ({ transfers, accountNames, onEdit, onDelete }) => {
 
     const renderValue = (transfer, valueField) => formatCurrencyDisplay(transfer[valueField]);
 
-    const renderAccount = (transfer, accountField) => accountNames[transfer[accountField]];
+    const renderAccount = (transfer, accountField) => accountsNames[transfer[accountField]];
 
     return (
         <TableSort data={transfers}>
@@ -35,7 +35,7 @@ const TransferTable = ({ transfers, accountNames, onEdit, onDelete }) => {
 
 TransferTable.propTypes = {
     transfers: PropTypes.array.isRequired,
-    accountNames: PropTypes.array.isRequired,
+    accountsNames: PropTypes.array.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func
 };

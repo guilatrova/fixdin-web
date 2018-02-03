@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
-import TypographyError from '../../../common/material/TypographyError'; 
+import TypographyError from './TypographyError';
 import Dialog, {
     DialogActions,
     DialogContent,

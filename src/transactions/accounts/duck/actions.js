@@ -94,6 +94,29 @@ function receiveTransfers(result, data) {
     };
 }
 
+function deleteTransfer(id) {
+    return {
+        type: types.DELETE_TRANSFER,
+        id
+    };
+}
+
+function receiveDeleteTransfer(id, result, errors) {
+    if (result === 'success') {
+        return {
+            type: types.DELETE_TRANSFER,
+            id,
+            result
+        };
+    }
+
+    return {
+        type: types.DELETE_TRANSFER,
+        result,
+        errors
+    };
+}
+
 //EDIT
 function editAccount(id) {
     return {
@@ -120,6 +143,9 @@ export default {
 
     saveTransfer,
     receiveSaveTransfer,
+
+    deleteTransfer,
+    receiveDeleteTransfer,
 
     editAccount,
     finishEditAccount

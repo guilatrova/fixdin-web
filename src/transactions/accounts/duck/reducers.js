@@ -77,6 +77,30 @@ function fetchReducer(state, key, action) {
     }
 }
 
+function deleteTransferReducer(state, action) {
+    switch(action.result) {
+        case 'success':
+            return {
+                ...state,
+                isFetching: false,
+                transfers: state.transfers.filter(transfer => transfer.id != action.id)
+            };
+
+        case 'fail':
+            return {
+                ...state,
+                isFetching: false,
+                errors: action.errors
+            };
+
+        default:
+            return {
+                ...state,
+                isFetching: true
+            };
+    }
+}
+
 export default function reducer(state = initialState, action) {    
     switch (action.type) {
         case types.SAVE_ACCOUNT:
@@ -90,6 +114,9 @@ export default function reducer(state = initialState, action) {
             
         case types.FETCH_TRANSFERS:
             return fetchReducer(state, 'transfers', action);
+
+        case types.DELETE_TRANSFER:
+            return deleteTransferReducer(state, action);
 
         case types.EDIT_ACCOUNT:
             return {

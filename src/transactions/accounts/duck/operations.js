@@ -1,6 +1,6 @@
 import types from './types';
 import actions from './actions';
-import { Operation } from './../../../common/genericDuck/operations';
+import { Operation, createDeleteOperation } from './../../../common/genericDuck/operations';
 import cache from '../../../common/genericDuck/cacheOperation';
 
 class FetchAccountsOperation extends Operation {
@@ -78,18 +78,25 @@ class FetchTransfersOperation extends Operation {
     }
 }
 
+
 const editAccount = actions.editAccount;
 const finishEditAccount = actions.finishEditAccount;
 const fetchAccounts = (timeout = 15) => cache(new FetchAccountsOperation(), timeout);
 const saveAccount = (id, account) => new SaveAccountOperation(id, account).dispatch();
 const saveTransfer = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
 const fetchTransfers = (accountId = "", timeout = 15) => cache(new FetchTransfersOperation(accountId), timeout);
+const deleteTransfer = createDeleteOperation(
+    actions.deleteTransfer,
+    actions.receiveDeleteTransfer,
+    (id) => `accounts/transfers/${id}`
+);
 
 export default {
     fetchAccounts,
     saveAccount,
-    saveTransfer,
     editAccount,
     finishEditAccount,
-    fetchTransfers
+    fetchTransfers,
+    saveTransfer,
+    deleteTransfer,
 };

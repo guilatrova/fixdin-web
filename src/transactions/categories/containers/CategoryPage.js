@@ -9,7 +9,7 @@ import AddIcon from 'material-ui-icons/Add';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
 import CategoryFormDialog from './CategoryFormDialog';
 import CategoryTable from '../components/CategoryTable';
-import ConfirmDeleteDialog from '../components/ConfirmDeleteDialog';
+import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
 import { operations } from '../duck';
 import { EXPENSE, INCOME, getKind } from '../../kinds';
 
