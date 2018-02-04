@@ -6,7 +6,7 @@ import handleError from '../../../services/genericErrorHandler';
 import { formatTransactionToSend, formatTransactionFilters, formatDate } from '../../../services/formatter';
 import getQueryParams from '../../../services/query';
 import { Operation } from './../../../common/genericDuck/operations';
-import cache from './../../../common/genericDuck/cacheOperation';
+import cache, { resetCache } from './../../../common/genericDuck/cacheOperation';
 
 class FetchOperation extends Operation {
     constructor(kind) {
@@ -43,8 +43,6 @@ class SaveOperation extends Operation {
         this.transaction = transaction;
         this.kind = kind;
         this.type = type;
-        
-        return this.dispatch();
     }
 
     onRequest(dispatch, requestAction) {
@@ -93,8 +91,6 @@ class DeleteOperation extends Operation {
         this.id = id;
         this.kind = kind;
         this.type = type;
-
-        return this.dispatch();
     }
 
     onRequest(dispatch, requestAction) {
@@ -136,8 +132,6 @@ class PayOperation extends Operation {
         super(actions.payTransactions, actions.receivePayTransactions);
         this.kind = kind;
         this.ids = ids;
-
-        return this.dispatch();
     }
 
     getSucceedData(raw) {
@@ -166,9 +160,9 @@ const finishEditTransaction = actions.finishEditTransaction;
 const clearFilters = actions.clearFilters;
 const setFilters = actions.setFilters;
 const fetchTransactions = (kind, timeout = 5) => cache(new FetchOperation(kind), timeout);
-const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type);
-const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type);
-const payTransactions = (kind, ids) => new PayOperation(kind, ids);
+const saveTransaction = (transaction, kind, type) => resetCache(types.FETCH_TRANSACTIONS, new SaveOperation(transaction, kind, type)).dispatch();
+const deleteTransaction = (id, kind, type) => resetCache(types.FETCH_TRANSACTIONS, new DeleteOperation(id, kind, type)).dispatch();
+const payTransactions = (kind, ids) => resetCache(types.FETCH_TRANSACTIONS, new PayOperation(kind, ids)).dispatch();
 const filterTransactions = () => (dispatch, getState) => {
     const filters = selectors.getFilters(getState());
     return new FilterOperation(filters).dispatch()(dispatch);

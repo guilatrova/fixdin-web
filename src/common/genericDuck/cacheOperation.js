@@ -1,8 +1,11 @@
 import { operations, selectors } from '../../app/duck';
 
 const cacheResponse = operations.cacheResponse; // To avoid mess up with operation object
+const reset = operations.resetCache;
 
 const cacheOperation = (operation, timeout) => (dispatch, getState) => {
+    return operation.dispatch()(dispatch, getState);
+
     timeout = timeout * 1000 * 60;  // To minutes
     const cache = selectors.getCacheFromId(getState(), operation.getId());
     const isStale = cache ? (Date.now() - cache.time) > timeout : true;
@@ -25,6 +28,18 @@ const cacheOperation = (operation, timeout) => (dispatch, getState) => {
     }
 
     return operation.dispatch()(dispatch, getState);
+};
+
+export const resetCache = (id, operation) => {
+    return operation;
+
+    const originalMethod = operation.onSucceed;
+    operation.onSucceed = (dispatch, ...args) => {
+        dispatch(reset(id));
+        return originalMethod(dispatch, ...args);
+    };
+
+    return operation;
 };
 
 export default cacheOperation;

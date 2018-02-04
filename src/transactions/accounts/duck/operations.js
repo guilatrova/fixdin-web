@@ -1,7 +1,7 @@
 import types from './types';
 import actions from './actions';
-import { Operation, createDeleteOperation } from './../../../common/genericDuck/operations';
-import cache from '../../../common/genericDuck/cacheOperation';
+import { Operation, DeleteOperation } from './../../../common/genericDuck/operations';
+import cache, { resetCache } from '../../../common/genericDuck/cacheOperation';
 
 class FetchAccountsOperation extends Operation {
     constructor() {
@@ -78,18 +78,22 @@ class FetchTransfersOperation extends Operation {
     }
 }
 
+class DeleteTransferOperation extends DeleteOperation {
+    constructor(id) {
+        super(actions.deleteTransfer, actions.receiveDeleteTransfer, id);
+    }
+
+    getEndpoint = (id) => `accounts/transfers/${id}`;
+}
 
 const editAccount = actions.editAccount;
 const finishEditAccount = actions.finishEditAccount;
 const fetchAccounts = (timeout = 15) => cache(new FetchAccountsOperation(), timeout);
-const saveAccount = (id, account) => new SaveAccountOperation(id, account).dispatch();
-const saveTransfer = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
+const saveAccount = (id, account) => resetCache(types.FETCH_ACCOUNTS, new SaveAccountOperation(id, account)).dispatch();
+
+const saveTransfer = (value, from, to) => resetCache(types.FETCH_TRANSFERS, new SaveTransferOperation(value, from, to)).dispatch();
 const fetchTransfers = (accountId = "", timeout = 15) => cache(new FetchTransfersOperation(accountId), timeout);
-const deleteTransfer = createDeleteOperation(
-    actions.deleteTransfer,
-    actions.receiveDeleteTransfer,
-    (id) => `accounts/transfers/${id}`
-);
+const deleteTransfer = (id) => resetCache(types.FETCH_TRANSFERS, new DeleteTransferOperation(id)).dispatch();
 
 export default {
     fetchAccounts,

@@ -1,7 +1,7 @@
 const CACHE_RESPONSE = 'fixdin/app/CACHE_RESPONSE';
-const CLEAR_CACHE = 'fixdin/app/CLEAR_CACHE';
+const RESET_CACHE = 'fixdin/app/RESET_CACHE';
 
 export default {
     CACHE_RESPONSE,
-    CLEAR_CACHE
+    RESET_CACHE
 };

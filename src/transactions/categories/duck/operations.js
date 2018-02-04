@@ -1,7 +1,7 @@
 import types from './types';
 import actions from './actions';
-import { Operation, createDeleteOperation } from './../../../common/genericDuck/operations';
-import cache from '../../../common/genericDuck/cacheOperation';
+import { Operation, DeleteOperation } from './../../../common/genericDuck/operations';
+import cache, { resetCache } from '../../../common/genericDuck/cacheOperation';
 
 class FetchOperation extends Operation {
     constructor(kind) {
@@ -43,6 +43,15 @@ class SaveOperation extends Operation {
     }
 }
 
+class DeleteCategoryOperation extends DeleteOperation {
+    constructor(id, kind) {
+        super(actions.requestDeleteCategory, actions.receiveDeleteCategory, id);
+        this.kind = kind;
+    }
+
+    getEndpoint = (id) => `categories/${this.kind.apiEndpoint}${id}`;
+}
+
 const editCategory = actions.editCategory;
 const finishEditCategory = actions.finishEditCategory;
 const fetchCategories = (kind, timeout = 15) => cache(new FetchOperation(kind), timeout);
@@ -50,12 +59,8 @@ const fetchAllCategories = () => {
     throw 'Not implemented yet';
 };
 
-const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind).dispatch();
-const deleteCategory = createDeleteOperation(
-    actions.requestDeleteCategory, 
-    actions.receiveDeleteCategory, 
-    (id, extra) => `categories/${extra[0].apiEndpoint}${id}`
-);
+const saveCategory = ({id, name, kind}) => resetCache(types.FETCH_TRANSACTION_CATEGORIES, new SaveOperation(id, name, kind)).dispatch();
+const deleteCategory = (id, kind) => resetCache(types.FETCH_TRANSACTION_CATEGORIES, new DeleteCategoryOperation(id, kind)).dispatch();
 
 export default {
     fetchCategories,

@@ -79,14 +79,19 @@ export class GetOperation extends Operation {
 }
 
 export class DeleteOperation extends Operation {
-    dispatch = (id, ...extra) => (dispatch) => {
-        this.onRequest(dispatch, this.requestAction, id);
+    constructor(requestAction, receiveAction, id) {
+        super(requestAction, receiveAction);
+        this.id = id;
+    }
+
+    dispatch = () => (dispatch) => {
+        this.onRequest(dispatch, this.requestAction, this.id);
         
         const api = createApi();
-        return this.getApiPromise(api, id, extra)
+        return this.getApiPromise(api, this.id)
             .then(response => response.data)
-            .then(data => this.onSucceed(dispatch, this.receiveAction, this.getSucceedData(data), id))
-            .catch(err => this.onFailed(dispatch, this.receiveAction, err, id));
+            .then(data => this.onSucceed(dispatch, this.receiveAction, this.getSucceedData(data), this.id))
+            .catch(err => this.onFailed(dispatch, this.receiveAction, err, this.id));
     }
 
     onRequest(dispatch, requestAction, id) {
@@ -101,11 +106,11 @@ export class DeleteOperation extends Operation {
         return dispatch(receiveAction(id, 'fail', handleError(errors)));
     }
 
-    getEndpoint(id, extra) {
+    getEndpoint(id) {
     }
 
-    getApiPromise(api, id, extra) {
-        const endpoint = this.getEndpoint(id, extra);
+    getApiPromise(api, id) {
+        const endpoint = this.getEndpoint(id);
         return api.delete(endpoint);
     }
 }
@@ -114,11 +119,5 @@ export const createGetOperation = (endpoint, requestAction, receiveAction, getDa
     const operation = new GetOperation(endpoint, requestAction, receiveAction);
     if (getData)
         operation.getSucceedData = getData;
-    return operation.dispatch;
-};
-
-export const createDeleteOperation = (requestAction, receiveAction, getEndpoint) => {
-    const operation = new DeleteOperation(requestAction, receiveAction);
-    operation.getEndpoint = getEndpoint;
     return operation.dispatch;
 };

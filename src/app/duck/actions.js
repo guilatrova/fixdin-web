@@ -11,6 +11,14 @@ const cacheResponse = (id, time, result) => {
     };
 };
 
+const resetCache = (id) => {
+    return {
+        type: types.RESET_CACHE,
+        id        
+    };
+};
+
 export default {
-    cacheResponse
+    cacheResponse,
+    resetCache
 };
