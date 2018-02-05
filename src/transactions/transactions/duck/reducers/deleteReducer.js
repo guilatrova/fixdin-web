@@ -1,4 +1,5 @@
 import types from '../types';
+import { types as accountTypes } from '../../../accounts/duck';
 
 const filterDeletedTransactions = (transactions, action) => {
     switch (action.type) {
@@ -12,6 +13,16 @@ const filterDeletedTransactions = (transactions, action) => {
 
         case types.DELETE_TRANSACTION:
             return transactions.filter(transaction => transaction.id != action.id);
+
+        case accountTypes.DELETE_TRANSFER: {
+            const transfer = transactions.find(transaction => transaction.id == action.id);
+            if (transfer) { //Sometimes transfer doesn't exists as transactions yet
+                const pairId = transfer.bound_transaction;
+                return transactions.filter(transaction => transaction.id != transfer.id && transaction.id != pairId);
+            }
+
+            return transactions;            
+        }
 
         default:
             return transactions;

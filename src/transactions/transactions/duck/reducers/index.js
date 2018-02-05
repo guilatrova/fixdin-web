@@ -1,4 +1,5 @@
 import types from '../types';
+import { types as accountTypes } from '../../../accounts/duck';
 import saveReducer from './saveReducer';
 import filterReducer from './filterReducer';
 import fetchReducer from './fetchReducer';
@@ -31,6 +32,7 @@ export default function reducer(state = initialState, action) {
         case types.DELETE_TRANSACTION:
         case types.DELETE_ALL_PERIODIC_TRANSACTIONS:
         case types.DELETE_THIS_AND_NEXT_TRANSACTIONS:
+        case accountTypes.DELETE_TRANSFER:
             return deleteReducer(state, action);
 
         case types.PAY_TRANSACTIONS:
