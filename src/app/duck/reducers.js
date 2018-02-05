@@ -24,7 +24,7 @@ const saveCache = (state, action) => {
         ...state,
         cache: [ ...state.cache, action.request ]
     };
-}
+};
 
 const resetCache = (state, action, partialId) => {
     if (action.result == 'success') {
