@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { operations, selectors } from '../../app/duck';
 
 const cacheResponse = operations.cacheResponse; // To avoid mess up with operation object
