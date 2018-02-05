@@ -71,7 +71,7 @@ class AccountPage extends React.Component {
     handleTransferFormSubmit = (value, from, to) => {
         this.props.onTransfer(value, from, to).then(({result}) => {
             if (result == 'success') {
-                this.handleCloseAccountFormDialog();
+                this.handleCloseTransferFormSubmit();
             }
         });
     }
