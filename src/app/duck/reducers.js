@@ -54,14 +54,6 @@ export default function reducer(state = initialState, action) {
             
         case types.RESET_CACHE:
             return resetCache(state, {result:'success'}, action.id);
-
-        // case transactionTypes.DELETE_ALL_PERIODIC_TRANSACTIONS:
-        // case transactionTypes.DELETE_THIS_AND_NEXT_TRANSACTIONS:
-        // case transactionTypes.DELETE_TRANSACTION:
-        //     return deleteCache(state, action, transactionTypes.FETCH_TRANSACTIONS);
-
-        // case accountTypes.DELETE_TRANSFER:
-        //     return deleteCache(state, action, accountTypes.FETCH_ACCOUNTS);
         
         default: 
             return state;
