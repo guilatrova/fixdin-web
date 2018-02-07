@@ -144,6 +144,15 @@ class TransactionForm extends React.Component {
         });
     }
 
+    handleAccountChange = (account) => {        
+        if (account) {
+            this.setState({ account: account.id });
+        }
+        else {
+            this.setState({ account: undefined });
+        }
+    }
+
     isSubmitDisabled = () => {
         let disabled = false;
         if (this.props.isFetching) {
@@ -181,9 +190,8 @@ class TransactionForm extends React.Component {
 
                 <AccountAutocomplete
                     value={selectedAccount}
-                    onChange={account => this.setState({ account })}
+                    onChange={this.handleAccountChange}
                 />
-
 
                 <DatePicker
                     label="Vencimento"
