@@ -76,7 +76,7 @@ class Step1 extends React.Component {
                     <CurrencyTextField
                         id="savings"
                         label="Poupar"
-                        onChange={(e, masked, value) => this.handleValueToSaveChange(value)}
+                        onChangeEvent={(e, masked, value) => this.handleValueToSaveChange(value)}
                         value={valueToSave}
                     />
 
@@ -114,7 +114,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onChangeUntilDate: (untilDate) => dispatch(operations.changeUntilDate(untilDate)),
-        onChangeValueToSave: (value) => dispatch(operations.changeValueToSave(value)),
+        onChangeValueToSave: (value=0) => dispatch(operations.changeValueToSave(value)),
         onToggle: (ids) => dispatch(operations.toggleIncome(ids))
     };
 };
