@@ -41,7 +41,7 @@ class Step1 extends React.Component {
     }
 
     handleValueToSaveChange = value => {
-        this.props.onChangeValueToSave(value.floatValue);
+        this.props.onChangeValueToSave(value);
     }
 
     handleToggle = value => {
