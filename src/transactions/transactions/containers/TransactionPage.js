@@ -54,6 +54,7 @@ class TransactionPage extends React.Component {
         accounts: PropTypes.array.isRequired,
         transactions: PropTypes.array.isRequired,
         categories: PropTypes.array.isRequired,
+        accountsNames: PropTypes.array.isRequired,
         editingTransaction: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
         errors: PropTypes.object,
@@ -164,7 +165,7 @@ class TransactionPage extends React.Component {
     handleClearFilters = () => this.props.onClearFilters();
 
     render() {
-        const { isFetching, transactions, categories, classes, totalIncomes, totalExpenses, total } = this.props;        
+        const { isFetching, transactions, categories, classes, accountsNames, totalIncomes, totalExpenses, total } = this.props;        
         
         return (
             <div className={classes.root}>
@@ -186,6 +187,7 @@ class TransactionPage extends React.Component {
                         <TransactionTable
                             transactions={transactions} 
                             categories={categories}
+                            accountsNames={accountsNames}
                             isFetching={isFetching}
                             onRefresh={this.handleRefresh}
                             onEdit={this.handleEdit}
@@ -239,6 +241,7 @@ const mapStateToProps = (state) => {
         editingTransaction: selectors.getEditingTransaction(state),
         isFetching: selectors.isFetching(state),
         accounts: accountSelectors.getAccounts(state),
+        accountsNames: accountSelectors.getAccountsNamesMappedById(state),
         errors: {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)

@@ -28,6 +28,7 @@ class TransactionTable extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired,
         categories: PropTypes.array.isRequired,
+        accountsNames: PropTypes.array.isRequired,
         onEdit: PropTypes.func.isRequired,
         onPay: PropTypes.func.isRequired,
         onCopy: PropTypes.func.isRequired,
@@ -35,22 +36,16 @@ class TransactionTable extends React.Component {
         isFetching: PropTypes.bool.isRequired,
         activeFilters: PropTypes.object.isRequired
     }
-    
-    constructor(props) {
-        super(props);
-
-        this.formatCategory = this.formatCategory.bind(this);
-        this.formatOptions = this.formatOptions.bind(this);
-        this.sortCategory = this.sortCategory.bind(this);
-    }
 
     //Format
-    formatDate(row, field) {
+    formatAccount = (row, field) => this.props.accountsNames[row[field]];
+
+    formatDate = (row, field) => {
         const cell = row[field];
         return cell ? cell.format('DD/MM/YYYY') : 'NÃO PAGO';
     }
 
-    formatCategory(row, field) {
+    formatCategory = (row, field) => {
         const cell = row[field];
         const { categories } = this.props;
 
@@ -62,7 +57,7 @@ class TransactionTable extends React.Component {
         return category ? category.name : "Not found - " + cell;
     }
 
-    formatValue(row, field) {
+    formatValue = (row, field) => {
         const cell = row[field];
         let positiveValue = cell.toFixed(2).toString().replace(".", ",");
         if (positiveValue[0] == '-') {
@@ -71,7 +66,7 @@ class TransactionTable extends React.Component {
         return `R$ ${positiveValue}`;
     }
 
-    formatOptions(transaction) {
+    formatOptions = (transaction) => {
         const { onEdit, onDelete, onCopy, onPay, isFetching } = this.props;
         const pendingPayment = !transaction.payment_date;
         if (specifications.isTransfer(transaction))
@@ -93,12 +88,10 @@ class TransactionTable extends React.Component {
         );
     }
 
-    formatKind(transaction) {
-        return getKind(transaction.kind).text;
-    }
+    formatKind = (transaction) => getKind(transaction.kind).text;
 
     //Sort
-    sortValue(a, b, order) {
+    sortValue = (a, b, order) => {
         let valueA = Number(a);
         let valueB = Number(b);
 
@@ -114,7 +107,7 @@ class TransactionTable extends React.Component {
         return valueB - valueA;
     }
 
-    sortCategory(a, b, order) {
+    sortCategory = (a, b, order) => {
         const { categories } = this.props;
         const catA = categories.find((category) => category.id == a).name.toUpperCase();
         const catB = categories.find((category) => category.id == b).name.toUpperCase();
@@ -122,7 +115,7 @@ class TransactionTable extends React.Component {
         return sort(catA, catB, order);
     }
 
-    sortDate(a, b, order) {//TODO: Move it to utils, its too generic
+    sortDate = (a, b, order) => {//TODO: Move it to utils, its too generic
         if (moment.isMoment(a) && moment.isMoment(b)) { 
             if (order === 'desc') 
                 return b.unix() - a.unix(); 
@@ -147,6 +140,7 @@ class TransactionTable extends React.Component {
             <TableSort data={this.props.transactions} initialOrderBy="due_date">
 
                 <DataColumn sortable field="kind" onRenderFilter={<KindFilter />} filterActive={activeFilters.kind}  onRender={this.formatKind}>Tipo</DataColumn>
+                <DataColumn field="account" onRender={this.formatAccount}>Conta</DataColumn>
                 <DataColumn sortable field="due_date" onRenderFilter={<DueDateFilter />} filterActive={activeFilters.due_date} onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
                 <DataColumn sortable field="description" onRenderFilter={<DescriptionFilter />} filterActive={activeFilters.description} >Descrição</DataColumn>
 
