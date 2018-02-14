@@ -96,7 +96,7 @@ class PaymentOrderStepper extends React.Component {
                     position="static"
                     activeStep={this.state.activeStep}                    
                     nextButton={
-                        <Button dense onClick={this.handleNext} disabled={this.state.activeStep === 5}>
+                        <Button dense onClick={this.handleNext} disabled={this.state.activeStep === 2}>
                             Próximo
                             {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                         </Button>
