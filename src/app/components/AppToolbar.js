@@ -67,7 +67,7 @@ const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
                 </IconButton>
 
                 <Typography variant="title" color="inherit" className={classes.title} noWrap>
-                    {title}
+                    $ <span className="logo">{title}</span>
                 </Typography>
 
                 <div>

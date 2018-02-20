@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Espresso Dolce';
+  src: url("./EspressoDolce.ttf");
+}
+
 /* Styles */
 html, body {
   margin: 0;
@@ -9,6 +14,11 @@ a {
 
 * {
   font-family: 'Roboto', sans-serif;
+}
+
+.logo {
+  font-family: 'Espresso Dolce', sans-serif !important;
+  font-size: 30px !important;
 }
 
 @import '~react-select/dist/react-select';
