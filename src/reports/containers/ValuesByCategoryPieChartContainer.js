@@ -39,7 +39,7 @@ class ValuesByCategoryPieChartContainer extends React.Component {
         return (
             <Paper className={this.props.classes.paper}>
 
-				<Typography type="title">
+				<Typography variant="title">
 					{title}
 				</Typography>
 

@@ -76,7 +76,7 @@ class LoginForm extends React.Component {
                 />
 
                 <div>
-                    <Button raised color="primary" onClick={this.handleSubmit} disabled={submitDisabled}>Login</Button>
+                    <Button variant="raised" color="primary" onClick={this.handleSubmit} disabled={submitDisabled}>Login</Button>
                     <Link to="/signup">Criar conta</Link>
                 </div>
 

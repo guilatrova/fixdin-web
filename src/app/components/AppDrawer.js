@@ -31,7 +31,7 @@ const styles = theme => ({
 const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
     return (
         <Drawer
-            type="persistent"
+            variant="persistent"
             classes={{ paper: classes.drawerPaper, }}
             open={open} 
         >

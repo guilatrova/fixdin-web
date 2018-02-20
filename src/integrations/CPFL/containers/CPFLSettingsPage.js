@@ -66,8 +66,8 @@ class CPFLSettingsPage extends React.Component {
                 <CPFLSettings name={name} documento={documento} imovel={imovel} 
                     onChange={this.handleChange} errors={errors} />
 
-                <Button raised onClick={this.handleSave}>Salvar</Button>
-                <Button raised onClick={this.handleRun}>Sincronizar</Button>
+                <Button variant="raised" onClick={this.handleSave}>Salvar</Button>
+                <Button variant="raised" onClick={this.handleRun}>Sincronizar</Button>
             </div>
         );
     }

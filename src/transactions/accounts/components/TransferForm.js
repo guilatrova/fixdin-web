@@ -75,7 +75,7 @@ class TransferForm extends React.Component {
                         Cancelar
                     </Button>
 
-                    <Button raised color="primary" disabled={disabled} onClick={this.handleSubmit}>
+                    <Button variant="raised" color="primary" disabled={disabled} onClick={this.handleSubmit}>
                         Salvar
                     </Button>
                 </DialogActions>

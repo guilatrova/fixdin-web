@@ -42,9 +42,9 @@ const emptyTransaction = {
 const regularActions = (onClick, disabled, classes) => {
     return (
         <div>
-            <Button raised color="primary" onClick={() => onClick(types.CLOSE)} disabled={disabled} className={classes.button}>
+            <Button variant="raised" color="primary" onClick={() => onClick(types.CLOSE)} disabled={disabled} className={classes.button}>
                 Salvar</Button>
-            <Button raised color="default" onClick={() => onClick(types.NEW)} disabled={disabled} className={classes.button}>
+            <Button variant="raised" color="default" onClick={() => onClick(types.NEW)} disabled={disabled} className={classes.button}>
                 Salvar e novo</Button>                
         </div>        
     );
@@ -53,11 +53,11 @@ const regularActions = (onClick, disabled, classes) => {
 const editingPeriodicActions = (onClick, disabled, classes) => {
     return (
         <div>
-            <Button raised color="primary" onClick={() => onClick(types.SAVE_TRANSACTION)} disabled={disabled} className={classes.button}>
+            <Button variant="raised" color="primary" onClick={() => onClick(types.SAVE_TRANSACTION)} disabled={disabled} className={classes.button}>
                 Somenta esta</Button>
-            <Button raised color="default" onClick={() => onClick(types.SAVE_THIS_AND_NEXT_TRANSACTIONS)} disabled={disabled} className={classes.button}>
+            <Button variant="raised" color="default" onClick={() => onClick(types.SAVE_THIS_AND_NEXT_TRANSACTIONS)} disabled={disabled} className={classes.button}>
                 Esta e futuras</Button>
-            <Button raised color="default" onClick={() => onClick(types.SAVE_ALL_PERIODIC_TRANSACTIONS)} disabled={disabled} className={classes.button}>
+            <Button variant="raised" color="default" onClick={() => onClick(types.SAVE_ALL_PERIODIC_TRANSACTIONS)} disabled={disabled} className={classes.button}>
                 Todas as recorrências</Button>
         </div>
     );

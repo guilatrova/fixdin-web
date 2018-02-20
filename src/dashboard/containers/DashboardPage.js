@@ -90,7 +90,7 @@ class DashboardPage extends React.Component {
                 <Grid container spacing={24}>
                     
                     <Grid item xs={12}>
-                        <Typography type="title">Próximas despesas</Typography>
+                        <Typography variant="title">Próximas despesas</Typography>
                     </Grid>
 
                     <Grid item xs={12} md={6}>
@@ -108,7 +108,7 @@ class DashboardPage extends React.Component {
                 <Grid container spacing={24}>
                     
                     <Grid item xs={12}>
-                        <Typography type="title">Receitas pendentes</Typography>
+                        <Typography variant="title">Receitas pendentes</Typography>
                     </Grid>
 
                     <Grid item xs={12} md={6}>

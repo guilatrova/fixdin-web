@@ -16,7 +16,7 @@ const styles = theme => ({
 
 const FloatActionButton = ({ children, classes, ...props }) => {
     return (
-        <Button fab aria-label="add" className={classes.button} {...props}>
+        <Button variant="fab" aria-label="add" className={classes.button} {...props}>
             {children || <AddIcon />}
         </Button>
     );
