@@ -6,8 +6,11 @@ import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import MenuIcon from 'material-ui-icons/Menu';
 import IconButton from 'material-ui/IconButton';
+import MenuIcon from 'material-ui-icons/Menu';
+import SettingsIcon from 'material-ui-icons/Settings';
+import SearchIcon from 'material-ui-icons/Search';
+import NotificationsIcon from 'material-ui-icons/Notifications';
 
 import { drawerWidth, anchor, title } from '../contants';
 
@@ -15,9 +18,10 @@ const styles = theme => ({
     appBar: {
         position: 'absolute',
         transition: theme.transitions.create(['margin', 'width'], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
         }),
+        flexGrow: 1
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -33,12 +37,15 @@ const styles = theme => ({
 		marginRight: drawerWidth,
 	},
     menuButton: {
-      marginLeft: 12,
-      marginRight: 20,
+        marginLeft: 12,
+        marginRight: 20,
     },
     hide: {
-      display: 'none',
+        display: 'none',
     },
+    title: {
+        flex: 1
+    }
 });
 
 const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
@@ -59,9 +66,15 @@ const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
                     <MenuIcon />
                 </IconButton>
 
-                <Typography variant="title" color="inherit" noWrap>
+                <Typography variant="title" color="inherit" className={classes.title} noWrap>
                     {title}
                 </Typography>
+
+                <div>
+                    <IconButton color="secondary" aria-owns={open ? 'menu-appbar' : null}><NotificationsIcon /></IconButton>
+                    <IconButton color="secondary" aria-owns={open ? 'menu-appbar' : null}><SearchIcon /></IconButton>
+                    <IconButton color="secondary" aria-owns={open ? 'menu-appbar' : null}><SettingsIcon /></IconButton>
+                </div>
             </Toolbar>
         </AppBar>
     );
