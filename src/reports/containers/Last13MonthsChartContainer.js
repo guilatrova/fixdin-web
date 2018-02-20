@@ -47,7 +47,7 @@ class Last13MonthsChartContainer extends React.Component {
 
 		return (
 			<Paper className={classes.paper}>
-				<Typography type="title">
+				<Typography variant="title">
 					Últimos 13 meses
 				</Typography>
 

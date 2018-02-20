@@ -91,7 +91,7 @@ class PaymentOrderStepper extends React.Component {
                 {this.renderStep()}
 
                 <MobileStepper
-                    type="dots"
+                    variant="dots"
                     steps={3}
                     position="static"
                     activeStep={this.state.activeStep}                    

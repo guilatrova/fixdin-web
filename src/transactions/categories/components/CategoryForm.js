@@ -66,7 +66,7 @@ class CategoryForm extends React.Component {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button raised color="primary" disabled={disabled} onClick={this.handleSubmit}>
+                    <Button variant="raised" color="primary" disabled={disabled} onClick={this.handleSubmit}>
                         Salvar
                     </Button>
                 </DialogActions>

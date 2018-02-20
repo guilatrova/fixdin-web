@@ -173,7 +173,7 @@ class TransactionPage extends React.Component {
                     
                     <Toolbar>
                         <div className={classes.title}>
-                            <Typography type="title">Movimentações | Receitas: {totalIncomes} | Despesas: {totalExpenses} | Total: {total}</Typography>
+                            <Typography variant="title">Movimentações | Receitas: {totalIncomes} | Despesas: {totalExpenses} | Total: {total}</Typography>
                         </div>
                         <div className={classes.spacer} />
                         <div className={classes.actions}>

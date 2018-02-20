@@ -9,7 +9,7 @@ const KindSwitch = ({ value, onChange }) => {
     let expenseProps, incomeProps;
     
     if (value.id == EXPENSE.id) {
-        expenseProps = { color: 'accent' };
+        expenseProps = { color: 'secondary' };
         incomeProps = { };
     }
     else {

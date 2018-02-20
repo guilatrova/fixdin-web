@@ -91,7 +91,7 @@ class SignupForm extends React.Component {
                     error={errors.password} />
 
                 <div>
-                    <Button raised color="primary" onClick={this.handleSubmit} disabled={this.isSubmitDisabled()}>
+                    <Button variant="raised" color="primary" onClick={this.handleSubmit} disabled={this.isSubmitDisabled()}>
                         Criar conta
                     </Button>
                     <Link to="/login">Entrar</Link>

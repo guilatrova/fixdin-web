@@ -51,7 +51,7 @@ const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
         >
             <Toolbar disableGutters={!open}>
                 <IconButton
-                    color="contrast"
+                    color="secondary"
                     aria-label="open drawer"
                     onClick={handleDrawerOpen}
                     className={classNames(classes.menuButton, open && classes.hide)}
@@ -59,7 +59,7 @@ const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
                     <MenuIcon />
                 </IconButton>
 
-                <Typography type="title" color="inherit" noWrap>
+                <Typography variant="title" color="inherit" noWrap>
                     {title}
                 </Typography>
             </Toolbar>
