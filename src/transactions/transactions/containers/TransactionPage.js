@@ -174,7 +174,7 @@ class TransactionPage extends React.Component {
                     expenses={totalExpenses}
                 />
 
-                <Paper>
+                <Paper className={classes.paper}>
                     
                     <Toolbar>
                         <div className={classes.actions}>
