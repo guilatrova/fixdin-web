@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import AddIcon from 'material-ui-icons/Add';
 import ClearAllIcon from 'material-ui-icons/ClearAll';
@@ -14,7 +13,6 @@ import RefreshIcon from 'material-ui-icons/Refresh';
 
 import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
-import { formatCurrencyDisplay } from '../../../services/formatter';
 import TransactionTable from '../components/TransactionTable';
 import TransactionFormDialog from './TransactionFormDialog';
 import * as saveOptions from './../components/TransactionForm';
@@ -166,23 +164,19 @@ class TransactionPage extends React.Component {
     handleClearFilters = () => this.props.onClearFilters();
 
     render() {
-        const { isFetching, transactions, categories, classes, accountsNames, totalIncomes, totalExpenses, total } = this.props;        
+        const { isFetching, transactions, categories, classes, accountsNames, totalIncomes, totalExpenses } = this.props;        
         
         return (
             <div className={classes.root}>                
                 <BalancePeriodTable 
                     period="set/2016"
-                    incomes="R$ 100,00"
-                    expenses="R$ 100,00"
+                    incomes={totalIncomes}
+                    expenses={totalExpenses}
                 />
 
                 <Paper>
                     
                     <Toolbar>
-                        <div className={classes.title}>
-                            <Typography variant="title">Movimentações | Receitas: {totalIncomes} | Despesas: {totalExpenses} | Total: {total}</Typography>
-                        </div>
-                        <div className={classes.spacer} />
                         <div className={classes.actions}>
                             <IconButton aria-label="Refresh" onClick={this.handleRefresh} disabled={isFetching}><RefreshIcon /></IconButton>
                             <IconButton aria-label="Filter list" onClick={this.handleClearFilters}><ClearAllIcon /></IconButton>
@@ -240,9 +234,9 @@ class TransactionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        total: formatCurrencyDisplay(selectors.getTotalValueOfDisplayedTransactions(state)),
-        totalExpenses: formatCurrencyDisplay(selectors.getTotalValueOfDisplayedExpenses(state)),
-        totalIncomes: formatCurrencyDisplay(selectors.getTotalValueOfDisplayedIncomes(state)),
+        total: selectors.getTotalValueOfDisplayedTransactions(state),
+        totalExpenses: selectors.getTotalValueOfDisplayedExpenses(state),
+        totalIncomes: selectors.getTotalValueOfDisplayedIncomes(state),
         transactions: selectors.getTransactionsToDisplay(state),
         categories: categorySelectors.getCategories(state),
         editingTransaction: selectors.getEditingTransaction(state),
