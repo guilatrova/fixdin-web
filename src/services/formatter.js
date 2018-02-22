@@ -80,6 +80,11 @@ export function formatCurrencyDisplay(value) {
     if (!value || isNaN(value))
         return "R$ 0,00";
 
-    value = Number(value);
-    return `R$ ${value.toFixed(2).replace(".",",")}`;
+    const formatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2,
+    });
+        
+    return formatter.format(value).replace('R$', 'R$ ');
 }
