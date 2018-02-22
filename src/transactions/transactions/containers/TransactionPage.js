@@ -20,8 +20,8 @@ import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 import { operations as accountsOperations, selectors as accountSelectors } from '../../accounts/duck';
-import BalancePeriodTable from '../components/BalancePeriodTable';
 import specifications from '../specifications';
+import BalanceHeader from './BalanceHeader';
 
 const styles = theme => ({
     root: {
@@ -164,15 +164,12 @@ class TransactionPage extends React.Component {
     handleClearFilters = () => this.props.onClearFilters();
 
     render() {
-        const { isFetching, transactions, categories, classes, accountsNames, totalIncomes, totalExpenses, period } = this.props;        
+        const { isFetching, transactions, categories, classes, accountsNames } = this.props;        
         
         return (
-            <div className={classes.root}>                
-                <BalancePeriodTable 
-                    period={period}
-                    incomes={totalIncomes}
-                    expenses={totalExpenses}
-                />
+            <div className={classes.root}>
+
+                <BalanceHeader />
 
                 <Paper className={classes.paper}>
                     
@@ -234,9 +231,6 @@ class TransactionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        total: selectors.getTotalValueOfDisplayedTransactions(state),
-        totalExpenses: selectors.getTotalValueOfDisplayedExpenses(state),
-        totalIncomes: selectors.getTotalValueOfDisplayedIncomes(state),
         transactions: selectors.getTransactionsToDisplay(state),
         categories: categorySelectors.getCategories(state),
         editingTransaction: selectors.getEditingTransaction(state),
@@ -247,8 +241,7 @@ const mapStateToProps = (state) => {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
         },
-        activeFilters: selectors.getActiveFilters(state),
-        period: selectors.getDisplayedPeriod(state)
+        activeFilters: selectors.getActiveFilters(state)
     };
 };
 
