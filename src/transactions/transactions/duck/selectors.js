@@ -86,6 +86,11 @@ const getActiveFilters = (state) => {
     };
 };
 
+const getDisplayedPeriod = (state) => {
+    const from = getFilters(state).due_date_from || moment().startOf('month');
+    return from.format('MMM/YY');
+};
+
 export default {
     getErrors,
     isFetching,
@@ -102,5 +107,6 @@ export default {
     getTotalValueOfDisplayedExpenses,
     getActiveFilters,
     getAllTransactionDescriptions,
-    getVisibleTransactionDescriptions
+    getVisibleTransactionDescriptions,
+    getDisplayedPeriod
 };

@@ -80,7 +80,7 @@ class TransactionPage extends React.Component {
 
     componentDidMount() {
         this.props.onFetch();
-    }    
+    }
 
     handleRefresh = () => {
         this.props.onFetch(0);
@@ -88,7 +88,7 @@ class TransactionPage extends React.Component {
 
     handleCreateTransaction = () => {
         this.setState({ openTransactionFormDialog: true });
-    }    
+    }
 
     handleHideTransactionFormModal = () => {
         this.props.onFinishEdit();
@@ -164,12 +164,12 @@ class TransactionPage extends React.Component {
     handleClearFilters = () => this.props.onClearFilters();
 
     render() {
-        const { isFetching, transactions, categories, classes, accountsNames, totalIncomes, totalExpenses } = this.props;        
+        const { isFetching, transactions, categories, classes, accountsNames, totalIncomes, totalExpenses, period } = this.props;        
         
         return (
             <div className={classes.root}>                
                 <BalancePeriodTable 
-                    period="set/2016"
+                    period={period}
                     incomes={totalIncomes}
                     expenses={totalExpenses}
                 />
@@ -247,7 +247,8 @@ const mapStateToProps = (state) => {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
         },
-        activeFilters: selectors.getActiveFilters(state)
+        activeFilters: selectors.getActiveFilters(state),
+        period: selectors.getDisplayedPeriod(state)
     };
 };
 
