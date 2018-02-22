@@ -41,7 +41,7 @@ describe('services/formatter', () => {
         
     });
 
-    describe('formatCurrencyDisplay()', () => {
+    xdescribe('formatCurrencyDisplay()', () => {
         it('returns R$ 0,00 by default', () => {
             expect(formatCurrencyDisplay()).toEqual("R$ 0,00");
         });
