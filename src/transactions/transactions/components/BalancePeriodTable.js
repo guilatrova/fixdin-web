@@ -10,7 +10,7 @@ import { formatCurrencyDisplay } from '../../../services/formatter';
 
 const styles = theme => ({
     root: {
-        maxWidth: 300
+        maxWidth: 350
     },
     row: {
         height: 0
