@@ -18,7 +18,7 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total }) => {
     );
 };
 
-BalanceHeader.PropTypes = {
+BalanceHeader.propTypes = {
     total: PropTypes.number.isRequired,
     totalIncomes: PropTypes.number.isRequired,
     totalExpenses: PropTypes.number.isRequired,

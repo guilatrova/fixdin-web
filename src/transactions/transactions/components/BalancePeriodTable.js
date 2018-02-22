@@ -31,7 +31,7 @@ const styles = theme => ({
     }
 });
 
-const BalancePeriodTable = ({ classes, period, incomes, expenses }) => {
+const BalancePeriodTable = ({ classes, period, incomes, expenses, total }) => {
     return (
         <div className={classes.root}>
             <Table>
@@ -54,7 +54,7 @@ const BalancePeriodTable = ({ classes, period, incomes, expenses }) => {
                 <TableFooter>
                     <TableRow className={classes.row}>
                         <TableCell className={classes.strongCell}>Resultado</TableCell>
-                        <TableCell numeric className={classNames(classes.strongCell, classes.valueCell)}>{formatCurrencyDisplay(incomes + expenses)}</TableCell>
+                        <TableCell numeric className={classNames(classes.strongCell, classes.valueCell)}>{formatCurrencyDisplay(total)}</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
@@ -66,7 +66,8 @@ BalancePeriodTable.propTypes = {
     classes: PropTypes.object.isRequired,
     period: PropTypes.string.isRequired,
     incomes: PropTypes.number.isRequired,
-    expenses: PropTypes.number.isRequired
+    expenses: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired
 };
 
 export default withStyles(styles)(BalancePeriodTable);
