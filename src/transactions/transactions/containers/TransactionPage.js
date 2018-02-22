@@ -22,6 +22,7 @@ import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 import { operations as accountsOperations, selectors as accountSelectors } from '../../accounts/duck';
+import BalancePeriodTable from '../components/BalancePeriodTable';
 import specifications from '../specifications';
 
 const styles = theme => ({
@@ -168,7 +169,13 @@ class TransactionPage extends React.Component {
         const { isFetching, transactions, categories, classes, accountsNames, totalIncomes, totalExpenses, total } = this.props;        
         
         return (
-            <div className={classes.root}>
+            <div className={classes.root}>                
+                <BalancePeriodTable 
+                    period="set/2016"
+                    incomes="R$ 100,00"
+                    expenses="R$ 100,00"
+                />
+
                 <Paper>
                     
                     <Toolbar>
