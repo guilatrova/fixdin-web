@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { selectors } from '../duck';
 import BalancePeriodTable from '../components/BalancePeriodTable';
+import AggregatedAccountPeriodTable from '../components/AggregatedAccountPeriodTable';
+import { selectors } from '../duck';
+import { selectors as accountSelectors } from '../../accounts/duck';
 
-const BalanceHeader = ({ period, totalIncomes, totalExpenses, total }) => {
+const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts }) => {
     return (
         <div>
             <BalancePeriodTable
@@ -13,6 +15,11 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total }) => {
                 incomes={totalIncomes}
                 expenses={totalExpenses}
                 total={total}
+            />
+
+            <AggregatedAccountPeriodTable 
+                names={accountsName}
+                values={aggregatedAccounts}
             />
         </div>
     );
@@ -30,7 +37,9 @@ const mapStateToProps = (state) => {
         total: selectors.getTotalValueOfDisplayedTransactions(state),
         totalExpenses: selectors.getTotalValueOfDisplayedExpenses(state),
         totalIncomes: selectors.getTotalValueOfDisplayedIncomes(state),
-        period: selectors.getDisplayedPeriod(state)
+        period: selectors.getDisplayedPeriod(state),
+        accountsName: accountSelectors.getAccountsNamesMappedById(state),
+        aggregatedAccounts: selectors.getTotalValueOfDisplayedTransactionsGroupedByAccount(state)
     };
 };
 

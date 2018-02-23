@@ -58,9 +58,6 @@ class TransactionPage extends React.Component {
         isFetching: PropTypes.bool.isRequired,
         errors: PropTypes.object,
         classes: PropTypes.object,
-        total: PropTypes.string.isRequired,
-        totalIncomes: PropTypes.string.isRequired,
-        totalExpenses: PropTypes.string.isRequired,
         activeFilters: PropTypes.object.isRequired,
         
         onPay: PropTypes.func.isRequired,
@@ -241,7 +238,7 @@ const mapStateToProps = (state) => {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
         },
-        activeFilters: selectors.getActiveFilters(state)
+        activeFilters: selectors.getActiveFilters(state)        
     };
 };
 

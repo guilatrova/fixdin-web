@@ -91,6 +91,43 @@ const getDisplayedPeriod = (state) => {
     return from.format('MMM/YY');
 };
 
+const getDisplayedTransactionsGroupedByAccount = (state) => {
+    return getTransactionsToDisplay(state).reduce((prev, transaction) => {
+        prev[transaction.account] = prev[transaction.account] || [];
+        prev[transaction.account].push(transaction);
+        return prev;
+    }, []);
+};
+
+const getTotalValueOfDisplayedTransactionsGroupedByAccount = (state) => {
+    const sum = (total, cur) => total + cur.value;
+    const result = getDisplayedTransactionsGroupedByAccount(state).reduce((prev, transactions, idx) => {
+        const totalIncomesPayed = transactions.filter(t => t.kind == INCOME.id && t.payment_date).reduce(sum, 0);
+        const totalIncomesPending = transactions.filter(t => t.kind == INCOME.id && !t.payment_date).reduce(sum, 0);
+        const totalExpensesPayed = transactions.filter(t => t.kind == EXPENSE.id && t.payment_date).reduce(sum, 0);
+        const totalExpensesPending = transactions.filter(t => t.kind == EXPENSE.id && !t.payment_date).reduce(sum, 0);
+        const balance = totalIncomesPayed + totalIncomesPending + totalExpensesPayed + totalExpensesPending;
+        prev[idx] = { totalIncomesPayed, totalIncomesPending, totalExpensesPayed, totalExpensesPending, balance };
+        return prev;
+    }, []);
+
+    if (result.length > 0) {
+        const total = result.reduce((prev, aggregated) => {
+            return {
+                totalIncomesPayed: prev.totalIncomesPayed + aggregated.totalIncomesPayed,
+                totalIncomesPending: prev.totalIncomesPending + aggregated.totalIncomesPending,
+                totalExpensesPayed: prev.totalExpensesPayed + aggregated.totalExpensesPayed,
+                totalExpensesPending: prev.totalExpensesPending + aggregated.totalExpensesPending,
+                balance: prev.balance + aggregated.balance,
+            };
+        }, { totalIncomesPayed: 0, totalIncomesPending: 0, totalExpensesPayed: 0, totalExpensesPending: 0, balance: 0 });
+
+        result['total'] = total;
+    }
+    
+    return result;
+};
+
 export default {
     getErrors,
     isFetching,
@@ -108,5 +145,7 @@ export default {
     getActiveFilters,
     getAllTransactionDescriptions,
     getVisibleTransactionDescriptions,
-    getDisplayedPeriod
+    getDisplayedPeriod,
+    getDisplayedTransactionsGroupedByAccount,
+    getTotalValueOfDisplayedTransactionsGroupedByAccount
 };
