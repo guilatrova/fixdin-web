@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Grid from 'material-ui/Grid';
+
 import BalancePeriodTable from '../components/BalancePeriodTable';
 import AggregatedAccountPeriodTable from '../components/AggregatedAccountPeriodTable';
 import { selectors } from '../duck';
@@ -10,17 +12,23 @@ import { selectors as accountSelectors } from '../../accounts/duck';
 const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts }) => {
     return (
         <div>
-            <BalancePeriodTable
-                period={period}
-                incomes={totalIncomes}
-                expenses={totalExpenses}
-                total={total}
-            />
+            <Grid container spacing={24}>
+                <Grid item xs={12} md={3}>
+                    <BalancePeriodTable
+                        period={period}
+                        incomes={totalIncomes}
+                        expenses={totalExpenses}
+                        total={total}
+                    />
+                </Grid>
 
-            <AggregatedAccountPeriodTable 
-                names={accountsName}
-                values={aggregatedAccounts}
-            />
+                <Grid item xs={12} md={9}>
+                    <AggregatedAccountPeriodTable 
+                        names={accountsName}
+                        values={aggregatedAccounts}
+                    />
+                </Grid>
+            </Grid>
         </div>
     );
 };
@@ -29,7 +37,9 @@ BalanceHeader.propTypes = {
     total: PropTypes.number.isRequired,
     totalIncomes: PropTypes.number.isRequired,
     totalExpenses: PropTypes.number.isRequired,
-    period: PropTypes.string.isRequired
+    period: PropTypes.string.isRequired,
+    accountsName: PropTypes.array.isRequired,
+    aggregatedAccounts: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => {

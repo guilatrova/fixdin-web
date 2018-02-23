@@ -5,10 +5,11 @@ import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
 import red from 'material-ui/colors/red';
+import green from 'material-ui/colors/green';
 
 import { formatCurrencyDisplay } from '../../../services/formatter';
 
-const styles = theme => ({
+const styles = () => ({
     root: {
         maxWidth: 350
     },
@@ -19,11 +20,16 @@ const styles = theme => ({
         color: 'black',
         fontWeight: 'bold'
     },
-    expenseCell: {
-        color: red['A700']
+    payedCell: {
+        color: red['A700'],
+        whiteSpace: 'nowrap'
     },
-    valueCell: {
-        fontSize: 20
+    pendingCell: {
+        color: green['A700'],
+        whiteSpace: 'nowrap'
+    },
+    cell: {
+        whiteSpace: 'nowrap'
     }
 });
 
@@ -33,11 +39,21 @@ const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
         return (
             <TableRow key={idx} className={classes.row}>
                 <TableCell>{names[idx] || "TOTAL"}</TableCell>
-                <TableCell>{entry.totalIncomesPayed}</TableCell>
-                <TableCell>{entry.totalIncomesPending}</TableCell>
-                <TableCell>{entry.totalExpensesPayed}</TableCell>
-                <TableCell>{entry.totalExpensesPending}</TableCell>
-                <TableCell>{entry.balance}</TableCell>
+                <TableCell numeric className={classes.payedCell}>
+                    {formatCurrencyDisplay(entry.totalIncomesPayed)}
+                </TableCell>
+                <TableCell numeric className={classes.pendingCell}>
+                    {formatCurrencyDisplay(entry.totalIncomesPending)}
+                </TableCell>
+                <TableCell numeric className={classes.payedCell}>
+                    {formatCurrencyDisplay(entry.totalExpensesPayed)}
+                </TableCell>
+                <TableCell numeric className={classes.pendingCell}>
+                    {formatCurrencyDisplay(entry.totalExpensesPending)}
+                </TableCell>
+                <TableCell numeric className={classes.cell}>
+                    {formatCurrencyDisplay(entry.balance)}
+                </TableCell>
             </TableRow>
         );
     });

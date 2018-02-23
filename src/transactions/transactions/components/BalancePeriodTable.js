@@ -10,24 +10,28 @@ import { formatCurrencyDisplay } from '../../../services/formatter';
 
 const styles = theme => ({
     root: {
-        maxWidth: 350
+        maxWidth: 250
     },
     row: {
         height: 0
     },
     strongCell: {
         color: 'black',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        whiteSpace: 'nowrap'
     },
     periodCell: {
         color: theme.palette.primary.main,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        whiteSpace: 'nowrap'
     },
     expenseCell: {
-        color: red['A700']
+        color: red['A700'],
+        whiteSpace: 'nowrap'
     },
     valueCell: {
-        fontSize: 20
+        fontSize: 20,
+        whiteSpace: 'nowrap'
     }
 });
 
