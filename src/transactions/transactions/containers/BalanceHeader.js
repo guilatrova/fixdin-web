@@ -22,11 +22,15 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
                     />
                 </Grid>
 
-                <Grid item xs={12} md={9}>
+                <Grid item xs={12} md={6}>
                     <AggregatedAccountPeriodTable 
                         names={accountsName}
                         values={aggregatedAccounts}
                     />
+                </Grid>
+
+                <Grid item xs={12} md={3}>
+                    <img src="http://via.placeholder.com/200x150" />
                 </Grid>
             </Grid>
         </div>
