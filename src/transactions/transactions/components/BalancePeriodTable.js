@@ -9,9 +9,6 @@ import red from 'material-ui/colors/red';
 import { formatCurrencyDisplay } from '../../../services/formatter';
 
 const styles = theme => ({
-    root: {
-        maxWidth: 250
-    },
     row: {
         height: 0
     },
@@ -41,24 +38,24 @@ const BalancePeriodTable = ({ classes, period, incomes, expenses, total }) => {
             <Table>
                 <TableHead>
                     <TableRow className={classes.row}>
-                        <TableCell className={classes.strongCell}>Balanço</TableCell>
-                        <TableCell numeric className={classes.periodCell}>{period}</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell}>Balanço</TableCell>
+                        <TableCell padding="dense" numeric className={classes.periodCell}>{period}</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow className={classes.row}>
-                        <TableCell>Receitas</TableCell>
-                        <TableCell numeric className={classes.valueCell}>{formatCurrencyDisplay(incomes)}</TableCell>
+                        <TableCell padding="dense">Receitas</TableCell>
+                        <TableCell padding="dense" numeric className={classes.valueCell}>{formatCurrencyDisplay(incomes)}</TableCell>
                     </TableRow>
                     <TableRow className={classes.row}>
-                        <TableCell>Despesas</TableCell>
-                        <TableCell numeric className={classNames(classes.valueCell, classes.expenseCell)}>{formatCurrencyDisplay(expenses)}</TableCell>
+                        <TableCell padding="dense">Despesas</TableCell>
+                        <TableCell padding="dense" numeric className={classNames(classes.valueCell, classes.expenseCell)}>{formatCurrencyDisplay(expenses)}</TableCell>
                     </TableRow>
                 </TableBody>
                 <TableFooter>
                     <TableRow className={classes.row}>
-                        <TableCell className={classes.strongCell}>Resultado</TableCell>
-                        <TableCell numeric className={classNames(classes.strongCell, classes.valueCell)}>{formatCurrencyDisplay(total)}</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell}>Resultado</TableCell>
+                        <TableCell padding="dense" numeric className={classNames(classes.strongCell, classes.valueCell)}>{formatCurrencyDisplay(total)}</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
