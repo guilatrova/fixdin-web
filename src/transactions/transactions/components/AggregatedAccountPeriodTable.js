@@ -30,23 +30,23 @@ const styles = () => ({
     }
 });
 
-const EntryTableRow = (entry, name, id, classes) => {
+const EntryTableRow = (entry, name, id, classes, cellModifierClass) => {
     return (
         <TableRow key={id} className={classes.row}>
-            <TableCell padding="dense">{name}</TableCell>
-            <TableCell padding="dense" numeric className={classes.payedCell}>
+            <TableCell padding="dense" className={cellModifierClass}>{name}</TableCell>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.payedCell)}>
                 {formatCurrencyDisplay(entry.totalIncomesPayed)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classes.pendingCell}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.pendingCell)}>
                 {formatCurrencyDisplay(entry.totalIncomesPending)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classes.payedCell}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.payedCell)}>
                 {formatCurrencyDisplay(entry.totalExpensesPayed)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classes.pendingCell}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.pendingCell)}>
                 {formatCurrencyDisplay(entry.totalExpensesPending)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classes.cell}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
                 {formatCurrencyDisplay(entry.balance)}
             </TableCell>
         </TableRow>
@@ -58,7 +58,7 @@ const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
         const idx = values.indexOf(entry);
         return EntryTableRow(entry, names[idx], idx, classes);
     });
-    const footerRow = values.total ? EntryTableRow(values.total, "TOTAL", 0, classes) : null;
+    const footerRow = values.total ? EntryTableRow(values.total, "TOTAL", 0, classes, classes.strongCell) : null;
 
     return (
         <div className={classes.root}>
@@ -74,7 +74,7 @@ const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows}                    
+                    {rows}
                 </TableBody>
                 <TableFooter>
                     {footerRow}
