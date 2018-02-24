@@ -30,6 +30,21 @@ const styles = () => ({
     }
 });
 
+const Headers = (classes) => {
+    const payedSign = <span className={classes.payedCell}>$</span>;
+    const pendingSign = <span className={classes.pendingCell}>$</span>;
+    return (
+        <TableRow className={classes.row}>
+            <TableCell padding="dense" className={classes.strongCell}>Contas</TableCell>
+            <TableCell padding="dense" className={classes.strongCell} numeric>Receitas {payedSign}</TableCell>
+            <TableCell padding="dense" className={classes.strongCell} numeric>Receitas {pendingSign}</TableCell>
+            <TableCell padding="dense" className={classes.strongCell} numeric>Despesas {payedSign}</TableCell>
+            <TableCell padding="dense" className={classes.strongCell} numeric>Despesas {pendingSign}</TableCell>
+            <TableCell padding="dense" className={classes.strongCell} numeric>Saldo</TableCell>
+        </TableRow>
+    );
+};
+
 const EntryTableRow = (entry, name, id, classes, cellModifierClass) => {
     return (
         <TableRow key={id} className={classes.row}>
@@ -58,22 +73,13 @@ const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
         const idx = values.indexOf(entry);
         return EntryTableRow(entry, names[idx], idx, classes);
     });
-    const footerRow = values.total ? EntryTableRow(values.total, "TOTAL", 0, classes, classes.strongCell) : null;
-    const payedSign = <span className={classes.payedCell}>$</span>;
-    const pendingSign = <span className={classes.pendingCell}>$</span>;
+    const footerRow = values.total ? EntryTableRow(values.total, "Total", 0, classes, classes.strongCell) : null;    
 
     return (
         <div className={classes.root}>
             <Table>
                 <TableHead>
-                    <TableRow className={classes.row}>
-                        <TableCell padding="dense" className={classes.strongCell}>Contas</TableCell>
-                        <TableCell padding="dense" className={classes.strongCell} numeric>Receitas {payedSign}</TableCell>
-                        <TableCell padding="dense" className={classes.strongCell} numeric>Receitas {pendingSign}</TableCell>
-                        <TableCell padding="dense" className={classes.strongCell} numeric>Despesas {payedSign}</TableCell>
-                        <TableCell padding="dense" className={classes.strongCell} numeric>Despesas {pendingSign}</TableCell>
-                        <TableCell padding="dense" className={classes.strongCell} numeric>Saldo</TableCell>
-                    </TableRow>
+                    {Headers(classes)}
                 </TableHead>
                 <TableBody>
                     {rows}
