@@ -18,11 +18,11 @@ const styles = () => ({
         fontWeight: 'bold'
     },
     payedCell: {
-        color: red['A700'],
+        color: green['A700'],
         whiteSpace: 'nowrap'
     },
     pendingCell: {
-        color: green['A700'],
+        color: red['A700'],
         whiteSpace: 'nowrap'
     },
     cell: {
@@ -59,6 +59,8 @@ const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
         return EntryTableRow(entry, names[idx], idx, classes);
     });
     const footerRow = values.total ? EntryTableRow(values.total, "TOTAL", 0, classes, classes.strongCell) : null;
+    const payedSign = <span className={classes.payedCell}>$</span>;
+    const pendingSign = <span className={classes.pendingCell}>$</span>;
 
     return (
         <div className={classes.root}>
@@ -66,10 +68,10 @@ const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
                 <TableHead>
                     <TableRow className={classes.row}>
                         <TableCell padding="dense" className={classes.strongCell}>Contas</TableCell>
-                        <TableCell padding="dense" className={classes.strongCell} numeric>Receitas P</TableCell>
-                        <TableCell padding="dense" className={classes.strongCell} numeric>Receitas NP</TableCell>
-                        <TableCell padding="dense" className={classes.strongCell} numeric>Despesas P</TableCell>
-                        <TableCell padding="dense" className={classes.strongCell} numeric>Despesas NP</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell} numeric>Receitas {payedSign}</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell} numeric>Receitas {pendingSign}</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell} numeric>Despesas {payedSign}</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell} numeric>Despesas {pendingSign}</TableCell>
                         <TableCell padding="dense" className={classes.strongCell} numeric>Saldo</TableCell>
                     </TableRow>
                 </TableHead>
