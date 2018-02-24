@@ -10,9 +10,6 @@ import green from 'material-ui/colors/green';
 import { formatCurrencyDisplay } from '../../../services/formatter';
 
 const styles = () => ({
-    root: {
-        maxWidth: 350
-    },
     row: {
         height: 0
     },
@@ -33,46 +30,55 @@ const styles = () => ({
     }
 });
 
+const EntryTableRow = (entry, name, id, classes) => {
+    return (
+        <TableRow key={id} className={classes.row}>
+            <TableCell padding="dense">{name}</TableCell>
+            <TableCell padding="dense" numeric className={classes.payedCell}>
+                {formatCurrencyDisplay(entry.totalIncomesPayed)}
+            </TableCell>
+            <TableCell padding="dense" numeric className={classes.pendingCell}>
+                {formatCurrencyDisplay(entry.totalIncomesPending)}
+            </TableCell>
+            <TableCell padding="dense" numeric className={classes.payedCell}>
+                {formatCurrencyDisplay(entry.totalExpensesPayed)}
+            </TableCell>
+            <TableCell padding="dense" numeric className={classes.pendingCell}>
+                {formatCurrencyDisplay(entry.totalExpensesPending)}
+            </TableCell>
+            <TableCell padding="dense" numeric className={classes.cell}>
+                {formatCurrencyDisplay(entry.balance)}
+            </TableCell>
+        </TableRow>
+    );
+};
+
 const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
     const rows = values.map(entry => {
         const idx = values.indexOf(entry);
-        return (
-            <TableRow key={idx} className={classes.row}>
-                <TableCell>{names[idx] || "TOTAL"}</TableCell>
-                <TableCell numeric className={classes.payedCell}>
-                    {formatCurrencyDisplay(entry.totalIncomesPayed)}
-                </TableCell>
-                <TableCell numeric className={classes.pendingCell}>
-                    {formatCurrencyDisplay(entry.totalIncomesPending)}
-                </TableCell>
-                <TableCell numeric className={classes.payedCell}>
-                    {formatCurrencyDisplay(entry.totalExpensesPayed)}
-                </TableCell>
-                <TableCell numeric className={classes.pendingCell}>
-                    {formatCurrencyDisplay(entry.totalExpensesPending)}
-                </TableCell>
-                <TableCell numeric className={classes.cell}>
-                    {formatCurrencyDisplay(entry.balance)}
-                </TableCell>
-            </TableRow>
-        );
+        return EntryTableRow(entry, names[idx], idx, classes);
     });
+    const footerRow = values.total ? EntryTableRow(values.total, "TOTAL", 0, classes) : null;
+
     return (
         <div className={classes.root}>
             <Table>
-                <TableHead>                    
+                <TableHead>
                     <TableRow className={classes.row}>
-                        <TableCell className={classes.strongCell}>Contas</TableCell>
-                        <TableCell numeric className={classes.strongCell}>Receitas P</TableCell>
-                        <TableCell numeric className={classes.strongCell}>Receitas NP</TableCell>
-                        <TableCell numeric className={classes.strongCell}>Despesas P</TableCell>
-                        <TableCell numeric className={classes.strongCell}>Despesas NP</TableCell>
-                        <TableCell numeric className={classes.strongCell}>Saldo</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell}>Contas</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell} numeric>Receitas P</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell} numeric>Receitas NP</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell} numeric>Despesas P</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell} numeric>Despesas NP</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell} numeric>Saldo</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows}                    
                 </TableBody>
+                <TableFooter>
+                    {footerRow}
+                </TableFooter>
             </Table>
         </div>
     );
