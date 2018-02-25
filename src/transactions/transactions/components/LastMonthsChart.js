@@ -5,43 +5,50 @@ import red from 'material-ui/colors/red';
 import green from 'material-ui/colors/green';
 import { VictoryChart, VictoryBar, VictoryLine, VictoryGroup, VictoryAxis } from 'victory';
 
+const effectiveExpenseStyle = {
+    data: { fill: red["A100"] } 
+};
+const effectiveIncomeStyle = {
+    data: { fill: green["A700"] }
+};
+const realExpenseStyle = {
+    data: { fill: red[900], opacity: 0.5 }
+};
+const realIncomeStyle = {
+    data: { fill: green[900], opacity: 0.5 }
+};
+
 const LastMonthsChart = () => {
-    const incomesData =  [{ x: 1, y: 120 }, { x: 2, y: 80 }, { x: 3, y: 15 }];
-    const expensesData =  [{ x: 1, y: 100 }, { x: 2, y: 40 }, { x: 3, y: 15 }];
-    const lineData = [{ x: 1, y: 20 }, { x: 2, y: 40 }, { x: 3, y: 0 }];
+    const effectiveIncomesData =  [{ x: "Jan", y: 120 }, { x: "Fev", y: 80 }, { x: "Mar", y: 15 }];
+    const effectiveExpensesData = [{ x: "Jan", y: 100 }, { x: "Fev", y: 40 }, { x: "Mar", y: 15 }];
+    const realIncomesData =       [{ x: "Jan", y: 100 }, { x: "Fev", y: 50 }, { x: "Mar", y: 10 }];
+    const realExpensesData =      [{ x: "Jan", y: 80 },  { x: "Fev", y: 10 }, { x: "Mar", y: 15 }];
+    const lineData =              [{ x: "Jan", y: 20 },  { x: "Fev", y: 40 }, { x: "Mar", y: 0 }];
     const axisLabels = [ "Jan", "Fev", "Mar" ];
-    const expenseStyle = {
-        data: {
-            fill: red["A700"]
-        }
-    };
-    const incomeStyle = {
-        data: {
-            fill: green["A700"]
-        }
-    };
 
     return (
-        <div height={400} width={400}>
-            <VictoryChart height={400} width={400}
-                domainPadding={{ x: 50, y: [0, 10] }}
-            >
-                <VictoryGroup offset={20}>
-                    <VictoryBar data={incomesData} style={incomeStyle} labels={(d) => d.y} />
-                    <VictoryBar data={expensesData} style={expenseStyle} labels={(d) => d.y} />
-                </VictoryGroup>
+        <VictoryChart>
+            <VictoryGroup offset={20}>
+                <VictoryBar data={effectiveIncomesData} style={effectiveIncomeStyle} />
+                <VictoryBar data={effectiveExpensesData} style={effectiveExpenseStyle} />
+            </VictoryGroup>
 
-                <VictoryGroup>
-                    <VictoryLine
-                        data={lineData}
-                        interpolation="natural"
-                        labels={(d => d.y)}
-                    />
-                </VictoryGroup>
+            <VictoryGroup offset={20}>
+                <VictoryBar data={realIncomesData} style={realIncomeStyle} />
+                <VictoryBar data={realExpensesData} style={realExpenseStyle} />
+            </VictoryGroup>
 
-                <VictoryAxis tickValues={axisLabels} />
-            </VictoryChart>
-        </div>
+            <VictoryGroup>
+                <VictoryLine
+                    data={lineData}
+                    interpolation="natural"
+                    labels={(d) => `R$ ${d.y}`}
+                />
+            </VictoryGroup>
+
+            <VictoryAxis tickFormat={axisLabels} />
+
+        </VictoryChart>
     );
 };
 
