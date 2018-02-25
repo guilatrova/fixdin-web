@@ -217,7 +217,7 @@ class TransactionForm extends React.Component {
                         onChange={category => this.setState({ category })} />
                 </div>
 
-                {/*TO DO: <TextFieldError id="category" label="Categoria" error={errors.category}> */}
+                {/*TODO: <TextFieldError id="category" label="Categoria" error={errors.category}> */}
                     {/* <CategorySelectPicker 
                         kind={this.state.kind} 
                         value={this.state.category}
@@ -238,7 +238,7 @@ class TransactionForm extends React.Component {
                     <Slider id="priority-slider" min={1} max={5} defaultValue={3} marks={{ 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'}}
                             value={this.state.priority} onChange={(priority) => this.setState({priority})}/>
 
-                    {/*TO DO: ERRORS or wait new slider */}
+                    {/*TODO: ERRORS or wait new slider */}
                 </div>
 
                 <div className={classes.widthLimit}>
@@ -247,7 +247,7 @@ class TransactionForm extends React.Component {
                     <Slider min={0} max={60} step={null} marks={{ 0: '0', 5: '5', 15: '15', 30: '30', 60: '60'}}
                             value={this.state.deadline} onChange={(deadline) => this.setState({deadline})}/>
 
-                    {/*TO DO: ERRORS or wait new slider */}
+                    {/*TODO: ERRORS or wait new slider */}
                 </div>
 
                 <FormControlLabel

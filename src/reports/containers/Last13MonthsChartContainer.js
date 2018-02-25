@@ -48,7 +48,7 @@ class Last13MonthsChartContainer extends React.Component {
 		return (
 			<Paper className={classes.paper}>
 				<Typography variant="title">
-					Últimos 13 meses
+					Últimos 12 meses
 				</Typography>
 
 				<FormControlLabel label="Exibir real"
@@ -60,7 +60,7 @@ class Last13MonthsChartContainer extends React.Component {
 					}
 				/>
 
-				<Last13MonthsChart id="last-13-months-chart" data={data} />
+				<Last13MonthsChart id="last-months-chart" data={data} />
 			</Paper>
 		);
 	}
@@ -73,11 +73,11 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = () => {
 	return {
 		onFetch: () => {
-			dispatch(operations.fetchLast13MonthsReport());
-			dispatch(operations.fetchLast13MonthsReport(true));
+			// dispatch(operations.fetchLast13MonthsReport());
+			// dispatch(operations.fetchLast13MonthsReport(true));
 		}
 	};
 };

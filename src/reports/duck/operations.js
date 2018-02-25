@@ -28,7 +28,7 @@ class FetchPendingTransactionsOperation extends GetOperation {
 
 class FetchLast13MonthsOperation extends GetOperation {
     constructor(real = false) {
-        super('reports/last-13-months/',
+        super('reports/last-months/',
             actions.requestLast13MonthsReport,
             actions.receiveLast13MonthsReport);
 
