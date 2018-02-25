@@ -6,13 +6,14 @@ import Grid from 'material-ui/Grid';
 
 import BalancePeriodTable from '../components/BalancePeriodTable';
 import AggregatedAccountPeriodTable from '../components/AggregatedAccountPeriodTable';
+import LastMonthsChart from '../components/LastMonthsChart';
 import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
 
 const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts }) => {
     return (
         <div>
-            <Grid container spacing={24}>
+            <Grid container>
                 <Grid item xs={12} md={3}>
                     <BalancePeriodTable
                         period={period}
@@ -29,8 +30,10 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
                     />
                 </Grid>
 
-                <Grid item xs={12} md={3}>
-                    <img src="http://via.placeholder.com/200x150" />
+                <Grid item xs={12} md={12}>
+                    <div style={{ maxHeight: 400, maxWidth: 400 }}>
+                        <LastMonthsChart />
+                    </div>
                 </Grid>
             </Grid>
         </div>
