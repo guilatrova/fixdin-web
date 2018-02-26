@@ -1,5 +1,18 @@
-const getLastMonths = (state) =>
-    state.reports;
+const buildChartData = (data, yProp, allowNegative=false) => data.map(item => (
+    { x: item['period'], y: item[yProp] >= 0 ? parseInt(item[yProp]) : allowNegative ? parseInt(item[yProp]) : -item[yProp] })
+);
+
+const getLastMonths = (state) => {
+    const data = state.reports.lastMonths.data;    
+    return {
+        effectiveIncomes: buildChartData(data, 'effective_incomes'),
+        effectiveExpenses: buildChartData(data, 'effective_expenses'),
+        realIncomes: buildChartData(data, 'real_incomes'),
+        realExpenses: buildChartData(data, 'real_expenses'),
+        effectiveTotal: buildChartData(data, 'effective_total', true),
+        periods: data.map(item => item.period)
+    };
+};
 
 function getNextPendingExpenses(state) {
     return state.reports.pendingTransactions.expenses.next;

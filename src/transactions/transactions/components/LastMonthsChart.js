@@ -18,36 +18,28 @@ const realIncomeStyle = {
     data: { fill: green[900], opacity: 0.5 }
 };
 
-const LastMonthsChart = () => {
-    const effectiveIncomesData =  [{ x: "Jan", y: 120 }, { x: "Fev", y: 80 }, { x: "Mar", y: 15 }];
-    const effectiveExpensesData = [{ x: "Jan", y: 100 }, { x: "Fev", y: 40 }, { x: "Mar", y: 15 }];
-    const realIncomesData =       [{ x: "Jan", y: 100 }, { x: "Fev", y: 50 }, { x: "Mar", y: 10 }];
-    const realExpensesData =      [{ x: "Jan", y: 80 },  { x: "Fev", y: 10 }, { x: "Mar", y: 15 }];
-    const lineData =              [{ x: "Jan", y: 20 },  { x: "Fev", y: 40 }, { x: "Mar", y: 0 }];
-    const axisLabels = [ "Jan", "Fev", "Mar" ];
+const LastMonthsChart = ({ data }) => {
+    const { effectiveIncomes, effectiveExpenses, realIncomes, realExpenses, effectiveTotal, periods } = data;
 
     return (
         <VictoryChart>
             <VictoryGroup offset={20}>
-                <VictoryBar data={effectiveIncomesData} style={effectiveIncomeStyle} />
-                <VictoryBar data={effectiveExpensesData} style={effectiveExpenseStyle} />
+                <VictoryBar data={effectiveIncomes} style={effectiveIncomeStyle} />
+                <VictoryBar data={effectiveExpenses} style={effectiveExpenseStyle} />
             </VictoryGroup>
 
             <VictoryGroup offset={20}>
-                <VictoryBar data={realIncomesData} style={realIncomeStyle} />
-                <VictoryBar data={realExpensesData} style={realExpenseStyle} />
+                <VictoryBar data={realIncomes} style={realIncomeStyle} />
+                <VictoryBar data={realExpenses} style={realExpenseStyle} />
             </VictoryGroup>
 
-            <VictoryGroup>
-                <VictoryLine
-                    offsetY={45}
-                    data={lineData}
-                    interpolation="natural"
-                    labels={(d) => `R$ ${d.y}`}
-                />
-            </VictoryGroup>
+            <VictoryLine
+                data={effectiveTotal}
+                interpolation="natural"
+                labels={(d) => `R$ ${d.y}`}
+            />
 
-            <VictoryAxis tickFormat={axisLabels} />
+            <VictoryAxis tickFormat={periods} />
 
         </VictoryChart>
     );

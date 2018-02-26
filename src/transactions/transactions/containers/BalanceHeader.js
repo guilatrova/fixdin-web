@@ -11,7 +11,7 @@ import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
 import { selectors as reportSelectors } from '../../../reports/duck';
 
-const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts }) => {
+const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, lastMonthsData }) => {
     return (
         <div>
             <Grid container spacing={8} justify="center">
@@ -33,7 +33,7 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
 
                 <Grid item xs={12} md={3}>
                     <div style={{ width: "100%" }}>
-                        <LastMonthsChart />
+                        <LastMonthsChart data={lastMonthsData} />
                     </div>
                 </Grid>
             </Grid>

@@ -36,7 +36,7 @@ class LastMonthsChartContainer extends React.Component {
 
 	render() {
 		const { classes } = this.props;
-		const source = this.state.displayReal ? this.props.realData : this.props.data;
+		const source = this.props.data;
 
 		const data = source.map(report => ({
 			period: report.period.slice(-2) + '/' + report.period.slice(0, 4),//2017-01 becomes 01/2017
@@ -68,8 +68,7 @@ class LastMonthsChartContainer extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		data: selectors.getLastMonths(state),
-		realData: selectors.getRealLastMonths(state)
+		data: selectors.getLastMonths(state)
 	};
 };
 
