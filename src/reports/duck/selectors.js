@@ -1,10 +1,5 @@
-function getLast13Months(state) {
-    return state.reports.last13Months.data.expected;
-}
-
-function getRealLast13Months(state) {
-    return state.reports.last13Months.data.real;
-}
+const getLastMonths = (state) =>
+    state.reports;
 
 function getNextPendingExpenses(state) {
     return state.reports.pendingTransactions.expenses.next;
@@ -31,8 +26,7 @@ const getIncomesByCategory = state => getValuesByCategory(state).incomes.data;
 const getExpensesByCategory = state => getValuesByCategory(state).expenses.data;
 
 export default {
-    getLast13Months,
-    getRealLast13Months,
+    getLastMonths,
 
     getNextPendingExpenses,
     getOverdueExpenses,

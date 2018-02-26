@@ -8,8 +8,8 @@ import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 import Typography from 'material-ui/Typography';
 
-import { operations, selectors } from './../duck';
-import Last13MonthsChart from '../components/Last13MonthsChart';
+import { operations, selectors } from '../duck';
+import LastMonthsChart from '../components/LastMonthsChart';
 
 const styles = theme => ({
 	paper: {
@@ -18,7 +18,7 @@ const styles = theme => ({
 	}
 });
 
-class Last13MonthsChartContainer extends React.Component {
+class LastMonthsChartContainer extends React.Component {
 	static propTypes = {
 		onFetch: PropTypes.func.isRequired,
 		realData: PropTypes.array.isRequired,
@@ -60,7 +60,7 @@ class Last13MonthsChartContainer extends React.Component {
 					}
 				/>
 
-				<Last13MonthsChart id="last-months-chart" data={data} />
+				<LastMonthsChart id="last-months-chart" data={data} />
 			</Paper>
 		);
 	}
@@ -68,20 +68,20 @@ class Last13MonthsChartContainer extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		data: selectors.getLast13Months(state),
-		realData: selectors.getRealLast13Months(state)
+		data: selectors.getLastMonths(state),
+		realData: selectors.getRealLastMonths(state)
 	};
 };
 
 const mapDispatchToProps = () => {
 	return {
 		onFetch: () => {
-			// dispatch(operations.fetchLast13MonthsReport());
-			// dispatch(operations.fetchLast13MonthsReport(true));
+			// dispatch(operations.fetchLastMonthsReport());
+			// dispatch(operations.fetchLastMonthsReport(true));
 		}
 	};
 };
 
 export default withStyles(styles)(
-	connect(mapStateToProps, mapDispatchToProps)(Last13MonthsChartContainer)
+	connect(mapStateToProps, mapDispatchToProps)(LastMonthsChartContainer)
 );

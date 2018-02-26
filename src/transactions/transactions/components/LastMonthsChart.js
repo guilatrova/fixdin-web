@@ -40,6 +40,7 @@ const LastMonthsChart = () => {
 
             <VictoryGroup>
                 <VictoryLine
+                    offsetY={45}
                     data={lineData}
                     interpolation="natural"
                     labels={(d) => `R$ ${d.y}`}

@@ -9,6 +9,7 @@ import AggregatedAccountPeriodTable from '../components/AggregatedAccountPeriodT
 import LastMonthsChart from '../components/LastMonthsChart';
 import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
+import { selectors as reportSelectors } from '../../../reports/duck';
 
 const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts }) => {
     return (
@@ -55,8 +56,11 @@ const mapStateToProps = (state) => {
         totalExpenses: selectors.getTotalValueOfDisplayedExpenses(state),
         totalIncomes: selectors.getTotalValueOfDisplayedIncomes(state),
         period: selectors.getDisplayedPeriod(state),
+
         accountsName: accountSelectors.getAccountsNamesMappedById(state),
-        aggregatedAccounts: selectors.getTotalValueOfDisplayedTransactionsGroupedByAccount(state)
+        aggregatedAccounts: selectors.getTotalValueOfDisplayedTransactionsGroupedByAccount(state),
+        
+        lastMonthsData: reportSelectors.getLastMonths(state)
     };
 };
 

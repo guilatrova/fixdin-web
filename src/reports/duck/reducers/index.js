@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import last13Months from './last13MonthsReducer';
+import lastMonths from './lastMonthsReducer';
 import pendingTransactions from './pendingTransactionsReducer';
 import valuesByCategory from './valuesByCategoryReducer';
 
 const rootReducer = combineReducers({
-    last13Months,
+    lastMonths,
     pendingTransactions,
     valuesByCategory
 });

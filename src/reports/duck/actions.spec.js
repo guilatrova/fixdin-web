@@ -16,18 +16,18 @@ describe('reports/duck/actions', () => {
 		restoreMock();
 	});
 
-	describe('FETCH_LAST_13_MONTHS', () => {
+	describe('FETCH_LAST_MONTHS', () => {
 
 		it('should dispatch success action after successful request', () => {
             const data = [ { id: 1 }, { id: 2 } ];
 			const expectedActions = [
-				{ type: types.FETCH_LAST_13_MONTHS, real: undefined },
-				{ type: types.FETCH_LAST_13_MONTHS, real: false, result: 'success', data }
+				{ type: types.FETCH_LAST_MONTHS },
+				{ type: types.FETCH_LAST_MONTHS, result: 'success', data }
 			];
 
 			mock.onGet().reply(200, data);
 
-			return store.dispatch(operations.fetchLast13MonthsReport()).then(() => {
+			return store.dispatch(operations.fetchLastMonthsReport()).then(() => {
 				expect(store.getActions()).toEqual(expectedActions);
 			});
 		});
@@ -37,13 +37,13 @@ describe('reports/duck/actions', () => {
 				detail: 'data unavailable',
 			};
 			const expectedActions = [
-				{ type: types.FETCH_LAST_13_MONTHS, real: undefined },
-				{ type: types.FETCH_LAST_13_MONTHS, result: 'fail', errors: expectedResponse }
+				{ type: types.FETCH_LAST_MONTHS },
+				{ type: types.FETCH_LAST_MONTHS, result: 'fail', errors: expectedResponse }
 			];
 
 			mock.onGet().reply(400, expectedResponse);
 
-			return store.dispatch(operations.fetchLast13MonthsReport()).then(() => {
+			return store.dispatch(operations.fetchLastMonthsReport()).then(() => {
 				expect(store.getActions()).toEqual(expectedActions);
 			});
 		});

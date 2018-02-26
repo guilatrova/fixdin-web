@@ -1,24 +1,22 @@
 import types from './types';
 
-const requestLast13MonthsReport = (real) => {
+const requestLastMonthsReport = () => {
     return {
-        type: types.FETCH_LAST_13_MONTHS,
-        real
+        type: types.FETCH_LAST_MONTHS
     };
 };
 
-const receiveLast13MonthsReport = (result, data, real) => {
+const receiveLastMonthsReport = (result, data) => {
     if (result === 'success') {
         return {
-            type: types.FETCH_LAST_13_MONTHS,
+            type: types.FETCH_LAST_MONTHS,
             result,
-            real,
             data
         };
     }
 
     return {
-        type: types.FETCH_LAST_13_MONTHS,
+        type: types.FETCH_LAST_MONTHS,
         result,
         errors: data
     };
@@ -75,8 +73,8 @@ const receiveValuesByCategoryReport = (result, data, kind) => {
 };
 
 export default {
-    requestLast13MonthsReport,
-    receiveLast13MonthsReport,
+    requestLastMonthsReport,
+    receiveLastMonthsReport,
     
     requestPendingTransactionsReport,
     receivePendingTransactionsReport,

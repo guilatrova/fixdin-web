@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withMobileDialog } from 'material-ui/Dialog';
 import { VictoryChart, VictoryBar, VictoryGroup, VictoryAxis } from 'victory';
 
-class Last13MonthsChart extends React.Component {
+class LastMonthsChart extends React.Component {
 	static propTypes = {
 		id: PropTypes.string.isRequired,
 		data: PropTypes.array.isRequired,
@@ -39,4 +39,4 @@ class Last13MonthsChart extends React.Component {
 	}
 }
 
-export default withMobileDialog()(Last13MonthsChart);
+export default withMobileDialog()(LastMonthsChart);
