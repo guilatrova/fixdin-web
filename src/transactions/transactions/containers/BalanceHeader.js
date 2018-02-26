@@ -47,7 +47,8 @@ BalanceHeader.propTypes = {
     totalExpenses: PropTypes.number.isRequired,
     period: PropTypes.string.isRequired,
     accountsName: PropTypes.array.isRequired,
-    aggregatedAccounts: PropTypes.array.isRequired
+    aggregatedAccounts: PropTypes.array.isRequired,
+    lastMonthsData: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => {

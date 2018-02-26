@@ -10,7 +10,6 @@ import { operations as balanceOperations, selectors as balanceSelectors } from '
 import BalanceCard from './../../balances/components/BalanceCard';
 import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
 import ValuesByCategoryPieChartContainer from './../../reports/containers/ValuesByCategoryPieChartContainer';
-import LastMonthsChart from './../../reports/containers/LastMonthsChartContainer';
 import { EXPENSE, INCOME } from './../../transactions/kinds';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
 import { formatCurrencyDisplay } from '../../services/formatter';
@@ -72,10 +71,6 @@ class DashboardPage extends React.Component {
                 </Grid>                
 
                 <Grid container spacing={24}>
-
-                    <Grid item xs={12} xl={6}>
-                        <LastMonthsChart />
-                    </Grid>
 
                     <Grid item xs={12} md={6}>
                         <ValuesByCategoryPieChartContainer title="Despesas por categoria" data={this.props.expensesByCategory} />
