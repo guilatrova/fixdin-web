@@ -1,60 +1,14 @@
-import { EXPENSE, INCOME } from '../transactions/kinds';
+import { EXPENSE, INCOME } from '../kinds';
 import moment from 'moment';
 import {
-    formatCurrency, 
-    formatDate, 
-    clean,
     formatTransactionReceived, 
     formatTransactionToSend,
     formatPeriodic,
-    formatCurrencyDisplay
-} from './formatter';
+    formatCurrency
+} from './formatters';
 
-describe('services/formatter', () => {
-
-    describe('formatDate()', () => {
-
-        it('regular date', () => {
-            const date = moment(new Date(2014, 7, 22)); //Month index starts in 0 (until 11)
-            expect(formatDate(date)).to.equal('2014-08-22');
-        });
-        
-        it('null date', () => {
-            expect(formatDate()).to.be.null;
-        });
-
-    });
-
-    describe('formatCurrency()', () => {
-        
-        it('simple currency', () => {
-            expect(formatCurrency("R$ 10", INCOME)).to.be.equal(10);
-        });
-        
-        it('with decimals', () => {
-            expect(formatCurrency("R$ 19,99", INCOME)).to.be.equal(19.99);
-        });
-        
-        it('to negative when kind is EXPENSE', () => {
-            expect(formatCurrency("R$ 59,99", EXPENSE)).to.be.equal(-59.99);
-        });
-        
-    });
-
-    xdescribe('formatCurrencyDisplay()', () => {
-        it('returns R$ 0,00 by default', () => {
-            expect(formatCurrencyDisplay()).toEqual("R$ 0,00");
-        });
-
-        it('returns R$ 0,00 ', () => {
-            expect(formatCurrencyDisplay()).toEqual("R$ 0,00");
-        });
-
-        it('returns correct number to display', () => {
-            expect(formatCurrencyDisplay(45.32)).toEqual("R$ 45,32");
-        });
-    });
-
+describe('transactions/formatters', () => {
+    
     describe('formatTransaction...()', () => {
 
         describe('formatTransactionToSend()', () => {
@@ -134,6 +88,22 @@ describe('services/formatter', () => {
 
     });
 
+    describe('formatCurrency()', () => {
+        
+        it('simple currency', () => {
+            expect(formatCurrency("R$ 10", INCOME)).to.be.equal(10);
+        });
+        
+        it('with decimals', () => {
+            expect(formatCurrency("R$ 19,99", INCOME)).to.be.equal(19.99);
+        });
+        
+        it('to negative when kind is EXPENSE', () => {
+            expect(formatCurrency("R$ 59,99", EXPENSE)).to.be.equal(-59.99);
+        });
+        
+    });
+
     describe('formatPeriodic()', () => {
 
         it('null periodics should not be formatted', () => {
@@ -154,21 +124,4 @@ describe('services/formatter', () => {
     });
 
     xit('formatTransactionFilters');
-
-    it('clean', () => {
-        const obj = {
-            numberOk: 1,
-            stringOk: 'a',
-            emptyStrOk: '',
-            nullRemoved: null,
-            undefinedRemoved: undefined
-        };
-
-        expect(clean(obj)).to.deep.equal({
-            numberOk: 1,
-            stringOk: 'a',
-            emptyStrOk: ''
-        });
-    });
-
 });

@@ -6,7 +6,7 @@ import EditIcon from 'material-ui-icons/ModeEdit';
 import { MenuItem } from 'material-ui/Menu';
 
 import { TableSort, DataColumn } from './../../../common/material/TableSort';
-import { formatCurrencyDisplay } from '../../../services/formatter';
+import { formatCurrencyDisplay } from '../../../utils/formatters';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 
 const TransferTable = ({ transfers, accountsNames, onEdit, onDelete }) => {

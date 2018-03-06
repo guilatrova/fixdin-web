@@ -6,7 +6,7 @@ import { withStyles } from 'material-ui/styles';
 
 import TransactionsList from '../components/TransactionsList';
 import { operations, selectors } from '../duck';
-import { formatCurrencyDisplay } from '../../services/formatter';
+import { formatCurrencyDisplay } from '../../utils/formatters';
 
 const styles = theme => ({
     root: {

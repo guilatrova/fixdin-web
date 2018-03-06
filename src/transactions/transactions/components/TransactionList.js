@@ -6,7 +6,7 @@ import Typography from 'material-ui/Typography';
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 
-import { formatCurrencyDisplay } from '../../../services/formatter';
+import { formatCurrencyDisplay } from '../../../utils/formatters';
 
 const styles = theme => ({
     root: {

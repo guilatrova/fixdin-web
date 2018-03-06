@@ -12,7 +12,7 @@ import { operations as reportOperations, selectors as reportSelectors } from './
 import ValuesByCategoryPieChartContainer from './../../reports/containers/ValuesByCategoryPieChartContainer';
 import { EXPENSE, INCOME } from './../../transactions/kinds';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
-import { formatCurrencyDisplay } from '../../services/formatter';
+import { formatCurrencyDisplay } from '../../utils/formatters';
 
 const styles = () => ({
     root: {

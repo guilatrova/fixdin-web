@@ -1,6 +1,6 @@
 import moment from 'moment';
 import actions from './actions';
-import { formatDate } from './../../services/formatter';
+import { formatDate } from './../../utils/formatters';
 import handleError from '../../services/genericErrorHandler';
 import { GetOperation } from '../../common/genericDuck/operations';
 import getQueryParams from '../../services/query';

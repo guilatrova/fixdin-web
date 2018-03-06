@@ -10,7 +10,7 @@ import TransactionsList from '../components/TransactionsList';
 import CurrencyTextField from '../../common/material/CurrencyTextField';
 import { selectors as balancesSelectors } from '../../balances/duck';
 import { operations, selectors } from '../duck';
-import { formatCurrencyDisplay } from '../../services/formatter';
+import { formatCurrencyDisplay } from '../../utils/formatters';
 
 const styles = theme => ({
     root: {

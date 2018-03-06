@@ -5,7 +5,7 @@ import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 
-import { formatCurrencyDisplay } from '../../services/formatter';
+import { formatCurrencyDisplay } from '../../utils/formatters';
 
 const TransactionsList = ({ classes, transactions, checked, onToggle }) => {    
     return (

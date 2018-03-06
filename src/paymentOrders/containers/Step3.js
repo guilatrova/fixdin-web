@@ -7,7 +7,7 @@ import Button from 'material-ui/Button';
 import { selectors } from '../duck';
 import { selectors as balanceSelectors } from '../../balances/duck';
 import { operations as transactionsOperation } from '../../transactions/transactions/duck';
-import { formatCurrencyDisplay } from '../../services/formatter';
+import { formatCurrencyDisplay } from '../../utils/formatters';
 import { EXPENSE } from '../../transactions/kinds';
 
 class Step3 extends React.Component {

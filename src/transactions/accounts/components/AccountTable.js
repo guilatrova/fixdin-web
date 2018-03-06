@@ -7,7 +7,7 @@ import { MenuItem } from 'material-ui/Menu';
 import { Link } from 'react-router-dom';
 
 import { TableSort, DataColumn } from './../../../common/material/TableSort';
-import { formatCurrencyDisplay } from '../../../services/formatter';
+import { formatCurrencyDisplay } from '../../../utils/formatters';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 
 const AccountTable = ({ accounts, onEdit, onTransfer }) => {

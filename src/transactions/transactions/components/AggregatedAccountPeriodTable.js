@@ -7,7 +7,7 @@ import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'm
 import red from 'material-ui/colors/red';
 import green from 'material-ui/colors/green';
 
-import { formatCurrencyDisplay } from '../../../services/formatter';
+import { formatCurrencyDisplay } from '../../../utils/formatters';
 
 const styles = () => ({
     row: {

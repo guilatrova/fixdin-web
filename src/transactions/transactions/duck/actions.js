@@ -1,5 +1,5 @@
 import types from './types';
-import { formatTransactionReceived } from '../../../services/formatter';
+import { formatTransactionReceived } from '../formatters';
 
 //FETCH
 function requestTransactions() {
