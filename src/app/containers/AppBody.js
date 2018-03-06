@@ -5,7 +5,8 @@ import classNames from 'classnames';
 
 import AppToolbar from '../components/AppToolbar';
 import AppDrawer from '../components/AppDrawer';
-
+import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 import { drawerWidth, anchor } from '../contants';
 
 const styles = theme => ({
@@ -79,14 +80,16 @@ class AppBody extends React.Component {
                     
                     <AppDrawer open={open} handleDrawerClose={this.handleDrawerClose} />
                     
-                    <main 
-                        className={classNames(classes.content, classes[`content-${anchor}`], {
-                            [classes.contentShift]: open,
-                            [classes[`contentShift-${anchor}`]]: open,
-                        })}
-                    >
-                        {children}
-                    </main>
+                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <main 
+                            className={classNames(classes.content, classes[`content-${anchor}`], {
+                                [classes.contentShift]: open,
+                                [classes[`contentShift-${anchor}`]]: open,
+                            })}
+                        >
+                            {children}
+                        </main>
+                    </MuiPickersUtilsProvider>
                 </div>
             </div>
         );

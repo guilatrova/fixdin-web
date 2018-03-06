@@ -34,30 +34,38 @@ class DueDateFilter extends React.Component {
         });
     }
 
+    handleChange = (name) => (value) => this.setState({ [name]: value });
+
     handleSubmit = () => this.props.onSubmit(this.state.due_date_from, this.state.due_date_until);
 
     handleClear = () => this.props.onSubmit(defaultStart(), defaultEnd());
 
     render() {
         return (
-            <div>
-                <DatePicker
-                    label="De"                
-                    value={this.state.due_date_from}
-                    onChange={(due_date_from) => this.setState({ due_date_from })}
-                    autoOk={true}
-                    format="DD MMMM YYYY" />
+                <div>
+                    <div>
+                        <DatePicker
+                            keyboard
+                            label="De"                
+                            value={this.state.due_date_from}
+                            onChange={this.handleChange('due_date_from')}
+                            autoOk={true}
+                            format="DD MMMM YYYY" />
+                    </div>
 
-                <DatePicker
-                    label="Até"
-                    value={this.state.due_date_until}
-                    onChange={(due_date_until) => this.setState({ due_date_until })}
-                    autoOk={true}
-                    format="DD MMMM YYYY" />
+                    <div>
+                        <DatePicker
+                            keyboard
+                            label="Até"
+                            value={this.state.due_date_until}
+                            onChange={this.handleChange('due_date_until')}
+                            autoOk={true}
+                            format="DD MMMM YYYY" />
+                    </div>
 
-                <Button color="accent" onClick={this.handleClear}>Limpar</Button>
-                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
-            </div>
+                    <Button color="accent" onClick={this.handleClear}>Limpar</Button>
+                    <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
+                </div>
         );
     }
 }

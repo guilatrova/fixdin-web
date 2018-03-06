@@ -66,6 +66,7 @@ class Step1 extends React.Component {
                 <Grid item xs={12} md={3}>
 
                     <DatePicker
+                        keyboard
                         label="Até dia"
                         value={untilDate}
                         onChange={this.handleDateChange}

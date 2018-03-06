@@ -74,6 +74,7 @@ export default class Periodic extends React.Component{
                 onChange={e => this.handleLimitChange('how_many', e.target.value)} />
 
             <DatePicker
+                keyboard
                 label="Até"
                 value={this.state.until}
                 onChange={value => this.handleLimitChange('until', value)}

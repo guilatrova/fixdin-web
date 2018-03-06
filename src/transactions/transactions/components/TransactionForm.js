@@ -194,6 +194,7 @@ class TransactionForm extends React.Component {
                 />
 
                 <DatePicker
+                    keyboard
                     label="Vencimento"
                     value={this.state.due_date}
                     onChange={(due_date) => this.setState({ due_date })}
@@ -262,6 +263,7 @@ class TransactionForm extends React.Component {
 
                 {this.state.payed && 
                     <DatePicker 
+                        keyboard
                         label="Pago em"
                         value={this.state.payment_date}
                         onChange={(payment_date) => this.setState({ payment_date })}

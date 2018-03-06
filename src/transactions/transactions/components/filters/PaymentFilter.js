@@ -69,6 +69,7 @@ class PaymentFilter extends React.Component {
                 {this.state.payed == "1" && <div>
 
                     <DatePicker
+                        keyboard
                         label="De"
                         value={this.state.payment_date_from}
                         onChange={(payment_date_from) => this.setState({ payment_date_from })}
@@ -77,6 +78,7 @@ class PaymentFilter extends React.Component {
                     /> 
 
                     <DatePicker
+                        keyboard
                         label="Até"
                         value={this.state.payment_date_until}
                         onChange={(payment_date_until) => this.setState({ payment_date_until })}
