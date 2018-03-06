@@ -46,7 +46,7 @@ const LastMonthsChart = ({ data }) => {
 };
 
 LastMonthsChart.propTypes = {
-    data: PropTypes.array.isRequired
+    data: PropTypes.object.isRequired
 };
 
 export default LastMonthsChart;
