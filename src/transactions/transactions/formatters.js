@@ -34,7 +34,7 @@ export function formatPeriodic(periodic) {
     return periodic || undefined;
 }
 
-export function formatTransactionFilters(filters) {
+export function formatFilters(filters) {
     const formatted = {
         ...filters,
         kind: filters.kind ? filters.kind.value : ALL,

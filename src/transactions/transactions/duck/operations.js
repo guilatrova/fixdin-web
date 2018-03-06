@@ -3,7 +3,7 @@ import actions from './actions';
 import types from './types';
 import selectors from './selectors';
 import handleError from '../../../services/genericErrorHandler';
-import { formatTransactionToSend, formatTransactionFilters } from '../formatters';
+import { formatTransactionToSend, formatFilters } from '../formatters';
 import { formatDate } from '../../../utils/formatters';
 import getQueryParams from '../../../services/query';
 import { Operation } from './../../../common/genericDuck/operations';
@@ -31,7 +31,7 @@ class FilterOperation extends Operation {
     }
 
     getApiPromise(api) {
-        let { kind, ...filters } = formatTransactionFilters(this.filters);
+        let { kind, ...filters } = formatFilters(this.filters);
         
         const queryParams = getQueryParams(filters);
         return api.get(kind.apiEndpoint + queryParams);

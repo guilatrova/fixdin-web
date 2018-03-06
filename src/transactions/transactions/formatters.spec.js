@@ -123,5 +123,5 @@ describe('transactions/formatters', () => {
         });
     });
 
-    xit('formatTransactionFilters');
+    xit('formatFilters');
 });
