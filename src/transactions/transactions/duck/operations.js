@@ -6,38 +6,32 @@ import handleError from '../../../services/genericErrorHandler';
 import { formatTransactionToSend, formatFilters } from '../formatters';
 import { formatDate } from '../../../utils/formatters';
 import getQueryParams from '../../../services/query';
-import { Operation } from './../../../common/duck/operations';
+import { Operation, GetOperation } from './../../../common/duck/operations';
 
-class FetchOperation extends Operation {
+export class FetchOperation extends GetOperation {
     constructor(kind) {
         super(actions.requestTransactions, actions.receiveTransactions);
         this.kind = kind;
     }
 
-    getId() {
-        return `${types.FETCH_TRANSACTIONS}_${this.kind.id}`;
-    }
-
-    getApiPromise(api) {
-        return api.get(this.kind.apiEndpoint);
-    }
+    getEndpoint = () => this.kind.apiEndpoint;
 }
 
-class FilterOperation extends Operation {
+export class FilterOperation extends GetOperation {
     constructor(filters) {
         super(actions.requestFilterTransactions, actions.receiveFilteredTransactions);
         this.filters = filters;
     }
 
-    getApiPromise(api) {
-        let { kind, ...filters } = formatFilters(this.filters);
-        
+    getEndpoint() {
+        const { kind, ...filters } = formatFilters(this.filters);
         const queryParams = getQueryParams(filters);
-        return api.get(kind.apiEndpoint + queryParams);
+        
+        return `${kind.apiEndpoint}${queryParams}`;
     }
 }
 
-class SaveOperation extends Operation {
+export class SaveOperation extends Operation {
     constructor(transaction, kind, type) {
         super(actions.requestSaveTransaction, actions.receiveSaveTransaction);    
         this.transaction = transaction;
@@ -57,12 +51,7 @@ class SaveOperation extends Operation {
         return dispatch(receiveAction('fail', handleError(errors), this.type));
     }
     
-    getSucceedData(raw) {
-        if (Array.isArray(raw))
-            return raw;
-
-        return [raw];
-    }
+    getSucceedData = (raw) => Array.isArray(raw) ? raw : [raw];
 
     getApiPromise(api) {
         const { transaction, kind } = this;
@@ -85,7 +74,7 @@ class SaveOperation extends Operation {
     }
 }
 
-class DeleteOperation extends Operation {
+export class DeleteOperation extends Operation {
     constructor(id, kind, type) {
         super(actions.requestDeleteTransaction, actions.receiveDeleteTransaction);
         this.id = id;
@@ -127,7 +116,7 @@ class DeleteOperation extends Operation {
     }
 }
 
-class PayOperation extends Operation {
+export class PayOperation extends Operation {
     constructor(kind, ids) {
         super(actions.payTransactions, actions.receivePayTransactions);
         this.kind = kind;
