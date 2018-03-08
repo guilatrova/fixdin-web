@@ -265,6 +265,7 @@
     },
     "globals": {
       "mockAxios": true,
+      "actionsHelpers": true,
       "shallow": true
     }
   }

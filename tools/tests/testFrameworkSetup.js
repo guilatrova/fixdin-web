@@ -1,5 +1,6 @@
 import chai from 'chai';
 import { mockAxios } from './reduxHelpers';
+import actionsHelpers from './actionsHelpers';
 import { shallow } from 'enzyme';
 import React from 'react';
 
@@ -44,6 +45,7 @@ const jestExpect = global.expect;
 
 global.jestExpect = jestExpect;
 global.mockAxios = mockAxios;
+global.actionsHelpers = actionsHelpers;
 global.shallow = shallow;
 global.React = React;
 global.expect = actual => {
