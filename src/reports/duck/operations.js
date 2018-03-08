@@ -4,12 +4,9 @@ import handleError from '../../services/genericErrorHandler';
 
 class FetchPendingTransactionsOperation extends GetOperation {
     constructor(kind) {
-        super(`reports/pending-${kind.apiEndpoint}`, 
-            actions.requestPendingTransactionsReport, 
+        super(actions.requestPendingTransactionsReport, 
             actions.receivePendingTransactionsReport);
         this.kind = kind;
-
-        return this.dispatch();
     }
 
     onRequest(dispatch, requestAction) {
@@ -24,28 +21,25 @@ class FetchPendingTransactionsOperation extends GetOperation {
     onFailed(dispatch, receiveAction, errors) {
         return dispatch(receiveAction('fail', handleError(errors), this.kind));
     }
+
+    getEndpoint = () => `reports/pending-${this.kind.apiEndpoint}`;
 }
 
 class FetchLastMonthsOperation extends GetOperation {
     constructor(months) {
-        super('reports/last-months/',
-            actions.requestLastMonthsReport,
-            actions.receiveLastMonthsReport);
-
+        super(actions.requestLastMonthsReport, actions.receiveLastMonthsReport);
         this.months = months;
     }
 
-    getApiPromise = (api) => api.get(this.endpoint + `?months=${this.months}`);
+    getEndpoint = () => `reports/last-months/?months=${this.months}`;
 }
 
 class FetchValuesByCategoryOperation extends GetOperation {
     constructor(kind) {
-        super('reports/values-by-category/' + kind.apiEndpoint,
-            actions.requestValuesByCategoryReport,
+        super(actions.requestValuesByCategoryReport,
             actions.receiveValuesByCategoryReport);
 
         this.kind = kind;
-        return this.dispatch();
     }
 
     onRequest(dispatch, requestAction) {
@@ -60,16 +54,18 @@ class FetchValuesByCategoryOperation extends GetOperation {
     onFailed(dispatch, receiveAction, errors) {
         return dispatch(receiveAction('fail', handleError(errors), this.kind));
     }
+
+    getEndpoint = () => `reports/values-by-category/${this.kind.apiEndpoint}`;
 }
 
 const fetchLastMonthsReport = 
     (months) => new FetchLastMonthsOperation(months).dispatch();
 
 const fetchPendingTransactionsReport = 
-    (kind) => new FetchPendingTransactionsOperation(kind);
+    (kind) => new FetchPendingTransactionsOperation(kind).dispatch();
 
 const fetchValuesByCategoryReport = 
-    (kind) => new FetchValuesByCategoryOperation(kind);
+    (kind) => new FetchValuesByCategoryOperation(kind).dispatch();
 
 export default {
     fetchLastMonthsReport,

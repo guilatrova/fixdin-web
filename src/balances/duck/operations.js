@@ -7,18 +7,14 @@ import getQueryParams from '../../services/query';
 
 export class GetBalanceOperation extends GetOperation {
     constructor(storeKey, filters = {}) {
-        super('balances/current', actions.requestBalance, actions.receiveBalance);
+        super(actions.requestBalance, actions.receiveBalance);
         this.storeKey = storeKey;
         this.filters = filters;
     }
 
     onRequest(dispatch, requestAction) {
         dispatch(requestAction(this.storeKey));
-    }
-    
-    getSucceedData(raw) {
-        return raw.balance;
-    }
+    }    
 
     onSucceed(dispatch, receiveAction, data) {
         dispatch(receiveAction('success', data, this.storeKey));
@@ -27,12 +23,11 @@ export class GetBalanceOperation extends GetOperation {
 
     onFailed(dispatch, receiveAction, errors) {
         return dispatch(receiveAction('fail', handleError(errors), this.storeKey));
-    }    
-
-    getApiPromise(api) {
-        const queryParams = getQueryParams(this.filters);
-        return api.get(this.endpoint + queryParams);
     }
+    
+    getSucceedData = (raw) => raw.balance;
+
+    getEndpoint = () => `balances/current${getQueryParams(this.filters)}`;
 }
 
 const dispatchGetOperation = (storeKey, filters) => 

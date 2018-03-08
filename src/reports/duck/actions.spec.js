@@ -4,6 +4,7 @@ import { EXPENSE, INCOME } from '../../transactions/kinds';
 
 describe('reports/duck/actions', () => {
 	let store, mock, restoreMock;
+	const { itShouldDispatchSuccessFailActions, itShouldDispatchSuccessFailActionsCustom } = actionsHelpers;
 
 	beforeEach(() => {
 		const mockHelper = mockAxios();
@@ -18,109 +19,40 @@ describe('reports/duck/actions', () => {
 
 	describe('FETCH_LAST_MONTHS', () => {
 
-		it('should dispatch success action after successful request', () => {
-            const data = [ { id: 1 }, { id: 2 } ];
-			const expectedActions = [
-				{ type: types.FETCH_LAST_MONTHS },
-				{ type: types.FETCH_LAST_MONTHS, result: 'success', data }
-			];
-
-			mock.onGet().reply(200, data);
-
-			return store.dispatch(operations.fetchLastMonthsReport()).then(() => {
-				expect(store.getActions()).toEqual(expectedActions);
-			});
-		});
-
-		it('should dispatch fail action after failed request', () => {
-			const expectedResponse = {
-				detail: 'data unavailable',
-			};
-			const expectedActions = [
-				{ type: types.FETCH_LAST_MONTHS },
-				{ type: types.FETCH_LAST_MONTHS, result: 'fail', errors: expectedResponse }
-			];
-
-			mock.onGet().reply(400, expectedResponse);
-
-			return store.dispatch(operations.fetchLastMonthsReport()).then(() => {
-				expect(store.getActions()).toEqual(expectedActions);
-			});
-		});
+		itShouldDispatchSuccessFailActions(
+			operations.fetchLastMonthsReport,
+			types.FETCH_LAST_MONTHS,
+			'data',
+			[ { id: 1 }, { id: 2 } ]
+		);
 	});
 	
 	describe('FETCH_PENDING_TRANSACTIONS', () => {
-		
-		it('should dispatch success action after successful request', () => {
-			const data = [
-				{ id: 1 },
-				{ id: 2 }
-			];
-			const expectedActions = [
-				{ type: types.FETCH_PENDING_TRANSACTIONS, kind: EXPENSE },
-				{ type: types.FETCH_PENDING_TRANSACTIONS, result: 'success', data, kind: EXPENSE }
-			];
+		const data = [ { id: 1 }, { id: 2 } ];
+		const kind = EXPENSE;
 
-			mock.onGet().reply(200, data);
-
-			return store.dispatch(operations.fetchPendingTransactionsReport(EXPENSE)).then(() => {
-				expect(store.getActions()).toEqual(expectedActions);
-			});
-		});
-
-		it('should dispatch fail action after failed request', () => {
-			const errors = {
-				detail: 'random error'
-			};
-			const expectedActions = [
-				{ type: types.FETCH_PENDING_TRANSACTIONS, kind: INCOME },
-				{ type: types.FETCH_PENDING_TRANSACTIONS, result: 'fail', errors, kind: INCOME }
-			];
-
-			mock.onGet().reply(400, errors);
-
-			return store.dispatch(operations.fetchPendingTransactionsReport(INCOME)).then(() => {
-				expect(store.getActions()).toEqual(expectedActions);
-			});
-		});
+		itShouldDispatchSuccessFailActionsCustom(
+			() => operations.fetchPendingTransactionsReport(kind),
+			types.FETCH_PENDING_TRANSACTIONS,
+			{ kind },
+			{ data, kind },
+			{ kind },
+			data
+		);
 	});
 
 	describe('FETCH_VALUES_BY_CATEGORY', () => {
-		
-		it('should dispatch success action after successful request', () => {
-			const data = [
-				{ id: 1 },
-				{ id: 2 }
-			];
-			const expectedActions = [
-				{ type: types.FETCH_VALUES_BY_CATEGORY, kind: EXPENSE },
-				{ type: types.FETCH_VALUES_BY_CATEGORY, result: 'success', data, kind: EXPENSE }
-			];
+		const data = [ { id: 1 }, { id: 2 } ];
+		const kind = INCOME;
 
-			mock.onGet().reply(200, data);
-
-			return store.dispatch(operations.fetchValuesByCategoryReport(EXPENSE)).then(() => {
-				expect(store.getActions()).toEqual(expectedActions);
-			});
-		});
-
-		it('should dispatch fail action after failed request', () => {
-			const errors = [
-				{ id: 1 },
-				{ id: 2 }
-			];
-			const expectedActions = [
-				{ type: types.FETCH_VALUES_BY_CATEGORY, kind: EXPENSE },
-				{ type: types.FETCH_VALUES_BY_CATEGORY, result: 'fail', errors, kind: EXPENSE }
-			];
-
-			mock.onGet().reply(400, errors);
-
-			return store.dispatch(operations.fetchValuesByCategoryReport(EXPENSE)).then(() => {
-				expect(store.getActions()).toEqual(expectedActions);
-			});
-		});
-
+		itShouldDispatchSuccessFailActionsCustom(
+			() => operations.fetchValuesByCategoryReport(kind),
+			types.FETCH_VALUES_BY_CATEGORY,
+			{ kind },
+			{ data, kind },
+			{ kind },
+			data
+		);
 	});
     
 });
