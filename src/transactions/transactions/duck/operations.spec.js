@@ -2,10 +2,21 @@ import moment from 'moment';
 import { formatTransactionToSend } from '../formatters';
 import { INCOME, EXPENSE } from '../../kinds';
 import types from './types';
-import { FetchOperation, FilterOperation, SaveOperation } from './operations';
+import { 
+    FetchOperation, 
+    FilterOperation, 
+    SaveOperation,
+    DeleteOperation,
+    PayOperation
+} from './operations';
 
 describe('transactions/duck/operations', () => {
-    
+    const apiSpy = {
+        post: jest.fn(),
+        put: jest.fn(),
+        patch: jest.fn()
+    };
+
     describe('FetchOperation', () => {
         it('getEndpoint', () => {
             const operation = new FetchOperation(INCOME);
@@ -50,11 +61,6 @@ describe('transactions/duck/operations', () => {
                 value: '0',
                 due_date: momentStub,
                 payment_date: momentStub
-            };
-            const apiSpy = {
-                post: jest.fn(),
-                put: jest.fn(),
-                patch: jest.fn()
             };
 
             beforeEach(() => {
@@ -103,6 +109,75 @@ describe('transactions/duck/operations', () => {
                 expect(apiSpy.patch).toHaveBeenCalledWith(`${EXPENSE.apiEndpoint}${id}?next=1`, formatTransactionToSend(transaction));
             });
         });
+    });
+
+    describe('DeleteOperation', () => {
+        describe('getEndpoint', () => {
+            const operation = (id, type) => new DeleteOperation(id, EXPENSE, type);
+
+            it('DELETE_TRANSACTION', () => {
+                const id = 1;
+                expect(
+                    operation(id, types.DELETE_TRANSACTION).getEndpoint()
+                )
+                .toEqual(`${EXPENSE.apiEndpoint}${id}`);
+            });
+
+            it('DELETE_THIS_AND_NEXT_TRANSACTIONS', () => {
+                const id = 2;
+                expect(
+                    operation(id, types.DELETE_THIS_AND_NEXT_TRANSACTIONS).getEndpoint()
+                )
+                .toEqual(`${EXPENSE.apiEndpoint}${id}?next=1`);
+            });
+
+            it('DELETE_ALL_PERIODIC_TRANSACTIONS', () => {
+                const id = 3;
+                expect(
+                    operation(id, types.DELETE_ALL_PERIODIC_TRANSACTIONS).getEndpoint()
+                )
+                .toEqual(`${EXPENSE.apiEndpoint}?periodic_transaction=${id}`);
+            });
+        });
+    });
+
+    describe('PayOperation', () => {
+
+        it('getSucceedData always returns array', () => {
+            const dummy = { a: 1 };
+            const dummyArray = [ dummy ];
+            const operation = new PayOperation();
+
+            expect(operation.getSucceedData(dummyArray)).toEqual(dummyArray);
+            expect(operation.getSucceedData(dummy)).toEqual(dummyArray);            
+        });
+
+        it('getApiPromise sends only payment_date', () => {
+            apiSpy.patch.mockReset();
+            const operation = new PayOperation(INCOME, [ 1, 2, 3]);
+
+            operation.getApiPromise(apiSpy);
+
+            expect(apiSpy.patch).toHaveBeenCalledTimes(1);
+            expect(Object.keys(apiSpy.patch.mock.calls[0][1])).toHaveLength(1);
+            expect(apiSpy.patch.mock.calls[0][1]).toHaveProperty('payment_date');
+        });
+
+        describe('getEndpoint', () => {
+            it('handles one id', () => {
+                const id = 1;
+                const operation = new PayOperation(INCOME, id);
+
+                expect(operation.getEndpoint()).toEqual(`${INCOME.apiEndpoint}${id}`);
+            });
+
+            it('handles several ids', () => {                
+                const operation = new PayOperation(INCOME, [ 1, 2, 3]);
+
+                expect(operation.getEndpoint()).toEqual(`${INCOME.apiEndpoint}?ids=1,2,3`);
+            });
+        });
+
     });
 
 });

@@ -123,21 +123,20 @@ export class PayOperation extends Operation {
         this.ids = ids;
     }
 
-    getSucceedData(raw) {
-        if (Array.isArray(raw))
-            return raw;
+    getSucceedData = (raw) => Array.isArray(raw) ? raw : [raw];
 
-        return [raw];
-    }
-
-    getApiPromise(api) {
+    getEndpoint() {
         const { ids, kind } = this;
-        const payment_date = formatDate(moment());
-        const data = { payment_date };
 
         // It can be /?ids=1,2 or /1
         const queryParams = Array.isArray(ids) ? `?ids=${ids.join(',')}` : ids;
-        const url = kind.apiEndpoint + queryParams;
+        return kind.apiEndpoint + queryParams;
+    }
+
+    getApiPromise(api) {        
+        const payment_date = formatDate(moment());
+        const data = { payment_date };
+        const url = this.getEndpoint();
 
         return api.patch(url, data);
     }

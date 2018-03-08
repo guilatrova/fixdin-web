@@ -66,9 +66,7 @@ export class GetOperation extends Operation {
         return data;
     }
     
-    getEndpoint() {
-        return "";
-    }
+    getEndpoint() { }
 
     getApiPromise(api) {
         return api.get(this.getEndpoint());
@@ -103,8 +101,7 @@ export class DeleteOperation extends Operation {
         return dispatch(receiveAction(id, 'fail', handleError(errors)));
     }
 
-    getEndpoint(id) {
-    }
+    getEndpoint(id) { }
 
     getApiPromise(api, id) {
         const endpoint = this.getEndpoint(id);
