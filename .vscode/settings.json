@@ -11,7 +11,6 @@
         "server.js": true,
         "webpack*": true,
         "Procfile": true,
-        "tools": true,
         ".gitignore": true,
         "*yml": true
     },
