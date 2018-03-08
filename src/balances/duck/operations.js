@@ -2,7 +2,7 @@ import moment from 'moment';
 import actions from './actions';
 import { formatDate } from './../../utils/formatters';
 import handleError from '../../services/genericErrorHandler';
-import { GetOperation } from '../../common/genericDuck/operations';
+import { GetOperation } from '../../common/duck/operations';
 import getQueryParams from '../../services/query';
 
 export class GetBalanceOperation extends GetOperation {

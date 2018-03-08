@@ -2,18 +2,18 @@ import operations from './operations';
 import types from './types';
 
 describe('accounts/duck/actions', () => {
-    let store, mock, restoreMock;
+    // let store, mock, restoreMock;
     const { itShouldDispatchSuccessFailActions, itShouldDispatchSuccessFailActionsCustom } = actionsHelpers;
 
 	beforeEach(() => {
-		const mockHelper = mockAxios();
-		mock = mockHelper.mock;
-		store = mockHelper.store;
-		restoreMock = mockHelper.restoreMock;
+		// const mockHelper = mockAxios();
+		// mock = mockHelper.mock;
+		// store = mockHelper.store;
+		// restoreMock = mockHelper.restoreMock;
 	});
 
 	afterEach(() => {
-		restoreMock();
+		// restoreMock();
     });
     
     describe('FETCH_ACCOUNTS', () => {

@@ -2,7 +2,7 @@ import actions from './actions';
 import createApi from '../../services/api';
 import { saveToken } from '../../services/session';
 import handleError from '../../services/genericErrorHandler';
-import { Operation } from './../../common/genericDuck/operations';
+import { Operation } from './../../common/duck/operations';
 
 class FetchTokenOperation extends Operation {
     constructor(loginData) {

@@ -1,15 +1,9 @@
-import types from './types';
 import actions from './actions';
-import { Operation, DeleteOperation } from './../../../common/genericDuck/operations';
-import cache, { resetCache } from '../../../common/genericDuck/cacheOperation';
+import { Operation, DeleteOperation } from './../../../common/duck/operations';
 
 class FetchAccountsOperation extends Operation {
     constructor() {
         super(actions.fetchAccounts, actions.receiveAccounts);
-    }
-
-    getId() {
-        return types.FETCH_ACCOUNTS;
     }
 
     getApiPromise(api) {
@@ -64,10 +58,6 @@ class FetchTransfersOperation extends Operation {
         this.accountId = accountId;
     }
 
-    getId() {
-        return types.FETCH_TRANSFERS + this.accountId;
-    }
-
     getApiPromise(api) {
         const { accountId } = this;
         if (accountId) {
@@ -88,12 +78,11 @@ class DeleteTransferOperation extends DeleteOperation {
 
 const editAccount = actions.editAccount;
 const finishEditAccount = actions.finishEditAccount;
-const fetchAccounts = (timeout = 15) => cache(new FetchAccountsOperation(), timeout);
-const saveAccount = (id, account) => resetCache(types.FETCH_ACCOUNTS, new SaveAccountOperation(id, account)).dispatch();
-
-const saveTransfer = (value, from, to) => resetCache(types.FETCH_TRANSFERS, new SaveTransferOperation(value, from, to)).dispatch();
-const fetchTransfers = (accountId = "", timeout = 15) => cache(new FetchTransfersOperation(accountId), timeout);
-const deleteTransfer = (id) => resetCache(types.FETCH_TRANSFERS, new DeleteTransferOperation(id)).dispatch();
+const fetchAccounts = () => new FetchAccountsOperation().dispatch();
+const saveAccount = (id, account) => new SaveAccountOperation(id, account).dispatch();
+const saveTransfer = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
+const fetchTransfers = (accountId = "") => new FetchTransfersOperation(accountId).dispatch();
+const deleteTransfer = (id) => new DeleteTransferOperation(id).dispatch();
 
 export default {
     fetchAccounts,

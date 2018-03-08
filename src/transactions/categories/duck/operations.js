@@ -1,16 +1,10 @@
-import types from './types';
 import actions from './actions';
-import { Operation, DeleteOperation } from './../../../common/genericDuck/operations';
-import cache, { resetCache } from '../../../common/genericDuck/cacheOperation';
+import { Operation, DeleteOperation } from './../../../common/duck/operations';
 
 class FetchOperation extends Operation {
     constructor(kind) {
         super(actions.requestCategories, actions.receiveCategories);
         this.kind = kind;
-    }
-
-    getId() {
-        return `${types.FETCH_TRANSACTION_CATEGORIES}_${this.kind.id}`;
     }
 
     onSucceed(dispatch, receiveAction, data) {
@@ -54,13 +48,10 @@ class DeleteCategoryOperation extends DeleteOperation {
 
 const editCategory = actions.editCategory;
 const finishEditCategory = actions.finishEditCategory;
-const fetchCategories = (kind, timeout = 15) => cache(new FetchOperation(kind), timeout);
-const fetchAllCategories = () => {
-    throw 'Not implemented yet';
-};
-
-const saveCategory = ({id, name, kind}) => resetCache(types.FETCH_TRANSACTION_CATEGORIES, new SaveOperation(id, name, kind)).dispatch();
-const deleteCategory = (id, kind) => resetCache(types.FETCH_TRANSACTION_CATEGORIES, new DeleteCategoryOperation(id, kind)).dispatch();
+const fetchCategories = (kind) => new FetchOperation(kind);
+const fetchAllCategories = () => { throw 'Not implemented yet'; };
+const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind).dispatch();
+const deleteCategory = (id, kind) => new DeleteCategoryOperation(id, kind).dispatch();
 
 export default {
     fetchCategories,

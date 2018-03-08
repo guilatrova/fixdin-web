@@ -1,5 +1,5 @@
 import actions from './actions';
-import { GetOperation } from './../../common/genericDuck/operations';
+import { GetOperation } from './../../common/duck/operations';
 import handleError from '../../services/genericErrorHandler';
 
 class FetchPendingTransactionsOperation extends GetOperation {

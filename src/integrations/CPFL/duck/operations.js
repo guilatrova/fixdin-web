@@ -1,6 +1,6 @@
 import actions from './actions';
 import types from './types';
-import { Operation } from './../../../common/genericDuck/operations';
+import { Operation } from './../../../common/duck/operations';
 
 class BaseSettingsOperation extends Operation {
     constructor(requestAction, type) {
