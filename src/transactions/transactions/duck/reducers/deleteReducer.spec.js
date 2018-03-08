@@ -160,6 +160,8 @@ describe('transactions/duck/reducers/DELETE_TRANSACTION', () => {
         });
     });
 
-    it('should returns default');
+    it('should returns default', () => {
+        expect(initialDeleteState, { type: "unknown" }).toEqual(initialDeleteState);
+    });
 
 });
