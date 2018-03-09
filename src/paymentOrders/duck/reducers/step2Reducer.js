@@ -6,7 +6,35 @@ const initialState = {
     remainingBalance: undefined,
     checked: [],
     totalChecked: 0,
-    visibleExpenses: []
+    visibleExpenses: [],
+
+    nextExpenses: [],
+    isFetching: false,
+    errors: {}
+};
+
+const fetchNextExpensesReducer = (state, action) => {
+    switch(action.result) {
+        case 'success':
+            return {
+                ...state,
+                isFetching: false,
+                nextExpenses: action.nextExpenses
+            };
+
+        case 'fail':
+            return {
+                ...state,
+                isFetching: false,
+                errors: action.errors
+            };
+
+        default:
+            return {
+                ...state,
+                isFetching: true
+            };
+    }
 };
 
 const toggleExpense = (state, action) => {
@@ -56,6 +84,9 @@ export default function reducer(state = initialState, action) {
 
         case types.CHECK_DEFAULT_EXPENSES:
             return checkDefaultExpenses(state, action);
+
+        case types.FETCH_NEXT_EXPENSES:
+            return fetchNextExpensesReducer(state, action);
 
         case types.RESET_STEP2:
             return {

@@ -1,8 +1,20 @@
 import moment from 'moment';
 import actions from './actions';
 import selectors from './selectors';
+import getQueryParams from '../../services/query';
 import { selectors as balanceSelectors } from './../../balances/duck';
 import { selectors as transactionsSelectors } from '../../transactions/transactions/duck';
+import { GetOperation } from '../../common/duck/operations';
+
+class FetchNextExpenses extends GetOperation {
+    constructor(from, until) {
+        super(actions.fetchNextExpenses, actions.receiveNextExpenses);
+        this.from = from;
+        this.until = until;
+    }
+
+    getEndpoint = () => `payment-orders/` + getQueryParams({ from: this.from, until: this.until });
+}
 
 const toggleIncome = actions.toggleIncome;
 const changeValueToSave = actions.changeValueToSave;
@@ -40,6 +52,8 @@ const resetStep2 = () => (dispatch, getState) => {
     dispatch(actions.resetStep2(balance, expenses));
 };
 
+const fetchNextExpenses = (from, until) => new FetchNextExpenses(from, until).dispatch();
+
 export default {
     toggleIncome,
     changeValueToSave,
@@ -49,5 +63,6 @@ export default {
 
     toggleExpense,
     checkDefaultExpenses,
-    resetStep2
+    resetStep2,
+    fetchNextExpenses
 };

@@ -69,6 +69,26 @@ const resetStep2 = (remainingBalance, visibleExpenses) => {
     };
 };
 
+const fetchNextExpenses = () => ({
+    type: types.FETCH_NEXT_EXPENSES        
+});
+
+const receiveNextExpenses = (result, data) => {
+    if (result === 'success') {
+        return {
+            type: types.FETCH_NEXT_EXPENSES,
+            result,
+            nextExpenses: data
+        };
+    }
+
+    return {
+        type: types.FETCH_NEXT_EXPENSES,
+        result,
+        errors: data
+    };
+};
+
 export default {
     checkDefaultIncomes,
     changeUntilDate,
@@ -78,5 +98,8 @@ export default {
 
     toggleExpense,
     checkDefaultExpenses,
-    resetStep2
+    resetStep2,
+
+    fetchNextExpenses,
+    receiveNextExpenses
 };

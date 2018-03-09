@@ -12,7 +12,10 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         remainingBalance: undefined,
         checked: [],
         totalChecked: 0,
-        visibleExpenses: []
+        visibleExpenses: [],
+        isFetching: false,
+        errors: {},
+        nextExpenses: []
     };
 
     const createExpenses = (values) => {
@@ -131,6 +134,44 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             remainingBalance: 20,
             checked: [],
             totalChecked: 0
+        });
+    });
+
+    describe('NEXT_EXPENSES', () => {
+        const fetchingState = {
+            ...initialState,
+            isFetching: true
+        };
+
+        it('should be handled', () => {
+            expect(
+                reducer(undefined, actions.fetchNextExpenses())
+            ).toEqual({
+                ...initialState,
+                isFetching: true
+            });
+        });
+
+        it('should be handled when successful', () => {
+            const nextExpenses = [ { id: 1 }, { id: 2 } ];
+            expect(
+                reducer(fetchingState, actions.receiveNextExpenses('success', nextExpenses))
+            ).toEqual({
+                ...fetchingState,
+                isFetching: false,
+                nextExpenses
+            });
+        });
+
+        it('should be handled when failed', () => {
+            const errors = { detail: 'problem' };
+            expect(
+                reducer(fetchingState, actions.receiveNextExpenses('fail', errors))
+            ).toEqual({
+                ...fetchingState,
+                isFetching: false,
+                errors
+            });
         });
     });
 

@@ -13,6 +13,7 @@ const getVisibleExpenses = (state) => fromStep2(state).visibleExpenses;
 const getStep2Checked = (state) => fromStep2(state).checked;
 const getStep2TotalChecked = (state) => fromStep2(state).totalChecked;
 const getRemainingBalance = (state) => fromStep2(state).remainingBalance;
+const getNextExpenses = (state) => fromStep2(state).nextExpenses;
 
 const getExpectedBalanceAfterPayment = (state) => getRemainingBalance(state) + getValueToSave(state);
 
@@ -29,7 +30,8 @@ export default {
         getChecked: getStep2Checked,
         getTotalChecked: getStep2TotalChecked,
         getVisibleExpenses,
-        getRemainingBalance
+        getRemainingBalance,
+        getNextExpenses
     },
     step3: {
         getExpectedBalanceAfterPayment
