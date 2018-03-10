@@ -245,10 +245,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: (timeout) => {
+        onFetch: () => {
             dispatch(categoryOperations.fetchCategories(INCOME));
             dispatch(categoryOperations.fetchCategories(EXPENSE));
-            dispatch(operations.fetchTransactions(ALL, timeout));
+            dispatch(operations.fetchTransactions(ALL));
             dispatch(accountsOperations.fetchAccounts());
             dispatch(reportOperations.fetchLastMonthsReport(2));
         },

@@ -48,8 +48,8 @@ class DeleteCategoryOperation extends DeleteOperation {
 
 const editCategory = actions.editCategory;
 const finishEditCategory = actions.finishEditCategory;
-const fetchCategories = (kind) => new FetchOperation(kind);
 const fetchAllCategories = () => { throw 'Not implemented yet'; };
+const fetchCategories = (kind) => new FetchOperation(kind).dispatch();
 const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind).dispatch();
 const deleteCategory = (id, kind) => new DeleteCategoryOperation(id, kind).dispatch();
 
