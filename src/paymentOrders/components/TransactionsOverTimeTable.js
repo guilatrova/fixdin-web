@@ -14,7 +14,13 @@ class TransactionsOverTimeTable extends React.Component {
 
     renderDescription = (row) => {
         const cols = Object.keys(row);
-        return row[cols[0]][0].description;
+        for (let col of cols) {
+            for (let transaction of row[col]) {
+                if (transaction && transaction.description)
+                    return transaction.description;
+            }
+        }
+        return "not found";
     };
 
     renderDateCell = (row, field) => (        
