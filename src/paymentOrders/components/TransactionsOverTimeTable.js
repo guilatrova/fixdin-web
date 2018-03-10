@@ -2,19 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import TransactionCell from './TransactionCell';
 import { TableSort, DataColumn } from '../../common/material/TableSort';
 
 class TransactionsOverTimeTable extends React.Component {
     static propTypes = {
-        transactions: PropTypes.array.isRequired
+        transactions: PropTypes.array.isRequired,
+        checked: PropTypes.array.isRequired,
+        onToggle: PropTypes.func.isRequired
     }
 
     renderDescription = (row) => {
         const cols = Object.keys(row);
         return row[cols[0]][0].description;
-    }; 
+    };
 
-    renderDateCell = (row, field) => row[field][0].value;
+    renderDateCell = (row, field) => (        
+        <TransactionCell transactions={row[field]} checked={this.props.checked} onToggle={this.props.onToggle} />
+    );
 
     renderDateColumns = () => {
         const { transactions } = this.props;

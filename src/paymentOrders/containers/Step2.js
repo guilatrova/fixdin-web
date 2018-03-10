@@ -19,9 +19,10 @@ class Step2 extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         balanceAvailable: PropTypes.number.isRequired,
-        visibleExpenses: PropTypes.array.isRequired,
+        nextExpenses: PropTypes.array.isRequired,
         checked: PropTypes.array.isRequired,
         remainingBalance: PropTypes.number.isRequired,
+        isFetching: PropTypes.bool.isRequired,
 
         onToggle: PropTypes.func.isRequired,
     }
@@ -30,21 +31,18 @@ class Step2 extends React.Component {
         remainingBalance: 0
     }
 
-    handleToggle = value => {
-        this.props.onToggle(value);
-    };
-
     render() {
         const { 
             classes, 
             balanceAvailable, 
-            visibleExpenses, 
             checked, 
             remainingBalance,
-            nextExpenses
+            nextExpenses,
+            onToggle,
+            isFetching
         } = this.props;
 
-        if (nextExpenses.length == 0)
+        if (isFetching)
             return 'loading';
 
         return (
@@ -52,7 +50,7 @@ class Step2 extends React.Component {
 
                 <h3>{formatCurrencyDisplay(balanceAvailable)}</h3>
 
-                <TransactionsOverTimeTable transactions={nextExpenses} />
+                <TransactionsOverTimeTable transactions={nextExpenses} checked={checked} onToggle={onToggle} />
 
                 <h3>{formatCurrencyDisplay(remainingBalance)}</h3>
 
@@ -64,10 +62,10 @@ class Step2 extends React.Component {
 const mapStateToProps = (state) => {
     return {
         balanceAvailable: selectors.step1.getTotal(state),
-        visibleExpenses: selectors.step2.getVisibleExpenses(state),
         checked: selectors.step2.getChecked(state),
         remainingBalance: selectors.step2.getRemainingBalance(state),
-        nextExpenses: selectors.step2.getNextExpenses(state)
+        nextExpenses: selectors.step2.getNextExpenses(state),
+        isFetching: selectors.step2.isFetching(state)
     };
 };
 
