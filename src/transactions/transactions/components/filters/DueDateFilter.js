@@ -63,7 +63,7 @@ class DueDateFilter extends React.Component {
                             format="DD MMMM YYYY" />
                     </div>
 
-                    <Button color="accent" onClick={this.handleClear}>Limpar</Button>
+                    <Button color="default" onClick={this.handleClear}>Limpar</Button>
                     <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
                 </div>
         );

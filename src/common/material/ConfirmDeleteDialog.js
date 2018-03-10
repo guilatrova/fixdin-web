@@ -28,7 +28,7 @@ const ConfirmDeleteDialog = ({open, onConfirm, onClose, error, children}) => {
                     Cancelar
                 </Button>
 
-                <Button onClick={onConfirm} color="accent">
+                <Button onClick={onConfirm} color="default">
                     Confirmar
                 </Button>
             </DialogActions>

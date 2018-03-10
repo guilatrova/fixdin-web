@@ -18,15 +18,15 @@ const periodicActions = (onCancel, onConfirm) => {
                 Cancelar
             </Button>
             
-            <Button onClick={() => onConfirm(types.DELETE_ALL_PERIODIC_TRANSACTIONS)} color="accent">
+            <Button onClick={() => onConfirm(types.DELETE_ALL_PERIODIC_TRANSACTIONS)} color="default">
                 Todas
             </Button>
 
-            <Button onClick={() => onConfirm(types.DELETE_THIS_AND_NEXT_TRANSACTIONS)} color="accent">
+            <Button onClick={() => onConfirm(types.DELETE_THIS_AND_NEXT_TRANSACTIONS)} color="default">
                 Esta e futuras
             </Button>
 
-            <Button onClick={() => onConfirm(types.DELETE_TRANSACTION)} color="accent">
+            <Button onClick={() => onConfirm(types.DELETE_TRANSACTION)} color="default">
                 Somente esta
             </Button>
         </DialogActions>
@@ -40,7 +40,7 @@ const regularActions = (onCancel, onConfirm) => {
                 Cancelar
             </Button>
 
-            <Button onClick={() => onConfirm(types.DELETE_TRANSACTION)} color="accent">
+            <Button onClick={() => onConfirm(types.DELETE_TRANSACTION)} color="default">
                 Confirmar
             </Button>
         </DialogActions>
