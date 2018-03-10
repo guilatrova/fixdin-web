@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import { sort } from '../../utils/sorts';
 import TransactionCell from './TransactionCell';
 import { TableSort, DataColumn } from '../../common/material/TableSort';
 
@@ -11,7 +12,7 @@ class TransactionsOverTimeTable extends React.Component {
         checked: PropTypes.array.isRequired,
         onToggle: PropTypes.func.isRequired
     }
-
+    
     renderDescription = (row) => {
         const cols = Object.keys(row);
         for (let col of cols) {
@@ -51,7 +52,7 @@ class TransactionsOverTimeTable extends React.Component {
 
         return (
             <TableSort data={data}>
-                <DataColumn sortable onRender={this.renderDescription}>Descrição</DataColumn>
+                <DataColumn field="description" onRender={this.renderDescription}>Descrição</DataColumn>
                 {this.renderDateColumns()}
             </TableSort>
         );
