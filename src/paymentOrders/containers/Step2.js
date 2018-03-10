@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { withStyles } from 'material-ui/styles';
 
-import TransactionsList from '../components/TransactionsList';
+import TransactionsOverTimeTable from '../components/TransactionsOverTimeTable';
 import { operations, selectors } from '../duck';
 import { formatCurrencyDisplay } from '../../utils/formatters';
 
@@ -40,18 +40,19 @@ class Step2 extends React.Component {
             balanceAvailable, 
             visibleExpenses, 
             checked, 
-            remainingBalance 
+            remainingBalance,
+            nextExpenses
         } = this.props;
+
+        if (nextExpenses.length == 0)
+            return 'loading';
 
         return (
             <div className={classes.root}>
 
                 <h3>{formatCurrencyDisplay(balanceAvailable)}</h3>
 
-                <TransactionsList
-                    transactions={visibleExpenses}
-                    checked={checked}
-                    onToggle={this.handleToggle} />
+                <TransactionsOverTimeTable transactions={nextExpenses} />
 
                 <h3>{formatCurrencyDisplay(remainingBalance)}</h3>
 
@@ -65,7 +66,8 @@ const mapStateToProps = (state) => {
         balanceAvailable: selectors.step1.getTotal(state),
         visibleExpenses: selectors.step2.getVisibleExpenses(state),
         checked: selectors.step2.getChecked(state),
-        remainingBalance: selectors.step2.getRemainingBalance(state)
+        remainingBalance: selectors.step2.getRemainingBalance(state),
+        nextExpenses: selectors.step2.getNextExpenses(state)
     };
 };
 

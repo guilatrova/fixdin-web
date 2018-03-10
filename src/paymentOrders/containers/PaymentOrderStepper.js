@@ -91,18 +91,18 @@ class PaymentOrderStepper extends React.Component {
                 {this.renderStep()}
 
                 <MobileStepper
-                    variant="dots"
                     steps={3}
+                    variant="dots"
                     position="static"
                     activeStep={this.state.activeStep}                    
                     nextButton={
-                        <Button dense onClick={this.handleNext} disabled={this.state.activeStep === 2}>
+                        <Button onClick={this.handleNext} disabled={this.state.activeStep === 2}>
                             Próximo
                             {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                         </Button>
                     }
                     backButton={
-                        <Button dense onClick={this.handleBack} disabled={this.state.activeStep === 0}>
+                        <Button onClick={this.handleBack} disabled={this.state.activeStep === 0}>
                             {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
                             Anterior
                         </Button>
@@ -125,6 +125,7 @@ const mapDispatchToProps = (dispatch) => {
         onStep2: () => {
             dispatch(operations.resetStep2());
             dispatch(operations.checkDefaultExpenses());
+            dispatch(operations.fetchNextExpenses());
         }
     };
 };
