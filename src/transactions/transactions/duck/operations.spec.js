@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { formatTransactionToSend } from '../formatters';
-import { INCOME, EXPENSE } from '../../kinds';
+import { INCOME, EXPENSE } from '../../shared/kinds';
 import types from './types';
 import { 
     FetchOperation, 

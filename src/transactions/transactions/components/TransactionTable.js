@@ -21,7 +21,7 @@ import {
 import { sort } from './../../../utils/sorts';
 import { TableSort, DataColumn } from './../../../common/material/TableSort';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
-import { getKind } from '../../kinds';
+import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
 
 class TransactionTable extends React.Component {

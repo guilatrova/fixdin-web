@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { EXPENSE, ALL } from '../kinds';
+import { EXPENSE, ALL } from '../shared/kinds';
 import { formatDate, clean } from '../../utils/formatters';
 
 export function formatTransactionReceived(transaction) {

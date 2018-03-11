@@ -11,7 +11,7 @@ import AddIcon from 'material-ui-icons/Add';
 import ClearAllIcon from 'material-ui-icons/ClearAll';
 import RefreshIcon from 'material-ui-icons/Refresh';
 
-import { EXPENSE, INCOME, ALL, getKind } from '../../kinds';
+import { EXPENSE, INCOME, ALL, getKind } from '../../shared/kinds';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
 import TransactionTable from '../components/TransactionTable';
 import TransactionFormDialog from './TransactionFormDialog';

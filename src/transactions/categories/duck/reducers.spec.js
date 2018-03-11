@@ -1,4 +1,4 @@
-import { EXPENSE, INCOME } from '../../kinds';
+import { EXPENSE, INCOME } from '../../shared/kinds';
 import reducer from './reducers';
 import actions from './actions';
 

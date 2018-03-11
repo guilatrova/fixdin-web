@@ -1,4 +1,4 @@
-import { ALL, INCOME, EXPENSE } from '../../kinds';
+import { ALL, INCOME, EXPENSE } from '../../shared/kinds';
 import moment from 'moment';
 import { filterUniqueStringsArray } from '../../../utils/strings';
 

@@ -1,5 +1,5 @@
 import selectors from './selectors';
-import { INCOME, EXPENSE } from '../../kinds';
+import { INCOME, EXPENSE } from '../../shared/kinds';
 import moment from 'moment';
 
 describe('transactions/duck/selectors', () => {

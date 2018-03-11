@@ -1,6 +1,6 @@
 import reducer from './pendingTransactionsReducer';
 import actions from '../actions';
-import { EXPENSE, INCOME } from '../../../transactions/kinds';
+import { EXPENSE, INCOME } from '../../../transactions/shared/kinds';
 
 describe('reports/duck/reducers/pendingTransactionsReducer', () => {
     const initialState = {

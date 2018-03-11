@@ -15,7 +15,7 @@ import Step3 from './Step3';
 import { operations as balanceOperations } from '../../balances/duck';
 import { operations as transactionOperations } from '../../transactions/transactions/duck';
 import { selectors, operations } from '../duck';
-import { ALL } from '../../transactions/kinds';
+import { ALL } from '../../transactions/shared/kinds';
 
 const styles = {
     root: {

@@ -5,7 +5,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import { MenuItem } from 'material-ui/Menu';
 
-import { EXPENSE } from '../../kinds';
+import { EXPENSE } from '../../shared/kinds';
 import { TableSort, DataColumn } from './../../../common/material/TableSort';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 

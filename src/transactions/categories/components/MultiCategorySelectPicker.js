@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select'; //TODO: Change it to Autocomplete support
 
 import { selectors } from'../duck';
-import { EXPENSE, INCOME } from '../../kinds';
+import { EXPENSE, INCOME } from '../../shared/kinds';
 
 class MultiCategorySelectPicker extends React.Component {
 

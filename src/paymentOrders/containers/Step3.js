@@ -8,7 +8,7 @@ import { selectors } from '../duck';
 import { selectors as balanceSelectors } from '../../balances/duck';
 import { operations as transactionsOperation } from '../../transactions/transactions/duck';
 import { formatCurrencyDisplay } from '../../utils/formatters';
-import { EXPENSE } from '../../transactions/kinds';
+import { EXPENSE } from '../../transactions/shared/kinds';
 
 class Step3 extends React.Component {
     static propTypes = {

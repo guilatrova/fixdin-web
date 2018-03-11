@@ -1,6 +1,6 @@
 import operations from './operations';
 import types from './types';
-import { EXPENSE, INCOME } from '../../transactions/kinds';
+import { EXPENSE, INCOME } from '../../transactions/shared/kinds';
 
 describe('reports/duck/actions', () => {
 	// let store, mock, restoreMock;

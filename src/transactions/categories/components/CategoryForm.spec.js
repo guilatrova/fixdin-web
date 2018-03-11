@@ -2,7 +2,7 @@ describe('<CategoryForm />', () => {
     xit('MISSING');
 });
 
-// import { EXPENSE } from '../../kinds';
+// import { EXPENSE } from '../../shared/kinds';
 // import CategoryForm from './CategoryForm';
 
 // describe('<CategoryForm />', () => {

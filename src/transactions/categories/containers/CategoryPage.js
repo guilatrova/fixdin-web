@@ -11,7 +11,7 @@ import CategoryFormDialog from './CategoryFormDialog';
 import CategoryTable from '../components/CategoryTable';
 import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
 import { operations } from '../duck';
-import { EXPENSE, INCOME, getKind } from '../../kinds';
+import { EXPENSE, INCOME, getKind } from '../../shared/kinds';
 
 const styles = theme => ({
     root: {

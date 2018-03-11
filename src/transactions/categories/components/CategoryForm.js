@@ -5,8 +5,8 @@ import Button from 'material-ui/Button';
 import { DialogActions, DialogContent } from 'material-ui/Dialog';
   
 import TextFieldError from '../../../common/material/TextFieldError';
-import KindSwitch from '../../components/KindSwitch';
-import { getKind, EXPENSE } from '../../kinds';
+import KindSwitch from '../../shared/components/KindSwitch';
+import { getKind, EXPENSE } from '../../shared/kinds';
 
 class CategoryForm extends React.Component {
 

@@ -1,4 +1,4 @@
-import { EXPENSE, INCOME } from '../../kinds';
+import { EXPENSE, INCOME } from '../../shared/kinds';
 import operations from './operations';
 import types from './types';
 

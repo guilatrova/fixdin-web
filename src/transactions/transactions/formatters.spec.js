@@ -1,4 +1,4 @@
-import { EXPENSE, INCOME } from '../kinds';
+import { EXPENSE, INCOME } from '../shared/kinds';
 import moment from 'moment';
 import {
     formatTransactionReceived, 

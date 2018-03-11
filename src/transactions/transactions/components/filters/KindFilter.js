@@ -6,7 +6,7 @@ import Select from 'react-select';
 import Button from 'material-ui/Button';
 
 import { selectors, operations } from '../../duck';
-import { ALL, EXPENSE, INCOME } from '../../../kinds';
+import { ALL, EXPENSE, INCOME } from '../../../shared/kinds';
 
 const kindOptions = [ 
     { value: ALL, label: '-' },

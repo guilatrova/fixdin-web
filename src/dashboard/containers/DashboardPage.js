@@ -10,7 +10,7 @@ import { operations as balanceOperations, selectors as balanceSelectors } from '
 import BalanceCard from './../../balances/components/BalanceCard';
 import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
 import ValuesByCategoryPieChartContainer from './../../reports/containers/ValuesByCategoryPieChartContainer';
-import { EXPENSE, INCOME } from './../../transactions/kinds';
+import { EXPENSE, INCOME } from './../../transactions/shared/kinds';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
 import { formatCurrencyDisplay } from '../../utils/formatters';
 

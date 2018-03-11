@@ -1,5 +1,5 @@
 import types from '../types';
-import { EXPENSE, INCOME } from '../../../transactions/kinds';
+import { EXPENSE, INCOME } from '../../../transactions/shared/kinds';
 
 const initialState = {
     expenses: {
