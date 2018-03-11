@@ -150,7 +150,7 @@ const setFilters = actions.setFilters;
 const fetchTransactions = (kind) => new FetchOperation(kind).dispatch();
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type).dispatch();
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type).dispatch();
-const payTransactions = (kind, ids) => new PayOperation(kind, ids);
+const payTransactions = (kind, ids) => new PayOperation(kind, ids).dispatch();
 const filterTransactions = () => (dispatch, getState) => {
     const filters = selectors.getFilters(getState());
     return new FilterOperation(filters).dispatch()(dispatch, getState);
