@@ -59,4 +59,4 @@ export const sort = (a, b, order) => {
         return sortNumeric(a, b, order);
 
     return sortString(a, b, order);
-}
+};
