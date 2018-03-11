@@ -18,7 +18,7 @@ import {
     PaymentFilter
 } from './filters';
 import { sort } from './../../../utils/sorts';
-import { TableSort, DataColumn } from './../../../common/material/TableSort';
+import { DataTable, DataColumn } from './../../../common/material/DataTable';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
@@ -109,7 +109,7 @@ class TransactionTable extends React.Component {
     render () {
         const { activeFilters } = this.props;
         return (
-            <TableSort data={this.props.transactions} initialOrderBy="due_date">
+            <DataTable data={this.props.transactions} initialOrderBy="due_date">
 
                 <DataColumn 
                     sortable 
@@ -165,7 +165,7 @@ class TransactionTable extends React.Component {
                 <DataColumn sortable numeric field="deadline" onRenderFilter={<DeadlineFilter />} filterActive={activeFilters.deadline}>Tolerância</DataColumn>
                 <DataColumn sortable field="payment_date" onRenderFilter={<PaymentFilter />} filterActive={activeFilters.payment_date} onRender={this.formatDate}>Pago em</DataColumn>
                 <DataColumn onRender={this.formatOptions} />
-            </TableSort>
+            </DataTable>
         );
     }
 }

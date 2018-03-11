@@ -6,7 +6,7 @@ import TransferIcon from 'material-ui-icons/CompareArrows';
 import { MenuItem } from 'material-ui/Menu';
 import { Link } from 'react-router-dom';
 
-import { TableSort, DataColumn } from './../../../common/material/TableSort';
+import { DataTable, DataColumn } from './../../../common/material/DataTable';
 import { formatCurrencyDisplay } from '../../../utils/formatters';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 
@@ -27,11 +27,11 @@ const AccountTable = ({ accounts, onEdit, onTransfer }) => {
     const renderBalance = (account, balanceField) => formatCurrencyDisplay(account[balanceField]);
 
     return (
-        <TableSort data={accounts} initialOrderBy="name">
+        <DataTable data={accounts} initialOrderBy="name">
             <DataColumn sortable field="name">Nome</DataColumn>
             <DataColumn sortable field="current_balance" onRender={renderBalance}>Saldo</DataColumn>
             <DataColumn onRender={formatOptions} />
-        </TableSort>
+        </DataTable>
     );
 };
 

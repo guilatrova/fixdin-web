@@ -1,6 +1,6 @@
-import TableSort from './TableSort';
+import DataTable from './DataTable';
 
-describe('<TableSort />', () => {
+describe('<DataTable />', () => {
     const defaultProps = {
         data: [
             { id: 1, otherId: 10, alpha: 'abc', numeric: 1 }
@@ -8,7 +8,7 @@ describe('<TableSort />', () => {
     };
 
     it('renders ok', () => {
-        const wrapper = shallow(<TableSort {...defaultProps} />);
+        const wrapper = shallow(<DataTable {...defaultProps} />);
         expect(wrapper).to.be.ok;
     });
     

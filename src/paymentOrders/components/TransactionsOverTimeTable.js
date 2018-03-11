@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import TransactionCell from './TransactionCell';
-import { TableSort, DataColumn } from '../../common/material/TableSort';
+import { DataTable, DataColumn } from '../../common/material/DataTable';
 
 class TransactionsOverTimeTable extends React.Component {
     static propTypes = {
@@ -50,10 +50,10 @@ class TransactionsOverTimeTable extends React.Component {
         const data = transactions.map((transaction, id) => ({ ...transaction, id }));
 
         return (
-            <TableSort data={data}>
+            <DataTable data={data}>
                 <DataColumn field="description" onRender={this.renderDescription}>Descrição</DataColumn>
                 {this.renderDateColumns()}
-            </TableSort>
+            </DataTable>
         );
     }
 }

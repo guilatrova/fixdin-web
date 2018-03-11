@@ -22,7 +22,7 @@ const styles = theme => ({
     },
 });
 
-class TableSort extends React.Component {
+class DataTable extends React.Component {
     static propTypes = {
         data: PropTypes.array.isRequired,
         columnKey: PropTypes.string.isRequired,
@@ -203,4 +203,4 @@ class TableSort extends React.Component {
     }
 }
 
-export default withStyles(styles)(TableSort);
+export default withStyles(styles)(DataTable);

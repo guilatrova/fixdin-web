@@ -6,7 +6,7 @@ import EditIcon from 'material-ui-icons/ModeEdit';
 import { MenuItem } from 'material-ui/Menu';
 
 import { EXPENSE } from '../../shared/kinds';
-import { TableSort, DataColumn } from './../../../common/material/TableSort';
+import { DataTable, DataColumn } from './../../../common/material/DataTable';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 
 const CategoryTable = ({categories, onEdit, onDelete}) => {
@@ -24,11 +24,11 @@ const CategoryTable = ({categories, onEdit, onDelete}) => {
     };
 
     return (
-        <TableSort data={categories} initialOrderBy="name">
+        <DataTable data={categories} initialOrderBy="name">
             <DataColumn sortable field="kind" onRender={renderKind}>Tipo</DataColumn>
             <DataColumn sortable field="name">Nome</DataColumn>
             <DataColumn onRender={formatOptions} />
-        </TableSort>
+        </DataTable>
     );
 };
 
