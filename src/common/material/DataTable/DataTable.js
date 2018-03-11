@@ -38,7 +38,8 @@ class DataTable extends React.Component {
         initialOrder: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
         initialOrderBy: PropTypes.string.isRequired,
         classes: PropTypes.object.isRequired,
-        filterActiveColor: PropTypes.string.isRequired
+        filterActiveColor: PropTypes.string.isRequired,
+        cellsClassName: PropTypes.string
     }
 
     static defaultProps = {
@@ -99,7 +100,7 @@ class DataTable extends React.Component {
     }
 
     render () {
-        const { columnKey, children, filterActiveColor, classes } = this.props;
+        const { columnKey, children, filterActiveColor, classes, cellsClassName } = this.props;
         const { order, orderBy } = this.state;
         const handleHeaderClick = this.handleHeaderClick;
         const data = this.sort(this.state.orderBy, this.state.order);
@@ -147,7 +148,8 @@ class DataTable extends React.Component {
                     return (
                         <TableCell
                             key={field}
-                            numeric={numeric} >
+                            numeric={numeric}
+                            className={cellsClassName} >
 
                             <div className={classes.tableHeader}>
                                 <TableSortLabel
@@ -181,7 +183,7 @@ class DataTable extends React.Component {
                                     const { field, numeric, onRender } = column.props;
 
                                     return (
-                                        <TableCell numeric={numeric}>
+                                        <TableCell numeric={numeric} className={cellsClassName}>
                                             {onRender(row, field)}
                                         </TableCell>
                                     );

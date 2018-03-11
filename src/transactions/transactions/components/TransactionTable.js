@@ -24,7 +24,10 @@ import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
 
 const styles = {
-    optionsCell: {
+    cell: {
+        whiteSpace: 'nowrap'
+    },
+    optionsWrapper: {
         display: 'flex',
         justifyContent: 'flex-end'
     }
@@ -70,7 +73,7 @@ class TransactionTable extends React.Component {
             return null;
 
         return (
-            <div className={classes.optionsCell}>
+            <div className={classes.optionsWrapper}>
                 {pendingPayment && <div className="col-xs-6">
                     <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>
                 </div>}
@@ -115,9 +118,12 @@ class TransactionTable extends React.Component {
     }
 
     render () {
-        const { activeFilters } = this.props;
+        const { activeFilters, classes } = this.props;
         return (
-            <DataTable data={this.props.transactions} initialOrderBy="due_date">
+            <DataTable 
+                cellsClassName={classes.cell}
+                data={this.props.transactions} 
+                initialOrderBy="due_date" >
 
                 <DataColumn 
                     sortable 
