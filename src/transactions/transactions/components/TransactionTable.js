@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import { MenuItem } from 'material-ui/Menu';
 
@@ -40,16 +39,11 @@ class TransactionTable extends React.Component {
     //Format
     formatAccount = (row, field) => this.props.accountsNames[row[field]];
 
+    formatCategory = (row, field) => this.props.categoriesNames[row[field]];
+
     formatDate = (row, field) => {
         const cell = row[field];
         return cell ? cell.format('DD/MM/YYYY') : 'NÃO PAGO';
-    }
-
-    formatCategory = (row, field) => {
-        const cell = row[field];
-        const { categoriesNames } = this.props;
-
-        return categoriesNames[cell] || cell;
     }
 
     formatValue = (row, field) => {
@@ -102,29 +96,14 @@ class TransactionTable extends React.Component {
         return valueB - valueA;
     }
 
-    sortCategory = (a, b, order) => {
-        const { categoriesNames } = this.props;
-
-        return sort(categoriesNames[a], categoriesNames[b], order);
+    sortAccount = (a, b, order) => {
+        const { accountsNames } = this.props;
+        return sort(accountsNames[a], accountsNames[b], order);
     }
 
-    sortDate = (a, b, order) => {//TODO: Move it to utils, its too generic
-        if (moment.isMoment(a) && moment.isMoment(b)) { 
-            if (order === 'desc') 
-                return b.unix() - a.unix(); 
-            else 
-                return a.unix() - b.unix(); 
-        } 
- 
-        if (moment.isMoment(a)) { 
-            return (order === 'desc') ? 1 : -1; 
-        } 
-    
-        if (moment.isMoment(b)) { 
-            return (order === 'desc') ? -1 : 1; 
-        } 
-    
-        return 0; 
+    sortCategory = (a, b, order) => {
+        const { categoriesNames } = this.props;
+        return sort(categoriesNames[a], categoriesNames[b], order);
     }
 
     render () {
@@ -132,10 +111,35 @@ class TransactionTable extends React.Component {
         return (
             <TableSort data={this.props.transactions} initialOrderBy="due_date">
 
-                <DataColumn sortable field="kind" onRenderFilter={<KindFilter />} filterActive={activeFilters.kind} onRender={this.formatKind}>Tipo</DataColumn>
-                <DataColumn field="account" onRender={this.formatAccount}>Conta</DataColumn>
-                <DataColumn sortable field="due_date" onRenderFilter={<DueDateFilter />} filterActive={activeFilters.due_date} onRender={this.formatDate} onSort={this.sortDate}>Vencimento</DataColumn>
-                <DataColumn sortable field="description" onRenderFilter={<DescriptionFilter />} filterActive={activeFilters.description} >Descrição</DataColumn>
+                <DataColumn 
+                    sortable 
+                    field="kind" 
+                    onRender={this.formatKind}
+                    onRenderFilter={<KindFilter />} 
+                    filterActive={activeFilters.kind} > Tipo
+                </DataColumn>
+
+                <DataColumn 
+                    sortable 
+                    field="account" 
+                    onRender={this.formatAccount} 
+                    onSort={this.sortAccount} > Conta
+                </DataColumn>
+                
+                <DataColumn 
+                    sortable 
+                    field="due_date" 
+                    onRender={this.formatDate}
+                    onRenderFilter={<DueDateFilter />} 
+                    filterActive={activeFilters.due_date} > Vencimento
+                </DataColumn>
+
+                <DataColumn 
+                    sortable 
+                    field="description" 
+                    onRenderFilter={<DescriptionFilter />} 
+                    filterActive={activeFilters.description} > Descrição
+                </DataColumn>
 
                 <DataColumn 
                     sortable
@@ -159,7 +163,7 @@ class TransactionTable extends React.Component {
 
                 <DataColumn sortable numeric field="priority" onRenderFilter={<PriorityFilter />} filterActive={activeFilters.priority}>Importancia</DataColumn>
                 <DataColumn sortable numeric field="deadline" onRenderFilter={<DeadlineFilter />} filterActive={activeFilters.deadline}>Tolerância</DataColumn>
-                <DataColumn sortable field="payment_date" onRenderFilter={<PaymentFilter />} filterActive={activeFilters.payment_date} onRender={this.formatDate} onSort={this.sortDate}>Pago em</DataColumn>
+                <DataColumn sortable field="payment_date" onRenderFilter={<PaymentFilter />} filterActive={activeFilters.payment_date} onRender={this.formatDate}>Pago em</DataColumn>
                 <DataColumn onRender={this.formatOptions} />
             </TableSort>
         );
