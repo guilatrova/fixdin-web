@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import Grid from 'material-ui/Grid';
+import { withStyles } from 'material-ui/styles';
 
 import BalancePeriodTable from '../components/BalancePeriodTable';
 import AggregatedAccountPeriodTable from '../components/AggregatedAccountPeriodTable';
@@ -11,32 +10,48 @@ import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
 import { selectors as reportSelectors } from '../../../reports/duck';
 
-const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, lastMonthsData }) => {
+const styles = {
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-evenly',
+        alignItems: 'stretch',
+        alignContent: 'stretch'
+    },
+    balancesTable: {
+        flex: 1
+    },
+    accountsTable: {
+        flex: 2,
+        margin: 2
+    },
+    chart: {
+        flex: '2 1',
+    }
+};
+
+const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, lastMonthsData, classes }) => {
     return (
-        <div>
-            <Grid container spacing={8} justify="center">
-                <Grid item xs={12} md={3}>
-                    <BalancePeriodTable
-                        period={period}
-                        incomes={totalIncomes}
-                        expenses={totalExpenses}
-                        total={total}
-                    />
-                </Grid>
+        <div className={classes.root}>
+            <div className={classes.balancesTable}>
+                <BalancePeriodTable
+                    period={period}
+                    incomes={totalIncomes}
+                    expenses={totalExpenses}
+                    total={total}
+                />
+            </div>
 
-                <Grid item xs={12} md={6}>
-                    <AggregatedAccountPeriodTable 
-                        names={accountsName}
-                        values={aggregatedAccounts}
-                    />
-                </Grid>
+            <div className={classes.accountsTable}>
+                <AggregatedAccountPeriodTable 
+                    names={accountsName}
+                    values={aggregatedAccounts}
+                />
+            </div>
 
-                <Grid item xs={12} md={3}>
-                    <div style={{ width: "100%" }}>
-                        <LastMonthsChart data={lastMonthsData} />
-                    </div>
-                </Grid>
-            </Grid>
+            <div className={classes.chart}>
+                <LastMonthsChart data={lastMonthsData} />
+            </div>
         </div>
     );
 };
@@ -48,7 +63,8 @@ BalanceHeader.propTypes = {
     period: PropTypes.string.isRequired,
     accountsName: PropTypes.array.isRequired,
     aggregatedAccounts: PropTypes.array.isRequired,
-    lastMonthsData: PropTypes.object.isRequired
+    lastMonthsData: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -65,4 +81,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(BalanceHeader);
+export default withStyles(styles)(
+    connect(mapStateToProps)(BalanceHeader)
+);
