@@ -42,14 +42,15 @@ const resetStep1 = (balance, pendingIncomes) => {
 };
 
 //Step2
-const toggleExpense = (expenseIds) => {
+const toggleExpense = (expenseIds, expenses) => {
     if (!Array.isArray(expenseIds)) {
         expenseIds = [ expenseIds ];
     }
 
     return {
         type: types.TOGGLE_EXPENSE,
-        expenseIds
+        expenseIds,
+        expenses
     };
 };
 

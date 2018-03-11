@@ -38,7 +38,7 @@ const fetchNextExpensesReducer = (state, action) => {
 
 const toggleExpense = (state, action) => {
     const { newChecked, diffTotalChecked, totalChecked } = 
-        toggleTransaction(state.checked, action.expenseIds, state.nextExpenses, state.totalChecked);
+        toggleTransaction(state.checked, action.expenseIds, action.expenses, state.totalChecked);
     const remainingBalance = state.remainingBalance + diffTotalChecked; //It's plus because expense is already negative
     
     return {

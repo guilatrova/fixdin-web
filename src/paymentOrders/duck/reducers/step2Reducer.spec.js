@@ -1,6 +1,7 @@
 import reducer from './step2Reducer';
 import actions from '../actions';
 import moment from 'moment';
+import formatters from '../../formatters';
 
 describe('paymentOrders/duck/reducers/Step2', () => {
 
@@ -55,7 +56,11 @@ describe('paymentOrders/duck/reducers/Step2', () => {
     });
 
     describe('TOGGLE_EXPENSE', () => {
-        const expenses = createExpenses([ -10, -15, -28 ]);
+        const expenses = [
+            { "2018-03-01": [ { id: 1, value: "-10" }, { id: 2, value: "-15" } ], "2018-02-01": [ ] },
+            { "2018-03-01": [ ], "2018-02-01": [ { id: 3, value: "-28" } ] },
+        ];
+        const formattedExpenses = formatters.reduceNextExpensesToTransactionsArray(expenses);
 
         it("Checks a new expense", () => {
             const state = {
@@ -67,7 +72,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             };
 
             expect(
-                reducer(state, actions.toggleExpense(2))
+                reducer(state, actions.toggleExpense(2, formattedExpenses))
             ).toEqual({
                 ...state,
                 checked: [ 1, 2 ],
@@ -86,7 +91,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             };
 
             expect(
-                reducer(state, actions.toggleExpense(2))
+                reducer(state, actions.toggleExpense(2, formattedExpenses))
             ).toEqual({
                 ...state,
                 checked: [ 1 ],
@@ -105,7 +110,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             };
 
             expect(
-                reducer(state, actions.toggleExpense([2, 3]))
+                reducer(state, actions.toggleExpense([2, 3], formattedExpenses))
             )
             .toEqual({
                 ...state,

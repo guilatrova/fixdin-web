@@ -5,6 +5,7 @@ import getQueryParams from '../../services/query';
 import { selectors as balanceSelectors } from './../../balances/duck';
 import { selectors as transactionsSelectors } from '../../transactions/transactions/duck';
 import { GetOperation } from '../../common/duck/operations';
+import formatters from '../formatters';
 
 class FetchNextExpenses extends GetOperation {
     constructor(from, until) {
@@ -36,19 +37,23 @@ const resetStep1 = () => (dispatch, getState) => {
 };
 
 //Step2
-const toggleExpense = actions.toggleExpense;
+const toggleExpense = (expenseIds) => (dispatch, getState) => {
+    const state = getState();    
+    const transactions = formatters.reduceNextExpensesToTransactionsArray(selectors.step2.getNextExpenses(state));
+    dispatch(actions.toggleExpense(expenseIds, transactions));
+};
 
 const checkDefaultExpenses = () => (dispatch, getState) => {
-    const untilDate = selectors.step1.getUntilDate(getState());
-    const balance = selectors.step1.getTotal(getState());
-    const expenses = transactionsSelectors.getPendingExpensesUntil(getState(), untilDate);
+    const state = getState();
+    const balance = selectors.step1.getTotal(state);
+    const expenses = selectors.step2.getNextExpenses(state);
     dispatch(actions.checkDefaultExpenses(balance, expenses));
 };
 
 const resetStep2 = () => (dispatch, getState) => {
-    const untilDate = selectors.step1.getUntilDate(getState());
-    const balance = selectors.step1.getTotal(getState());
-    const expenses = transactionsSelectors.getPendingExpensesUntil(getState(), untilDate);
+    const state = getState();
+    const balance = selectors.step1.getTotal(state);
+    const expenses = selectors.step2.getNextExpenses(state);
     dispatch(actions.resetStep2(balance, expenses));
 };
 

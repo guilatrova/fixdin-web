@@ -1,4 +1,4 @@
-export default function toggleTransaction(checked, ids, visibleTransactions, totalChecked) {
+export default function toggleTransaction(checked, ids, transactions, totalChecked) {
     const newChecked = [...checked];
 
     for (let i = 0; i < ids.length; i++) {
@@ -12,7 +12,7 @@ export default function toggleTransaction(checked, ids, visibleTransactions, tot
         }
     }
 
-    const diffTotalChecked = visibleTransactions
+    const diffTotalChecked = transactions
         .filter(transaction => newChecked.includes(transaction.id))
         .map(transaction => transaction.value)
         .reduce((acc, cur) => acc + cur, 0) - totalChecked;

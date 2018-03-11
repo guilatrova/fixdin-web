@@ -3,18 +3,18 @@ import types from './types';
 import { EXPENSE, INCOME } from '../../transactions/kinds';
 
 describe('reports/duck/actions', () => {
-	let store, mock, restoreMock;
+	// let store, mock, restoreMock;
 	const { itShouldDispatchSuccessFailActions, itShouldDispatchSuccessFailActionsCustom } = actionsHelpers;
 
 	beforeEach(() => {
-		const mockHelper = mockAxios();
-		mock = mockHelper.mock;
-		store = mockHelper.store;
-		restoreMock = mockHelper.restoreMock;
+		// const mockHelper = mockAxios();
+		// mock = mockHelper.mock;
+		// store = mockHelper.store;
+		// restoreMock = mockHelper.restoreMock;
 	});
 
 	afterEach(() => {
-		restoreMock();
+		// restoreMock();
 	});
 
 	describe('FETCH_LAST_MONTHS', () => {
