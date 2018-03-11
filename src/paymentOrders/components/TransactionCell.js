@@ -13,12 +13,13 @@ const TransactionCell = ({transactions, checked, onToggle}) => {
                 return (
                     <FormGroup row key={transaction.id}>
                         <FormControlLabel
+                            disabled={transaction.payment_date}
                             label={formatCurrencyDisplay(transaction.value)}
                             onClick={() => onToggle(transaction.id)}
                             control={
                                 <Checkbox
                                     color="primary"
-                                    checked={checked.indexOf(transaction.id) !== -1}
+                                    checked={transaction.payment_date || checked.indexOf(transaction.id) !== -1}
                                     onChange={() => onToggle(transaction.id)}
                                 />}
                         />
