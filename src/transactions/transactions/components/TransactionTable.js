@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withStyles } from 'material-ui/styles';
 import { MenuItem } from 'material-ui/Menu';
-
 import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
@@ -23,6 +23,13 @@ import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
 
+const styles = {
+    optionsCell: {
+        display: 'flex',
+        justifyContent: 'flex-end'
+    }
+};
+
 class TransactionTable extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired,
@@ -33,7 +40,8 @@ class TransactionTable extends React.Component {
         onCopy: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
         isFetching: PropTypes.bool.isRequired,
-        activeFilters: PropTypes.object.isRequired
+        activeFilters: PropTypes.object.isRequired,
+        classes: PropTypes.object.isRequired
     }
 
     //Format
@@ -56,13 +64,13 @@ class TransactionTable extends React.Component {
     }
 
     formatOptions = (transaction) => {
-        const { onEdit, onDelete, onCopy, onPay, isFetching } = this.props;
+        const { onEdit, onDelete, onCopy, onPay, isFetching, classes } = this.props;
         const pendingPayment = !transaction.payment_date;
         if (specifications.isTransfer(transaction))
             return null;
 
         return (
-            <div>
+            <div className={classes.optionsCell}>
                 {pendingPayment && <div className="col-xs-6">
                     <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>
                 </div>}
@@ -170,4 +178,4 @@ class TransactionTable extends React.Component {
     }
 }
 
-export default TransactionTable;
+export default withStyles(styles)(TransactionTable);
