@@ -14,7 +14,7 @@ describe('balances/duck/reducers', () => {
     it('should return the initial state', () => {
         expect(
             reducer(undefined, {})
-        ).to.deep.equal(initialState);
+        ).toEqual(initialState);
     });
 
     describe("FETCH_BALANCE", () => {
@@ -22,7 +22,7 @@ describe('balances/duck/reducers', () => {
         it("should be handled", () => {
             expect(
                 reducer(initialState, actions.requestBalance())
-            ).to.deep.equal({
+            ).toEqual({
                 balance: undefined,
                 realBalance: undefined,
                 expectedBalance: undefined,
@@ -34,7 +34,7 @@ describe('balances/duck/reducers', () => {
         it("should be handled when successful", () => {
             expect(
                 reducer(initialState, actions.receiveBalance('success', 50, 'balance'))
-            ).to.deep.equal({
+            ).toEqual({
                 balance: 50,
                 realBalance: undefined,
                 expectedBalance: undefined,
@@ -47,7 +47,7 @@ describe('balances/duck/reducers', () => {
             const errors = { 'detail':'random error' };
             expect(
                 reducer(initialState, actions.receiveBalance('fail', errors, 'balance'))
-            ).to.deep.equal({
+            ).toEqual({
                 balance: undefined,
                 realBalance: undefined,
                 expectedBalance: undefined,

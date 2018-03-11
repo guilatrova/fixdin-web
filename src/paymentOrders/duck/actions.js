@@ -53,19 +53,19 @@ const toggleExpense = (expenseIds) => {
     };
 };
 
-const checkDefaultExpenses = (balance, visibleExpenses) => {
+const checkDefaultExpenses = (balance, nextExpenses) => {
     return {
         type: types.CHECK_DEFAULT_EXPENSES,
         balance,
-        visibleExpenses
+        nextExpenses
     };
 };
 
-const resetStep2 = (remainingBalance, visibleExpenses) => {
+const resetStep2 = (remainingBalance, nextExpenses) => {
     return {
         type: types.RESET_STEP2,
         remainingBalance,
-        visibleExpenses
+        nextExpenses
     };
 };
 

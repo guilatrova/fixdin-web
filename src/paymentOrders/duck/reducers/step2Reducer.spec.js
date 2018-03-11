@@ -12,7 +12,6 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         remainingBalance: undefined,
         checked: [],
         totalChecked: 0,
-        visibleExpenses: [],
         isFetching: false,
         errors: {},
         nextExpenses: []
@@ -29,25 +28,25 @@ describe('paymentOrders/duck/reducers/Step2', () => {
     };
 
     it('should return initial state', () => {
-        expect(reducer(undefined, {})).to.deep.equal(initialState);
+        expect(reducer(undefined, {})).toEqual(initialState);
     });
 
     it('CHECK_DEFAULT_EXPENSES', () => {
-        const visibleExpenses = [
+        const nextExpenses = [
             { id: 1, priority: 2, due_date: today, value: -10 },
             { id: 2, priority: 2, due_date: yesterday, value: -20 },
             { id: 3, priority: 5, due_date: tomorrow, value: -30 }
         ];
         const state = {
             ...initialState,
-            visibleExpenses
+            nextExpenses
         };
 
         //Expected order 3, 1, 2
         expect(
-            reducer(state, actions.checkDefaultExpenses(45, visibleExpenses))
+            reducer(state, actions.checkDefaultExpenses(45, nextExpenses))
         )
-        .to.deep.equal({
+        .toEqual({
             ...state,
             checked: [ 3, 1 ],
             totalChecked: 40,
@@ -61,7 +60,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         it("Checks a new expense", () => {
             const state = {
                 ...initialState,
-                visibleExpenses: expenses,
+                nextExpenses: expenses,
                 checked: [ 1 ],
                 remainingBalance: 20,
                 totalChecked: -10
@@ -69,7 +68,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
 
             expect(
                 reducer(state, actions.toggleExpense(2))
-            ).to.deep.equal({
+            ).toEqual({
                 ...state,
                 checked: [ 1, 2 ],
                 remainingBalance: 5,
@@ -80,7 +79,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         it("Unchecks an expense", () => {
             const state = {
                 ...initialState,
-                visibleExpenses: expenses,
+                nextExpenses: expenses,
                 checked: [ 1, 2 ],
                 remainingBalance: 5,
                 totalChecked: -25
@@ -88,7 +87,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
 
             expect(
                 reducer(state, actions.toggleExpense(2))
-            ).to.deep.equal({
+            ).toEqual({
                 ...state,
                 checked: [ 1 ],
                 remainingBalance: 20,
@@ -99,7 +98,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         it('Accepts list', () => {
             const state = {
                 ...initialState,
-                visibleExpenses: expenses,
+                nextExpenses: expenses,
                 checked: [ 1, 3 ],
                 totalChecked: -38,
                 remainingBalance: 12
@@ -108,7 +107,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             expect(
                 reducer(state, actions.toggleExpense([2, 3]))
             )
-            .to.deep.equal({
+            .toEqual({
                 ...state,
                 checked: [ 1, 2 ],
                 totalChecked: -25,
@@ -123,14 +122,14 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             remainingBalance: 100,
             checked: [ 2, 3 ],
             totalChecked: 140,
-            visibleExpenses: createExpenses([ 30, 40, 70 ])
+            nextExpenses: createExpenses([ 30, 40, 70 ])
         };
 
         expect(
             reducer(state, actions.resetStep2(20, createExpenses([ 30, 40 ])))
-        ).to.deep.equal({
+        ).toEqual({
             ...state,
-            visibleExpenses: createExpenses([ 30, 40 ]),
+            nextExpenses: createExpenses([ 30, 40 ]),
             remainingBalance: 20,
             checked: [],
             totalChecked: 0

@@ -20,7 +20,7 @@ describe('categories/duck/reducers', () => {
     it('should return the inital state', () => {
         expect(
             reducer(undefined, {})            
-        ).to.deep.equal(initialState);
+        ).toEqual(initialState);
     });
 
     describe("SAVE_TRANSACTION_CATEGORY", () => {
@@ -28,7 +28,7 @@ describe('categories/duck/reducers', () => {
         it('should be handled', () => {
             expect(
                 reducer(undefined, actions.requestSaveCategory())
-            ).to.deep.equal({
+            ).toEqual({
                 categories: [],
                 editingCategory: {},
                 isFetching: true,
@@ -40,7 +40,7 @@ describe('categories/duck/reducers', () => {
             const data = { id: 1 };
             expect(
                 reducer(fetchingState, actions.receiveSaveCategory('success', data))
-            ).to.deep.equal({
+            ).toEqual({
                 editingCategory: {},
                 isFetching: false,
                 categories: [ data ],
@@ -52,7 +52,7 @@ describe('categories/duck/reducers', () => {
             const errors = { name: 'name under use' };
             expect(
                 reducer(fetchingState, actions.receiveCategories('fail', errors))
-            ).to.deep.equal({
+            ).toEqual({
                 editingCategory: {},
                 categories: [],
                 isFetching: false,
@@ -71,7 +71,7 @@ describe('categories/duck/reducers', () => {
 
             expect(
                 reducer(state, actions.receiveSaveCategory('success', categoryToSave))
-            ).to.deep.equal({
+            ).toEqual({
                 isFetching: false,
                 errors: {},
                 categories: expectedList,
@@ -103,7 +103,7 @@ describe('categories/duck/reducers', () => {
         it('should be handled', () => {
             expect(
                 reducer(undefined, actions.requestCategories())
-            ).to.deep.equal({
+            ).toEqual({
                 categories: [],
                 errors: {},
                 editingCategory: {},
@@ -116,7 +116,7 @@ describe('categories/duck/reducers', () => {
 
             expect(
                 reducer(fetchingState, actions.receiveCategories('success', categories))
-            ).to.deep.equal({
+            ).toEqual({
                 editingCategory: {},
                 errors: {},
                 isFetching: false,
@@ -128,7 +128,7 @@ describe('categories/duck/reducers', () => {
             const errors = { detail: 'you cant see those categories' };
             expect(
                 reducer(fetchingState, actions.receiveCategories('fail', errors))
-            ).to.deep.equal({
+            ).toEqual({
                 editingCategory: {},
                 categories: [],
                 isFetching: false,
@@ -151,7 +151,7 @@ describe('categories/duck/reducers', () => {
 
             expect(
                 reducer(someCategoriesState, actions.receiveCategories('success', received, EXPENSE))
-            ).to.deep.equal({
+            ).toEqual({
                 isFetching: false,
                 errors: {},
                 editingCategory: {},
@@ -180,7 +180,7 @@ describe('categories/duck/reducers', () => {
         it('should handle EDIT_TRANSACTION_CATEGORY', () => {
             expect(
                 reducer(state, actions.editCategory(1))
-            ).to.deep.equal({
+            ).toEqual({
                 categories,
                 isFetching: false,
                 errors: {},
@@ -196,7 +196,7 @@ describe('categories/duck/reducers', () => {
 
             expect(
                 reducer(editingState, actions.finishEditCategory())
-            ).to.deep.equal({
+            ).toEqual({
                 categories,
                 isFetching: false,
                 errors: {},
@@ -224,7 +224,7 @@ describe('categories/duck/reducers', () => {
 		it('should be handled', () => {
             expect(
                 reducer(initialDeleteState, actions.requestDeleteCategory(2))
-            ).to.deep.equal({
+            ).toEqual({
                 isFetching: true,
                 errors: {},
                 categories,
@@ -235,7 +235,7 @@ describe('categories/duck/reducers', () => {
         it('should be handled when successfull', () => {
             expect(
                 reducer(fetchingDeleteState, actions.receiveDeleteCategory(2, 'success'))
-            ).to.deep.equal({
+            ).toEqual({
                 isFetching: false,
                 errors: {},
                 editingCategory: {},
@@ -248,7 +248,7 @@ describe('categories/duck/reducers', () => {
 
             expect(
                 reducer(fetchingDeleteState, actions.receiveDeleteCategory(2, 'fail', errors))
-            ).to.deep.equal({
+            ).toEqual({
                 isFetching: false,
                 errors,
                 editingCategory: {},

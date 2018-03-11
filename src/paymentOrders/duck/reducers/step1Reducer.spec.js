@@ -28,7 +28,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
     };
 
     it('should return initial state', () => {
-        expect(reducer(undefined, {})).to.deep.equal(initialState);
+        expect(reducer(undefined, {})).toEqual(initialState);
     });
 
     it('CHECK_DEFAULT_INCOMES', () => {
@@ -39,7 +39,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
         
         expect(
             reducer(state, actions.checkDefaultIncomes(10))
-        ).to.deep.equal({
+        ).toEqual({
             ...initialState,
             visibleIncomes: state.visibleIncomes,
             checked: [2, 3],
@@ -55,7 +55,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
             expect(
                 reducer(undefined, actions.changeUntilDate(yesterday, [incomes[0]]))
             )
-            .to.deep.equal({
+            .toEqual({
                 ...initialState,
                 visibleIncomes: [ incomes[0] ],
                 untilDate: yesterday
@@ -74,7 +74,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
             expect(
                 reducer(state, actions.changeUntilDate(yesterday, [incomes[0]]))
             )
-            .to.deep.equal({
+            .toEqual({
                 ...state,
                 visibleIncomes: [incomes[0]],
                 untilDate: yesterday,
@@ -102,7 +102,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
             expect(
                 reducer(state, actions.toggleIncome(2))
             )
-            .to.deep.equal({
+            .toEqual({
                 ...state,
                 checked: [ 1, 2 ],
                 total: 25,
@@ -122,7 +122,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
             expect(
                 reducer(state, actions.toggleIncome(1))
             )
-            .to.deep.equal({
+            .toEqual({
                 ...state,
                 checked: [ 2 ],
                 total: 15,
@@ -142,7 +142,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
             expect(
                 reducer(state, actions.toggleIncome([2, 3]))
             )
-            .to.deep.equal({
+            .toEqual({
                 ...state,
                 checked: [ 1, 3 ],
                 total: 38,
@@ -161,7 +161,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
         expect(
             reducer(state, actions.changeValueToSave(5))
         )
-        .to.deep.equal({
+        .toEqual({
             ...state,
             toSave: 5,
             total: 35
@@ -183,7 +183,7 @@ describe('paymentOrders/duck/reducers/Step1', () => {
         expect(
             reducer(state, actions.resetStep1(25, [incomes[0], incomes[1]]))
         )
-        .to.deep.equal({
+        .toEqual({
             ...initialState,
             total: 25,
             untilDate: today,

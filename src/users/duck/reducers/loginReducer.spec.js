@@ -11,13 +11,13 @@ describe('users/duck/reducers/login', () => {
     it('should return the initial state', () => {
         expect(
             reducer(undefined, {})
-        ).to.deep.equal(initialState);
+        ).toEqual(initialState);
     });
 
     it('should handle FETCH_TOKEN', () => {
         expect(
             reducer(undefined, actions.requestToken({}))
-        ).to.deep.equal({                
+        ).toEqual({                
             isFetching: true,
             error: '',
             token: ''
@@ -28,7 +28,7 @@ describe('users/duck/reducers/login', () => {
         expect(
             reducer(undefined, actions.receiveToken('success', 'abc123'))
         )
-        .to.deep.equal({
+        .toEqual({
             isFetching: false,
             error: '',
             token: 'abc123'
@@ -38,7 +38,7 @@ describe('users/duck/reducers/login', () => {
     it('should handle failed FETCH_TOKEN', () => {
         expect(
             reducer(undefined, actions.receiveToken('fail', 'General error'))
-        ).to.deep.equal({
+        ).toEqual({
             isFetching: false,
             error: 'General error',
             token: ''

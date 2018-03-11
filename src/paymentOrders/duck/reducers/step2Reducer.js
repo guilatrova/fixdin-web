@@ -6,7 +6,6 @@ const initialState = {
     remainingBalance: undefined,
     checked: [],
     totalChecked: 0,
-    visibleExpenses: [],
 
     nextExpenses: [],
     isFetching: false,
@@ -39,7 +38,7 @@ const fetchNextExpensesReducer = (state, action) => {
 
 const toggleExpense = (state, action) => {
     const { newChecked, diffTotalChecked, totalChecked } = 
-        toggleTransaction(state.checked, action.expenseIds, state.visibleExpenses, state.totalChecked);
+        toggleTransaction(state.checked, action.expenseIds, state.nextExpenses, state.totalChecked);
     const remainingBalance = state.remainingBalance + diffTotalChecked; //It's plus because expense is already negative
     
     return {
@@ -51,8 +50,8 @@ const toggleExpense = (state, action) => {
 };
 
 const checkDefaultExpenses = (state, action) => {
-    const visibleExpenses = action.visibleExpenses;    
-    const sorted = visibleExpenses.sort(comparators.expensesToBePaidCompare);
+    const nextExpenses = action.nextExpenses;    
+    const sorted = nextExpenses.sort(comparators.expensesToBePaidCompare);
     const checked = [];
     let remainingBalance = action.balance;
     let totalChecked = 0;
@@ -92,7 +91,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 remainingBalance: action.remainingBalance,
-                visibleExpenses: action.visibleExpenses,
+                nextExpenses: action.nextExpenses,
                 checked: [],
                 totalChecked: 0
             };

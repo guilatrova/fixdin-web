@@ -10,13 +10,13 @@ describe('users/duck/reducers/signup', () => {
     it('should return the initial state', () => {
         expect(
             reducer(undefined, {})
-        ).to.deep.equal(initialState);
+        ).toEqual(initialState);
     });
 
     it('should handle SIGNUP', () => {
         expect(
             reducer(undefined, actions.requestSignup())
-        ).to.deep.equal({
+        ).toEqual({
             isFetching: true,
             errors: {}
         });
@@ -25,7 +25,7 @@ describe('users/duck/reducers/signup', () => {
     it('should handle successful SIGNUP', () => {
         expect(
             reducer(undefined, actions.receiveSignup('success', {}))
-        ).to.deep.equal({
+        ).toEqual({
             isFetching: false,
             errors: {}
         });
@@ -39,7 +39,7 @@ describe('users/duck/reducers/signup', () => {
 
         expect(
             reducer(undefined, actions.receiveSignup('fail', errors))
-        ).to.deep.equal({
+        ).toEqual({
             isFetching: false,                
             errors
         });

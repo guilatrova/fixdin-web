@@ -14,7 +14,7 @@ import Step2 from './Step2';
 import Step3 from './Step3';
 import { operations as balanceOperations } from '../../balances/duck';
 import { operations as transactionOperations } from '../../transactions/transactions/duck';
-import { operations } from '../duck';
+import { selectors, operations } from '../duck';
 import { ALL } from '../../transactions/kinds';
 
 const styles = {
@@ -27,6 +27,8 @@ class PaymentOrderStepper extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         theme: PropTypes.object.isRequired,
+        untilDate: PropTypes.object.isRequired,
+        
         onStart: PropTypes.func.isRequired,
         onStep2: PropTypes.func.isRequired,
     };
@@ -49,7 +51,7 @@ class PaymentOrderStepper extends React.Component {
     };
     
     handleBack = () => {
-        const newStep = this.state.activeStep - 1;
+        const newStep = this.state.step1activeStep - 1;
         this.onStepChange(this.state.activeStep, newStep);
         this.setState({
             activeStep: newStep,
@@ -59,7 +61,7 @@ class PaymentOrderStepper extends React.Component {
     onStepChange = (prevStep, newStep) => {
         if (prevStep < newStep) {
             if (newStep == 1) {
-                this.props.onStep2();
+                this.props.onStep2(this.props.untilDate.format('YYYY-MM-DD'));
             }
         }
     }
@@ -113,6 +115,10 @@ class PaymentOrderStepper extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    untilDate: selectors.step1.getUntilDate(state)
+});
+
 const mapDispatchToProps = (dispatch) => {    
     return {
         onStart: () => {
@@ -122,14 +128,15 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(operations.checkDefaultIncomes());
             });
         },
-        onStep2: () => {
+        onStep2: (untilDate) => {
             dispatch(operations.resetStep2());
-            dispatch(operations.checkDefaultExpenses());
-            dispatch(operations.fetchNextExpenses());
+            dispatch(operations.fetchNextExpenses(null, untilDate)).then(() => {
+                dispatch(operations.checkDefaultExpenses());
+            });
         }
     };
 };
 
 export default withStyles(styles, { withTheme: true })(
-    connect(null, mapDispatchToProps)(PaymentOrderStepper)
+    connect(mapStateToProps, mapDispatchToProps)(PaymentOrderStepper)
 );

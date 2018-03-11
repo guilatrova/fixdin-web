@@ -34,7 +34,7 @@ describe('reports/duck/reducers/valuesByCategoryReducers', () => {
         expect(
             reducer(undefined, {})
         )
-        .to.deep.equal(initialState);
+        .toEqual(initialState);
     });
 
     describe("should be handled", () => {
@@ -42,7 +42,7 @@ describe('reports/duck/reducers/valuesByCategoryReducers', () => {
         it('with "expenses" data', () => {
             expect(
                 reducer(undefined, actions.requestValuesByCategoryReport(EXPENSE))
-            ).to.deep.equal({
+            ).toEqual({
                 expenses: {
                     isFetching: true,
                     data: [],
@@ -59,7 +59,7 @@ describe('reports/duck/reducers/valuesByCategoryReducers', () => {
         it('with "incomes" data', () => {
             expect(
                 reducer(undefined, actions.requestValuesByCategoryReport(INCOME))
-            ).to.deep.equal({
+            ).toEqual({
                 expenses: {
                     isFetching: false,
                     data: [],
@@ -81,7 +81,7 @@ describe('reports/duck/reducers/valuesByCategoryReducers', () => {
             const data = [ { id: 1 }, { id: 2 } ];
             expect(
                 reducer(fetchingState, actions.receiveValuesByCategoryReport('success', data, EXPENSE))
-            ).to.deep.equal({
+            ).toEqual({
                 expenses: {
                     isFetching: false,
                     data,
@@ -99,7 +99,7 @@ describe('reports/duck/reducers/valuesByCategoryReducers', () => {
             const data = [ { id: 1 }, { id: 2 } ];
             expect(
                 reducer(fetchingState, actions.receiveValuesByCategoryReport('success', data, INCOME))
-            ).to.deep.equal({
+            ).toEqual({
                 expenses: {
                     isFetching: true,
                     data: [],
@@ -122,7 +122,7 @@ describe('reports/duck/reducers/valuesByCategoryReducers', () => {
             const errors = { 'detail':'random error' };
             expect(
                 reducer(fetchingState, actions.receiveValuesByCategoryReport('fail', errors, EXPENSE))
-            ).to.deep.equal({                
+            ).toEqual({                
                 expenses: {
                     isFetching: false,
                     data: [],
@@ -140,7 +140,7 @@ describe('reports/duck/reducers/valuesByCategoryReducers', () => {
             const errors = { 'detail':'random error' };
             expect(
                 reducer(fetchingState, actions.receiveValuesByCategoryReport('fail', errors, INCOME))
-            ).to.deep.equal({                
+            ).toEqual({                
                 expenses: {
                     isFetching: true,
                     data: [],

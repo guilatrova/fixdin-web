@@ -35,13 +35,13 @@ describe('reports/duck/reducers/pendingTransactionsReducer', () => {
         expect(
             reducer(undefined, {})
         )
-        .to.deep.equal(initialState);
+        .toEqual(initialState);
     });
 
     it("should be handled", () => {
         expect(
             reducer(undefined, actions.requestPendingTransactionsReport(EXPENSE))
-        ).to.deep.equal({
+        ).toEqual({
             expenses: {
                 next: [],
                 overdue: [],
@@ -62,7 +62,7 @@ describe('reports/duck/reducers/pendingTransactionsReducer', () => {
             const data = { next: [ {id: 1}], overdue: [ {id: 4}] };
             expect(
                 reducer(fetchingState, actions.receivePendingTransactionsReport('success', data, EXPENSE))
-            ).to.deep.equal({
+            ).toEqual({
                 expenses: {
                     ...data,
                     isFetching: false
@@ -80,7 +80,7 @@ describe('reports/duck/reducers/pendingTransactionsReducer', () => {
             const data = { next: [ {id: 1}], overdue: [ {id: 4}] };
             expect(
                 reducer(fetchingState, actions.receivePendingTransactionsReport('success', data, INCOME))
-            ).to.deep.equal({
+            ).toEqual({
                 expenses: {
                     next: [],
                     overdue: [],
@@ -100,7 +100,7 @@ describe('reports/duck/reducers/pendingTransactionsReducer', () => {
         const errors = { 'detail':'random error' };
         expect(
             reducer(fetchingState, actions.receivePendingTransactionsReport('fail', errors, INCOME))
-        ).to.deep.equal({                
+        ).toEqual({                
             expenses: {
                 next: [],
                 overdue: [],

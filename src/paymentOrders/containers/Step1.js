@@ -67,11 +67,11 @@ class Step1 extends React.Component {
 
                     <DatePicker
                         keyboard
-                        label="Até dia"
+                        label="Até mês"
                         value={untilDate}
                         onChange={this.handleDateChange}
                         autoOk={true}
-                        format="DD MMMM YYYY"
+                        format="MMMM YYYY"
                     />
 
                     <CurrencyTextField

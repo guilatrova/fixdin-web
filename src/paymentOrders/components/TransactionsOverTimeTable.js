@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { sort } from '../../utils/sorts';
 import TransactionCell from './TransactionCell';
 import { TableSort, DataColumn } from '../../common/material/TableSort';
 

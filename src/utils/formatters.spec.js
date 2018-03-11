@@ -43,7 +43,7 @@ describe('utils/formatter', () => {
             undefinedRemoved: undefined
         };
 
-        expect(clean(obj)).to.deep.equal({
+        expect(clean(obj)).toEqual({
             numberOk: 1,
             stringOk: 'a',
             emptyStrOk: ''
