@@ -29,13 +29,15 @@ class TableSort extends React.Component {
         children: PropTypes.node,
         initialOrder: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
         initialOrderBy: PropTypes.string.isRequired,
-        classes: PropTypes.object.isRequired
+        classes: PropTypes.object.isRequired,
+        filterActiveColor: PropTypes.string.isRequired
     }
 
     static defaultProps = {
         columnKey: 'id',
         initialOrder: 'asc',
-        initialOrderBy: ''
+        initialOrderBy: '',
+        filterActiveColor: 'primary'
     }
 
     constructor(props) {
@@ -89,7 +91,7 @@ class TableSort extends React.Component {
     }
 
     render () {
-        const { columnKey, children } = this.props;
+        const { columnKey, children, filterActiveColor } = this.props;
         const { order, orderBy } = this.state;
         const handleHeaderClick = this.handleHeaderClick;
         const data = this.sort(this.state.orderBy, this.state.order);
@@ -102,7 +104,7 @@ class TableSort extends React.Component {
                     <div>
                     <IconButton 
                         aria-label="Filter list"
-                        color={child.props.filterActive ? "accent" : "default"}
+                        color={child.props.filterActive ? filterActiveColor : "default"}
                         ref={node => { buttonRef = node; }}
                         onClick={() => this.setState({ 
                             popover: child.props.field,
