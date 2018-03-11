@@ -17,9 +17,7 @@ class MultiCategorySelectPicker extends React.Component {
         categories: PropTypes.array.isRequired,
     }
 
-    handleOnChange = (options) => {
-        this.props.onChange(options.map(opt => opt.value));
-    }
+    handleOnChange = (options) => this.props.onChange(options.map(opt => opt.value));
 
     render() {
         const { isFetching, value, kind } = this.props;
@@ -29,12 +27,10 @@ class MultiCategorySelectPicker extends React.Component {
             categories = this.props.categories.filter(category => category.kind === kind.id);
         }
         
-        const options = categories.map(category => {
-            return {
-                value: category.id, 
-                label: category.name
-            };
-        });
+        const options = categories.map(category => ({
+            value: category.id, 
+            label: category.name
+        }));
 
         return (
             <Select multi
@@ -49,11 +45,9 @@ class MultiCategorySelectPicker extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        isFetching: selectors.isFetching(state),
-        categories: selectors.getCategories(state)
-    };
-};
+const mapStateToProps = (state) => ({
+    isFetching: selectors.isFetching(state),
+    categories: selectors.getCategories(state)
+});
 
 export default connect(mapStateToProps)(MultiCategorySelectPicker);
