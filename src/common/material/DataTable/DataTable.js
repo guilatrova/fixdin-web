@@ -7,7 +7,7 @@ import Table, {
     TableCell,
     TableHead,
     TableRow,
-TableSortLabel,
+    TableSortLabel,
 } from 'material-ui/Table';
 import Popover from 'material-ui/Popover';
 import IconButton from 'material-ui/IconButton';
@@ -20,6 +20,14 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
         overflow: "visible",
     },
+    tableHeader: {
+        display: 'flex',
+        flexWrap: 'nowrap'
+    },
+    filterButton: {
+        width: 'auto',
+        heigth: 'auto'
+    }
 });
 
 class DataTable extends React.Component {
@@ -91,7 +99,7 @@ class DataTable extends React.Component {
     }
 
     render () {
-        const { columnKey, children, filterActiveColor } = this.props;
+        const { columnKey, children, filterActiveColor, classes } = this.props;
         const { order, orderBy } = this.state;
         const handleHeaderClick = this.handleHeaderClick;
         const data = this.sort(this.state.orderBy, this.state.order);
@@ -102,27 +110,28 @@ class DataTable extends React.Component {
                 const { popover } = this.state;
                 return (
                     <div>
-                    <IconButton 
-                        aria-label="Filter list"
-                        color={child.props.filterActive ? filterActiveColor : "default"}
-                        ref={node => { buttonRef = node; }}
-                        onClick={() => this.setState({ 
-                            popover: child.props.field,
-                            popoverRef: findDOMNode(buttonRef) })}
-                    >
-                        <FilterListIcon />
-                    </IconButton>
+                        <IconButton 
+                            aria-label="Filter list"
+                            className={classes.filterButton}
+                            color={child.props.filterActive ? filterActiveColor : "default"}
+                            ref={node => { buttonRef = node; }}
+                            onClick={() => this.setState({ 
+                                popover: child.props.field,
+                                popoverRef: findDOMNode(buttonRef) })}
+                        >
+                            <FilterListIcon />
+                        </IconButton>
 
-                    <Popover
-                        classes={{ paper: this.props.classes.popoverPaper}}
-                        open={popover == child.props.field}
-                        onClose={() => this.setState({ popover: "" })}
-                        anchorEl={this.state.popoverRef}
-                        anchorReference="anchorEl"
-                        anchorOrigin={{ horizontal:"left", vertical:"bottom"}}
-                        transformOrigin={{ horizontal: "center", vertical: "top" }}>
-                        {child.props.onRenderFilter}                        
-                    </Popover>
+                        <Popover
+                            classes={{ paper: classes.popoverPaper}}
+                            open={popover == child.props.field}
+                            onClose={() => this.setState({ popover: "" })}
+                            anchorEl={this.state.popoverRef}
+                            anchorReference="anchorEl"
+                            anchorOrigin={{ horizontal:"left", vertical:"bottom"}}
+                            transformOrigin={{ horizontal: "center", vertical: "top" }}>
+                            {child.props.onRenderFilter}                        
+                        </Popover>
                     </div>
                 );
             }
@@ -140,8 +149,7 @@ class DataTable extends React.Component {
                             key={field}
                             numeric={numeric} >
 
-                            <div>
-
+                            <div className={classes.tableHeader}>
                                 <TableSortLabel
                                     active={orderBy === field}
                                     direction={order}
