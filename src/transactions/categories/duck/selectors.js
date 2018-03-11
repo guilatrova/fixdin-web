@@ -1,17 +1,17 @@
 const getNameError = (state) => state.categories.errors.name;
 
+const isFetching = (state) => state.categories.isFetching;
+
 const getCategories = (state) => state.categories.categories;
 
-const getCategoryNameById = (state) => (id, whenMissing = 'Carregando nome...') => {
-    const found = state.categories.categories.find(category => category.id == id);
-
-    if (found)
-        return found.name;
-    return whenMissing;
-};
+const getCategoriesNamesMappedById = (state) => getCategories(state).reduce((prev, category) => {
+    prev[category.id] = category.name;
+    return prev;
+}, []);
 
 export default {
     getNameError,
+    isFetching,
     getCategories,
-    getCategoryNameById
+    getCategoriesNamesMappedById
 };

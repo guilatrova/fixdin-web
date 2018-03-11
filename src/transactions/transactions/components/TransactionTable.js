@@ -27,7 +27,7 @@ import specifications from '../specifications';
 class TransactionTable extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired,
-        categories: PropTypes.array.isRequired,
+        categoriesNames: PropTypes.array.isRequired,
         accountsNames: PropTypes.array.isRequired,
         onEdit: PropTypes.func.isRequired,
         onPay: PropTypes.func.isRequired,
@@ -47,14 +47,9 @@ class TransactionTable extends React.Component {
 
     formatCategory = (row, field) => {
         const cell = row[field];
-        const { categories } = this.props;
+        const { categoriesNames } = this.props;
 
-        if (categories.length === 0) {
-            return "";
-        }
-
-        const category = categories.find((category) => category.id == cell);
-        return category ? category.name : "Not found - " + cell;
+        return categoriesNames[cell] || cell;
     }
 
     formatValue = (row, field) => {
@@ -108,11 +103,9 @@ class TransactionTable extends React.Component {
     }
 
     sortCategory = (a, b, order) => {
-        const { categories } = this.props;
-        const catA = categories.find((category) => category.id == a).name.toUpperCase();
-        const catB = categories.find((category) => category.id == b).name.toUpperCase();
+        const { categoriesNames } = this.props;
 
-        return sort(catA, catB, order);
+        return sort(categoriesNames[a], categoriesNames[b], order);
     }
 
     sortDate = (a, b, order) => {//TODO: Move it to utils, its too generic

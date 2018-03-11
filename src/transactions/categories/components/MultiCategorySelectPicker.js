@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import Select from 'react-select'; //TODO: Change it to Autocomplete support
 
+import { selectors } from'../duck';
 import { EXPENSE, INCOME } from '../../kinds';
 
 class MultiCategorySelectPicker extends React.Component {
@@ -10,7 +12,7 @@ class MultiCategorySelectPicker extends React.Component {
     static propTypes = {
         kind: PropTypes.object,
         isFetching: PropTypes.bool.isRequired,
-        value: PropTypes.object,
+        value: PropTypes.array,
         onChange: PropTypes.func.isRequired,
         categories: PropTypes.array.isRequired,
     }
@@ -49,7 +51,8 @@ class MultiCategorySelectPicker extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        ...state.categories
+        isFetching: selectors.isFetching(state),
+        categories: selectors.getCategories(state)
     };
 };
 

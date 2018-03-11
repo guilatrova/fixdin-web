@@ -20,18 +20,18 @@ class ValuesByCategoryPieChartContainer extends React.Component {
 
     static propTypes = {
         title: PropTypes.string,
-        getCategoryNameById: PropTypes.func.isRequired,
+        categoriesNames: PropTypes.array.isRequired,
         data: PropTypes.array.isRequired,
         classes: PropTypes.object.isRequired
     }
 
     render() {
-        const { title, data, getCategoryNameById } = this.props;
+        const { title, data, categoriesNames } = this.props;
 
         const formattedData = data
             .filter(category => category.total > 0)
             .map(category => ({
-                x: getCategoryNameById(category.category_id, category.category_id.toString()),
+                x: categoriesNames[category.category_id] || category.category_id,
                 y: Number(category.total),
             })
         );
@@ -54,8 +54,7 @@ class ValuesByCategoryPieChartContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        // ...selectors.getValuesByCategory(state),
-        getCategoryNameById: categorySelectors.getCategoryNameById(state)
+        categoriesNames: categorySelectors.getCategoriesNamesMappedById(state)
     };
 };
 

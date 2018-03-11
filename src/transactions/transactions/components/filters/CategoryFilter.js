@@ -9,7 +9,7 @@ import MultiCategorySelectPicker from './../../../categories/components/MultiCat
 
 class CategoryFilter extends React.Component {
     static propTypes = {
-        category: PropTypes.array.isRequired,
+        category: PropTypes.array.isRequired, //Although name is "category", actually it's an array of selected
         onSubmit: PropTypes.func.isRequired
     };
 
