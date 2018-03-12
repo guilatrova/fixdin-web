@@ -13,7 +13,9 @@ const TransactionCell = ({transactions, checked, onToggle}) => {
         <div>
             {transactions.map((transaction) => {
                 const isPayed = !!transaction.payment_date;
-                const title = isPayed ? `Pago em ${moment(transaction.payment_date, 'YYYY-MM-DD').format('DD/MM/YYYY')}` : `Importância: ${transaction.priority}`
+                const title = isPayed ? 
+                    `Pago em ${moment(transaction.payment_date, 'YYYY-MM-DD').format('DD/MM/YYYY')}` : 
+                    `Importância: ${transaction.priority}`;
                 return (
                     <div key={transaction.id}>
                         <Tooltip title={title}>

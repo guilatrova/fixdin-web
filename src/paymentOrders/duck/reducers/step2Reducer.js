@@ -1,3 +1,4 @@
+import moment from 'moment';
 import types from '../types';
 import comparators from '../../../transactions/transactions/comparators';
 import toggleTransaction from './toggleTransaction';
@@ -50,14 +51,18 @@ const toggleExpense = (state, action) => {
 };
 
 const checkDefaultExpenses = (state, action) => {
-    const nextExpenses = action.nextExpenses;    
-    const sorted = nextExpenses.slice().sort(comparators.expensesToBePaidCompare);
+    const today = moment().endOf('day');
     const checked = [];
+    const currentPendingExpenses = action.nextExpenses
+        .filter(expense => !expense.payment_date && expense.due_date <= today)
+        .sort(comparators.expensesToBePaidCompare);
     let remainingBalance = action.balance;
     let totalChecked = 0;
 
-    for (let i in sorted) {
-        let expense = sorted[i];
+    for (let expense of currentPendingExpenses) {
+        if (expense.value > 0) {
+            console.error('VALUE GREATER THAN 0');            
+        }
         const diffBalance = remainingBalance + expense.value; //It's plus because expense is already negative
 
         if (diffBalance > 0) {
