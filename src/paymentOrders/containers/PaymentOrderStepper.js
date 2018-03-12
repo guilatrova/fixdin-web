@@ -129,8 +129,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {    
     return {
         onStart: () => {
-            dispatch(balanceOperations.fetchRealBalance());
-            dispatch(transactionOperations.fetchTransactions(ALL)).then(() => {
+            const balancePromise = dispatch(balanceOperations.fetchRealBalance());
+            const transactionsPromise = dispatch(transactionOperations.fetchTransactions(ALL));
+            
+            Promise.all([balancePromise, transactionsPromise]).then(() => {
                 dispatch(operations.resetStep1());
                 dispatch(operations.checkDefaultIncomes());
             });

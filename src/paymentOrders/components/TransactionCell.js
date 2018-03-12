@@ -9,7 +9,7 @@ import Tooltip from 'material-ui/Tooltip';
 import { formatCurrencyDisplay } from '../../utils/formatters';
 
 const Title = ({ transaction }) => {
-    const formatDate = raw => moment(raw, 'YYYY-MM-DD').format('DD/MM/YYYY')
+    const formatDate = raw => moment(raw, 'YYYY-MM-DD').format('DD/MM/YYYY');
 
     if (transaction.payment_date)
         return `Pago em ${formatDate(transaction.payment_date)}`;
