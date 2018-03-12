@@ -15,7 +15,8 @@ const styles = () => ({
     },
     strongCell: {
         color: 'black',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        whiteSpace: 'nowrap'
     },
     payedCell: {
         color: green['A700'],
