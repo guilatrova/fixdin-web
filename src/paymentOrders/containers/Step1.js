@@ -65,19 +65,21 @@ class Step1 extends React.Component {
                 <Grid item xs={12} md={3}>
 
                     <DatePicker
+                        keyboard
                         label="A partir de"
                         value={fromDate}
                         onChange={this.handleFromDateChange}
                         autoOk={true}
-                        format="MMMM YYYY"
+                        format="MM/YYYY"
                     />
 
                     <DatePicker
+                        keyboard
                         label="Até"
                         value={untilDate}
                         onChange={this.handleUntilDateChange}
                         autoOk={true}
-                        format="MMMM YYYY"
+                        format="MM/YYYY"
                     />
 
                     <CurrencyTextField

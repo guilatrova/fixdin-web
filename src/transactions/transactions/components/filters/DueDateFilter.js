@@ -50,7 +50,7 @@ class DueDateFilter extends React.Component {
                             value={this.state.due_date_from}
                             onChange={this.handleChange('due_date_from')}
                             autoOk={true}
-                            format="DD MMMM YYYY" />
+                            format="DD/MM/YYYY" />
                     </div>
 
                     <div>
@@ -60,7 +60,7 @@ class DueDateFilter extends React.Component {
                             value={this.state.due_date_until}
                             onChange={this.handleChange('due_date_until')}
                             autoOk={true}
-                            format="DD MMMM YYYY" />
+                            format="DD/MM/YYYY" />
                     </div>
 
                     <Button color="default" onClick={this.handleClear}>Limpar</Button>

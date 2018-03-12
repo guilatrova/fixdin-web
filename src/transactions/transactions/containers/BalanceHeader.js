@@ -27,6 +27,7 @@ const styles = {
     },
     chart: {
         flex: '2 1',
+        maxHeight: '200px'
     }
 };
 

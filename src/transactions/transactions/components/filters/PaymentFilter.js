@@ -74,7 +74,7 @@ class PaymentFilter extends React.Component {
                         value={this.state.payment_date_from}
                         onChange={(payment_date_from) => this.setState({ payment_date_from })}
                         autoOk={true}
-                        format="DD MMMM YYYY"
+                        format="DD/MM/YYYY"
                     /> 
 
                     <DatePicker
@@ -83,7 +83,7 @@ class PaymentFilter extends React.Component {
                         value={this.state.payment_date_until}
                         onChange={(payment_date_until) => this.setState({ payment_date_until })}
                         autoOk={true}
-                        format="DD MMMM YYYY"
+                        format="DD/MM/YYYY"
                     /> 
 
                 </div>}
