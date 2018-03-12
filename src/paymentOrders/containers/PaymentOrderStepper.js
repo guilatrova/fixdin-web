@@ -20,9 +20,6 @@ import { ALL } from '../../transactions/shared/kinds';
 const styles = {
     root: {
         flexGrow: 1,
-    },
-    content: {
-        overflowX: 'auto',
     }
 };
 

@@ -12,6 +12,9 @@ const styles = theme => ({
     root: {
         width: '100%',
         background: theme.palette.background.paper,
+    },
+    table: {
+        overflowX: 'auto',
     }
 });
 
@@ -50,7 +53,9 @@ class Step2 extends React.Component {
 
                 <h3>{formatCurrencyDisplay(balanceAvailable)}</h3>
 
-                <TransactionsOverTimeTable transactions={nextExpenses} checked={checked} onToggle={onToggle} />
+                <div className={classes.table}>
+                    <TransactionsOverTimeTable transactions={nextExpenses} checked={checked} onToggle={onToggle} />
+                </div>
 
                 <h3>{formatCurrencyDisplay(remainingBalance)}</h3>
 
