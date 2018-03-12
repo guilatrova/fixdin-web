@@ -8,17 +8,34 @@ import Tooltip from 'material-ui/Tooltip';
 
 import { formatCurrencyDisplay } from '../../utils/formatters';
 
+const Title = ({ transaction }) => {
+    const formatDate = raw => moment(raw, 'YYYY-MM-DD').format('DD/MM/YYYY')
+
+    if (transaction.payment_date)
+        return `Pago em ${formatDate(transaction.payment_date)}`;
+
+    return (
+        <div>
+            <p style={{ margin: 0}}>{`Vencimento: ${formatDate(transaction.due_date)}`}</p>
+            <p style={{ margin: 0}}>{`Importância: ${transaction.priority}`}</p>
+            <p style={{ margin: 0}}>{`Tolerância: ${transaction.deadline}`}</p>
+        </div>
+    );
+};
+
+Title.propTypes = {
+    transaction: PropTypes.object.isRequired
+};
+
 const TransactionCell = ({transactions, checked, onToggle}) => {
     return (
         <div>
             {transactions.map((transaction) => {
                 const isPayed = !!transaction.payment_date;
-                const title = isPayed ? 
-                    `Pago em ${moment(transaction.payment_date, 'YYYY-MM-DD').format('DD/MM/YYYY')}` : 
-                    `Importância: ${transaction.priority}`;
+                    
                 return (
                     <div key={transaction.id}>
-                        <Tooltip title={title}>
+                        <Tooltip title={<Title transaction={transaction} />}>
                             <FormControlLabel
                                 disabled={isPayed}
                                 label={formatCurrencyDisplay(-transaction.value)}
