@@ -39,7 +39,8 @@ const resetStep1 = () => (dispatch, getState) => {
 //Step2
 const toggleExpense = (expenseIds) => (dispatch, getState) => {
     const state = getState();    
-    const transactions = formatters.reduceNextExpensesToTransactionsArray(selectors.step2.getNextExpenses(state));
+    const expenses = selectors.step2.getNextExpenses(state);
+    const transactions = formatters.reduceNextExpensesToTransactionsArray(expenses);
     dispatch(actions.toggleExpense(expenseIds, transactions));
 };
 
@@ -47,7 +48,8 @@ const checkDefaultExpenses = () => (dispatch, getState) => {
     const state = getState();
     const balance = selectors.step1.getTotal(state);
     const expenses = selectors.step2.getNextExpenses(state);
-    dispatch(actions.checkDefaultExpenses(balance, expenses));
+    const transactions = formatters.reduceNextExpensesToTransactionsArray(expenses);
+    dispatch(actions.checkDefaultExpenses(balance, transactions));
 };
 
 const resetStep2 = () => (dispatch, getState) => {
