@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 
-const DrawerItem = ({ icon, text, to }) => {
+const DrawerItem = ({ icon, text, to, onClick }) => {
     return (
-        <Link to={to}>
+        <Link to={to} onClick={onClick}>
             <ListItem button>
                 <ListItemIcon>
                     {icon}
@@ -21,7 +21,8 @@ const DrawerItem = ({ icon, text, to }) => {
 DrawerItem.propTypes = {
     icon: PropTypes.node,
     text: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired
+    to: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
 };
 
 export default DrawerItem;

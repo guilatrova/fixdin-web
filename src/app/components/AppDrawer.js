@@ -46,11 +46,11 @@ const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
 
             <Divider />
             <List className={classes.list}>
-                <DrawerItem icon={<LabelIcon />} text="Início" to="/" />
-                <DrawerItem icon={<LabelIcon />} text="Contas" to="/accounts" />
-                <DrawerItem icon={<LabelIcon />} text="Operações" to="/transactions" />
-                <DrawerItem icon={<LabelIcon />} text="Categorias" to="/categories" />
-                <DrawerItem icon={<LabelIcon />} text="Decisões" to="/payment-order" />
+                <DrawerItem icon={<LabelIcon />} onClick={handleDrawerClose} text="Início" to="/" />
+                <DrawerItem icon={<LabelIcon />} onClick={handleDrawerClose} text="Contas" to="/accounts" />
+                <DrawerItem icon={<LabelIcon />} onClick={handleDrawerClose} text="Operações" to="/transactions" />
+                <DrawerItem icon={<LabelIcon />} onClick={handleDrawerClose} text="Categorias" to="/categories" />
+                <DrawerItem icon={<LabelIcon />} onClick={handleDrawerClose} text="Decisões" to="/payment-order" />
             </List>
           </div>
       </Drawer>        
