@@ -37,7 +37,7 @@ class TransactionsOverTimeTable extends React.Component {
 
     renderDateColumns = () => {
         const { transactions } = this.props;
-        const columns = Object.keys(transactions[0]);
+        const columns = transactions[0] ? Object.keys(transactions[0]) : [];
 
         return columns.map((column, idx) => {
             return (
