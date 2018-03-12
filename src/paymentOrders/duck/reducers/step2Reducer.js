@@ -51,7 +51,7 @@ const toggleExpense = (state, action) => {
 
 const checkDefaultExpenses = (state, action) => {
     const nextExpenses = action.nextExpenses;    
-    const sorted = nextExpenses.sort(comparators.expensesToBePaidCompare);
+    const sorted = nextExpenses.slice().sort(comparators.expensesToBePaidCompare);
     const checked = [];
     let remainingBalance = action.balance;
     let totalChecked = 0;
