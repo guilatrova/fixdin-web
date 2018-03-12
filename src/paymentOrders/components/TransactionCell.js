@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import Checkbox from 'material-ui/Checkbox';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
+import Tooltip from 'material-ui/Tooltip';
 
 import { formatCurrencyDisplay } from '../../utils/formatters';
 
@@ -11,20 +13,23 @@ const TransactionCell = ({transactions, checked, onToggle}) => {
         <div>
             {transactions.map((transaction) => {
                 const isPayed = !!transaction.payment_date;
+                const title = isPayed ? `Pago em ${moment(transaction.payment_date, 'YYYY-MM-DD').format('DD/MM/YYYY')}` : `Importância: ${transaction.priority}`
                 return (
-                    <FormGroup row key={transaction.id}>
-                        <FormControlLabel
-                            disabled={isPayed}
-                            label={formatCurrencyDisplay(-transaction.value)}
-                            onClick={() => onToggle(transaction.id)}
-                            control={
-                                <Checkbox
-                                    color="primary"
-                                    checked={isPayed || checked.indexOf(transaction.id) !== -1}
-                                    onChange={() => onToggle(transaction.id)}
-                                />}
-                        />
-                    </FormGroup>
+                    <div key={transaction.id}>
+                        <Tooltip title={title}>
+                            <FormControlLabel
+                                disabled={isPayed}
+                                label={formatCurrencyDisplay(-transaction.value)}
+                                onClick={() => onToggle(transaction.id)}
+                                control={
+                                    <Checkbox
+                                        color="primary"
+                                        checked={isPayed || checked.indexOf(transaction.id) !== -1}
+                                        onChange={() => onToggle(transaction.id)}
+                                    />}
+                            />
+                        </Tooltip>
+                    </div>
                 );
             })}
         </div>
