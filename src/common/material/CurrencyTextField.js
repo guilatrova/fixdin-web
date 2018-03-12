@@ -24,9 +24,11 @@ class CurrencyInputAdapter extends React.Component {
 	}
 
 	render() {
+		// eslint-disable-next-line
+		const { inputRef, ...props } = this.props;
 		return (
 			<CurrencyInput
-				{...this.props}
+				{...props}
 			/>
 		);
 	}
@@ -48,6 +50,7 @@ class CurrencyTextField extends React.Component {
 
 				<InputLabel htmlFor={id}>{label}</InputLabel>
 				<Input
+					id={id}
 					classes={classes}
 					inputComponent={CurrencyInputAdapter}
 					value={value}
