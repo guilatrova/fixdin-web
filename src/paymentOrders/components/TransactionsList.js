@@ -16,6 +16,7 @@ const TransactionsList = ({ classes, transactions, checked, onToggle }) => {
                         primary={`${income.description} (${formatCurrencyDisplay(income.value)})`} secondary={`${income.due_date.format('DD/MM/YYYY')}`} />
                     <ListItemSecondaryAction>
                         <Checkbox
+                            color="primary"
                             onClick={() => onToggle(income.id)}
                             checked={checked.indexOf(income.id) !== -1}
                         />

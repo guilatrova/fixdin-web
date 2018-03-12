@@ -14,7 +14,7 @@ const TransactionCell = ({transactions, checked, onToggle}) => {
                     <FormGroup row key={transaction.id}>
                         <FormControlLabel
                             disabled={transaction.payment_date}
-                            label={formatCurrencyDisplay(transaction.value)}
+                            label={formatCurrencyDisplay(-transaction.value)}
                             onClick={() => onToggle(transaction.id)}
                             control={
                                 <Checkbox

@@ -51,7 +51,7 @@ class PaymentOrderStepper extends React.Component {
     };
     
     handleBack = () => {
-        const newStep = this.state.step1activeStep - 1;
+        const newStep = this.state.activeStep - 1;
         this.onStepChange(this.state.activeStep, newStep);
         this.setState({
             activeStep: newStep,

@@ -23,7 +23,7 @@ const styles = {
     },
     accountsTable: {
         flex: 2,
-        margin: 2
+        padding: '0 8px'
     },
     chart: {
         flex: '2 1',
