@@ -50,7 +50,7 @@ const changeUntilDate = (state, action) => {
 
 const toggleIncome = (state, action) => {
     const { newChecked, diffTotalChecked, totalChecked } = 
-        toggleTransaction(state.checked, action.incomeIds, state.visibleIncomes, state.totalChecked);
+        toggleTransaction(state.totalChecked, state.checked, action.incomeIds, state.visibleIncomes);
     const total = diffTotalChecked + state.total;
     
     return {

@@ -1,9 +1,8 @@
-export default function toggleTransaction(checked, ids, transactions, totalChecked) {
-    const newChecked = [...checked];
+export default function toggleTransaction(initialTotalChecked, initialChecked, toggleCheck, transactions) {
+    const newChecked = [...initialChecked];
 
-    for (let i = 0; i < ids.length; i++) {
-        const id = ids[i];
-        const currentIndex = checked.indexOf(id);
+    for (let id of toggleCheck) {
+        const currentIndex = initialChecked.indexOf(id);
 
         if (currentIndex === -1) {
             newChecked.push(id);
@@ -12,12 +11,18 @@ export default function toggleTransaction(checked, ids, transactions, totalCheck
         }
     }
 
-    const diffTotalChecked = transactions
+    let sumCheckedTransactions = transactions
         .filter(transaction => newChecked.includes(transaction.id))
         .map(transaction => transaction.value)
-        .reduce((acc, cur) => acc + cur, 0) - totalChecked;
+        .reduce((acc, cur) => acc + cur, 0);
 
-    totalChecked = diffTotalChecked + totalChecked;
+    if (sumCheckedTransactions < 0) {
+        sumCheckedTransactions = -sumCheckedTransactions;
+    }
+
+    const diffTotalChecked = sumCheckedTransactions - initialTotalChecked;
+
+    const totalChecked = diffTotalChecked + initialTotalChecked;
     
     return {
         newChecked,

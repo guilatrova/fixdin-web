@@ -32,26 +32,50 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         expect(reducer(undefined, {})).toEqual(initialState);
     });
 
-    it('CHECK_DEFAULT_EXPENSES', () => {
-        const nextExpenses = [
-            { id: 1, priority: 2, due_date: today, value: -10 },
-            { id: 2, priority: 2, due_date: yesterday, value: -20 },
-            { id: 3, priority: 5, due_date: tomorrow, value: -30 }
-        ];
-        const state = {
-            ...initialState,
-            nextExpenses
-        };
+    describe('CHECK_DEFAULT_EXPENSES', () => {
+        it('all on TODAY', () => {
+            const nextExpenses = [
+                { id: 1, priority: 2, due_date: today, value: -10 },
+                { id: 2, priority: 2, due_date: today, value: -20 },
+                { id: 3, priority: 5, due_date: today, value: -30 }
+            ];
+            const state = {
+                ...initialState,
+                nextExpenses
+            };
+    
+            //Expected order 3, 1, 2
+            expect(
+                reducer(state, actions.checkDefaultExpenses(45, nextExpenses))
+            )
+            .toEqual({
+                ...state,
+                checked: [ 3, 1 ],
+                totalChecked: 40,
+                remainingBalance: 5
+            });
+        });
 
-        //Expected order 3, 1, 2
-        expect(
-            reducer(state, actions.checkDefaultExpenses(45, nextExpenses))
-        )
-        .toEqual({
-            ...state,
-            checked: [ 3, 1 ],
-            totalChecked: 40,
-            remainingBalance: 5
+        it('ignores future dates', () => {
+            const nextExpenses = [
+                { id: 1, priority: 2, due_date: today, value: -10 },
+                { id: 2, priority: 2, due_date: yesterday, value: -20 },
+                { id: 3, priority: 5, due_date: tomorrow, value: -30 }
+            ];
+            const state = {
+                ...initialState,
+                nextExpenses
+            };
+    
+            expect(
+                reducer(state, actions.checkDefaultExpenses(45, nextExpenses))
+            )
+            .toEqual({
+                ...state,
+                checked: [ 1, 2 ],
+                totalChecked: 30,
+                remainingBalance: 15
+            });
         });
     });
 
@@ -68,7 +92,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 nextExpenses: expenses,
                 checked: [ 1 ],
                 remainingBalance: 20,
-                totalChecked: -10
+                totalChecked: 10
             };
 
             expect(
@@ -77,7 +101,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 ...state,
                 checked: [ 1, 2 ],
                 remainingBalance: 5,
-                totalChecked: -25
+                totalChecked: 25
             });
         });
 
@@ -87,7 +111,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 nextExpenses: expenses,
                 checked: [ 1, 2 ],
                 remainingBalance: 5,
-                totalChecked: -25
+                totalChecked: 25
             };
 
             expect(
@@ -96,7 +120,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 ...state,
                 checked: [ 1 ],
                 remainingBalance: 20,
-                totalChecked: -10
+                totalChecked: 10
             });
         });
 
@@ -105,7 +129,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
                 ...initialState,
                 nextExpenses: expenses,
                 checked: [ 1, 3 ],
-                totalChecked: -38,
+                totalChecked: 38,
                 remainingBalance: 12
             };
 
@@ -115,7 +139,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
             .toEqual({
                 ...state,
                 checked: [ 1, 2 ],
-                totalChecked: -25,
+                totalChecked: 25,
                 remainingBalance: 25
             });
         });
