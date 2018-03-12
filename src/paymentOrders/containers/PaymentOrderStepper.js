@@ -1,6 +1,6 @@
-/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { connect } from 'react-redux';
 
 import { withStyles } from 'material-ui/styles';
@@ -21,6 +21,9 @@ const styles = {
     root: {
         flexGrow: 1,
     },
+    content: {
+        overflowX: 'auto',
+    }
 };
 
 class PaymentOrderStepper extends React.Component {
@@ -35,7 +38,8 @@ class PaymentOrderStepper extends React.Component {
 
     state = {
         activeStep: 0,
-        previousStep: 0
+        previousStep: 0,
+        fromDate: moment().startOf('month')
     };
     
     componentDidMount() {
@@ -61,16 +65,20 @@ class PaymentOrderStepper extends React.Component {
     onStepChange = (prevStep, newStep) => {
         if (prevStep < newStep) {
             if (newStep == 1) {
-                this.props.onStep2(this.props.untilDate.format('YYYY-MM-DD'));
+                const { untilDate } = this.props;
+                const { fromDate } = this.state;
+                this.props.onStep2(fromDate.format('YYYY-MM-DD'), untilDate.format('YYYY-MM-DD'));
             }
         }
     }
+
+    handleChangeDate = fromDate => this.setState({ fromDate });
 
     renderStep = () => {
         switch(this.state.activeStep) {
 
             case 0:
-                return <Step1 />;
+                return <Step1 fromDate={this.state.fromDate} onChangeFromDate={this.handleChangeDate} />;
 
             case 1:
                 return <Step2 />;
@@ -90,7 +98,9 @@ class PaymentOrderStepper extends React.Component {
         return (
             <div className={classes.root}>
 
-                {this.renderStep()}
+                <div className={classes.content}>
+                    {this.renderStep()}
+                </div>
 
                 <MobileStepper
                     steps={3}
@@ -128,9 +138,9 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(operations.checkDefaultIncomes());
             });
         },
-        onStep2: (untilDate) => {
+        onStep2: (fromDate, untilDate) => {
             dispatch(operations.resetStep2());
-            dispatch(operations.fetchNextExpenses(null, untilDate)).then(() => {
+            dispatch(operations.fetchNextExpenses(fromDate, untilDate)).then(() => {
                 dispatch(operations.checkDefaultExpenses());
             });
         }

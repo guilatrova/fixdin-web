@@ -10,16 +10,17 @@ const TransactionCell = ({transactions, checked, onToggle}) => {
     return (
         <div>
             {transactions.map((transaction) => {
+                const isPayed = !!transaction.payment_date;
                 return (
                     <FormGroup row key={transaction.id}>
                         <FormControlLabel
-                            disabled={transaction.payment_date}
+                            disabled={isPayed}
                             label={formatCurrencyDisplay(-transaction.value)}
                             onClick={() => onToggle(transaction.id)}
                             control={
                                 <Checkbox
                                     color="primary"
-                                    checked={transaction.payment_date || checked.indexOf(transaction.id) !== -1}
+                                    checked={isPayed || checked.indexOf(transaction.id) !== -1}
                                     onChange={() => onToggle(transaction.id)}
                                 />}
                         />

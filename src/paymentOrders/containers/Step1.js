@@ -28,30 +28,29 @@ class Step1 extends React.Component {
         total: PropTypes.number.isRequired,
         totalChecked: PropTypes.number.isRequired,
         valueToSave: PropTypes.number.isRequired,
+        fromDate: PropTypes.object.isRequired,
         untilDate: PropTypes.object.isRequired,
         checked: PropTypes.array.isRequired,
 
+        onChangeFromDate: PropTypes.func.isRequired,
         onChangeUntilDate: PropTypes.func.isRequired,
         onChangeValueToSave: PropTypes.func.isRequired,
         onToggle: PropTypes.func.isRequired,
     }
 
-    handleDateChange = untilDate => {
-        this.props.onChangeUntilDate(untilDate);
-    }
+    handleFromDateChange = fromDate => this.props.onChangeFromDate(fromDate);
 
-    handleValueToSaveChange = value => {
-        this.props.onChangeValueToSave(value);
-    }
+    handleUntilDateChange = untilDate => this.props.onChangeUntilDate(untilDate);
 
-    handleToggle = value => {
-        this.props.onToggle(value);
-    };
+    handleValueToSaveChange = value => this.props.onChangeValueToSave(value);
+
+    handleToggle = value => this.props.onToggle(value);
 
     render() {
         const { 
             classes, 
             untilDate,
+            fromDate,
             currentBalance,
             visibleIncomes, 
             total, 
@@ -66,10 +65,17 @@ class Step1 extends React.Component {
                 <Grid item xs={12} md={3}>
 
                     <DatePicker
-                        keyboard
-                        label="Até mês"
+                        label="A partir de"
+                        value={fromDate}
+                        onChange={this.handleFromDateChange}
+                        autoOk={true}
+                        format="MMMM YYYY"
+                    />
+
+                    <DatePicker
+                        label="Até"
                         value={untilDate}
-                        onChange={this.handleDateChange}
+                        onChange={this.handleUntilDateChange}
                         autoOk={true}
                         format="MMMM YYYY"
                     />
