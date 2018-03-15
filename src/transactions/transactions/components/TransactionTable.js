@@ -29,7 +29,7 @@ import { formatCurrencyDisplay } from '../../../utils/formatters';
 
 const styles = {
     cell: {
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
     },
     optionsWrapper: {
         display: 'flex',
@@ -139,7 +139,7 @@ class TransactionTable extends React.Component {
 
                 <DataColumn 
                     sortable
-                    padding="none"
+                    padding="dense"
                     field="kind" 
                     onRender={this.formatKind}
                     onRenderFilter={<KindFilter />} 
@@ -148,7 +148,7 @@ class TransactionTable extends React.Component {
 
                 <DataColumn 
                     sortable
-                    padding="none"
+                    padding="dense"
                     field="account" 
                     onRender={this.formatAccount} 
                     onSort={this.sortAccount} > CONTA
@@ -156,7 +156,7 @@ class TransactionTable extends React.Component {
                 
                 <DataColumn 
                     sortable
-                    padding="none"
+                    padding="dense"
                     field="due_date" 
                     onRender={this.formatDate}
                     onRenderFilter={<DueDateFilter />} 
@@ -165,7 +165,7 @@ class TransactionTable extends React.Component {
 
                 <DataColumn 
                     sortable
-                    padding="none"
+                    padding="dense"
                     field="description" 
                     onRenderFilter={<DescriptionFilter />} 
                     filterActive={activeFilters.description} > DESCRIÇÃO
@@ -173,7 +173,7 @@ class TransactionTable extends React.Component {
 
                 <DataColumn 
                     sortable
-                    padding="none"
+                    padding="dense"
                     field="category"
                     filterActive={activeFilters.category} 
                     onRender={this.formatCategory}
@@ -182,20 +182,21 @@ class TransactionTable extends React.Component {
                 </DataColumn>
 
                 <DataColumn
-                    sortable                    
-                    padding="none"
+                    sortable
+                    numeric
+                    padding="dense"
                     field="value" 
                     cellClassName={classes.strongCell}
                     onRender={this.formatValue}
                     onSort={this.sortValue}> VALOR
                 </DataColumn>
 
-                <DataColumn sortable padding="none" field="priority" onRenderFilter={<PriorityFilter />} filterActive={activeFilters.priority}>IMP.</DataColumn>
-                <DataColumn sortable padding="none" field="deadline" onRenderFilter={<DeadlineFilter />} filterActive={activeFilters.deadline}>TOL.</DataColumn>
+                <DataColumn sortable padding="dense" field="priority" onRenderFilter={<PriorityFilter />} filterActive={activeFilters.priority}>IMP.</DataColumn>
+                <DataColumn sortable padding="dense" field="deadline" onRenderFilter={<DeadlineFilter />} filterActive={activeFilters.deadline}>TOL.</DataColumn>
 
                 <DataColumn 
-                    sortable 
-                    padding="none" 
+                    sortable
+                    padding="dense" 
                     field="payment_date"
                     cellClassName={classes.strongCell}
                     onRenderFilter={<PaymentFilter />} 
@@ -204,7 +205,7 @@ class TransactionTable extends React.Component {
                     onSort={this.sortPayed}> PG.
                 </DataColumn>
 
-                <DataColumn padding="none" onRender={this.formatOptions}>EDIT.</DataColumn>
+                <DataColumn padding="dense" onRender={this.formatOptions}>EDIT.</DataColumn>
             </DataTable>
         );
     }
