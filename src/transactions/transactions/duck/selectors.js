@@ -88,7 +88,7 @@ const getActiveFilters = (state) => {
 
 const getDisplayedPeriod = (state) => {
     const from = getFilters(state).due_date_from || moment().startOf('month');
-    return from.format('MMM/YY');
+    return from.format('MMM-YY');
 };
 
 const getDisplayedTransactionsGroupedByAccount = (state) => {
