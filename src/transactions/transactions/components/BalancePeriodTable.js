@@ -23,7 +23,7 @@ const styles = theme => ({
         whiteSpace: 'nowrap'
     },
     expenseCell: {
-        color: red['A700'],
+        // color: red['A700'],
         whiteSpace: 'nowrap'
     },
     valueCell: {

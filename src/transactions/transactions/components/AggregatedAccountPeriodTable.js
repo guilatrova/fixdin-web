@@ -50,16 +50,16 @@ const EntryTableRow = (entry, name, id, classes, cellModifierClass) => {
     return (
         <TableRow key={id} className={classes.row}>
             <TableCell padding="dense" className={cellModifierClass}>{name}</TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.payedCell)}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
                 {formatCurrencyDisplay(entry.totalIncomesPayed)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.pendingCell)}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
                 {formatCurrencyDisplay(entry.totalIncomesPending)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.payedCell)}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
                 {formatCurrencyDisplay(entry.totalExpensesPayed)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.pendingCell)}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
                 {formatCurrencyDisplay(entry.totalExpensesPending)}
             </TableCell>
             <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
