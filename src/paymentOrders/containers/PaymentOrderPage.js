@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Paper from 'material-ui/Paper';
-import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 
-import PaymentOrderStepper from './PaymentOrderStepper';
+import Step2 from './Step2';
+import { operations as balanceOperations } from '../../balances/duck';
+import { selectors, operations } from '../duck';
 
 const styles = theme => ({
     root: {
@@ -19,25 +21,38 @@ const styles = theme => ({
     },
 });
 
-const PaymentOrderPage = ({classes}) => {
-    return (
-        <div className={classes.root}>
-            <Grid container spacing={24}>
-                <Grid item xs={12}>
-                    <Paper className={classes.paper}>
+class PaymentOrderPage extends React.Component {
 
-                        <PaymentOrderStepper />
-                        
-                    </Paper>
-                </Grid>
-            </Grid>
-        </div>
-    );
-};
+    componentDidMount() {
+        this.props.onStart();
+    }
+
+    render() {
+        const { classes } = this.props;
+        return (
+            <div className={classes.root}>
+                <Paper className={classes.paper}>
+                    <Step2 />
+                </Paper>
+            </div>
+        );
+    }
+}
 
 PaymentOrderPage.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
+const mapDispatchToProps = (dispatch) => ({
+    onStart: (fromDate, untilDate) => {
+        dispatch(operations.resetStep2());
+        dispatch(balanceOperations.fetchRealBalance());
+        dispatch(operations.fetchNextExpenses(fromDate, untilDate)).then(() => {
+            dispatch(operations.checkDefaultExpenses());
+        });
+    }
+});
 
-export default withStyles(styles)(PaymentOrderPage);
+export default withStyles(styles)(
+    connect(null, mapDispatchToProps)(PaymentOrderPage)
+);

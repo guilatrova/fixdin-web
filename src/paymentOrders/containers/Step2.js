@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 
 import TransactionsOverTimeTable from '../components/TransactionsOverTimeTable';
-import { operations, selectors } from '../duck';
 import { formatCurrencyDisplay } from '../../utils/formatters';
+import { operations, selectors } from '../duck';
+import { selectors as balanceSelectors } from '../../balances/duck';
 
 const styles = theme => ({
     root: {
@@ -66,7 +67,7 @@ class Step2 extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        balanceAvailable: selectors.step1.getTotal(state),
+        balanceAvailable: balanceSelectors.getRealBalance(state) || 0,
         checked: selectors.step2.getChecked(state),
         remainingBalance: selectors.step2.getRemainingBalance(state),
         nextExpenses: selectors.step2.getNextExpenses(state),

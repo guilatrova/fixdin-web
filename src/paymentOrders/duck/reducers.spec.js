@@ -1,7 +1,7 @@
-import reducer from './step2Reducer';
-import actions from '../actions';
 import moment from 'moment';
-import formatters from '../../formatters';
+import reducer from './reducers';
+import actions from './actions';
+import formatters from '../formatters';
 
 describe('paymentOrders/duck/reducers/Step2', () => {
 

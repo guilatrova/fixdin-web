@@ -1,7 +1,6 @@
 import moment from 'moment';
-import types from '../types';
-import comparators from '../../../transactions/transactions/comparators';
-import toggleTransaction from './toggleTransaction';
+import types from './types';
+import comparators from '../../transactions/transactions/comparators';
 
 const initialState = {
     remainingBalance: undefined,
@@ -11,6 +10,39 @@ const initialState = {
     nextExpenses: [],
     isFetching: false,
     errors: {}
+};
+
+const toggleTransaction = (initialTotalChecked, initialChecked, toggleCheck, transactions) => {
+    const newChecked = [...initialChecked];
+
+    for (let id of toggleCheck) {
+        const currentIndex = initialChecked.indexOf(id);
+
+        if (currentIndex === -1) {
+            newChecked.push(id);
+        } else {
+            newChecked.splice(currentIndex, 1);
+        }
+    }
+
+    let sumCheckedTransactions = transactions
+        .filter(transaction => newChecked.includes(transaction.id))
+        .map(transaction => transaction.value)
+        .reduce((acc, cur) => acc + cur, 0);
+
+    if (sumCheckedTransactions < 0) {
+        sumCheckedTransactions = -sumCheckedTransactions;
+    }
+
+    const diffTotalChecked = sumCheckedTransactions - initialTotalChecked;
+
+    const totalChecked = diffTotalChecked + initialTotalChecked;
+    
+    return {
+        newChecked,
+        diffTotalChecked,
+        totalChecked
+    };
 };
 
 const fetchNextExpensesReducer = (state, action) => {
@@ -60,9 +92,6 @@ const checkDefaultExpenses = (state, action) => {
     let totalChecked = 0;
 
     for (let expense of currentPendingExpenses) {
-        if (expense.value > 0) {
-            console.error('VALUE GREATER THAN 0');            
-        }
         const diffBalance = remainingBalance + expense.value; //It's plus because expense is already negative
 
         if (diffBalance > 0) {

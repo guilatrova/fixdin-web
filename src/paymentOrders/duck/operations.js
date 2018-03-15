@@ -1,9 +1,9 @@
 import moment from 'moment';
 import actions from './actions';
 import selectors from './selectors';
-import getQueryParams from '../../services/query';
 import { selectors as balanceSelectors } from './../../balances/duck';
 import { selectors as transactionsSelectors } from '../../transactions/transactions/duck';
+import getQueryParams from '../../services/query';
 import { GetOperation } from '../../common/duck/operations';
 import formatters from '../formatters';
 
@@ -46,7 +46,7 @@ const toggleExpense = (expenseIds) => (dispatch, getState) => {
 
 const checkDefaultExpenses = () => (dispatch, getState) => {
     const state = getState();
-    const balance = selectors.step1.getTotal(state);
+    const balance = balanceSelectors.getRealBalance(state);
     const expenses = selectors.step2.getNextExpenses(state);
     const transactions = formatters.reduceNextExpensesToTransactionsArray(expenses);
     dispatch(actions.checkDefaultExpenses(balance, transactions));
@@ -54,7 +54,7 @@ const checkDefaultExpenses = () => (dispatch, getState) => {
 
 const resetStep2 = () => (dispatch, getState) => {
     const state = getState();
-    const balance = selectors.step1.getTotal(state);
+    const balance = balanceSelectors.getRealBalance(state);
     const expenses = selectors.step2.getNextExpenses(state);
     dispatch(actions.resetStep2(balance, expenses));
 };
