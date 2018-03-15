@@ -191,7 +191,8 @@ class TransactionTable extends React.Component {
                 <DataColumn 
                     sortable 
                     padding="none" 
-                    field="payment_date" 
+                    field="payment_date"
+                    cellClassName={classes.strongCell}
                     onRenderFilter={<PaymentFilter />} 
                     filterActive={activeFilters.payment_date} 
                     onRender={this.formatPayed}
