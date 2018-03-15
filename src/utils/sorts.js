@@ -4,7 +4,7 @@ const isNumeric = (x) => !isNaN(x);
 
 const anyNumeric = (a, b) => isNumeric(a) || isNumeric(b);
 
-const sortNumeric = (a, b, order) => {
+export const sortNumeric = (a, b, order) => {
     if(isNumeric(a) && isNumeric(b)) {
         if (order === 'asc')
             return a - b;
@@ -22,7 +22,7 @@ const sortNumeric = (a, b, order) => {
 
 const anyMoment = (a, b) => moment.isMoment(a) || moment.isMoment(b);
 
-const sortMoment = (a, b, order) => {
+export const sortMoment = (a, b, order) => {
     if (moment.isMoment(a) && moment.isMoment(b)) { 
         if (order === 'desc') 
             return b.unix() - a.unix(); 

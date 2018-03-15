@@ -7,6 +7,8 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import MoneyIcon from 'material-ui-icons/AttachMoney';
+import red from 'material-ui/colors/red';
+import green from 'material-ui/colors/green';
 
 import { 
     DescriptionFilter, 
@@ -17,7 +19,7 @@ import {
     PriorityFilter,
     PaymentFilter
 } from './filters';
-import { sort } from './../../../utils/sorts';
+import { sort, sortMoment } from './../../../utils/sorts';
 import { DataTable, DataColumn } from './../../../common/material/DataTable';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 import { getKind } from '../../shared/kinds';
@@ -30,6 +32,12 @@ const styles = {
     optionsWrapper: {
         display: 'flex',
         justifyContent: 'flex-end'
+    },
+    greenColor: {
+        color: green['A700'],
+    },
+    redColor: {
+        color: red['A700'],
     }
 };
 
@@ -54,7 +62,13 @@ class TransactionTable extends React.Component {
 
     formatDate = (row, field) => {
         const cell = row[field];
-        return cell ? cell.format('DD/MM/YYYY') : 'NÃO PAGO';
+        return cell ? cell.format('DD/MM/YY') : 'NÃO PAGO';
+    }
+
+    formatPayed = (row, field) => {
+        const cell = row[field];
+        const className = cell ? "greenColor" : "redColor";
+        return <span className={this.props.classes[className]}>$</span>;
     }
 
     formatValue = (row, field) => {
@@ -88,7 +102,10 @@ class TransactionTable extends React.Component {
         );
     }
 
-    formatKind = (transaction) => getKind(transaction.kind).text;
+    formatKind = (transaction) => {        
+        const className = transaction.kind ? "greenColor" : "redColor";
+        return <span className={this.props.classes[className]}>{getKind(transaction.kind).text[0].toUpperCase()}</span>;
+    }
 
     //Sort
     sortValue = (a, b, order) => {
@@ -117,6 +134,8 @@ class TransactionTable extends React.Component {
         return sort(categoriesNames[a], categoriesNames[b], order);
     }
 
+    sortPayed = (a, b, order) => sortMoment(a, b, order);
+
     render () {
         const { activeFilters, classes } = this.props;
         return (
@@ -131,7 +150,7 @@ class TransactionTable extends React.Component {
                     field="kind" 
                     onRender={this.formatKind}
                     onRenderFilter={<KindFilter />} 
-                    filterActive={activeFilters.kind} > Tipo
+                    filterActive={activeFilters.kind} > TIPO
                 </DataColumn>
 
                 <DataColumn 
@@ -139,7 +158,7 @@ class TransactionTable extends React.Component {
                     padding="none"
                     field="account" 
                     onRender={this.formatAccount} 
-                    onSort={this.sortAccount} > Conta
+                    onSort={this.sortAccount} > CONTA
                 </DataColumn>
                 
                 <DataColumn 
@@ -148,7 +167,7 @@ class TransactionTable extends React.Component {
                     field="due_date" 
                     onRender={this.formatDate}
                     onRenderFilter={<DueDateFilter />} 
-                    filterActive={activeFilters.due_date} > Vencimento
+                    filterActive={activeFilters.due_date} > DATA
                 </DataColumn>
 
                 <DataColumn 
@@ -156,7 +175,7 @@ class TransactionTable extends React.Component {
                     padding="none"
                     field="description" 
                     onRenderFilter={<DescriptionFilter />} 
-                    filterActive={activeFilters.description} > Descrição
+                    filterActive={activeFilters.description} > DESCRIÇÃO
                 </DataColumn>
 
                 <DataColumn 
@@ -166,9 +185,7 @@ class TransactionTable extends React.Component {
                     filterActive={activeFilters.category} 
                     onRender={this.formatCategory}
                     onRenderFilter={<CategoryFilter />}
-                    onSort={this.sortCategory}>
-                    
-                    Categoria
+                    onSort={this.sortCategory}> CATEGORIA
                 </DataColumn>
 
                 <DataColumn
@@ -176,15 +193,23 @@ class TransactionTable extends React.Component {
                     padding="none"
                     field="value" 
                     onRender={this.formatValue}
-                    onSort={this.sortValue}>
-                    
-                    Valor
+                    onSort={this.sortValue}> VALOR
                 </DataColumn>
 
-                <DataColumn sortable padding="none" numeric field="priority" onRenderFilter={<PriorityFilter />} filterActive={activeFilters.priority}>Importancia</DataColumn>
-                <DataColumn sortable padding="none" numeric field="deadline" onRenderFilter={<DeadlineFilter />} filterActive={activeFilters.deadline}>Tolerância</DataColumn>
-                <DataColumn sortable padding="none" field="payment_date" onRenderFilter={<PaymentFilter />} filterActive={activeFilters.payment_date} onRender={this.formatDate}>Pago em</DataColumn>
-                <DataColumn padding="none" onRender={this.formatOptions} />
+                <DataColumn sortable padding="none" field="priority" onRenderFilter={<PriorityFilter />} filterActive={activeFilters.priority}>IMP.</DataColumn>
+                <DataColumn sortable padding="none" field="deadline" onRenderFilter={<DeadlineFilter />} filterActive={activeFilters.deadline}>TOL.</DataColumn>
+
+                <DataColumn 
+                    sortable 
+                    padding="none" 
+                    field="payment_date" 
+                    onRenderFilter={<PaymentFilter />} 
+                    filterActive={activeFilters.payment_date} 
+                    onRender={this.formatPayed}
+                    onSort={this.sortPayed}> PG.
+                </DataColumn>
+
+                <DataColumn padding="none" onRender={this.formatOptions}>EDIT.</DataColumn>
             </DataTable>
         );
     }
