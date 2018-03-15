@@ -126,7 +126,8 @@ class TransactionTable extends React.Component {
                 initialOrderBy="due_date" >
 
                 <DataColumn 
-                    sortable 
+                    sortable
+                    padding="none"
                     field="kind" 
                     onRender={this.formatKind}
                     onRenderFilter={<KindFilter />} 
@@ -134,14 +135,16 @@ class TransactionTable extends React.Component {
                 </DataColumn>
 
                 <DataColumn 
-                    sortable 
+                    sortable
+                    padding="none"
                     field="account" 
                     onRender={this.formatAccount} 
                     onSort={this.sortAccount} > Conta
                 </DataColumn>
                 
                 <DataColumn 
-                    sortable 
+                    sortable
+                    padding="none"
                     field="due_date" 
                     onRender={this.formatDate}
                     onRenderFilter={<DueDateFilter />} 
@@ -149,7 +152,8 @@ class TransactionTable extends React.Component {
                 </DataColumn>
 
                 <DataColumn 
-                    sortable 
+                    sortable
+                    padding="none"
                     field="description" 
                     onRenderFilter={<DescriptionFilter />} 
                     filterActive={activeFilters.description} > Descrição
@@ -157,6 +161,7 @@ class TransactionTable extends React.Component {
 
                 <DataColumn 
                     sortable
+                    padding="none"
                     field="category"
                     filterActive={activeFilters.category} 
                     onRender={this.formatCategory}
@@ -167,7 +172,8 @@ class TransactionTable extends React.Component {
                 </DataColumn>
 
                 <DataColumn
-                    sortable 
+                    sortable
+                    padding="none"
                     field="value" 
                     onRender={this.formatValue}
                     onSort={this.sortValue}>
@@ -175,10 +181,10 @@ class TransactionTable extends React.Component {
                     Valor
                 </DataColumn>
 
-                <DataColumn sortable numeric field="priority" onRenderFilter={<PriorityFilter />} filterActive={activeFilters.priority}>Importancia</DataColumn>
-                <DataColumn sortable numeric field="deadline" onRenderFilter={<DeadlineFilter />} filterActive={activeFilters.deadline}>Tolerância</DataColumn>
-                <DataColumn sortable field="payment_date" onRenderFilter={<PaymentFilter />} filterActive={activeFilters.payment_date} onRender={this.formatDate}>Pago em</DataColumn>
-                <DataColumn onRender={this.formatOptions} />
+                <DataColumn sortable padding="none" numeric field="priority" onRenderFilter={<PriorityFilter />} filterActive={activeFilters.priority}>Importancia</DataColumn>
+                <DataColumn sortable padding="none" numeric field="deadline" onRenderFilter={<DeadlineFilter />} filterActive={activeFilters.deadline}>Tolerância</DataColumn>
+                <DataColumn sortable padding="none" field="payment_date" onRenderFilter={<PaymentFilter />} filterActive={activeFilters.payment_date} onRender={this.formatDate}>Pago em</DataColumn>
+                <DataColumn padding="none" onRender={this.formatOptions} />
             </DataTable>
         );
     }

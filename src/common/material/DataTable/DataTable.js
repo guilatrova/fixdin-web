@@ -143,13 +143,14 @@ class DataTable extends React.Component {
             child => {
                 if (child) {
 
-                    const { field, numeric } = child.props;                
+                    const { field, numeric, padding } = child.props;                
 
                     return (
                         <TableCell
                             key={field}
                             numeric={numeric}
-                            className={cellsClassName} >
+                            className={cellsClassName}
+                            padding={padding} >
 
                             <div className={classes.tableHeader}>
                                 <TableSortLabel
@@ -180,10 +181,10 @@ class DataTable extends React.Component {
                         {React.Children.map(children, 
                             column => {
                                 if (column) {
-                                    const { field, numeric, onRender } = column.props;
+                                    const { field, numeric, onRender, padding } = column.props;
 
                                     return (
-                                        <TableCell numeric={numeric} className={cellsClassName}>
+                                        <TableCell numeric={numeric} padding={padding} className={cellsClassName}>
                                             {onRender(row, field)}
                                         </TableCell>
                                     );

@@ -11,11 +11,11 @@ export default class DataColumn extends React.Component {
         children: PropTypes.string,
         field: PropTypes.string,
         onRender: PropTypes.func.isRequired,
-
         sortable: PropTypes.bool.isRequired,
         onSort: PropTypes.func.isRequired,
         onRenderFilter: PropTypes.node,
-        filterActive: PropTypes.bool
+        filterActive: PropTypes.bool,
+        padding: PropTypes.string
     };
 
     static defaultProps = {
