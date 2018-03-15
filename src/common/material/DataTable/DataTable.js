@@ -23,7 +23,7 @@ const styles = theme => ({
         overflow: "visible",
     },
     tableHeader: {
-        display: 'flex',
+        display: 'inline-flex',
         flexWrap: 'nowrap'
     },
     filterButton: {
