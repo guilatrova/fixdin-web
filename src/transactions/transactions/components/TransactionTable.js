@@ -128,6 +128,7 @@ class TransactionTable extends React.Component {
         const { activeFilters, classes } = this.props;
         return (
             <DataTable 
+                headersClassName={classes.strongCell}
                 cellsClassName={classes.cell}
                 data={this.props.transactions} 
                 initialOrderBy="due_date" >
