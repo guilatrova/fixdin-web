@@ -24,6 +24,7 @@ import { DataTable, DataColumn } from './../../../common/material/DataTable';
 import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
+import { formatCurrencyDisplay } from '../../../utils/formatters';
 
 const styles = {
     cell: {
@@ -31,13 +32,15 @@ const styles = {
     },
     optionsWrapper: {
         display: 'flex',
-        justifyContent: 'flex-end'
     },
     greenColor: {
         color: green['A700'],
     },
     redColor: {
         color: red['A700'],
+    },
+    strongCell: {
+        fontWeight: 'bold',
     }
 };
 
@@ -60,10 +63,9 @@ class TransactionTable extends React.Component {
 
     formatCategory = (row, field) => this.props.categoriesNames[row[field]];
 
-    formatDate = (row, field) => {
-        const cell = row[field];
-        return cell ? cell.format('DD/MM/YY') : 'NÃO PAGO';
-    }
+    formatDate = (row, field) => row[field].format('DD/MM/YY');
+
+    formatValue = (row, field) => formatCurrencyDisplay(row[field]);
 
     formatPayed = (row, field) => {
         const cell = row[field];
@@ -71,33 +73,19 @@ class TransactionTable extends React.Component {
         return <span className={this.props.classes[className]}>$</span>;
     }
 
-    formatValue = (row, field) => {
-        const cell = row[field];
-        let positiveValue = cell.toFixed(2).toString().replace(".", ",");
-        if (positiveValue[0] == '-') {
-            positiveValue = positiveValue.substring(1);
-        }
-        return `R$ ${positiveValue}`;
-    }
-
     formatOptions = (transaction) => {
         const { onEdit, onDelete, onCopy, onPay, isFetching, classes } = this.props;
-        const pendingPayment = !transaction.payment_date;
         if (specifications.isTransfer(transaction))
             return null;
 
         return (
-            <div className={classes.optionsWrapper}>
-                {pendingPayment && <div className="col-xs-6">
-                    <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>
-                </div>}
-                <div className="col-xs-6 pull-right">
-                    <CollapsibleMenu>
-                        <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
-                        <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
-                        <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
-                    </CollapsibleMenu>
-                </div>
+            <div className={classes.optionsWrapper}>                
+                <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>                
+                <CollapsibleMenu>
+                    <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
+                    <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
+                    <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
+                </CollapsibleMenu>
             </div>
         );
     }
@@ -189,9 +177,10 @@ class TransactionTable extends React.Component {
                 </DataColumn>
 
                 <DataColumn
-                    sortable
+                    sortable                    
                     padding="none"
                     field="value" 
+                    cellClassName={classes.strongCell}
                     onRender={this.formatValue}
                     onSort={this.sortValue}> VALOR
                 </DataColumn>
