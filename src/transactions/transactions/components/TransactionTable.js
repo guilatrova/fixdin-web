@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from 'material-ui/styles';
+
+import Checkbox from 'material-ui/Checkbox';
 import { MenuItem } from 'material-ui/Menu';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ContentCopyIcon from 'material-ui-icons/ContentCopy';
@@ -81,11 +82,14 @@ class TransactionTable extends React.Component {
         return (
             <div className={classes.optionsWrapper}>                
                 <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>                
+                
                 <CollapsibleMenu>
                     <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
                     <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
                     <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
                 </CollapsibleMenu>
+
+                <Checkbox color="primary" />
             </div>
         );
     }
