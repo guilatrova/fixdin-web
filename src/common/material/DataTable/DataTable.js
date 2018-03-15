@@ -147,13 +147,13 @@ class DataTable extends React.Component {
             child => {
                 if (child) {
 
-                    const { field, numeric, padding } = child.props;                
+                    const { field, numeric, padding, cellClassName } = child.props;                
 
                     return (
                         <TableCell
                             key={field}
                             numeric={numeric}
-                            className={classNames(cellsClassName, headersClassName)}
+                            className={classNames(cellsClassName, headersClassName, cellClassName)}
                             padding={padding} >
 
                             <div className={classes.tableHeader}>

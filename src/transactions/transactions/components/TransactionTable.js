@@ -42,6 +42,9 @@ const styles = {
     },
     strongCell: {
         fontWeight: 'bold',
+    },
+    padLeft: {
+        paddingLeft: '20px'
     }
 };
 
@@ -139,11 +142,12 @@ class TransactionTable extends React.Component {
 
                 <DataColumn 
                     sortable
-                    padding="dense"
+                    padding="none"
                     field="kind" 
                     onRender={this.formatKind}
                     onRenderFilter={<KindFilter />} 
-                    filterActive={activeFilters.kind} > TIPO
+                    filterActive={activeFilters.kind}
+                    cellClassName={classes.padLeft} > TIPO
                 </DataColumn>
 
                 <DataColumn 
@@ -191,12 +195,27 @@ class TransactionTable extends React.Component {
                     onSort={this.sortValue}> VALOR
                 </DataColumn>
 
-                <DataColumn sortable padding="dense" field="priority" onRenderFilter={<PriorityFilter />} filterActive={activeFilters.priority}>IMP.</DataColumn>
-                <DataColumn sortable padding="dense" field="deadline" onRenderFilter={<DeadlineFilter />} filterActive={activeFilters.deadline}>TOL.</DataColumn>
+                <DataColumn 
+                    sortable 
+                    padding="none" 
+                    field="priority" 
+                    onRenderFilter={<PriorityFilter />} 
+                    filterActive={activeFilters.priority}
+                    cellClassName={classes.padLeft} > IMP.
+                </DataColumn>
+
+                <DataColumn 
+                    sortable 
+                    padding="none" 
+                    field="deadline" 
+                    onRenderFilter={<DeadlineFilter />} 
+                    filterActive={activeFilters.deadline}
+                    cellClassName={classes.padLeft} > TOL.
+                </DataColumn>
 
                 <DataColumn 
                     sortable
-                    padding="dense" 
+                    padding="none" 
                     field="payment_date"
                     cellClassName={classes.strongCell}
                     onRenderFilter={<PaymentFilter />} 
@@ -205,7 +224,7 @@ class TransactionTable extends React.Component {
                     onSort={this.sortPayed}> PG.
                 </DataColumn>
 
-                <DataColumn padding="dense" onRender={this.formatOptions}>EDIT.</DataColumn>
+                <DataColumn padding="none" onRender={this.formatOptions}>EDIT.</DataColumn>
             </DataTable>
         );
     }
