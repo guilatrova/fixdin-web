@@ -14,7 +14,7 @@ const styles = {
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         alignItems: 'stretch',
         alignContent: 'stretch'
     },
