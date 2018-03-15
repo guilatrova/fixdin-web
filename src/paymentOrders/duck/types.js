@@ -1,12 +1,12 @@
-const TOGGLE_EXPENSE         = "fixdin/paymentOrders/Step2/TOGGLE_EXPENSE";
-const CHECK_DEFAULT_EXPENSES = "fixdin/paymentOrders/Step2/CHECK_DEFAULT_EXPENSES";
-const RESET_STEP2            = "fixdin/paymentOrders/Step2/RESET";
+const TOGGLE_EXPENSE         = "fixdin/paymentOrders/TOGGLE_EXPENSE";
+const CHECK_DEFAULT_EXPENSES = "fixdin/paymentOrders/CHECK_DEFAULT_EXPENSES";
+const RESET                  = "fixdin/paymentOrders/RESET";
 
-const FETCH_NEXT_EXPENSES    = "fixdin/paymentOrders/Step2/FETCH_NEXT_EXPENSES";
+const FETCH_NEXT_EXPENSES    = "fixdin/paymentOrders/FETCH_NEXT_EXPENSES";
 
 export default {
     TOGGLE_EXPENSE,
     CHECK_DEFAULT_EXPENSES,
-    RESET_STEP2,
+    RESET,
     FETCH_NEXT_EXPENSES
 };

@@ -45,7 +45,7 @@ PaymentOrderPage.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
     onStart: (fromDate, untilDate) => {
-        dispatch(operations.resetStep2());
+        dispatch(operations.reset());
         dispatch(balanceOperations.fetchRealBalance());
         dispatch(operations.fetchNextExpenses(fromDate, untilDate)).then(() => {
             dispatch(operations.checkDefaultExpenses());

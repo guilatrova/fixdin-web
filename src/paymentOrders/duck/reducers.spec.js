@@ -3,7 +3,7 @@ import reducer from './reducers';
 import actions from './actions';
 import formatters from '../formatters';
 
-describe('paymentOrders/duck/reducers/Step2', () => {
+describe('paymentOrders/duck/reducers', () => {
 
     const today = moment({ hour: 0});
     const yesterday = moment({ hour: 0}).subtract(1, 'day');
@@ -145,7 +145,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         });
     });
 
-    it('RESET_STEP2', () => {
+    it('RESET', () => {
         const state = {
             ...initialState,
             remainingBalance: 100,
@@ -155,7 +155,7 @@ describe('paymentOrders/duck/reducers/Step2', () => {
         };
 
         expect(
-            reducer(state, actions.resetStep2(20, createExpenses([ 30, 40 ])))
+            reducer(state, actions.reset(20, createExpenses([ 30, 40 ])))
         ).toEqual({
             ...state,
             nextExpenses: createExpenses([ 30, 40 ]),

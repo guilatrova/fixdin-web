@@ -121,7 +121,7 @@ export default function reducer(state = initialState, action) {
         case types.FETCH_NEXT_EXPENSES:
             return fetchNextExpensesReducer(state, action);
 
-        case types.RESET_STEP2:
+        case types.RESET:
             return {
                 ...state,
                 remainingBalance: action.remainingBalance,

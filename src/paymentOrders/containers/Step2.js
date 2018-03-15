@@ -68,10 +68,10 @@ class Step2 extends React.Component {
 const mapStateToProps = (state) => {
     return {
         balanceAvailable: balanceSelectors.getRealBalance(state) || 0,
-        checked: selectors.step2.getChecked(state),
-        remainingBalance: selectors.step2.getRemainingBalance(state),
-        nextExpenses: selectors.step2.getNextExpenses(state),
-        isFetching: selectors.step2.isFetching(state)
+        checked: selectors.getChecked(state),
+        remainingBalance: selectors.getRemainingBalance(state),
+        nextExpenses: selectors.getNextExpenses(state),
+        isFetching: selectors.isFetching(state)
     };
 };
 
