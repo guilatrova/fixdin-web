@@ -15,7 +15,8 @@ export default class DataColumn extends React.Component {
         onSort: PropTypes.func.isRequired,
         onRenderFilter: PropTypes.node,
         filterActive: PropTypes.bool,
-        padding: PropTypes.string
+        padding: PropTypes.string,
+        cellClassName: PropTypes.string
     };
 
     static defaultProps = {

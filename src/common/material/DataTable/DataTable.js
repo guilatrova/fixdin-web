@@ -2,6 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import classNames from 'classnames';
+
 import Table, {
     TableBody,
     TableCell,
@@ -106,7 +108,7 @@ class DataTable extends React.Component {
         const data = this.sort(this.state.orderBy, this.state.order);
 
         const renderFilter = (child) => {
-            if(child.props.onRenderFilter) {
+            if (child.props.onRenderFilter) {
                 let buttonRef;
                 const { popover } = this.state;
                 return (
@@ -136,6 +138,7 @@ class DataTable extends React.Component {
                     </div>
                 );
             }
+
             return null;
         };
 
@@ -161,7 +164,7 @@ class DataTable extends React.Component {
                                     {child.props.children}
 
                                 </TableSortLabel>
-
+                                
                                 {renderFilter(child)}
                             </div>
 
@@ -181,10 +184,10 @@ class DataTable extends React.Component {
                         {React.Children.map(children, 
                             column => {
                                 if (column) {
-                                    const { field, numeric, onRender, padding } = column.props;
+                                    const { field, numeric, onRender, padding, cellClassName } = column.props;
 
                                     return (
-                                        <TableCell numeric={numeric} padding={padding} className={cellsClassName}>
+                                        <TableCell numeric={numeric} padding={padding} className={classNames(cellsClassName, cellClassName)}>
                                             {onRender(row, field)}
                                         </TableCell>
                                     );
