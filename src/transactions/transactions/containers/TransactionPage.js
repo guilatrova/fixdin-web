@@ -7,7 +7,6 @@ import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
-import AddIcon from 'material-ui-icons/Add';
 import ClearAllIcon from 'material-ui-icons/ClearAll';
 import RefreshIcon from 'material-ui-icons/Refresh';
 
@@ -28,7 +27,7 @@ const styles = theme => ({
     root: {
       flexGrow: 1,
       marginTop: 30,
-      overflowX: 'auto',
+      overflow: 'auto',
     },
     paper: {
         width: '100%',
@@ -36,7 +35,7 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit * 6,
     },
     table: {
-        overflowX: 'auto',
+        overflowX: 'auto',        
     },
     spacer: {
         flex: '1 1 50%',
@@ -60,15 +59,15 @@ class TransactionPage extends React.Component {
         errors: PropTypes.object,
         classes: PropTypes.object,
         activeFilters: PropTypes.object.isRequired,
-        
+
         onPay: PropTypes.func.isRequired,
-        onFetch: PropTypes.func.isRequired,        
+        onFetch: PropTypes.func.isRequired,
         onClearFilters: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
         onCopy: PropTypes.func.isRequired,
-        onFinishEdit: PropTypes.func.isRequired,        
+        onFinishEdit: PropTypes.func.isRequired,
     }
 
     state = {
@@ -80,13 +79,9 @@ class TransactionPage extends React.Component {
         this.props.onFetch();
     }
 
-    handleRefresh = () => {
-        this.props.onFetch(0);
-    }
+    handleRefresh = () => this.props.onFetch(0);
 
-    handleCreateTransaction = () => {
-        this.setState({ openTransactionFormDialog: true });
-    }
+    handleCreateTransaction = () => this.setState({ openTransactionFormDialog: true });
 
     handleHideTransactionFormModal = () => {
         this.props.onFinishEdit();
@@ -111,16 +106,16 @@ class TransactionPage extends React.Component {
 
     handleCopy = id => {
         this.setState({ openTransactionFormDialog: true });
-        this.props.onCopy(id);        
+        this.props.onCopy(id);
     }
 
     handleEdit = id => {
         this.setState({ openTransactionFormDialog: true });
-        this.props.onEdit(id);        
+        this.props.onEdit(id);
     }
 
     handlePay = id => {
-        const kindId = this.props.transactions.find(transaction => transaction.id == id).kind;        
+        const kindId = this.props.transactions.find(transaction => transaction.id == id).kind;
         this.props.onPay(getKind(kindId), id);
     }
 
@@ -128,10 +123,10 @@ class TransactionPage extends React.Component {
         const foundTransaction = this.props.transactions.find(transaction => transaction.id == id);
         const toDeletePeriodicTransaction = specifications.isPeriodic(foundTransaction) ? foundTransaction.bound_transaction : null;
 
-        this.setState({ 
+        this.setState({
             openDeleteDialog: true,
             toDeleteId: id,
-            toDeletePeriodicTransaction 
+            toDeletePeriodicTransaction
         });
     }
 
@@ -141,8 +136,8 @@ class TransactionPage extends React.Component {
 
         this.props.onDelete(id, kind, type).then(({result}) => {
             if (result == 'success') {
-                this.setState({ 
-                    openDeleteDialog: false, 
+                this.setState({
+                    openDeleteDialog: false,
                     toDeleteId: undefined,
                     toDeletePeriodicTransaction: undefined
                 });
@@ -152,8 +147,8 @@ class TransactionPage extends React.Component {
 
     handleHideDeleteModal = () => {
         this.props.onFinishEdit();
-        this.setState({ 
-            openDeleteDialog: false, 
+        this.setState({
+            openDeleteDialog: false,
             toDeleteId: undefined,
             toDeletePeriodicTransaction: undefined
         });
@@ -163,14 +158,14 @@ class TransactionPage extends React.Component {
 
     render() {
         const { isFetching, transactions, categoriesNames, classes, accountsNames } = this.props;
-        
+
         return (
             <div className={classes.root}>
 
                 <BalanceHeader />
 
                 <Paper className={classes.paper}>
-                    
+
                     <Toolbar>
                         <div className={classes.actions}>
                             <IconButton aria-label="Refresh" onClick={this.handleRefresh} disabled={isFetching}><RefreshIcon /></IconButton>
@@ -181,7 +176,7 @@ class TransactionPage extends React.Component {
                     <div className={classes.table}>
 
                         <TransactionTable
-                            transactions={transactions} 
+                            transactions={transactions}
                             categoriesNames={categoriesNames}
                             accountsNames={accountsNames}
                             isFetching={isFetching}
@@ -193,10 +188,9 @@ class TransactionPage extends React.Component {
                             activeFilters={this.props.activeFilters} />
                     </div>
 
-                    <FloatingActionButton color="primary" onClick={this.handleCreateTransaction}>
-                        <AddIcon />
-                    </FloatingActionButton>
-                </Paper>            
+                </Paper>
+
+                <BalanceHeader />
 
                 <TransactionFormDialog
                     open={this.state.openTransactionFormDialog}
@@ -211,7 +205,7 @@ class TransactionPage extends React.Component {
                 />
 
                 <ConfirmDeleteDialog
-                    open={this.state.openDeleteDialog} 
+                    open={this.state.openDeleteDialog}
                     onClose={this.handleHideDeleteModal}
                     onConfirm={this.handleConfirmDelete}
                     isPeriodic={!!this.state.toDeletePeriodicTransaction}
@@ -220,7 +214,7 @@ class TransactionPage extends React.Component {
                     Tem certeza que deseja deletar esta movimentação?
                 </ConfirmDeleteDialog>
 
-                
+                <FloatingActionButton onClick={this.handleCreateTransaction} />
 
             </div>
         );
@@ -239,7 +233,7 @@ const mapStateToProps = (state) => {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
         },
-        activeFilters: selectors.getActiveFilters(state)        
+        activeFilters: selectors.getActiveFilters(state)
     };
 };
 
