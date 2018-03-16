@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
 
-import Step2 from './Step2';
+import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
 import { operations as balanceOperations } from '../../balances/duck';
-import { selectors, operations } from '../duck';
+import { operations } from '../duck';
 
 const styles = theme => ({
     root: {
@@ -32,7 +32,7 @@ class PaymentOrderPage extends React.Component {
         return (
             <div className={classes.root}>
                 <Paper className={classes.paper}>
-                    <Step2 />
+                    <TransactionsOverTimeWrapper />
                 </Paper>
             </div>
         );
@@ -40,14 +40,18 @@ class PaymentOrderPage extends React.Component {
 }
 
 PaymentOrderPage.propTypes = {
+    onStart: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
     onStart: (fromDate, untilDate) => {
         dispatch(operations.reset());
-        dispatch(balanceOperations.fetchRealBalance());
-        dispatch(operations.fetchNextExpenses(fromDate, untilDate)).then(() => {
+        
+        const p1 = dispatch(balanceOperations.fetchRealBalance());
+        const p2 = dispatch(operations.fetchNextExpenses(fromDate, untilDate));
+        
+        Promise.all([p1, p2]).then(() => {
             dispatch(operations.checkDefaultExpenses());
         });
     }
