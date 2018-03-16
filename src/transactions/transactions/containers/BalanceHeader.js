@@ -61,7 +61,7 @@ BalanceHeader.propTypes = {
     total: PropTypes.number.isRequired,
     totalIncomes: PropTypes.number.isRequired,
     totalExpenses: PropTypes.number.isRequired,
-    period: PropTypes.string.isRequired,
+    period: PropTypes.object.isRequired,
     accountsName: PropTypes.array.isRequired,
     aggregatedAccounts: PropTypes.array.isRequired,
     lastMonthsData: PropTypes.object.isRequired,
