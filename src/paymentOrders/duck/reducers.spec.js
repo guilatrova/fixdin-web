@@ -74,11 +74,12 @@ describe('paymentOrders/duck/reducers', () => {
             )
             .toEqual({
                 ...state,
-                checked: [ 1, 2 ],
+                checked: [ 2, 1 ],
                 totalChecked: 30,
                 remainingBalance: 15
             });
         });
+          
     });
 
     describe('TOGGLE_EXPENSE', () => {
@@ -204,5 +205,4 @@ describe('paymentOrders/duck/reducers', () => {
             });
         });
     });
-
 });

@@ -89,6 +89,7 @@ const checkDefaultExpenses = (state, action) => {
     const currentPendingExpenses = action.nextExpenses
         .filter(expense => !expense.payment_date && expense.due_date <= today)
         .sort(comparators.expensesToBePaidCompare);
+
     let remainingBalance = action.balance;
     let totalChecked = 0;
 

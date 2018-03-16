@@ -1,13 +1,12 @@
 const compareByPriority = (a, b) => b.priority - a.priority;
-const compareByDueDate = (a, b) => b.due_date.unix() - a.due_date.unix();
+const compareByDueDate = (a, b) => a.due_date.unix() - b.due_date.unix();
 const compareByDeadline = (a, b) => a.deadline - b.deadline; //Smaller deadlines requires greater attention
 const compareByValue = (a, b) => a.value - b.value;
 
 //TODO: it's a too generic function. Need to be somewhere else
 const aggregatedComparator = (comparators) => (a, b) => {
     let result;
-    for (let idx in comparators) {
-        let comparator = comparators[idx];
+    for (let comparator of comparators) {
         result = comparator(a, b);
         
         if (result !== 0) {
