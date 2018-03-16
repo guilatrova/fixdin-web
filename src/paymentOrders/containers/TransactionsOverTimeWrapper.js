@@ -6,8 +6,9 @@ import { CircularProgress } from 'material-ui/Progress';
 
 import TransactionsOverTimeTable from '../components/TransactionsOverTimeTable';
 import { operations, selectors } from '../duck';
+import { selectors as accountsSelectors } from '../../transactions/accounts/duck';
 
-const TransactionsOverTimeTableWrapper = ({nextExpenses, checked, onToggle, isFetching}) => {
+const TransactionsOverTimeTableWrapper = ({nextExpenses, checked, onToggle, isFetching, accountNames}) => {
     if (isFetching) {
         return <CircularProgress />;
     }
@@ -16,21 +17,21 @@ const TransactionsOverTimeTableWrapper = ({nextExpenses, checked, onToggle, isFe
         <TransactionsOverTimeTable 
             transactions={nextExpenses} 
             checked={checked} 
-            onToggle={onToggle} />
+            onToggle={onToggle}
+            accountNames={accountNames} />
     );
 };
 
 TransactionsOverTimeTableWrapper.propTypes = {
-    isFetching: PropTypes.bool.isRequired,
-    nextExpenses: PropTypes.array.isRequired,
-    checked: PropTypes.array.isRequired,
-    onToggle: PropTypes.func.isRequired,
+    ...TransactionsOverTimeTable.propTypes,
+    isFetching: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     checked: selectors.getChecked(state),
     nextExpenses: selectors.getNextExpenses(state),
-    isFetching: selectors.isFetching(state)
+    isFetching: selectors.isFetching(state),
+    accountNames: accountsSelectors.getAccountsNamesMappedById(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -17,18 +17,30 @@ class TransactionsOverTimeTable extends React.Component {
         transactions: PropTypes.array.isRequired,
         checked: PropTypes.array.isRequired,
         onToggle: PropTypes.func.isRequired,
-        classes: PropTypes.object.isRequired
+        classes: PropTypes.object.isRequired,
+        accountNames: PropTypes.array.isRequired
     }
-    
-    renderDescription = (row) => {
-        const cols = Object.keys(row);
-        for (let col of cols) {
-            for (let transaction of row[col]) {
-                if (transaction && transaction.description)
-                    return transaction.description;
+
+    formatFirst = (row, field) => {
+        try
+        {
+            const cols = Object.keys(row);
+            for (let col of cols) {
+                for (let transaction of row[col]) {
+                    if (transaction && (transaction[field] || transaction[field] == 0))
+                        return transaction[field];
+                }
             }
         }
+        catch(error) {
+            return `error: ${field}`;
+        }
         return "not found";
+    };
+
+    formatAccount = (row, field) => {
+        const result = this.formatFirst(row, field);
+        return this.props.accountNames[result] || result;
     };
 
     renderDateCell = (row, field) => (        
@@ -46,7 +58,7 @@ class TransactionsOverTimeTable extends React.Component {
                     field={column}
                     onRender={this.renderDateCell}>
 
-                    {moment(column, 'YYYY-MM-DD').format('MM/YYYY')}
+                    {moment(column, 'YYYY-MM-DD').format('MMM-YY')}
                     
                 </DataColumn>
             );
@@ -59,7 +71,10 @@ class TransactionsOverTimeTable extends React.Component {
 
         return (
             <DataTable data={data} cellsClassName={classes.cell}>
-                <DataColumn field="description" onRender={this.renderDescription}>Descrição</DataColumn>
+                <DataColumn field="account" onRender={this.formatAccount}>CONTA</DataColumn>
+                <DataColumn field="description" onRender={this.formatFirst}>DESCRIÇÃO</DataColumn>
+                <DataColumn field="priority" onRender={this.formatFirst}>IMP.</DataColumn>
+                <DataColumn field="deadline" onRender={this.formatFirst}>TOL.</DataColumn>
                 {this.renderDateColumns()}
             </DataTable>
         );
