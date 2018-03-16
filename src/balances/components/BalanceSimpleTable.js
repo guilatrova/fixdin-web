@@ -7,9 +7,10 @@ import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'm
 import { DatePicker } from 'material-ui-pickers';
 //import red from 'material-ui/colors/red';
 
+import PeriodPicker from './PeriodPicker';
 import { formatCurrencyDisplay } from '../../utils/formatters';
 
-const styles = theme => ({
+const styles = () => ({
     row: {
         height: 0
     },
@@ -17,12 +18,6 @@ const styles = theme => ({
         color: 'black',
         fontWeight: 'bold',
         whiteSpace: 'nowrap'
-    },
-    periodInput: {
-        color: theme.palette.primary.main,
-        fontSize: 12,
-        fontWeight: 'bold',
-        textAlign: 'right'        
     },
     expenseCell: {
         // color: red['A700'],
@@ -42,18 +37,7 @@ const BalanceSimpleTable = ({ classes, period, incomesLabel, incomes, expensesLa
                     <TableRow className={classes.row}>
                         <TableCell padding="dense" className={classes.strongCell}>Balanço</TableCell>
                         <TableCell padding="dense" numeric>
-                            <DatePicker
-                                value={period}
-                                format="MMM-YY"
-                                onClick={e => onChangePeriod ? e : e.preventDefault()}
-                                onChange={onChangePeriod ? onChangePeriod : () => {}}
-                                InputProps={{
-                                    disableUnderline: true,
-                                    classes: {
-                                        input: classes.periodInput
-                                    }
-                                }}
-                            />
+                            <PeriodPicker period={period} onChangePeriod={onChangePeriod} />
                         </TableCell>
                     </TableRow>
                 </TableHead>

@@ -7,6 +7,7 @@ const initialState = {
     checked: [],
     totalChecked: 0,
 
+    period: moment().startOf('month'),
     nextExpenses: [],
     isFetching: false,
     errors: {}
@@ -120,6 +121,12 @@ export default function reducer(state = initialState, action) {
 
         case types.FETCH_NEXT_EXPENSES:
             return fetchNextExpensesReducer(state, action);
+
+        case types.CHANGE_PERIOD:
+            return {
+                ...state,
+                period: action.period
+            };
 
         case types.RESET:
             return {

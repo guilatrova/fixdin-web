@@ -1,12 +1,15 @@
 import types from './types';
 
 // Not being used for now. Maybe in future we can back this feature
-const changeValueToSave = (toSave) => {
-    return {
-        type: types.CHANGE_VALUE_TO_SAVE,
-        toSave
-    };
-};
+const changeValueToSave = (toSave) => ({
+    type: types.CHANGE_VALUE_TO_SAVE,
+    toSave
+});
+
+const changePeriod = (period) => ({
+    type: types.CHANGE_PERIOD,
+    period
+});
 
 const toggleExpense = (expenseIds, expenses) => {
     if (!Array.isArray(expenseIds)) {
@@ -58,6 +61,7 @@ const receiveNextExpenses = (result, data) => {
 
 export default {
     changeValueToSave,
+    changePeriod,
     toggleExpense,
     checkDefaultExpenses,
     reset,

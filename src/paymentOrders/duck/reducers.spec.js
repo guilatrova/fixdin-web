@@ -5,12 +5,14 @@ import formatters from '../formatters';
 
 describe('paymentOrders/duck/reducers', () => {
 
+    const period = moment().startOf('month');
     const today = moment({ hour: 0});
     const yesterday = moment({ hour: 0}).subtract(1, 'day');
     const tomorrow = moment({ hour: 0}).add(1, 'day');
 
     const initialState = {
         remainingBalance: undefined,
+        period,
         checked: [],
         totalChecked: 0,
         isFetching: false,

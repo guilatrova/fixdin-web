@@ -1,5 +1,6 @@
 import formatters from '../formatters';
 
+const getPeriod = (state) => state.paymentOrders.period;
 const getChecked = (state) => state.paymentOrders.checked;
 const getTotalChecked = (state) => state.paymentOrders.totalChecked;
 const getRemainingBalance = (state) => state.paymentOrders.remainingBalance;
@@ -11,6 +12,7 @@ const getSumPendingExpenses = (state) =>
     .reduce((total, transaction) => total + transaction.value, 0);
 
 export default {
+    getPeriod,
     getChecked,
     getTotalChecked,
     getRemainingBalance,

@@ -38,10 +38,12 @@ const reset = () => (dispatch, getState) => {
 };
 
 const changeValueToSave = actions.changeValueToSave;
+const changePeriod = actions.changePeriod;
 const fetchNextExpenses = (from, until) => new FetchNextExpenses(from, until).dispatch();
 
 export default {
     changeValueToSave,
+    changePeriod,
 
     toggleExpense,
     checkDefaultExpenses,
