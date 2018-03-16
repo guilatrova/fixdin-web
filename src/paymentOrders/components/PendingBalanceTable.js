@@ -31,7 +31,7 @@ const mapStateToProps = state => ({ //TODO: RESOLVER DEFAULTS TEMPORÁRIO
     incomes: 0,
     total: 0,
     period: selectors.getPeriod(state),
-    expenses: selectors.getSumPendingExpenses(state)
+    expenses: selectors.getSumOverdueExpenses(state)
 });
 
 const mapDispatchToProps = dispatch => ({
