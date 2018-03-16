@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 
-import BalancePeriodTable from '../components/BalancePeriodTable';
+import BalanceSimpleTable from '../../../balances/components/BalanceSimpleTable';
 import AggregatedAccountPeriodTable from '../components/AggregatedAccountPeriodTable';
 import LastMonthsChart from '../components/LastMonthsChart';
 import { selectors } from '../duck';
@@ -35,7 +35,7 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
     return (
         <div className={classes.root}>
             <div className={classes.balancesTable}>
-                <BalancePeriodTable
+                <BalanceSimpleTable
                     period={period}
                     incomes={totalIncomes}
                     expenses={totalExpenses}

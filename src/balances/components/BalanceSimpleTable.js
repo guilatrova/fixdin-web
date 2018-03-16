@@ -6,7 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
 //import red from 'material-ui/colors/red';
 
-import { formatCurrencyDisplay } from '../../../utils/formatters';
+import { formatCurrencyDisplay } from '../../utils/formatters';
 
 const styles = theme => ({
     row: {
@@ -32,7 +32,7 @@ const styles = theme => ({
     }
 });
 
-const BalancePeriodTable = ({ classes, period, incomes, expenses, total }) => {
+const BalanceSimpleTable = ({ classes, period, incomesLabel, incomes, expensesLabel, expenses, total }) => {
     return (
         <div className={classes.root}>
             <Table>
@@ -44,11 +44,11 @@ const BalancePeriodTable = ({ classes, period, incomes, expenses, total }) => {
                 </TableHead>
                 <TableBody>
                     <TableRow className={classes.row}>
-                        <TableCell padding="dense">Receitas</TableCell>
+                        <TableCell padding="dense">{incomesLabel}</TableCell>
                         <TableCell padding="dense" numeric className={classes.valueCell}>{formatCurrencyDisplay(incomes)}</TableCell>
                     </TableRow>
                     <TableRow className={classes.row}>
-                        <TableCell padding="dense">Despesas</TableCell>
+                        <TableCell padding="dense">{expensesLabel}</TableCell>
                         <TableCell padding="dense" numeric className={classNames(classes.valueCell, classes.expenseCell)}>{formatCurrencyDisplay(expenses)}</TableCell>
                     </TableRow>
                 </TableBody>
@@ -63,12 +63,19 @@ const BalancePeriodTable = ({ classes, period, incomes, expenses, total }) => {
     );
 };
 
-BalancePeriodTable.propTypes = {
+BalanceSimpleTable.propTypes = {
     classes: PropTypes.object.isRequired,
     period: PropTypes.string.isRequired,
+    incomesLabel: PropTypes.string.isRequired,
+    expensesLabel: PropTypes.string.isRequired,
     incomes: PropTypes.number.isRequired,
     expenses: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired
 };
 
-export default withStyles(styles)(BalancePeriodTable);
+BalanceSimpleTable.defaultProps = {
+    expensesLabel: "Despesas",
+    incomesLabel: "Receitas"
+};
+
+export default withStyles(styles)(BalanceSimpleTable);
