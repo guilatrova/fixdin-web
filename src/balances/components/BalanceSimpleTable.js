@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 
 import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
-import { DatePicker } from 'material-ui-pickers';
 //import red from 'material-ui/colors/red';
 
 import PeriodPicker from './PeriodPicker';
