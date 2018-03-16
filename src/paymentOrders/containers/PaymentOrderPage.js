@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
 
 import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
+import PendingBalanceTable from '../components/PendingBalanceTable';
 import { operations as balanceOperations } from '../../balances/duck';
 import { operations } from '../duck';
 
@@ -31,6 +32,9 @@ class PaymentOrderPage extends React.Component {
         const { classes } = this.props;
         return (
             <div className={classes.root}>
+
+                <PendingBalanceTable />
+
                 <Paper className={classes.paper}>
                     <TransactionsOverTimeWrapper />
                 </Paper>
