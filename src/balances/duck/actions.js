@@ -28,8 +28,8 @@ const receiveBalance = (result, data, key) => {
 const requestPendingIncomesBalance = () => {
     return {
         type: types.FETCH_PENDING_INCOMES_BALANCES        
-    }
-}
+    };
+};
 
 const receivePendingIncomesBalance = (result, data) => {
     if (result === 'success') {
@@ -45,7 +45,7 @@ const receivePendingIncomesBalance = (result, data) => {
         result,
         errors: data
     };
-}
+};
 
 export default {
     requestBalance,
