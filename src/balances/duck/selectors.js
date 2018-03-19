@@ -1,17 +1,13 @@
-function getBalance(state) {
-    return state.balances.balance;
-}
-
-function getRealBalance(state) {
-    return state.balances.realBalance;
-}
-
-function getExpectedBalance(state) {
-    return state.balances.expectedBalance;
-}
+const getBalance = (state) => state.balances.balance;
+const getRealBalance = (state) => state.balances.realBalance;
+const getExpectedBalance = (state) => state.balances.expectedBalance;
+const getPendingIncomesBalance = (state) => state.balances.pendingIncomes;
+const isFetching = (state) => state.balances.isFetching;
 
 export default {
     getBalance,
     getRealBalance,
-    getExpectedBalance
+    getExpectedBalance,
+    getPendingIncomesBalance,
+    isFetching
 };

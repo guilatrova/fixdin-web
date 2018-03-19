@@ -5,7 +5,7 @@ import handleError from '../../services/genericErrorHandler';
 import { GetOperation } from '../../common/duck/operations';
 import getQueryParams from '../../services/query';
 
-export class GetBalanceOperation extends GetOperation {
+export class FetchBalanceOperation extends GetOperation {
     constructor(storeKey, filters = {}) {
         super(actions.requestBalance, actions.receiveBalance);
         this.storeKey = storeKey;
@@ -30,8 +30,18 @@ export class GetBalanceOperation extends GetOperation {
     getEndpoint = () => `balances/current${getQueryParams(this.filters)}`;
 }
 
+export class FetchPendingIncomesBalance extends GetOperation {
+    constructor() {
+        super(actions.requestPendingIncomesBalance, actions.receivePendingIncomesBalance);
+    }
+
+    getSucceedData = raw => raw.balance;
+
+    getEndpoint = () => "balances/pending-incomes";
+}
+
 const dispatchGetOperation = (storeKey, filters) => 
-    new GetBalanceOperation(storeKey, filters).dispatch();
+    new FetchBalanceOperation(storeKey, filters).dispatch();
 
 const fetchBalance = () => dispatchGetOperation('balance');
 const fetchRealBalance = () => dispatchGetOperation('realBalance', {'payed': '1'});
@@ -40,9 +50,11 @@ const fetchExpectedBalance = () => {
     const until = formatDate(lastDayOfMonth);
     return dispatchGetOperation('expectedBalance', { until });
 };
+const fetchPendingIncomesBalance = () => new FetchPendingIncomesBalance().dispatch();
 
 export default {
     fetchBalance,
     fetchRealBalance,
-    fetchExpectedBalance
+    fetchExpectedBalance,
+    fetchPendingIncomesBalance
 };

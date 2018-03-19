@@ -2,7 +2,8 @@ import operations from './operations';
 import types from './types';
 
 describe('balances/duck/actions', () => {    
-	let store, mock, restoreMock;
+    let store, mock, restoreMock;
+    const { itShouldDispatchSuccessFailActionsCustom } = actionsHelpers;
 
     beforeEach(() => {
         const mockHelper = mockAxios();
@@ -16,7 +17,6 @@ describe('balances/duck/actions', () => {
     });
 
 	describe('FETCH_BALANCE', () => {
-
 		it('should dispatch success action after successful request', () => {
 			const expectedActions = [
 				{ type: types.FETCH_BALANCE, key: 'balance' },
@@ -45,6 +45,17 @@ describe('balances/duck/actions', () => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
 		});
+    });
+
+    describe('FETCH_PENDING_INCOMES_BALANCES', () => {
+        itShouldDispatchSuccessFailActionsCustom(
+            operations.fetchPendingIncomesBalance,
+            types.FETCH_PENDING_INCOMES_BALANCES,
+            null,            
+            { balance: 100 },
+            null,
+            { balance: 100 }
+        );
     });
     
 });

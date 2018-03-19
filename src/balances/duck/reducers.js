@@ -1,23 +1,20 @@
 import types from './types';
 
 const initialState = {
-    balance: undefined,
-    realBalance: undefined,
-    expectedBalance: undefined,
+    balance: null,
+    realBalance: null,
+    expectedBalance: null,
+    pendingIncomes: null,
     isFetching: false,
     errors: {},
 };
 
-export default function reducer(state = initialState, action) {
-    if (action.type != types.FETCH_BALANCE) {
-        return state;
-    }
-
+const fetchBalance = (state, action, key) => {
     switch (action.result) {
         case 'success':
             return {
                 ...state,
-                [action.key]: action.balance,
+                [key]: action.balance,
                 errors: {},
                 isFetching: false
             };
@@ -34,5 +31,18 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 isFetching: true
             };
+    }
+};
+
+export default function reducer(state = initialState, action) {
+    switch (action.type) {
+        case types.FETCH_BALANCE:
+            return fetchBalance(state, action, action.key);
+
+        case types.FETCH_PENDING_INCOMES_BALANCES:
+            return fetchBalance(state, action, 'pendingIncomes');
+
+        default:
+            return state;
     }
 }

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import BalanceSimpleTable from '../../balances/components/BalanceSimpleTable';
+import { selectors as balanceSelectors } from '../../balances/duck';
 import { selectors, operations } from '../duck';
 
-const PendingBalanceTable = ({ period, incomes, expenses, total, onChangePeriod }) => {
+const PendingBalanceTable = ({ period, incomes, expenses, onChangePeriod }) => {
     return (
         <BalanceSimpleTable
             period={period}
@@ -14,7 +15,7 @@ const PendingBalanceTable = ({ period, incomes, expenses, total, onChangePeriod 
             expensesLabel="Despesas vencidas"
             expenses={expenses}
             incomes={incomes}
-            total={total}
+            total={incomes+expenses}
         />
     );
 };
@@ -23,15 +24,13 @@ PendingBalanceTable.propTypes = {
     period: PropTypes.object.isRequired,
     incomes: PropTypes.number.isRequired,
     expenses: PropTypes.number.isRequired,
-    total: PropTypes.number.isRequired,
     onChangePeriod: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({ //TODO: RESOLVER DEFAULTS TEMPORÁRIO
-    incomes: 0,
-    total: 0,
+const mapStateToProps = state => ({
     period: selectors.getPeriod(state),
-    expenses: selectors.getSumOverdueExpenses(state)
+    expenses: selectors.getSumOverdueExpenses(state),
+    incomes: balanceSelectors.getPendingIncomesBalance(state) || 0,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -51,9 +51,10 @@ const mapDispatchToProps = (dispatch) => ({
     onStart: () => {
         dispatch(operations.reset());
         
-        const p1 = dispatch(balanceOperations.fetchRealBalance());
-        const p2 = dispatch(operations.fetchNextExpenses());
+        dispatch(balanceOperations.fetchPendingIncomesBalance());
         
+        const p1 = dispatch(balanceOperations.fetchRealBalance());
+        const p2 = dispatch(operations.fetchNextExpenses());        
         Promise.all([p1, p2]).then(() => {
             dispatch(operations.checkDefaultExpenses());
         });

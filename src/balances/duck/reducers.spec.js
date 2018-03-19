@@ -4,11 +4,17 @@ import actions from './actions';
 describe('balances/duck/reducers', () => {
 
     const initialState = {
-        balance: undefined,
-        realBalance: undefined,
-        expectedBalance: undefined,
+        balance: null,
+        realBalance: null,
+        expectedBalance: null,
+        pendingIncomes: null,
         isFetching: false,
         errors: {},
+    };
+
+    const fetchingState = {
+        ...initialState,
+        isFetching: true
     };
 
     it('should return the initial state', () => {
@@ -23,9 +29,7 @@ describe('balances/duck/reducers', () => {
             expect(
                 reducer(initialState, actions.requestBalance())
             ).toEqual({
-                balance: undefined,
-                realBalance: undefined,
-                expectedBalance: undefined,
+                ...initialState,
                 isFetching: true,
                 errors: {},
             });
@@ -33,11 +37,10 @@ describe('balances/duck/reducers', () => {
 
         it("should be handled when successful", () => {
             expect(
-                reducer(initialState, actions.receiveBalance('success', 50, 'balance'))
+                reducer(fetchingState, actions.receiveBalance('success', 50, 'balance'))
             ).toEqual({
+                ...fetchingState,
                 balance: 50,
-                realBalance: undefined,
-                expectedBalance: undefined,
                 isFetching: false,
                 errors: {},
             });
@@ -46,11 +49,9 @@ describe('balances/duck/reducers', () => {
         it('should be handled when failed', () => {
             const errors = { 'detail':'random error' };
             expect(
-                reducer(initialState, actions.receiveBalance('fail', errors, 'balance'))
+                reducer(fetchingState, actions.receiveBalance('fail', errors, 'balance'))
             ).toEqual({
-                balance: undefined,
-                realBalance: undefined,
-                expectedBalance: undefined,
+                ...fetchingState,
                 isFetching: false,
                 errors,
             });
