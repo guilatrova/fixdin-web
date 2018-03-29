@@ -63,6 +63,7 @@ const changePeriod = (period) => (dispatch, getState) => {
     return promise;
 };
 
+//TODO:IMPORTANT: NOT ALWAYS WILL BE THERE PENDING EXPENSES - DATE CAN BE UNDEFINED
 const fetchNextExpenses = (from) => (dispatch, getState) => {
     from = from || transactionSelectors.getOldestPendingExpenseDate(getState());
     new FetchNextExpenses(from).dispatch()(dispatch, getState);
