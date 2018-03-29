@@ -142,6 +142,14 @@ export class PayOperation extends Operation {
     }
 }
 
+export class FetchOldestExpense extends GetOperation {
+    constructor() {
+        super(actions.fetchOldestPendingExpense, actions.receiveOldestPendingExpense);
+    }
+
+    getEndpoint = () => "transactions/oldest-pending-expense/";
+}
+
 const copyTransaction = actions.copyTransaction;
 const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
@@ -155,6 +163,7 @@ const filterTransactions = () => (dispatch, getState) => {
     const filters = selectors.getFilters(getState());
     return new FilterOperation(filters).dispatch()(dispatch, getState);
 };
+const fetchOldestExpense = () => new FetchOldestExpense().dispatch();
 
 export default {
     copyTransaction,
@@ -166,5 +175,6 @@ export default {
     setFilters,
     saveTransaction,
     deleteTransaction,
-    payTransactions
+    payTransactions,
+    fetchOldestExpense
 };

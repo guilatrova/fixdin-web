@@ -21,7 +21,7 @@ const filterDeletedTransactions = (transactions, action) => {
                 return transactions.filter(transaction => transaction.id != transfer.id && transaction.id != pairId);
             }
 
-            return transactions;            
+            return transactions;
         }
 
         default:
@@ -31,7 +31,7 @@ const filterDeletedTransactions = (transactions, action) => {
 
 export default function reducer(state, action) {
     switch (action.result) {
-        case 'success':            
+        case 'success':
             return {
                 ...state,
                 isFetching: false,
@@ -50,5 +50,5 @@ export default function reducer(state, action) {
                 ...state,
                 isFetching: true
             };
-    }            
+    }
 }

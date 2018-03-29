@@ -8,6 +8,7 @@ export class Operation {
         this.receiveAction = receiveAction;
     }
 
+    //TODO: Rename this to getDispatchable
     dispatch = () => (dispatch, getState) => {
         if (!this.shouldDispatch(getState)) {
             this.onNotDispatched(dispatch, getState);

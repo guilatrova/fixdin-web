@@ -5,12 +5,14 @@ import filterReducer from './filterReducer';
 import fetchReducer from './fetchReducer';
 import deleteReducer from './deleteReducer';
 import payReducer from './payReducer';
+import oldestPendingExpenseReducer from './oldestPendingExpenseReducer';
 
 const initialState = {
     transactions: [],
     filters: {},
     visibleTransactions: undefined,
     editingTransaction: {},
+    oldestPendingExpense: undefined,
     isFetching: false,
     errors: {}
 };
@@ -37,6 +39,9 @@ export default function reducer(state = initialState, action) {
 
         case types.PAY_TRANSACTIONS:
             return payReducer(state, action);
+
+        case types.FETCH_OLDEST_PENDING_EXPENSE:
+            return oldestPendingExpenseReducer(state, action);
 
         case types.CLEAR_FILTERS:
             return {

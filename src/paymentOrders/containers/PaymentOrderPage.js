@@ -8,6 +8,7 @@ import { withStyles } from 'material-ui/styles';
 import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
 import PendingBalanceTable from '../components/PendingBalanceTable';
 import { operations as balanceOperations } from '../../balances/duck';
+import { operations as transactionOperations } from '../../transactions/transactions/duck';
 import { operations } from '../duck';
 
 const styles = () => ({
@@ -52,11 +53,13 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(operations.reset());
         
         dispatch(balanceOperations.fetchPendingIncomesBalance());
-        
-        const p1 = dispatch(balanceOperations.fetchRealBalance());
-        const p2 = dispatch(operations.fetchNextExpenses());        
-        Promise.all([p1, p2]).then(() => {
-            dispatch(operations.checkDefaultExpenses());
+
+        dispatch(transactionOperations.fetchOldestExpense()).then(() => {
+            const p1 = dispatch(balanceOperations.fetchRealBalance());
+            const p2 = dispatch(operations.fetchNextExpenses());        
+            Promise.all([p1, p2]).then(() => {
+                dispatch(operations.checkDefaultExpenses());
+            });
         });
     }
 });

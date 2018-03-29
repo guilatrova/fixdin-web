@@ -1,7 +1,8 @@
 import moment from 'moment';
 import actions from './actions';
 import selectors from './selectors';
-import { selectors as balanceSelectors } from './../../balances/duck';
+import { selectors as balanceSelectors } from '../../balances/duck';
+import { selectors as transactionSelectors } from '../../transactions/transactions/duck';
 import { GetOperation } from '../../common/duck/operations';
 import getQueryParams from '../../services/query';
 import formatters from '../formatters';
@@ -61,7 +62,11 @@ const changePeriod = (period) => (dispatch, getState) => {
 
     return promise;
 };
-const fetchNextExpenses = (from, until) => new FetchNextExpenses(from, until).dispatch();
+
+const fetchNextExpenses = (from) => (dispatch, getState) => {
+    from = from || transactionSelectors.getOldestPendingExpenseDate(getState());
+    new FetchNextExpenses(from).dispatch()(dispatch, getState);
+};
 
 export default {
     changeValueToSave,

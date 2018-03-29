@@ -125,6 +125,8 @@ const getTotalValueOfDisplayedTransactionsGroupedByAccount = (state) => {
     return result;
 };
 
+const getOldestPendingExpenseDate = (state) => state.transactions.oldestPendingExpense;
+
 export default {
     getErrors,
     isFetching,
@@ -144,5 +146,6 @@ export default {
     getVisibleTransactionDescriptions,
     getDisplayedPeriod,
     getDisplayedTransactionsGroupedByAccount,
-    getTotalValueOfDisplayedTransactionsGroupedByAccount
+    getTotalValueOfDisplayedTransactionsGroupedByAccount,
+    getOldestPendingExpenseDate
 };

@@ -12,6 +12,7 @@ describe('transactions/duck/reducers', () => {
         visibleTransactions: undefined,
         editingTransaction: {},
         isFetching: false,
+        oldestPendingExpense: undefined,
         errors: {},
     };
 

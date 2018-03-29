@@ -3,6 +3,7 @@ const COPY_TRANSACTION =                  'fixdin/transactions/COPY_TRANSACTION'
 const EDIT_TRANSACTION =                  'fixdin/transactions/EDIT_TRANSACTION';
 const FINISH_EDIT_TRANSACTION =           'fixdin/transactions/FINISH_EDIT_TRANSACTION';
 const PAY_TRANSACTIONS =                  'fixdin/transactions/PAY_TRANSACTIONS';
+const FETCH_OLDEST_PENDING_EXPENSE =      'fixdin/transactions/FETCH_OLDEST_PENDING_EXPENSE';
 
 const FILTER_TRANSACTIONS =               'fixdin/transactions/FILTER_TRANSACTIONS';
 const SET_FILTERS =                       'fixdin/transactions/SET_FILTERS';
@@ -22,6 +23,7 @@ export default {
     CLEAR_FILTERS,
     SET_FILTERS,
     PAY_TRANSACTIONS,
+    FETCH_OLDEST_PENDING_EXPENSE,
     SAVE_TRANSACTION,
     SAVE_ALL_PERIODIC_TRANSACTIONS,
     SAVE_THIS_AND_NEXT_TRANSACTIONS,

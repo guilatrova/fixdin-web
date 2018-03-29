@@ -94,13 +94,11 @@ function receiveDeleteTransaction(result, id, type, errors) {
 }
 
 //FILTER
-function requestFilterTransactions() {
-    return {
-        type: types.FILTER_TRANSACTIONS
-    };
-}
+const requestFilterTransactions = () => ({
+    type: types.FILTER_TRANSACTIONS
+});
 
-function receiveFilteredTransactions(result, data) {
+const receiveFilteredTransactions = (result, data) => {
     if (result === 'success') {
         return {
             type: types.FILTER_TRANSACTIONS,
@@ -114,29 +112,23 @@ function receiveFilteredTransactions(result, data) {
         result,
         errors: data
     };
-}
+};
 
-function clearFilters() {
-    return {
-        type: types.CLEAR_FILTERS
-    };
-}
+const clearFilters = () => ({
+    type: types.CLEAR_FILTERS
+});
 
-function setFilters(filters, concatFilters = false) {
-    return {
-        type: types.SET_FILTERS,
-        concatFilters,
-        filters
-    };
-}
+const setFilters = (filters, concatFilters = false) => ({
+    type: types.SET_FILTERS,
+    concatFilters,
+    filters
+});
 
 //PAY
-function payTransactions(ids) {
-    return {
-        type: types.PAY_TRANSACTIONS,
-        ids
-    };
-}
+const payTransactions=  (ids) => ({
+    type: types.PAY_TRANSACTIONS,
+    ids
+});
 
 function receivePayTransactions(result, data) {
     if (result === 'success') {
@@ -153,6 +145,26 @@ function receivePayTransactions(result, data) {
         errors: data
     };
 }
+
+const fetchOldestPendingExpense = () => ({
+    type: types.FETCH_OLDEST_PENDING_EXPENSE    
+});
+
+const receiveOldestPendingExpense = (result, data) => {
+    if (result === 'success') {
+        return {
+            type: types.FETCH_OLDEST_PENDING_EXPENSE,
+            result,
+            transaction: data
+        };
+    }
+
+    return {
+        type: types.FETCH_OLDEST_PENDING_EXPENSE,
+        result,
+        errors: data
+    };
+};
 
 export default {
     requestTransactions,
@@ -175,5 +187,8 @@ export default {
     setFilters,
 
     payTransactions,
-    receivePayTransactions
+    receivePayTransactions,
+
+    fetchOldestPendingExpense,
+    receiveOldestPendingExpense
 };
