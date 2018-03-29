@@ -52,6 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
     onStart: () => {
         dispatch(operations.reset());
         
+        dispatch(balanceOperations.fetchPendingExpensesBalance());
         dispatch(balanceOperations.fetchPendingIncomesBalance());
 
         dispatch(transactionOperations.fetchOldestExpense()).then(() => {

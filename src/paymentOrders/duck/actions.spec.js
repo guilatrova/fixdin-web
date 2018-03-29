@@ -3,7 +3,7 @@ import types from './types';
 
 const { itShouldDispatchSuccessFailActions } = actionsHelpers;
 
-describe('paymentorders/duck/actions', () => {
+xdescribe('paymentorders/duck/actions', () => {
     describe('FETCH_NEXT_EXPENSES', () => {
         itShouldDispatchSuccessFailActions(
             operations.fetchNextExpenses,

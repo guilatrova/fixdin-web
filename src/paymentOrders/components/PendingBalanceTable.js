@@ -29,7 +29,7 @@ PendingBalanceTable.propTypes = {
 
 const mapStateToProps = state => ({
     period: selectors.getPeriod(state),
-    expenses: selectors.getSumOverdueExpenses(state),
+    expenses: balanceSelectors.getPendingExpensesBalance(state) || 0,
     incomes: balanceSelectors.getPendingIncomesBalance(state) || 0,
 });
 

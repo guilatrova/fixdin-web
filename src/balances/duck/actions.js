@@ -25,11 +25,9 @@ const receiveBalance = (result, data, key) => {
     };
 };
 
-const requestPendingIncomesBalance = () => {
-    return {
-        type: types.FETCH_PENDING_INCOMES_BALANCES        
-    };
-};
+const requestPendingIncomesBalance = () => ({
+    type: types.FETCH_PENDING_INCOMES_BALANCES
+});
 
 const receivePendingIncomesBalance = (result, data) => {
     if (result === 'success') {
@@ -47,10 +45,33 @@ const receivePendingIncomesBalance = (result, data) => {
     };
 };
 
+const requestPendingExpensesBalance = () => ({
+    type: types.FETCH_PENDING_EXPENSES_BALANCES
+});
+
+const receivePendingExpensesBalance = (result, data) => {
+    if (result === 'success') {
+        return {
+            type: types.FETCH_PENDING_EXPENSES_BALANCES,
+            result,
+            balance: data,
+        };
+    }
+
+    return {
+        type: types.FETCH_PENDING_EXPENSES_BALANCES,
+        result,
+        errors: data
+    };
+};
+
 export default {
     requestBalance,
     receiveBalance,
 
     requestPendingIncomesBalance,
-    receivePendingIncomesBalance
+    receivePendingIncomesBalance,
+
+    requestPendingExpensesBalance,
+    receivePendingExpensesBalance
 };

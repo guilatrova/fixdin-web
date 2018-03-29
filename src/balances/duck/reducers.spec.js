@@ -8,6 +8,7 @@ describe('balances/duck/reducers', () => {
         realBalance: null,
         expectedBalance: null,
         pendingIncomes: null,
+        pendingExpenses: null,
         isFetching: false,
         errors: {},
     };

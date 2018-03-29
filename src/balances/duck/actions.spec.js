@@ -57,5 +57,16 @@ describe('balances/duck/actions', () => {
             { balance: 100 }
         );
     });
+
+    describe('FETCH_PENDING_EXPENSES_BALANCES', () => {
+        itShouldDispatchSuccessFailActionsCustom(
+            operations.fetchPendingExpensesBalance,
+            types.FETCH_PENDING_EXPENSES_BALANCES,
+            null,            
+            { balance: 100 },
+            null,
+            { balance: 100 }
+        );
+    });
     
 });
