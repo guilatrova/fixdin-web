@@ -27,7 +27,7 @@ export class FetchBalanceOperation extends GetOperation {
     
     getSucceedData = (raw) => raw.balance;
 
-    getEndpoint = () => `balances/current${getQueryParams(this.filters)}`;
+    getEndpoint = () => `balances/current/${getQueryParams(this.filters)}`;
 }
 
 export class FetchPendingIncomesBalance extends GetOperation {
@@ -37,7 +37,7 @@ export class FetchPendingIncomesBalance extends GetOperation {
 
     getSucceedData = raw => raw.balance;
 
-    getEndpoint = () => "balances/pending-incomes";
+    getEndpoint = () => "balances/pending-incomes/";
 }
 
 export class FetchPendingExpensesBalance extends GetOperation {
@@ -47,7 +47,7 @@ export class FetchPendingExpensesBalance extends GetOperation {
 
     getSucceedData = raw => raw.balance;
 
-    getEndpoint = () => "balances/pending-expenses";
+    getEndpoint = () => "balances/pending-expenses/";
 }
 
 export class FetchDetailedAccountsBalance extends GetOperation {

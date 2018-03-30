@@ -11,12 +11,12 @@ const initialState = {
     errors: {},
 };
 
-const fetchBalance = (state, action, key) => {
+const fetchBalance = (state, action, key, actionKey='balance') => {
     switch (action.result) {
         case 'success':
             return {
                 ...state,
-                [key]: action.balance,
+                [key]: action[actionKey],
                 errors: {},
                 isFetching: false
             };
@@ -48,7 +48,7 @@ export default function reducer(state = initialState, action) {
             return fetchBalance(state, action, 'pendingExpenses');
 
         case types.FETCH_DETAILED_ACCOUNTS_BALANCE:
-            return fetchBalance(state, action, 'detailedAccounts');
+            return fetchBalance(state, action, 'detailedAccounts', 'balances');
 
         default:
             return state;
