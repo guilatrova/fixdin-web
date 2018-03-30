@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
 
 import { formatCurrencyDisplay } from '../../utils/formatters';
 import { selectors as balanceSelectors } from '../../balances/duck';
@@ -38,6 +38,7 @@ const AccountsBalanceTable = ({ classes, accountsNames, accountsBalances, totals
     const renderHeader = (entry) => accountsNames[entry.account] || entry.account;
     const renderIncomes = (entry) => formatCurrencyDisplay(entry.incomes);
     const renderExpenses = (entry) => formatCurrencyDisplay(entry.expenses);
+    const renderTotals = (entry) => formatCurrencyDisplay(entry.total);
 
     return (
         <div className={classes.root}>
@@ -64,12 +65,13 @@ const AccountsBalanceTable = ({ classes, accountsNames, accountsBalances, totals
                     </TableRow>
                 </TableBody>
 
-                {/* <TableFooter>
+                <TableFooter>
                     <TableRow className={classes.row}>
-                        <TableCell padding="dense" className={classes.strongCell}>Resultado</TableCell>
-                        <TableCell padding="dense" numeric className={classNames(classes.strongCell, classes.valueCell)}>{formatCurrencyDisplay(total)}</TableCell>
+                        <TableCell padding="dense" className={classes.strongCell}>Total</TableCell>
+                        <BalanceCells render={renderTotals} className={classes.strongCell} />
+                        <TableCell numeric padding="dense" className={classes.strongCell}>{formatCurrencyDisplay(totals.total)}</TableCell>
                     </TableRow>
-                </TableFooter> */}
+                </TableFooter>
             </Table>
         </div>
     );
