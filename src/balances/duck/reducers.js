@@ -6,6 +6,7 @@ const initialState = {
     expectedBalance: null,
     pendingIncomes: null,
     pendingExpenses: null,
+    detailedAccounts: [],
     isFetching: false,
     errors: {},
 };
@@ -45,6 +46,9 @@ export default function reducer(state = initialState, action) {
 
         case types.FETCH_PENDING_EXPENSES_BALANCES:
             return fetchBalance(state, action, 'pendingExpenses');
+
+        case types.FETCH_DETAILED_ACCOUNTS_BALANCE:
+            return fetchBalance(state, action, 'detailedAccounts');
 
         default:
             return state;

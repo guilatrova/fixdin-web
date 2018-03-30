@@ -3,7 +3,7 @@ import types from './types';
 
 describe('balances/duck/actions', () => {    
     let store, mock, restoreMock;
-    const { itShouldDispatchSuccessFailActionsCustom } = actionsHelpers;
+    const { itShouldDispatchSuccessFailActions, itShouldDispatchSuccessFailActionsCustom } = actionsHelpers;
 
     beforeEach(() => {
         const mockHelper = mockAxios();
@@ -66,6 +66,19 @@ describe('balances/duck/actions', () => {
             { balance: 100 },
             null,
             { balance: 100 }
+        );
+    });
+
+    describe('FETCH_DETAILED_ACCOUNTS_BALANCE', () => {
+        const result = [ 
+            {account: 1, incomes: 100, expenses: -200, total: -100}, 
+            {account: 2, incomes: 400, expenses: -300, total: 100} 
+        ];
+        itShouldDispatchSuccessFailActions(
+            operations.fetchDetailedAccountsBalance,
+            types.FETCH_DETAILED_ACCOUNTS_BALANCE,
+            'balances',
+            result
         );
     });
     

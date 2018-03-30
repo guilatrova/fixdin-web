@@ -3,6 +3,7 @@ const getRealBalance = (state) => state.balances.realBalance;
 const getExpectedBalance = (state) => state.balances.expectedBalance;
 const getPendingIncomesBalance = (state) => state.balances.pendingIncomes;
 const getPendingExpensesBalance = (state) => state.balances.pendingExpenses;
+const getDetailedAccounts = (state) => state.balances.detailedAccounts;
 const isFetching = (state) => state.balances.isFetching;
 
 export default {
@@ -11,5 +12,6 @@ export default {
     getExpectedBalance,
     getPendingIncomesBalance,
     getPendingExpensesBalance,
+    getDetailedAccounts,
     isFetching
 };

@@ -50,6 +50,14 @@ export class FetchPendingExpensesBalance extends GetOperation {
     getEndpoint = () => "balances/pending-expenses";
 }
 
+export class FetchDetailedAccountsBalance extends GetOperation {
+    constructor() {
+        super(actions.requestDetailedAccountsBalance, actions.receiveDetailedAccountsBalance);
+    }
+    
+    getEndpoint = () => "balances/accounts/effective-incomes-expenses/";
+}
+
 const dispatchGetOperation = (storeKey, filters) => 
     new FetchBalanceOperation(storeKey, filters).dispatch();
 
@@ -62,11 +70,13 @@ const fetchExpectedBalance = () => {
 };
 const fetchPendingIncomesBalance = () => new FetchPendingIncomesBalance().dispatch();
 const fetchPendingExpensesBalance = () => new FetchPendingExpensesBalance().dispatch();
+const fetchDetailedAccountsBalance = () => new FetchDetailedAccountsBalance().dispatch();
 
 export default {
     fetchBalance,
     fetchRealBalance,
     fetchExpectedBalance,
     fetchPendingIncomesBalance,
-    fetchPendingExpensesBalance
+    fetchPendingExpensesBalance,
+    fetchDetailedAccountsBalance
 };
