@@ -81,5 +81,19 @@ describe('balances/duck/actions', () => {
             result
         );
     });
+
+    describe('FETCH_DETAILED_ACCUMULATED_BALANCE', () => {
+        const result = {
+            expenses: -100,
+            incomes: 200,
+            total: 100
+        };
+        itShouldDispatchSuccessFailActions(
+            operations.fetchDetailedAccumulatedBalance,
+            types.FETCH_DETAILED_ACCUMULATED_BALANCE,
+            'balance',
+            result
+        );
+    });
     
 });

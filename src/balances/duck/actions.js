@@ -85,6 +85,26 @@ const receiveDetailedAccountsBalance = (result, data) => {
     };
 };
 
+const requestDetailedAccumulatedBalance = () => ({
+    type: types.FETCH_DETAILED_ACCUMULATED_BALANCE
+});
+
+const receiveDetailedAccumulatedBalance = (result, data) => {
+    if (result === 'success') {
+        return {
+            type: types.FETCH_DETAILED_ACCUMULATED_BALANCE,
+            result,
+            balance: data,
+        };
+    }
+
+    return {
+        type: types.FETCH_DETAILED_ACCUMULATED_BALANCE,
+        result,
+        errors: data
+    };
+};
+
 export default {
     requestBalance,
     receiveBalance,
@@ -96,5 +116,8 @@ export default {
     receivePendingExpensesBalance,
 
     requestDetailedAccountsBalance,
-    receiveDetailedAccountsBalance
+    receiveDetailedAccountsBalance,
+
+    requestDetailedAccumulatedBalance,
+    receiveDetailedAccumulatedBalance
 };

@@ -18,6 +18,7 @@ const getTotalsDetailedAccounts = (state) => {
         total: 0
     });
 };
+const getAccumulatedBalance = (state) => state.balances.accumulatedBalance;
 
 const isFetching = (state) => state.balances.isFetching;
 
@@ -29,5 +30,6 @@ export default {
     getPendingExpensesBalance,
     getDetailedAccounts,
     getTotalsDetailedAccounts,
+    getAccumulatedBalance,
     isFetching
 };

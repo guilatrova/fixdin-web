@@ -9,6 +9,7 @@ describe('balances/duck/reducers', () => {
         expectedBalance: null,
         pendingIncomes: null,
         pendingExpenses: null,
+        accumulatedBalance: null,
         detailedAccounts: [],
         isFetching: false,
         errors: {},
