@@ -2,8 +2,10 @@ const buildChartData = (data, yProp, allowNegative=false) => data.map(item => (
     { x: item['period'], y: item[yProp] >= 0 ? parseInt(item[yProp]) : allowNegative ? parseInt(item[yProp]) : -item[yProp] })
 );
 
-const getLastMonths = (state) => {
-    const data = state.reports.lastMonths.data;    
+const getLastMonths = (state) => state.reports.lastMonths.data;
+
+const getLastMonthsChart = (state) => {
+    const data = state.reports.lastMonths.data;
     return {
         effectiveIncomes: buildChartData(data, 'effective_incomes'),
         effectiveExpenses: buildChartData(data, 'effective_expenses'),
@@ -40,6 +42,7 @@ const getExpensesByCategory = state => getValuesByCategory(state).expenses.data;
 
 export default {
     getLastMonths,
+    getLastMonthsChart,
 
     getNextPendingExpenses,
     getOverdueExpenses,

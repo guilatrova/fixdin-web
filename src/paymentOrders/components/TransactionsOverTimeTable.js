@@ -2,22 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { withStyles } from 'material-ui/styles';
 import TransactionCell from './TransactionCell';
 import { DataTable, DataColumn } from '../../common/material/DataTable';
-
-const styles = {
-    cell: {
-        whiteSpace: 'nowrap'
-    }
-};
 
 class TransactionsOverTimeTable extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired,
         checked: PropTypes.array.isRequired,
         onToggle: PropTypes.func.isRequired,
-        classes: PropTypes.object.isRequired,
         accountNames: PropTypes.array.isRequired
     }
 
@@ -66,11 +58,11 @@ class TransactionsOverTimeTable extends React.Component {
     };
 
     render() {
-        const { transactions, classes } = this.props;
+        const { transactions } = this.props;
         const data = transactions.map((transaction, id) => ({ ...transaction, id }));
 
         return (
-            <DataTable data={data} cellsClassName={classes.cell}>
+            <DataTable data={data}>
                 <DataColumn field="account" onRender={this.formatAccount}>CONTA</DataColumn>
                 <DataColumn field="description" onRender={this.formatFirst}>DESCRIÇÃO</DataColumn>
                 <DataColumn field="priority" onRender={this.formatFirst}>IMP.</DataColumn>
@@ -81,4 +73,4 @@ class TransactionsOverTimeTable extends React.Component {
     }
 }
 
-export default withStyles(styles)(TransactionsOverTimeTable);
+export default TransactionsOverTimeTable;

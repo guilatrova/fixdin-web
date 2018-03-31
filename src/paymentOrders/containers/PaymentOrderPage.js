@@ -9,7 +9,9 @@ import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
 import PendingBalanceTable from '../components/PendingBalanceTable';
 import YearBalanceTable from '../components/YearBalanceTable';
 import AccountsBalanceTable from '../components/AccountsBalanceTable';
+import BalanceOverTimeTable from '../components/BalanceOverTimeTable';
 import { operations as balanceOperations } from '../../balances/duck';
+import { operations as reportOperations } from '../../reports/duck';
 import { operations as transactionOperations } from '../../transactions/transactions/duck';
 import { operations as accountOperations } from '../../transactions/accounts/duck';
 import { operations } from '../duck';
@@ -23,18 +25,18 @@ const styles = () => ({
         padding: 16,
         overflowX: 'scroll'
     },
-    header: {
+    surrounding: {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         alignItems: 'stretch',
         alignContent: 'stretch'
     },
-    pendingBalanceTable: {
-        flex: 1
+    smallerTable: {
+        flexShrink: 1
     },
-    accountsBalanceTable: {
-        flex: 2
+    biggerTable: {
+        flex: 4
     }
 });
 
@@ -49,12 +51,12 @@ class PaymentOrderPage extends React.Component {
         return (
             <div className={classes.root}>
 
-                <div className={classes.header}>
-                    <div className={classes.pendingBalanceTable}>
+                <div className={classes.surrounding}>
+                    <div className={classes.smallerTable}>
                         <PendingBalanceTable />
                     </div>
 
-                    <div className={classes.accountsBalanceTable}>
+                    <div className={classes.biggerTable}>
                         <AccountsBalanceTable />
                     </div>
                 </div>
@@ -63,9 +65,13 @@ class PaymentOrderPage extends React.Component {
                     <TransactionsOverTimeWrapper />
                 </Paper>
 
-                <div className={classes.header}>
-                    <div className={classes.pendingBalanceTable}>
+                <div className={classes.surrounding}>
+                    <div className={classes.smallerTable}>
                         <YearBalanceTable />
+                    </div>
+
+                    <div className={classes.biggerTable}>
+                        <BalanceOverTimeTable />
                     </div>
                 </div>
             </div>
@@ -87,6 +93,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(balanceOperations.fetchDetailedAccountsBalance());
         dispatch(balanceOperations.fetchDetailedAccumulatedBalance());
         dispatch(accountOperations.fetchAccounts());
+        dispatch(reportOperations.fetchLastMonthsReport(11));
 
         dispatch(transactionOperations.fetchOldestExpense()).then(() => {
             const p1 = dispatch(balanceOperations.fetchRealBalance());
