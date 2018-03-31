@@ -7,6 +7,7 @@ import { withStyles } from 'material-ui/styles';
 
 import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
 import PendingBalanceTable from '../components/PendingBalanceTable';
+import YearBalanceTable from '../components/YearBalanceTable';
 import AccountsBalanceTable from '../components/AccountsBalanceTable';
 import { operations as balanceOperations } from '../../balances/duck';
 import { operations as transactionOperations } from '../../transactions/transactions/duck';
@@ -61,6 +62,12 @@ class PaymentOrderPage extends React.Component {
                 <Paper className={classes.paper}>
                     <TransactionsOverTimeWrapper />
                 </Paper>
+
+                <div className={classes.header}>
+                    <div className={classes.pendingBalanceTable}>
+                        <YearBalanceTable />
+                    </div>
+                </div>
             </div>
         );
     }
@@ -78,6 +85,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(balanceOperations.fetchPendingExpensesBalance());
         dispatch(balanceOperations.fetchPendingIncomesBalance());
         dispatch(balanceOperations.fetchDetailedAccountsBalance());
+        dispatch(balanceOperations.fetchDetailedAccumulatedBalance());
         dispatch(accountOperations.fetchAccounts());
 
         dispatch(transactionOperations.fetchOldestExpense()).then(() => {
