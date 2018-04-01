@@ -62,7 +62,7 @@ class TransactionsOverTimeTable extends React.Component {
         const data = transactions.map((transaction, id) => ({ ...transaction, id }));
 
         return (
-            <DataTable data={data}>
+            <DataTable data={data} className="slim-table">
                 <DataColumn field="account" onRender={this.formatAccount}>CONTA</DataColumn>
                 <DataColumn field="description" onRender={this.formatFirst}>DESCRIÇÃO</DataColumn>
                 <DataColumn field="priority" onRender={this.formatFirst}>IMP.</DataColumn>

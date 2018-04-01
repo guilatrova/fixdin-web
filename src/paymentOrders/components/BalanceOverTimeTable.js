@@ -16,10 +16,6 @@ const styles = () => ({
     strongCell: {
         color: 'black',
         fontWeight: 'bold',
-        whiteSpace: 'nowrap'
-    },
-    expenseCell: {
-        whiteSpace: 'nowrap'
     },
 });
 
@@ -53,7 +49,7 @@ const BalanceOverTimeTable = ({ classes, balances }) => {
 
     return (
         <div className={classes.root}>
-            <Table>
+            <Table className="slim-table">
                 <TableHead>
                     <TableRow className={classes.row}>
                         <TableCell padding="dense" className={classes.strongCell}>Período</TableCell>
