@@ -42,7 +42,8 @@ class DataTable extends React.Component {
         classes: PropTypes.object.isRequired,
         filterActiveColor: PropTypes.string.isRequired,
         cellsClassName: PropTypes.string,
-        headersClassName: PropTypes.string
+        headersClassName: PropTypes.string,
+        className: PropTypes.string
     }
 
     static defaultProps = {

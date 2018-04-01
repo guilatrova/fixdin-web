@@ -38,7 +38,7 @@ const TransactionCell = ({transactions, checked, onToggle}) => {
                         <Tooltip title={<Title transaction={transaction} />}>
                             <FormControlLabel
                                 disabled={isPayed}
-                                label={formatCurrencyDisplay(-transaction.value)}
+                                label={formatCurrencyDisplay(-transaction.value, false)}
                                 onClick={() => onToggle(transaction.id)}
                                 control={
                                     <Checkbox

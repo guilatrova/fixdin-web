@@ -13,9 +13,9 @@ export function clean(obj) {
     return obj;
 }
 
-export function formatCurrencyDisplay(value) {    
+export function formatCurrencyDisplay(value, withMoneyMarker = true) {    
     if (!value || isNaN(value))
-        return "R$ 0,00";
+        return withMoneyMarker ? "R$ 0,00" : "0,00";
 
     const formatter = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
@@ -23,5 +23,7 @@ export function formatCurrencyDisplay(value) {
         minimumFractionDigits: 2,
     });
         
-    return formatter.format(value).replace('R$', 'R$ ');
+    if (withMoneyMarker)
+        return formatter.format(value).replace('R$', 'R$ ');    
+    return formatter.format(value).replace('R$', '');
 }

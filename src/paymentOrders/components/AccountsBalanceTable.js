@@ -36,9 +36,9 @@ const AccountsBalanceTable = ({ classes, accountsNames, accountsBalances, totals
     };
 
     const renderHeader = (entry) => accountsNames[entry.account] || entry.account;
-    const renderIncomes = (entry) => formatCurrencyDisplay(entry.incomes);
-    const renderExpenses = (entry) => formatCurrencyDisplay(entry.expenses);
-    const renderTotals = (entry) => formatCurrencyDisplay(entry.total);
+    const renderIncomes = (entry) => formatCurrencyDisplay(entry.incomes, false);
+    const renderExpenses = (entry) => formatCurrencyDisplay(entry.expenses, false);
+    const renderTotals = (entry) => formatCurrencyDisplay(entry.total, false);
 
     return (
         <div className={classes.root}>
