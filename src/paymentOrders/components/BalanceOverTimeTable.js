@@ -6,7 +6,6 @@ import { withStyles } from 'material-ui/styles';
 
 import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
 
-import { formatCurrencyDisplay } from '../../utils/formatters';
 import { selectors as reportSelectors } from '../../reports/duck';
 
 const styles = () => ({
@@ -30,7 +29,7 @@ const BalanceOverTimeTable = ({ classes, balances }) => {
         });
     };
 
-    const totals = balances.reduce((prev, cur) => {
+    const totals = balances.reduce((prev, cur) => {//TODO: refactor - remove it from here
         prev.incomes += Number(cur.effective_incomes);
         prev.expenses += Number(cur.effective_expenses);
         prev.total += Number(cur.effective_total);
@@ -43,9 +42,9 @@ const BalanceOverTimeTable = ({ classes, balances }) => {
     });
 
     const renderHeader = (entry) => moment(entry.period, 'YYYY-MM-DD').format('MMM-YY');
-    const renderIncomes = (entry) => formatCurrencyDisplay(entry.effective_incomes);
-    const renderExpenses = (entry) => formatCurrencyDisplay(entry.effective_expenses);
-    const renderTotals = (entry) => formatCurrencyDisplay(entry.effective_total);
+    const renderIncomes = (entry) => Math.round(entry.effective_incomes);
+    const renderExpenses = (entry) => Math.round(entry.effective_expenses);
+    const renderTotals = (entry) => Math.round(entry.effective_total);
 
     return (
         <div className={classes.root}>
@@ -62,13 +61,13 @@ const BalanceOverTimeTable = ({ classes, balances }) => {
                     <TableRow className={classes.row}>
                         <TableCell padding="dense">Receitas</TableCell>
                         <BalanceCells render={renderIncomes} />
-                        <TableCell numeric padding="dense">{formatCurrencyDisplay(totals.incomes)}</TableCell>
+                        <TableCell numeric padding="dense">{Math.round(totals.incomes)}</TableCell>
                     </TableRow>
 
                     <TableRow className={classes.row}>
                         <TableCell padding="dense">Despesas</TableCell>
                         <BalanceCells render={renderExpenses} />
-                        <TableCell numeric padding="dense">{formatCurrencyDisplay(totals.expenses)}</TableCell>
+                        <TableCell numeric padding="dense">{Math.round(totals.expenses)}</TableCell>
                     </TableRow>
                 </TableBody>
 
@@ -76,7 +75,7 @@ const BalanceOverTimeTable = ({ classes, balances }) => {
                     <TableRow className={classes.row}>
                         <TableCell padding="dense" className={classes.strongCell}>Total</TableCell>
                         <BalanceCells render={renderTotals} className={classes.strongCell} />
-                        <TableCell numeric padding="dense" className={classes.strongCell}>{formatCurrencyDisplay(totals.total)}</TableCell>
+                        <TableCell numeric padding="dense" className={classes.strongCell}>{Math.round(totals.total)}</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
