@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import TransactionCell from './TransactionCell';
 import { DataTable, DataColumn } from '../../common/material/DataTable';
+import PayedSign from '../../common/components/PayedSign';
 
 class TransactionsOverTimeTable extends React.Component {
     static propTypes = {
@@ -34,6 +35,21 @@ class TransactionsOverTimeTable extends React.Component {
         const result = this.formatFirst(row, field);
         return this.props.accountNames[result] || result;
     };
+
+    formatDue = (row) => {
+        const today = moment();
+        const cols = Object.keys(row);
+        for (let col of cols) {
+            if (Array.isArray(row[col])) {
+                for (let transaction of row[col]) {
+                    if (transaction && !transaction.payment_date && today.isAfter(transaction.due_date))
+                        return <PayedSign pending />;
+                }
+            }
+        }
+
+        return <PayedSign />;
+    }
 
     renderDateCell = (row, field) => (        
         <TransactionCell transactions={row[field]} checked={this.props.checked} onToggle={this.props.onToggle} />
@@ -68,6 +84,7 @@ class TransactionsOverTimeTable extends React.Component {
                 <DataColumn field="priority" onRender={this.formatFirst}>IMP.</DataColumn>
                 <DataColumn field="deadline" onRender={this.formatFirst}>TOL.</DataColumn>
                 {this.renderDateColumns()}
+                <DataColumn field="due" onRender={this.formatDue}>PG.</DataColumn>
             </DataTable>
         );
     }

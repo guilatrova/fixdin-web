@@ -8,6 +8,7 @@ import red from 'material-ui/colors/red';
 import green from 'material-ui/colors/green';
 
 import { formatCurrencyDisplay } from '../../../utils/formatters';
+import PayedSign from '../../../common/components/PayedSign';
 
 const styles = () => ({
     row: {
@@ -15,32 +16,18 @@ const styles = () => ({
     },
     strongCell: {
         color: 'black',
-        fontWeight: 'bold',
-        whiteSpace: 'nowrap'
-    },
-    payedCell: {
-        color: green['A700'],
-        whiteSpace: 'nowrap'
-    },
-    pendingCell: {
-        color: red['A700'],
-        whiteSpace: 'nowrap'
-    },
-    cell: {
-        whiteSpace: 'nowrap'
+        fontWeight: 'bold'
     }
 });
 
 const Headers = (classes) => {
-    const payedSign = <span className={classes.payedCell}>$</span>;
-    const pendingSign = <span className={classes.pendingCell}>$</span>;
     return (
         <TableRow className={classes.row}>
             <TableCell padding="dense" className={classes.strongCell}>Contas</TableCell>
-            <TableCell padding="dense" className={classes.strongCell} numeric>Receitas {payedSign}</TableCell>
-            <TableCell padding="dense" className={classes.strongCell} numeric>Receitas {pendingSign}</TableCell>
-            <TableCell padding="dense" className={classes.strongCell} numeric>Despesas {payedSign}</TableCell>
-            <TableCell padding="dense" className={classes.strongCell} numeric>Despesas {pendingSign}</TableCell>
+            <TableCell padding="dense" className={classes.strongCell} numeric>Receitas <PayedSign /></TableCell>
+            <TableCell padding="dense" className={classes.strongCell} numeric>Receitas <PayedSign pending /></TableCell>
+            <TableCell padding="dense" className={classes.strongCell} numeric>Despesas <PayedSign /></TableCell>
+            <TableCell padding="dense" className={classes.strongCell} numeric>Despesas <PayedSign pending /></TableCell>
             <TableCell padding="dense" className={classes.strongCell} numeric>Saldo</TableCell>
         </TableRow>
     );
@@ -50,19 +37,19 @@ const EntryTableRow = (entry, name, id, classes, cellModifierClass) => {
     return (
         <TableRow key={id} className={classes.row}>
             <TableCell padding="dense" className={cellModifierClass}>{name}</TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalIncomesPayed)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalIncomesPending)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalExpensesPayed)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalExpensesPending)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass, classes.cell)}>
+            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.balance)}
             </TableCell>
         </TableRow>

@@ -78,7 +78,7 @@ const mapStateToProps = (state) => {
         accountsName: accountSelectors.getAccountsNamesMappedById(state),
         aggregatedAccounts: selectors.getTotalValueOfDisplayedTransactionsGroupedByAccount(state),
         
-        lastMonthsData: reportSelectors.getLastMonths(state)
+        lastMonthsData: reportSelectors.getLastMonthsChart(state)
     };
 };
 
