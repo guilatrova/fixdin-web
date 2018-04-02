@@ -80,6 +80,7 @@ const getActiveFilters = (state) => {
         ),
         description: isFilterActive(state, "description"),
         category: isFilterActive(state, "category", (category) => category.length === 0),
+        account: isFilterActive(state, "account", (account) => account.length === 0),
         priority: isFilterActive(state, "priority"),
         deadline: isFilterActive(state, "deadline"),
         payment_date: isFilterActive(state, "payed", (payed) => payed === "-1")

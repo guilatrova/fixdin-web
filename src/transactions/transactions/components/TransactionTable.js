@@ -18,7 +18,8 @@ import {
     KindFilter, 
     DeadlineFilter,
     PriorityFilter,
-    PaymentFilter
+    PaymentFilter,
+    AccountFilter
 } from './filters';
 import { sort, sortMoment } from './../../../utils/sorts';
 import { DataTable, DataColumn } from './../../../common/material/DataTable';
@@ -155,6 +156,8 @@ class TransactionTable extends React.Component {
                     padding="dense"
                     field="account" 
                     onRender={this.formatAccount} 
+                    onRenderFilter={<AccountFilter />}
+                    filterActive={activeFilters.account}
                     onSort={this.sortAccount} > CONTA
                 </DataColumn>
                 

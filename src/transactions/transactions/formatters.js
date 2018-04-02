@@ -37,8 +37,9 @@ export function formatPeriodic(periodic) {
 export function formatFilters(filters) {
     const formatted = {
         ...filters,
-        kind: filters.kind ? filters.kind.value : ALL,
+        kind: filters.kind ? filters.kind.value : ALL,        
         category: filters.category ? filters.category.join() : undefined,
+        account: filters.account ? filters.account.join() : undefined,
         due_date_from: formatDate(filters.due_date_from),
         due_date_until: formatDate(filters.due_date_until),
         payment_date_from: formatDate(filters.payment_date_from),

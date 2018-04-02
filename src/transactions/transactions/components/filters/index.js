@@ -5,3 +5,4 @@ export { default as KindFilter } from './KindFilter';
 export { default as DeadlineFilter } from './DeadlineFilter';
 export { default as PriorityFilter } from './PriorityFilter';
 export { default as PaymentFilter } from './PaymentFilter';
+export { default as AccountFilter } from './AccountFilter';
