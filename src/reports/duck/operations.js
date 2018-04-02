@@ -1,6 +1,7 @@
 import actions from './actions';
 import { GetOperation } from './../../common/duck/operations';
 import handleError from '../../services/genericErrorHandler';
+import getQueryParams from '../../services/query';
 
 class FetchPendingTransactionsOperation extends GetOperation {
     constructor(kind) {
@@ -26,12 +27,15 @@ class FetchPendingTransactionsOperation extends GetOperation {
 }
 
 class FetchLastMonthsOperation extends GetOperation {
-    constructor(months) {
+    constructor(months, start) {
         super(actions.requestLastMonthsReport, actions.receiveLastMonthsReport);
         this.months = months;
+        this.start = start;
     }
+    
+    getQueryParamsObject = () => ({ months: this.months, start: this.start });
 
-    getEndpoint = () => `reports/last-months/?months=${this.months}`;
+    getEndpoint = () => `reports/last-months/` + getQueryParams(this.getQueryParamsObject());
 }
 
 class FetchValuesByCategoryOperation extends GetOperation {
@@ -59,7 +63,7 @@ class FetchValuesByCategoryOperation extends GetOperation {
 }
 
 const fetchLastMonthsReport = 
-    (months) => new FetchLastMonthsOperation(months).dispatch();
+    (months, start=null) => new FetchLastMonthsOperation(months, start).dispatch();
 
 const fetchPendingTransactionsReport = 
     (kind) => new FetchPendingTransactionsOperation(kind).dispatch();

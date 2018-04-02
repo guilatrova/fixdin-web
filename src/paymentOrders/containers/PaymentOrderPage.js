@@ -92,10 +92,11 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(balanceOperations.fetchPendingIncomesBalance());
         dispatch(balanceOperations.fetchDetailedAccountsBalance());
         dispatch(balanceOperations.fetchDetailedAccumulatedBalance());
-        dispatch(accountOperations.fetchAccounts());
-        dispatch(reportOperations.fetchLastMonthsReport(11));
+        dispatch(accountOperations.fetchAccounts());        
 
-        dispatch(transactionOperations.fetchOldestExpense()).then(() => {
+        dispatch(transactionOperations.fetchOldestExpense()).then((transaction) => {
+            dispatch(reportOperations.fetchLastMonthsReport(11, transaction.due_date));
+
             const p1 = dispatch(balanceOperations.fetchRealBalance());
             const p2 = dispatch(operations.fetchNextExpenses());
             Promise.all([p1, p2]).then(() => {
