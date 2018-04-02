@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
-import red from 'material-ui/colors/red';
-import green from 'material-ui/colors/green';
 
 import { formatCurrencyDisplay } from '../../../utils/formatters';
 import PayedSign from '../../../common/components/PayedSign';

@@ -4,7 +4,7 @@ const getAccount = (state, id) => getAccounts(state).find(account => account.id 
 
 const getErrors = (state) => state.accounts.errors;
 
-const getIsFetching = (state) => state.accounts.isFetching;
+const isFetching = (state) => state.accounts.isFetching;
 
 const getEditingAccount = (state) => state.accounts.editingAccount;
 
@@ -22,7 +22,7 @@ export default {
     getAccounts,
     getAccount,
     getErrors,
-    getIsFetching,
+    isFetching,
     getEditingAccount,
     getTransfers,
     getTransfersOfAccount,

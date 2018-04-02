@@ -133,7 +133,7 @@ class AccountPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         accounts: selectors.getAccounts(state),
-        isFetching: selectors.getIsFetching(state),
+        isFetching: selectors.isFetching(state),
         errors: selectors.getErrors(state),
         editingAccount: selectors.getEditingAccount(state)
     };
