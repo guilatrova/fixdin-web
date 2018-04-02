@@ -59,11 +59,15 @@ export class FetchDetailedAccountsBalance extends GetOperation {
 }
 
 export class FetchDetailedAccumulatedBalance extends GetOperation {
-    constructor() {
+    constructor(from, until) {
         super(actions.requestDetailedAccumulatedBalance, actions.receiveDetailedAccumulatedBalance);
+        this.from = from;
+        this.until = until;
     }
+
+    getQueryParamsObject = () => ({ from: this.from, until: this.until });
     
-    getEndpoint = () => "balances/detailed/accumulated/";
+    getEndpoint = () => "balances/detailed/accumulated/" + getQueryParams(this.getQueryParamsObject());
 }
 
 const dispatchGetOperation = (storeKey, filters) => 
@@ -79,7 +83,7 @@ const fetchExpectedBalance = () => {
 const fetchPendingIncomesBalance = () => new FetchPendingIncomesBalance().dispatch();
 const fetchPendingExpensesBalance = () => new FetchPendingExpensesBalance().dispatch();
 const fetchDetailedAccountsBalance = () => new FetchDetailedAccountsBalance().dispatch();
-const fetchDetailedAccumulatedBalance = () => new FetchDetailedAccumulatedBalance().dispatch();
+const fetchDetailedAccumulatedBalance = (from, until) => new FetchDetailedAccumulatedBalance(from, until).dispatch();
 
 export default {
     fetchBalance,

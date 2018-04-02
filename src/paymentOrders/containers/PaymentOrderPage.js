@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
@@ -91,11 +92,13 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(balanceOperations.fetchPendingExpensesBalance());
         dispatch(balanceOperations.fetchPendingIncomesBalance());
         dispatch(balanceOperations.fetchDetailedAccountsBalance());
-        dispatch(balanceOperations.fetchDetailedAccumulatedBalance());
         dispatch(accountOperations.fetchAccounts());        
-
+        
         dispatch(transactionOperations.fetchOldestExpense()).then((transaction) => {
+            const startDate = moment(transaction.due_date);
+            const endDate = startDate.clone().add(11, 'months');
             dispatch(reportOperations.fetchLastMonthsReport(11, transaction.due_date));
+            dispatch(balanceOperations.fetchDetailedAccumulatedBalance(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD')));
 
             const p1 = dispatch(balanceOperations.fetchRealBalance());
             const p2 = dispatch(operations.fetchNextExpenses());
