@@ -85,7 +85,7 @@ const fetchDetailedBalance = (state, action) => {//TODO: refactor it
 
     switch (result) {
         case 'success': {
-            const detailed = state;
+            const detailed = state.detailed;
             const updateDetailed = detailed.find(balance => specifications.isSameBalance(balance, options));
             const newDetailedBalance = { ...detailedBalance, ...options };
 

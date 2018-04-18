@@ -6,31 +6,37 @@ import BalanceSimpleTable from '../../balances/components/BalanceSimpleTable';
 import { selectors as balanceSelectors } from '../../balances/duck';
 import { selectors, operations } from '../duck';
 
-const PendingBalanceTable = ({ period, incomes, expenses, onChangePeriod }) => {
+const PendingBalanceTable = ({ period, detailedBalance, onChangePeriod }) => {
     return (
         <BalanceSimpleTable
             period={period}
             onChangePeriod={onChangePeriod}
             incomesLabel="Receitas vencidas"
             expensesLabel="Despesas vencidas"
-            expenses={expenses}
-            incomes={incomes}
-            total={incomes+expenses}
+            expenses={detailedBalance.expenses}
+            incomes={detailedBalance.incomes}
+            total={detailedBalance.total}
         />
     );
 };
 
 PendingBalanceTable.propTypes = {
     period: PropTypes.object.isRequired,
-    incomes: PropTypes.number.isRequired,
-    expenses: PropTypes.number.isRequired,
+    detailedBalance: PropTypes.object.isRequired,
     onChangePeriod: PropTypes.func.isRequired
+};
+
+PendingBalanceTable.defaultProps = {
+    detailedBalance: {
+        expenses: 0,
+        incomes: 0,
+        total: 0
+    }
 };
 
 const mapStateToProps = state => ({
     period: selectors.getPeriod(state),
-    expenses: balanceSelectors.getPlainBalance(state, { pending: 1, output: 'expenses' }),
-    incomes: balanceSelectors.getPlainBalance(state, { pending: 1, output: 'incomes' }),
+    detailedBalance: balanceSelectors.getDetailedBalance(state, { pending: 1 }),
 });
 
 const mapDispatchToProps = dispatch => ({
