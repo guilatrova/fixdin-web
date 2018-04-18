@@ -1,34 +1,6 @@
-import moment from 'moment';
 import actions from './actions';
-import { formatDate } from './../../utils/formatters';
-import handleError from '../../services/genericErrorHandler';
 import { GetOperation } from '../../common/duck/operations';
 import getQueryParams from '../../services/query';
-
-export class FetchBalanceOperation extends GetOperation {
-    constructor(storeKey, filters = {}) {
-        super(actions.requestBalance, actions.receiveBalance);
-        this.storeKey = storeKey;
-        this.filters = filters;
-    }
-
-    onRequest(dispatch, requestAction) {
-        dispatch(requestAction(this.storeKey));
-    }    
-
-    onSucceed(dispatch, receiveAction, data) {
-        dispatch(receiveAction('success', data, this.storeKey));
-        return data;
-    }    
-
-    onFailed(dispatch, receiveAction, errors) {
-        return dispatch(receiveAction('fail', handleError(errors), this.storeKey));
-    }
-    
-    getSucceedData = (raw) => raw.balance;
-
-    getEndpoint = () => `balances/current/${getQueryParams(this.filters)}`;
-}
 
 export class FetchPendingIncomesBalance extends GetOperation {
     constructor() {
@@ -37,7 +9,7 @@ export class FetchPendingIncomesBalance extends GetOperation {
 
     getSucceedData = raw => raw.balance;
 
-    getEndpoint = () => "balances/pending-incomes/";
+    getEndpoint = () => "balances/plain/?pending=1&output=incomes";
 }
 
 export class FetchPendingExpensesBalance extends GetOperation {
@@ -47,7 +19,7 @@ export class FetchPendingExpensesBalance extends GetOperation {
 
     getSucceedData = raw => raw.balance;
 
-    getEndpoint = () => "balances/pending-expenses/";
+    getEndpoint = () => "balances/plain/?pending=1&output=expenses";
 }
 
 export class FetchDetailedAccountsBalance extends GetOperation {
@@ -55,7 +27,7 @@ export class FetchDetailedAccountsBalance extends GetOperation {
         super(actions.requestDetailedAccountsBalance, actions.receiveDetailedAccountsBalance);
     }
     
-    getEndpoint = () => "balances/accounts/effective-incomes-expenses/";
+    getEndpoint = () => "balances/accounts/detailed/";
 }
 
 export class FetchDetailedAccumulatedBalance extends GetOperation {
@@ -67,28 +39,34 @@ export class FetchDetailedAccumulatedBalance extends GetOperation {
 
     getQueryParamsObject = () => ({ from: this.from, until: this.until });
     
-    getEndpoint = () => "balances/detailed/accumulated/" + getQueryParams(this.getQueryParamsObject());
+    getEndpoint = () => "balances/detailed/" + getQueryParams(this.getQueryParamsObject());
 }
 
-const dispatchGetOperation = (storeKey, filters) => 
-    new FetchBalanceOperation(storeKey, filters).dispatch();
+export class FetchPlainBalance extends GetOperation {
+    constructor(options) {
+        super(actions.fetchPlainBalance, actions.receivePlainBalance);
+        this.options = options;
+    }
 
-const fetchBalance = () => dispatchGetOperation('balance');
-const fetchRealBalance = () => dispatchGetOperation('realBalance', {'payed': '1'});
-const fetchExpectedBalance = () => {
-    const lastDayOfMonth = moment().endOf('month');
-    const until = formatDate(lastDayOfMonth);
-    return dispatchGetOperation('expectedBalance', { until });
-};
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction('success', data, this.options));
+        return data;
+    }
+
+    getEndpoint() { 
+        const queryParams = getQueryParams(this.options);
+        return `balances/plain/${queryParams}`;
+    }
+}
+
+const fetchPlainBalance = (options = {}) => new FetchPlainBalance(options).dispatch();
 const fetchPendingIncomesBalance = () => new FetchPendingIncomesBalance().dispatch();
 const fetchPendingExpensesBalance = () => new FetchPendingExpensesBalance().dispatch();
 const fetchDetailedAccountsBalance = () => new FetchDetailedAccountsBalance().dispatch();
 const fetchDetailedAccumulatedBalance = (from, until) => new FetchDetailedAccumulatedBalance(from, until).dispatch();
 
 export default {
-    fetchBalance,
-    fetchRealBalance,
-    fetchExpectedBalance,
+    fetchPlainBalance,
     fetchPendingIncomesBalance,
     fetchPendingExpensesBalance,
     fetchDetailedAccountsBalance,

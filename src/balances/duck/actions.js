@@ -105,6 +105,28 @@ const receiveDetailedAccumulatedBalance = (result, data) => {
     };
 };
 
+const fetchPlainBalance = () => ({
+    type: types.FETCH_PLAIN_BALANCE,    
+});
+
+const receivePlainBalance = (result, data, options) => {
+    if (result === "success") {
+        return {
+            type: types.FETCH_PLAIN_BALANCE,
+            result,
+            balance: data,
+            ...options
+        };
+    }
+
+    return {
+        type: types.FETCH_PLAIN_BALANCE,
+        result,
+        errors: data,
+        ...options
+    };
+};
+
 export default {
     requestBalance,
     receiveBalance,
@@ -119,5 +141,8 @@ export default {
     receiveDetailedAccountsBalance,
 
     requestDetailedAccumulatedBalance,
-    receiveDetailedAccumulatedBalance
+    receiveDetailedAccumulatedBalance,
+
+    fetchPlainBalance,
+    receivePlainBalance
 };

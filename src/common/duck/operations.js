@@ -11,8 +11,7 @@ export class Operation {
     //TODO: Rename this to getDispatchable
     dispatch = () => (dispatch, getState) => {
         if (!this.shouldDispatch(getState)) {
-            this.onNotDispatched(dispatch, getState);
-            return Promise.resolve();
+            return this.onNotDispatched(dispatch, getState);            
         }
 
         this.onRequest(dispatch, this.requestAction);
@@ -28,7 +27,9 @@ export class Operation {
         return true;
     }
 
-    onNotDispatched(dispatch, getState) { } 
+    onNotDispatched(dispatch, getState) { 
+        return Promise.resolve();
+    } 
 
     createApiService() {
         return createApi();
@@ -43,7 +44,7 @@ export class Operation {
     }
 
     onSucceed(dispatch, receiveAction, data) {
-        return dispatch(receiveAction('success', data));        
+        return dispatch(receiveAction('success', data));
     }
 
     onFailed(dispatch, receiveAction, errors) {

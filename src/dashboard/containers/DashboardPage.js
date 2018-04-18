@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
@@ -12,7 +13,7 @@ import { operations as reportOperations, selectors as reportSelectors } from './
 import ValuesByCategoryPieChartContainer from './../../reports/containers/ValuesByCategoryPieChartContainer';
 import { EXPENSE, INCOME } from './../../transactions/shared/kinds';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
-import { formatCurrencyDisplay } from '../../utils/formatters';
+import { formatCurrencyDisplay, formatDate } from '../../utils/formatters';
 
 const styles = () => ({
     root: {
@@ -139,9 +140,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onFetch: () => {
-            dispatch(balanceOperations.fetchBalance());
-            dispatch(balanceOperations.fetchRealBalance());
-            dispatch(balanceOperations.fetchExpectedBalance());
+            const endOfMonth = moment().endOf('month');
+            dispatch(balanceOperations.fetchPlainBalance());
+            dispatch(balanceOperations.fetchPlainBalance({ based:'real' }));
+            dispatch(balanceOperations.fetchPlainBalance({ until: formatDate(endOfMonth) }));
+            
             dispatch(reportOperations.fetchPendingTransactionsReport(EXPENSE));
             dispatch(reportOperations.fetchPendingTransactionsReport(INCOME));
             dispatch(reportOperations.fetchValuesByCategoryReport(INCOME));
