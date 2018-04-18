@@ -133,7 +133,7 @@ export default function reducer(state = initialState, action) {
         case types.FETCH_DETAILED_BALANCE:
             return fetchDetailedBalance(state, action);
 
-        case types.FETCH_DETAILED_ACCOUNTS_BALANCE:
+        case types.FETCH_ACCOUNTS_DETAILED_BALANCE:
             return fetchDetailedAccounts(state, action);
 
         default:

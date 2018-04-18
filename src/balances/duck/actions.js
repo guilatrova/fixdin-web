@@ -45,20 +45,20 @@ const receiveDetailedBalance = (result, data, options) => {
 };
 
 const requestDetailedAccountsBalance = () => ({
-    type: types.FETCH_DETAILED_ACCOUNTS_BALANCE
+    type: types.FETCH_ACCOUNTS_DETAILED_BALANCE
 });
 
 const receiveDetailedAccountsBalance = (result, data) => {
     if (result === 'success') {
         return {
-            type: types.FETCH_DETAILED_ACCOUNTS_BALANCE,
+            type: types.FETCH_ACCOUNTS_DETAILED_BALANCE,
             result,
             balances: data,
         };
     }
 
     return {
-        type: types.FETCH_DETAILED_ACCOUNTS_BALANCE,
+        type: types.FETCH_ACCOUNTS_DETAILED_BALANCE,
         result,
         errors: data
     };

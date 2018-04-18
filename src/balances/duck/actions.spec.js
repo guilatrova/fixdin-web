@@ -19,14 +19,14 @@ describe('balances/duck/actions', () => {
         );
     });
 
-    describe('FETCH_DETAILED_ACCOUNTS_BALANCE', () => {
+    describe('FETCH_ACCOUNTS_DETAILED_BALANCE', () => {
         const result = [ 
             { account: 1, incomes: 100, expenses: -200, total: -100 }, 
             { account: 2, incomes: 400, expenses: -300, total: 100 } 
         ];
         itShouldDispatchSuccessFailActions(
             operations.fetchDetailedAccountsBalance,
-            types.FETCH_DETAILED_ACCOUNTS_BALANCE,
+            types.FETCH_ACCOUNTS_DETAILED_BALANCE,
             'balances',
             result
         );
