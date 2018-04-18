@@ -16,6 +16,7 @@ import { operations as reportOperations } from '../../reports/duck';
 import { operations as transactionOperations } from '../../transactions/transactions/duck';
 import { operations as accountOperations } from '../../transactions/accounts/duck';
 import { operations } from '../duck';
+import { formatDate } from '../../utils/formatters';
 
 const styles = () => ({
     root: {
@@ -46,7 +47,7 @@ class PaymentOrderPage extends React.Component {
     componentDidMount() {
         this.props.onStart();
     }
-    
+
     render() {
         const { classes } = this.props;
         return (
@@ -88,19 +89,21 @@ PaymentOrderPage.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
     onStart: () => {
         dispatch(operations.reset());
-        
+
         dispatch(balanceOperations.fetchPlainBalance({ pending: 1, output: 'incomes' }));
         dispatch(balanceOperations.fetchPlainBalance({ pending: 1, output: 'expenses' }));
         dispatch(balanceOperations.fetchDetailedAccountsBalance());
-        dispatch(accountOperations.fetchAccounts());        
-        
+        dispatch(accountOperations.fetchAccounts());
+
         dispatch(transactionOperations.fetchOldestExpense()).then((transaction) => {
             const startDate = moment(transaction.due_date);
             const endDate = startDate.clone().add(11, 'months');
-            dispatch(reportOperations.fetchLastMonthsReport(11, transaction.due_date));
-            dispatch(balanceOperations.fetchDetailedAccumulatedBalance(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD')));
+            const yearRangeOptions = { from: formatDate(startDate), until: formatDate(endDate) };
 
-            const p1 = dispatch(balanceOperations.fetchRealBalance());
+            dispatch(reportOperations.fetchLastMonthsReport(11, transaction.due_date));
+            dispatch(balanceOperations.fetchDetailedBalance(yearRangeOptions));
+
+            const p1 = dispatch(balanceOperations.fetchPlainBalance({ based: 'real' }));
             const p2 = dispatch(operations.fetchNextExpenses());
             Promise.all([p1, p2]).then(() => {
                 dispatch(operations.checkDefaultExpenses());

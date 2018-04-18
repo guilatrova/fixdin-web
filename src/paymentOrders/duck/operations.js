@@ -40,7 +40,7 @@ const toggleExpense = (expenseIds) => (dispatch, getState) => {
 
 const checkDefaultExpenses = () => (dispatch, getState) => {
     const state = getState();
-    const balance = balanceSelectors.getRealBalance(state);
+    const balance = balanceSelectors.getPlainBalance(state, { based: 'real' });
     const expenses = selectors.getNextExpenses(state);
     const transactions = formatters.reduceNextExpensesToTransactionsArray(expenses);
     dispatch(actions.checkDefaultExpenses(balance, transactions));
@@ -48,7 +48,7 @@ const checkDefaultExpenses = () => (dispatch, getState) => {
 
 const reset = () => (dispatch, getState) => {
     const state = getState();
-    const balance = balanceSelectors.getRealBalance(state);
+    const balance = balanceSelectors.getPlainBalance(state, { based: 'real' });
     const expenses = selectors.getNextExpenses(state);
     dispatch(actions.reset(balance, expenses));
 };

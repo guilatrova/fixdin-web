@@ -3,23 +3,18 @@ import specifications from '../specifications';
 
 const initialState = {
     plain: [],
-    balance: null,
-    realBalance: null,
-    expectedBalance: null,
-    pendingIncomes: null,
-    pendingExpenses: null,
-    accumulatedBalance: null,
+    detailed: [],
     detailedAccounts: [],
     isFetching: false,
     errors: {},
 };
 
-const fetchBalance = (state, action, key, actionKey='balance') => {
+const fetchDetailedAccounts = (state, action) => {
     switch (action.result) {
         case 'success':
             return {
                 ...state,
-                [key]: action[actionKey],
+                detailedAccounts: action.balances,
                 errors: {},
                 isFetching: false
             };
@@ -85,25 +80,61 @@ const fetchPlainBalance = (state, action) => {
     }
 };
 
+const fetchDetailedBalance = (state, action) => {//TODO: refactor it
+    const { type, result, errors, detailedBalance, ...options } = action;
+
+    switch (result) {
+        case 'success': {
+            const detailed = state;
+            const updateDetailed = detailed.find(balance => specifications.isSameBalance(balance, options));
+            const newDetailedBalance = { ...detailedBalance, ...options };
+
+            if (updateDetailed) {
+                const index = detailed.indexOf(updateDetailed);
+
+                return {
+                    ...state,
+                    isFetching: false,
+                    detailed: [
+                        ...detailed.slice(0, index),
+                        newDetailedBalance,
+                        ...detailed.slice(index + 1)
+                    ]
+                };
+            }
+            
+            return {
+                ...state,
+                isFetching: false,
+                detailed: detailed.concat(newDetailedBalance)
+            };
+        }
+
+        case 'fail':
+            return {
+                ...state,
+                isFetching: false,
+                errors
+            };
+
+        default:
+            return {
+                ...state,
+                isFetching: true
+            };
+    }
+};
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCH_PLAIN_BALANCE:
             return fetchPlainBalance(state, action);
 
-        case types.FETCH_BALANCE:
-            return fetchBalance(state, action, action.key);
-
-        case types.FETCH_PENDING_INCOMES_BALANCES:
-            return fetchBalance(state, action, 'pendingIncomes');
-
-        case types.FETCH_PENDING_EXPENSES_BALANCES:
-            return fetchBalance(state, action, 'pendingExpenses');
+        case types.FETCH_DETAILED_BALANCE:
+            return fetchDetailedBalance(state, action);
 
         case types.FETCH_DETAILED_ACCOUNTS_BALANCE:
-            return fetchBalance(state, action, 'detailedAccounts', 'balances');
-
-        case types.FETCH_DETAILED_ACCUMULATED_BALANCE:
-            return fetchBalance(state, action, 'accumulatedBalance');
+            return fetchDetailedAccounts(state, action);
 
         default:
             return state;

@@ -4,23 +4,16 @@ import types from './types';
 describe('balances/duck/actions', () => {    
     const { itShouldDispatchSuccessFailActions, itShouldDispatchSuccessFailActionsCustom } = actionsHelpers;
 
-    describe('FETCH_PENDING_INCOMES_BALANCES', () => {
+    describe('FETCH_PLAIN_BALANCE', () => {
+        const options = {
+            based: 'real',
+            output: 'expenses'
+        };
         itShouldDispatchSuccessFailActionsCustom(
-            operations.fetchPendingIncomesBalance,
-            types.FETCH_PENDING_INCOMES_BALANCES,
-            null,            
-            { balance: 100 },
+            () => operations.fetchPlainBalance(options),
+            types.FETCH_PLAIN_BALANCE,
             null,
-            { balance: 100 }
-        );
-    });
-
-    describe('FETCH_PENDING_EXPENSES_BALANCES', () => {
-        itShouldDispatchSuccessFailActionsCustom(
-            operations.fetchPendingExpensesBalance,
-            types.FETCH_PENDING_EXPENSES_BALANCES,
-            null,            
-            { balance: 100 },
+            { balance: 100, ...options },
             null,
             { balance: 100 }
         );
@@ -35,20 +28,6 @@ describe('balances/duck/actions', () => {
             operations.fetchDetailedAccountsBalance,
             types.FETCH_DETAILED_ACCOUNTS_BALANCE,
             'balances',
-            result
-        );
-    });
-
-    describe('FETCH_DETAILED_ACCUMULATED_BALANCE', () => {
-        const result = {
-            expenses: -100,
-            incomes: 200,
-            total: 100
-        };
-        itShouldDispatchSuccessFailActions(
-            operations.fetchDetailedAccumulatedBalance,
-            types.FETCH_DETAILED_ACCUMULATED_BALANCE,
-            'balance',
             result
         );
     });

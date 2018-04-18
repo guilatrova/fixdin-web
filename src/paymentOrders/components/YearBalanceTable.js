@@ -35,7 +35,7 @@ YearBalanceTable.defaultProps = {
 
 const mapStateToProps = state => ({
     period: selectors.getPeriod(state),
-    balance: balanceSelectors.getAccumulatedBalance(state)
+    // balance: balanceSelectors.getAccumulatedBalance(state)
 });
 
 export default connect(mapStateToProps)(YearBalanceTable);

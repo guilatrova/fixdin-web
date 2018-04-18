@@ -2,24 +2,36 @@ import actions from './actions';
 import { GetOperation } from '../../common/duck/operations';
 import getQueryParams from '../../services/query';
 
-export class FetchPendingIncomesBalance extends GetOperation {
-    constructor() {
-        super(actions.requestPendingIncomesBalance, actions.receivePendingIncomesBalance);
+export class FetchBalanceWithOptionsOperation extends GetOperation {
+    constructor(requestAction, receiveAction, options, balanceFormat) {
+        super(requestAction, receiveAction);
+        this.options = options;
+        this.balanceFormat = balanceFormat;
     }
 
-    getSucceedData = raw => raw.balance;
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction('success', data, this.options));
+        return data;
+    }
 
-    getEndpoint = () => "balances/plain/?pending=1&output=incomes";
+    getEndpoint() { 
+        const queryParams = getQueryParams(this.options);
+        return `balances/${this.balanceFormat}/${queryParams}`;
+    }
 }
 
-export class FetchPendingExpensesBalance extends GetOperation {
-    constructor() {
-        super(actions.requestPendingExpensesBalance, actions.receivePendingExpensesBalance);
+export class FetchPlainBalance extends FetchBalanceWithOptionsOperation {
+    constructor(options) {
+        super(actions.fetchPlainBalance, actions.receivePlainBalance, options, "plain");
     }
-
+    
     getSucceedData = raw => raw.balance;
+}
 
-    getEndpoint = () => "balances/plain/?pending=1&output=expenses";
+export class FetchDetailedBalance extends FetchBalanceWithOptionsOperation {
+    constructor(options) {
+        super(actions.fetchDetailedBalance, actions.receiveDetailedBalance, options, "detailed");
+    }
 }
 
 export class FetchDetailedAccountsBalance extends GetOperation {
@@ -30,47 +42,12 @@ export class FetchDetailedAccountsBalance extends GetOperation {
     getEndpoint = () => "balances/accounts/detailed/";
 }
 
-export class FetchDetailedAccumulatedBalance extends GetOperation {
-    constructor(from, until) {
-        super(actions.requestDetailedAccumulatedBalance, actions.receiveDetailedAccumulatedBalance);
-        this.from = from;
-        this.until = until;
-    }
-
-    getQueryParamsObject = () => ({ from: this.from, until: this.until });
-    
-    getEndpoint = () => "balances/detailed/" + getQueryParams(this.getQueryParamsObject());
-}
-
-export class FetchPlainBalance extends GetOperation {
-    constructor(options) {
-        super(actions.fetchPlainBalance, actions.receivePlainBalance);
-        this.options = options;
-    }
-
-    onSucceed(dispatch, receiveAction, data) {
-        dispatch(receiveAction('success', data, this.options));
-        return data;
-    }
-
-    getSucceedData = raw => raw.balance;
-
-    getEndpoint() { 
-        const queryParams = getQueryParams(this.options);
-        return `balances/plain/${queryParams}`;
-    }
-}
-
-const fetchPlainBalance = (options = {}) => new FetchPlainBalance(options).dispatch();
-const fetchPendingIncomesBalance = () => new FetchPendingIncomesBalance().dispatch();
-const fetchPendingExpensesBalance = () => new FetchPendingExpensesBalance().dispatch();
+const fetchPlainBalance = (options) => new FetchPlainBalance(options).dispatch();
+const fetchDetailedBalance = (options) => new FetchDetailedBalance(options).dispatch();
 const fetchDetailedAccountsBalance = () => new FetchDetailedAccountsBalance().dispatch();
-const fetchDetailedAccumulatedBalance = (from, until) => new FetchDetailedAccumulatedBalance(from, until).dispatch();
 
 export default {
     fetchPlainBalance,
-    fetchPendingIncomesBalance,
-    fetchPendingExpensesBalance,
+    fetchDetailedBalance,
     fetchDetailedAccountsBalance,
-    fetchDetailedAccumulatedBalance
 };

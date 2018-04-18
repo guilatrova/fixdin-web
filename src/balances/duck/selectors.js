@@ -6,11 +6,12 @@ const getPlainBalance = (state, options = {}, notFound = 0) => {
     return foundBalance ? foundBalance.balance : notFound;
 };
 
-const getBalance = (state) => state.balances.balance;
-const getRealBalance = (state) => state.balances.realBalance;
-const getExpectedBalance = (state) => state.balances.expectedBalance;
-const getPendingIncomesBalance = (state) => state.balances.pendingIncomes;
-const getPendingExpensesBalance = (state) => state.balances.pendingExpenses;
+const getDetailedBalance = (state, options = {}, notFound = { expenses: 0, incomes: 0, total: 0 }) => {
+    const foundBalance = state.balances.detailed
+        .find(balance => specifications.isSameBalance(balance, options));
+    return foundBalance || notFound;
+};
+
 const getDetailedAccounts = (state) => state.balances.detailedAccounts;
 const getTotalsDetailedAccounts = (state) => {
     const detailedAccounts = getDetailedAccounts(state);
@@ -26,19 +27,12 @@ const getTotalsDetailedAccounts = (state) => {
         total: 0
     });
 };
-const getAccumulatedBalance = (state) => state.balances.accumulatedBalance;
-
 const isFetching = (state) => state.balances.isFetching;
 
 export default {
     getPlainBalance,
-    getBalance,    
-    getRealBalance,
-    getExpectedBalance,
-    getPendingIncomesBalance,
-    getPendingExpensesBalance,
+    getDetailedBalance,
     getDetailedAccounts,
     getTotalsDetailedAccounts,
-    getAccumulatedBalance,
     isFetching
 };
