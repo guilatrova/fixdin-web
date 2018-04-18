@@ -15,6 +15,8 @@ import { EXPENSE, INCOME } from './../../transactions/shared/kinds';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
 import { formatCurrencyDisplay, formatDate } from '../../utils/formatters';
 
+const endOfMonth = formatDate(moment().endOf('month'));
+
 const styles = () => ({
     root: {
         flexGrow: 1,
@@ -125,9 +127,10 @@ class DashboardPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        balance: balanceSelectors.getBalance(state) || 0,
-        realBalance: balanceSelectors.getRealBalance(state) || 0,
-        expectedBalance: balanceSelectors.getExpectedBalance(state) || 0,
+        balance: balanceSelectors.getPlainBalance(state),
+        realBalance: balanceSelectors.getPlainBalance(state, { based: 'real' }),
+        expectedBalance: balanceSelectors.getPlainBalance(state, { until: endOfMonth }),
+        
         nextPendingExpenses: reportSelectors.getNextPendingExpenses(state),
         overdueExpenses: reportSelectors.getOverdueExpenses(state),
         nextPendingIncomes: reportSelectors.getNextPendingIncomes(state),
@@ -139,11 +142,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: () => {
-            const endOfMonth = moment().endOf('month');
+        onFetch: () => {            
             dispatch(balanceOperations.fetchPlainBalance());
             dispatch(balanceOperations.fetchPlainBalance({ based:'real' }));
-            dispatch(balanceOperations.fetchPlainBalance({ until: formatDate(endOfMonth) }));
+            dispatch(balanceOperations.fetchPlainBalance({ until: endOfMonth }));
             
             dispatch(reportOperations.fetchPendingTransactionsReport(EXPENSE));
             dispatch(reportOperations.fetchPendingTransactionsReport(INCOME));

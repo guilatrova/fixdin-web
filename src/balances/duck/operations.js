@@ -53,6 +53,8 @@ export class FetchPlainBalance extends GetOperation {
         return data;
     }
 
+    getSucceedData = raw => raw.balance;
+
     getEndpoint() { 
         const queryParams = getQueryParams(this.options);
         return `balances/plain/${queryParams}`;

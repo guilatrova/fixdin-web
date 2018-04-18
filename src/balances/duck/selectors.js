@@ -1,3 +1,11 @@
+import specifications from '../specifications';
+
+const getPlainBalance = (state, options = {}, notFound = 0) => {
+    const foundBalance = state.balances.plain
+        .find(balance => specifications.isSameBalance(balance, options));
+    return foundBalance ? foundBalance.balance : notFound;
+};
+
 const getBalance = (state) => state.balances.balance;
 const getRealBalance = (state) => state.balances.realBalance;
 const getExpectedBalance = (state) => state.balances.expectedBalance;
@@ -23,7 +31,8 @@ const getAccumulatedBalance = (state) => state.balances.accumulatedBalance;
 const isFetching = (state) => state.balances.isFetching;
 
 export default {
-    getBalance,
+    getPlainBalance,
+    getBalance,    
     getRealBalance,
     getExpectedBalance,
     getPendingIncomesBalance,
