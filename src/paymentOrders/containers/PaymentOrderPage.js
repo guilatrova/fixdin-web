@@ -89,8 +89,8 @@ const mapDispatchToProps = (dispatch) => ({
     onStart: () => {
         dispatch(operations.reset());
         
-        dispatch(balanceOperations.fetchPendingExpensesBalance());
-        dispatch(balanceOperations.fetchPendingIncomesBalance());
+        dispatch(balanceOperations.fetchPlainBalance({ pending: 1, output: 'incomes' }));
+        dispatch(balanceOperations.fetchPlainBalance({ pending: 1, output: 'expenses' }));
         dispatch(balanceOperations.fetchDetailedAccountsBalance());
         dispatch(accountOperations.fetchAccounts());        
         

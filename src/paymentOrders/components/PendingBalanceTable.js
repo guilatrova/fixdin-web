@@ -29,8 +29,8 @@ PendingBalanceTable.propTypes = {
 
 const mapStateToProps = state => ({
     period: selectors.getPeriod(state),
-    expenses: balanceSelectors.getPendingExpensesBalance(state) || 0,
-    incomes: balanceSelectors.getPendingIncomesBalance(state) || 0,
+    expenses: balanceSelectors.getPlainBalance(state, { pending: 1, output: 'expenses' }),
+    incomes: balanceSelectors.getPlainBalance(state, { pending: 1, output: 'incomes' }),
 });
 
 const mapDispatchToProps = dispatch => ({

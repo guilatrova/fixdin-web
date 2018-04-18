@@ -4,7 +4,8 @@ const isSameBalance = (balance, options) => {
         balance.from == options.from &&
         balance.until == options.until &&
         balance.date == options.date &&
-        balance.output == options.output
+        balance.output == options.output &&
+        balance.pending == options.pending
     );
 };
 
