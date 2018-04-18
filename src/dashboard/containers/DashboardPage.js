@@ -8,6 +8,7 @@ import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 
 import { operations as balanceOperations, selectors as balanceSelectors } from './../../balances/duck';
+import balanceOptions from '../../balances/options';
 import BalanceCard from './../../balances/components/BalanceCard';
 import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
 import ValuesByCategoryPieChartContainer from './../../reports/containers/ValuesByCategoryPieChartContainer';
@@ -71,7 +72,7 @@ class DashboardPage extends React.Component {
                         </BalanceCard>
                     </Grid>
 
-                </Grid>                
+                </Grid>
 
                 <Grid container spacing={24}>
 
@@ -86,7 +87,7 @@ class DashboardPage extends React.Component {
                 </Grid>
 
                 <Grid container spacing={24}>
-                    
+
                     <Grid item xs={12}>
                         <Typography variant="title">Próximas despesas</Typography>
                     </Grid>
@@ -104,7 +105,7 @@ class DashboardPage extends React.Component {
                 </Grid>
 
                 <Grid container spacing={24}>
-                    
+
                     <Grid item xs={12}>
                         <Typography variant="title">Receitas pendentes</Typography>
                     </Grid>
@@ -130,7 +131,7 @@ const mapStateToProps = (state) => {
         balance: balanceSelectors.getPlainBalance(state),
         realBalance: balanceSelectors.getPlainBalance(state, { based: 'real' }),
         expectedBalance: balanceSelectors.getPlainBalance(state, { until: endOfMonth }),
-        
+
         nextPendingExpenses: reportSelectors.getNextPendingExpenses(state),
         overdueExpenses: reportSelectors.getOverdueExpenses(state),
         nextPendingIncomes: reportSelectors.getNextPendingIncomes(state),
@@ -142,11 +143,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: () => {            
+        onFetch: () => {
             dispatch(balanceOperations.fetchPlainBalance());
-            dispatch(balanceOperations.fetchPlainBalance({ based:'real' }));
-            dispatch(balanceOperations.fetchPlainBalance({ until: endOfMonth }));
-            
+            dispatch(balanceOperations.fetchPlainBalance(balanceOptions().real().build()));
+            dispatch(balanceOperations.fetchPlainBalance(balanceOptions().until(endOfMonth).build()));
+
             dispatch(reportOperations.fetchPendingTransactionsReport(EXPENSE));
             dispatch(reportOperations.fetchPendingTransactionsReport(INCOME));
             dispatch(reportOperations.fetchValuesByCategoryReport(INCOME));

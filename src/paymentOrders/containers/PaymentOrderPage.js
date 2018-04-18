@@ -12,6 +12,7 @@ import YearBalanceTable from '../components/YearBalanceTable';
 import AccountsBalanceTable from '../components/AccountsBalanceTable';
 import BalanceOverTimeTable from '../components/BalanceOverTimeTable';
 import { operations as balanceOperations } from '../../balances/duck';
+import balanceOptions from '../../balances/options';
 import { operations as reportOperations } from '../../reports/duck';
 import { operations as transactionOperations } from '../../transactions/transactions/duck';
 import { operations as accountOperations } from '../../transactions/accounts/duck';
@@ -90,7 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
     onStart: () => {
         dispatch(operations.reset());
 
-        dispatch(balanceOperations.fetchDetailedBalance({ pending: 1 }));
+        dispatch(balanceOperations.fetchDetailedBalance(balanceOptions().pending().build()));
         dispatch(balanceOperations.fetchDetailedAccountsBalance());
         dispatch(accountOperations.fetchAccounts());
 
@@ -102,7 +103,7 @@ const mapDispatchToProps = (dispatch) => ({
             dispatch(reportOperations.fetchLastMonthsReport(11, transaction.due_date));
             dispatch(balanceOperations.fetchDetailedBalance(yearRangeOptions));
 
-            const p1 = dispatch(balanceOperations.fetchPlainBalance({ based: 'real' }));
+            const p1 = dispatch(balanceOperations.fetchPlainBalance(balanceOptions().real().build()));
             const p2 = dispatch(operations.fetchNextExpenses());
             Promise.all([p1, p2]).then(() => {
                 dispatch(operations.checkDefaultExpenses());

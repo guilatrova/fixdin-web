@@ -1,6 +1,13 @@
+import moment from 'moment';
+
 export function formatDate(date) {
-    if (date)
-        return date.format('YYYY-MM-DD');
+    if (date) {
+        if (moment.isMoment(date))
+            return date.format('YYYY-MM-DD');
+
+        return date;
+    }
+    
     return null;
 }
 
