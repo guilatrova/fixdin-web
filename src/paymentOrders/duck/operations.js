@@ -1,12 +1,16 @@
 import moment from 'moment';
+import { GetOperation } from '../../common/duck/operations';
+
 import actions from './actions';
 import selectors from './selectors';
-import { selectors as balanceSelectors } from '../../balances/duck';
-import { selectors as transactionSelectors } from '../../transactions/transactions/duck';
-import { GetOperation } from '../../common/duck/operations';
-import getQueryParams from '../../services/query';
 import formatters from '../formatters';
+import getQueryParams from '../../services/query';
 import { formatDate } from '../../utils/formatters';
+
+import balanceOptions from '../../balances/options';
+import { operations as reportOperations } from '../../reports/duck';
+import { selectors as balanceSelectors, operations as balanceOperations } from '../../balances/duck';
+import { selectors as transactionSelectors, operations as transactionOperations } from '../../transactions/transactions/duck';
 
 class FetchNextExpenses extends GetOperation {
     constructor(from) {
@@ -69,6 +73,24 @@ const fetchNextExpenses = (from) => (dispatch, getState) => {
     new FetchNextExpenses(from).dispatch()(dispatch, getState);
 };
 
+//TODO:IMPORTANT: NOT ALWAYS WILL BE THERE PENDING EXPENSES - DATE CAN BE UNDEFINED
+const fetchStartPeriodAlongData = () => (dispatch) => {
+    return dispatch(transactionOperations.fetchOldestExpense()).then((transaction) => {
+        const startDate = moment(transaction.due_date);
+        const endDate = startDate.clone().add(11, 'months');
+
+        dispatch(changePeriod(startDate));
+        dispatch(reportOperations.fetchLastMonthsReport(11, transaction.due_date));
+        dispatch(balanceOperations.fetchDetailedBalance(balanceOptions().range(startDate, endDate).build()));
+
+        const p1 = dispatch(balanceOperations.fetchPlainBalance(balanceOptions().real().build()));
+        const p2 = dispatch(fetchNextExpenses());
+        Promise.all([p1, p2]).then(() => {
+            dispatch(checkDefaultExpenses());
+        });
+    });
+};
+
 export default {
     changeValueToSave,
     changePeriod,
@@ -76,5 +98,7 @@ export default {
     toggleExpense,
     checkDefaultExpenses,
     reset,
-    fetchNextExpenses
+    fetchNextExpenses,
+
+    fetchStartPeriodAlongData
 };
