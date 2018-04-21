@@ -4,6 +4,7 @@ import comparators from '../../transactions/transactions/comparators';
 
 const initialState = {
     remainingBalance: undefined,
+    yearBalance: undefined,
     checked: [],
     totalChecked: 0,
 
@@ -127,6 +128,12 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 period: action.period
+            };
+
+        case types.SET_YEAR_BALANCE:
+            return {
+                ...state,
+                yearBalance: action.balance
             };
 
         case types.RESET:

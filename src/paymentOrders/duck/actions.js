@@ -59,12 +59,18 @@ const receiveNextExpenses = (result, data) => {
     };
 };
 
+const setYearBalance = (balance) => ({
+    type: types.SET_YEAR_BALANCE,
+    balance    
+});
+
 export default {
     changeValueToSave,
     changePeriod,
     toggleExpense,
     checkDefaultExpenses,
     reset,
+    setYearBalance,
 
     fetchNextExpenses,
     receiveNextExpenses

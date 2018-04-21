@@ -3,6 +3,7 @@ const getChecked = (state) => state.paymentOrders.checked;
 const getTotalChecked = (state) => state.paymentOrders.totalChecked;
 const getRemainingBalance = (state) => state.paymentOrders.remainingBalance;
 const getNextExpenses = (state) => state.paymentOrders.nextExpenses;
+const getYearBalance = (state) => state.paymentOrders.yearBalance;
 const isFetching = (state) => state.paymentOrders.isFetching;
 
 export default {
@@ -11,5 +12,6 @@ export default {
     getTotalChecked,
     getRemainingBalance,
     getNextExpenses,
+    getYearBalance,
     isFetching
 };
