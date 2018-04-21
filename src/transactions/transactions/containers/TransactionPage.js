@@ -115,8 +115,10 @@ class TransactionPage extends React.Component {
     }
 
     handlePay = id => {
-        const kindId = this.props.transactions.find(transaction => transaction.id == id).kind;
-        this.props.onPay(getKind(kindId), id);
+        const transaction = this.props.transactions.find(transaction => transaction.id == id);
+        const kindId = transaction.kind;
+        const revertPayment = !!transaction.payment_date;
+        this.props.onPay(getKind(kindId), id, revertPayment);
     }
 
     handleDelete = id => {
@@ -251,7 +253,7 @@ const mapDispatchToProps = (dispatch) => {
         onDelete: (id, kind, type) => dispatch(operations.deleteTransaction(id, kind, type)),
         onEdit: (id) => dispatch(operations.editTransaction(id)),
         onCopy: (id) => dispatch(operations.copyTransaction(id)),
-        onPay: (kind, id) => dispatch(operations.payTransactions(kind, id)),
+        onPay: (kind, id, revert) => dispatch(operations.payTransactions(kind, id, revert)),
         onFinishEdit: () => {
             dispatch(operations.finishEditTransaction());
             dispatch(categoryOperations.finishEditCategory());

@@ -117,10 +117,11 @@ export class DeleteOperation extends Operation {
 }
 
 export class PayOperation extends Operation {
-    constructor(kind, ids) {
+    constructor(kind, ids, revert) {
         super(actions.payTransactions, actions.receivePayTransactions);
         this.kind = kind;
         this.ids = ids;
+        this.revert = revert;
     }
 
     getSucceedData = (raw) => Array.isArray(raw) ? raw : [raw];
@@ -133,8 +134,8 @@ export class PayOperation extends Operation {
         return kind.apiEndpoint + queryParams;
     }
 
-    getApiPromise(api) {        
-        const payment_date = formatDate(moment());
+    getApiPromise(api) {
+        const payment_date = this.revert ? null : formatDate(moment());
         const data = { payment_date };
         const url = this.getEndpoint();
 
@@ -158,7 +159,7 @@ const setFilters = actions.setFilters;
 const fetchTransactions = (kind) => new FetchOperation(kind).dispatch();
 const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type).dispatch();
 const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type).dispatch();
-const payTransactions = (kind, ids) => new PayOperation(kind, ids).dispatch();
+const payTransactions = (kind, ids, revert=false) => new PayOperation(kind, ids, revert).dispatch();
 const filterTransactions = () => (dispatch, getState) => {
     const filters = selectors.getFilters(getState());
     return new FilterOperation(filters).dispatch()(dispatch, getState);
