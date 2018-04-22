@@ -1,10 +1,12 @@
+import commonSelectors from '../../../common/duck/selectors';
+
+const isFetching = (state, type) => commonSelectors.isFetching(state.accounts, type);
+
 const getAccounts = (state) => state.accounts.accounts;
 
 const getAccount = (state, id) => getAccounts(state).find(account => account.id == id);
 
 const getErrors = (state) => state.accounts.errors;
-
-const isFetching = (state) => state.accounts.isFetching;
 
 const getEditingAccount = (state) => state.accounts.editingAccount;
 

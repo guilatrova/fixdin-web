@@ -1,10 +1,10 @@
 import types from './types';
 
 const initialState = {
-    isFetching: false,
-    errors: {},
-    accounts: [],
     editingAccount: {},
+    errors: {},
+    fetching: [],
+    accounts: [],
     transfers: []
 };
 
@@ -20,7 +20,7 @@ function saveReducer(state, itemKey, action) {
 
                 return {
                     ...state,
-                    isFetching: false,
+                    fetching: state.fetching.filter(x => x != action.type),
                     [stateKey]: [
                         ...items.slice(0, index),
                         action[itemKey],
@@ -31,7 +31,7 @@ function saveReducer(state, itemKey, action) {
 
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 [stateKey]: state[stateKey].concat(action[itemKey])
             };
         }
@@ -39,14 +39,14 @@ function saveReducer(state, itemKey, action) {
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 errors: action.errors
             };
 
         default:
             return {
                 ...state,
-                isFetching: true,
+                fetching: state.fetching.concat(action.type),
                 errors: {}
             };
     }
@@ -57,7 +57,7 @@ function fetchReducer(state, key, action) {
         case 'success': {
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 [key]: action[key]
             };
         }
@@ -65,14 +65,14 @@ function fetchReducer(state, key, action) {
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 errors: action.errors
             };
 
         default:
             return {
                 ...state,
-                isFetching: true                
+                fetching: state.fetching.concat(action.type),
             };
     }
 }
@@ -82,21 +82,21 @@ function deleteTransferReducer(state, action) {
         case 'success':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 transfers: state.transfers.filter(transfer => transfer.id != action.id)
             };
 
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 errors: action.errors
             };
 
         default:
             return {
                 ...state,
-                isFetching: true
+                fetching: state.fetching.concat(action.type),
             };
     }
 }
