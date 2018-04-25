@@ -1,6 +1,12 @@
+import commonSelectors from '../../../common/duck/selectors';
+
 const getNameError = (state) => state.categories.errors.name;
 
-const isFetching = (state) => state.categories.isFetching;
+const getErrors = (state) => state.categories.errors;
+
+const isFetching = (state, type) => commonSelectors.isFetching(state.categories, type);
+
+const getEditingCategory = (state) => state.categories.editingCategory;
 
 const getCategories = (state) => state.categories.categories;
 
@@ -11,7 +17,9 @@ const getCategoriesNamesMappedById = (state) => getCategories(state).reduce((pre
 
 export default {
     getNameError,
+    getErrors,
     isFetching,
+    getEditingCategory,
     getCategories,
     getCategoriesNamesMappedById
 };

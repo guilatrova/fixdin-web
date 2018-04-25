@@ -10,7 +10,7 @@ import FloatingActionButton from '../../../common/material/FloatingActionButton'
 import CategoryFormDialog from './CategoryFormDialog';
 import CategoryTable from '../components/CategoryTable';
 import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
-import { operations } from '../duck';
+import { operations, selectors } from '../duck';
 import { EXPENSE, INCOME, getKind } from '../../shared/kinds';
 
 const styles = theme => ({
@@ -147,11 +147,12 @@ class CategoryPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        ...state.categories
-    };
-};
+const mapStateToProps = (state) => ({
+        categories: selectors.getCategories(state),
+        editingCategory: selectors.getEditingCategory(state),
+        errors: selectors.getErrors(state),
+        isFetching: selectors.isFetching(state)
+});
 
 const mapDispatchToProps = (dispatch) => {
     return {

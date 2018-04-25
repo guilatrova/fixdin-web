@@ -1,8 +1,8 @@
 import types from './types';
 
 const initialState = {
-    isFetching: false,
     errors: {},
+    fetching: [],
     categories: [],
     editingCategory: {}
 };
@@ -18,7 +18,7 @@ function saveReducer(state, action) {
 
                 return {
                     ...state,
-                    isFetching: false,
+                    fetching: state.fetching.filter(x => x != action.type),
                     categories: [
                         ...categories.slice(0, index),
                         action.category,
@@ -29,22 +29,22 @@ function saveReducer(state, action) {
 
             return {
                 ...state,
-                isFetching: false,
-                categories: state.categories.concat(action.category)                
+                fetching: state.fetching.filter(x => x != action.type),
+                categories: state.categories.concat(action.category)
             };
         }
 
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 errors: action.errors
             };
 
         default:
             return {
                 ...state,
-                isFetching: true,
+                fetching: state.fetching.concat(action.type),
                 errors: {}
             };
     }
@@ -55,7 +55,7 @@ function fetchReducer(state, action) {
         case 'success':
             return {
                 ...state,
-                isFetching: false,                
+                fetching: state.fetching.filter(x => x != action.type),
                 categories: [
                     ...state.categories.filter(category => category.kind != action.kind.id),
                     ...action.categories
@@ -65,14 +65,14 @@ function fetchReducer(state, action) {
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 errors: action.errors
             };
 
         default:
             return {
                 ...state,
-                isFetching: true                
+                fetching: state.fetching.concat(action.type),
             };
     }
 }
@@ -82,26 +82,26 @@ function deleteReducer(state, action) {
         case 'success':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 categories: state.categories.filter(category => category.id != action.id)
             };
 
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 errors: action.errors
             };
 
         default:
             return {
                 ...state,
-                isFetching: true
+                fetching: state.fetching.concat(action.type),
             };
     }
 }
 
-export default function reducer(state = initialState, action) {    
+export default function reducer(state = initialState, action) {
     switch (action.type) {
         case types.SAVE_TRANSACTION_CATEGORY:
             return saveReducer(state, action);

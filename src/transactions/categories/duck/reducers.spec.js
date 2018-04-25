@@ -1,11 +1,12 @@
 import { EXPENSE, INCOME } from '../../shared/kinds';
 import reducer from './reducers';
 import actions from './actions';
+import types from './types';
 
 describe('categories/duck/reducers', () => {
 
     const initialState = {
-        isFetching: false,
+        fetching: [],
         errors: {},
         categories: [],
         editingCategory: {}
@@ -13,7 +14,7 @@ describe('categories/duck/reducers', () => {
 
     const fetchingState = {
         ...initialState,
-        isFetching: true,
+        fetching: [],
         errors: {},
     };
 
@@ -31,7 +32,7 @@ describe('categories/duck/reducers', () => {
             ).toEqual({
                 categories: [],
                 editingCategory: {},
-                isFetching: true,
+                fetching: [ types.SAVE_TRANSACTION_CATEGORY ],
                 errors: {}
             });
         });
@@ -42,7 +43,7 @@ describe('categories/duck/reducers', () => {
                 reducer(fetchingState, actions.receiveSaveCategory('success', data))
             ).toEqual({
                 editingCategory: {},
-                isFetching: false,
+                fetching: [],
                 categories: [ data ],
                 errors: {}
             });
@@ -55,7 +56,7 @@ describe('categories/duck/reducers', () => {
             ).toEqual({
                 editingCategory: {},
                 categories: [],
-                isFetching: false,
+                fetching: [],
                 errors
             });
         });
@@ -72,7 +73,7 @@ describe('categories/duck/reducers', () => {
             expect(
                 reducer(state, actions.receiveSaveCategory('success', categoryToSave))
             ).toEqual({
-                isFetching: false,
+                fetching: [],
                 errors: {},
                 categories: expectedList,
                 editingCategory: {}
@@ -91,7 +92,7 @@ describe('categories/duck/reducers', () => {
             expect(
                 reducer(state, actions.receiveSaveCategory('success', categoryToSave))
             ).toEqual({
-                isFetching: false,
+                fetching: [],
                 errors: {},
                 categories: expectedList,
                 editingCategory: {}
@@ -107,7 +108,7 @@ describe('categories/duck/reducers', () => {
                 categories: [],
                 errors: {},
                 editingCategory: {},
-                isFetching: true
+                fetching: [types.FETCH_TRANSACTION_CATEGORIES]
             });
         });
 
@@ -119,7 +120,7 @@ describe('categories/duck/reducers', () => {
             ).toEqual({
                 editingCategory: {},
                 errors: {},
-                isFetching: false,
+                fetching: [],
                 categories
             });
         });
@@ -131,7 +132,7 @@ describe('categories/duck/reducers', () => {
             ).toEqual({
                 editingCategory: {},
                 categories: [],
-                isFetching: false,
+                fetching: [],
                 errors
             });
         });
@@ -152,7 +153,7 @@ describe('categories/duck/reducers', () => {
             expect(
                 reducer(someCategoriesState, actions.receiveCategories('success', received, EXPENSE))
             ).toEqual({
-                isFetching: false,
+                fetching: [],
                 errors: {},
                 editingCategory: {},
                 categories: [
@@ -174,7 +175,7 @@ describe('categories/duck/reducers', () => {
         const state = {
             categories,
             errors: {},
-            isFetching: false
+            fetching: []
         };
 
         it('should handle EDIT_TRANSACTION_CATEGORY', () => {
@@ -182,7 +183,7 @@ describe('categories/duck/reducers', () => {
                 reducer(state, actions.editCategory(1))
             ).toEqual({
                 categories,
-                isFetching: false,
+                fetching: [],
                 errors: {},
                 editingCategory: categories[0]
             });
@@ -198,7 +199,7 @@ describe('categories/duck/reducers', () => {
                 reducer(editingState, actions.finishEditCategory())
             ).toEqual({
                 categories,
-                isFetching: false,
+                fetching: [],
                 errors: {},
                 editingCategory: {}
             });
@@ -218,14 +219,14 @@ describe('categories/duck/reducers', () => {
 
         const fetchingDeleteState = {
             ...initialDeleteState,
-            isFetching: true
+            fetching: [types.DELETE_TRANSACTION_CATEGORY]
         };
 
 		it('should be handled', () => {
             expect(
                 reducer(initialDeleteState, actions.requestDeleteCategory(2))
             ).toEqual({
-                isFetching: true,
+                fetching: [types.DELETE_TRANSACTION_CATEGORY],
                 errors: {},
                 categories,
                 editingCategory: {}
@@ -236,7 +237,7 @@ describe('categories/duck/reducers', () => {
             expect(
                 reducer(fetchingDeleteState, actions.receiveDeleteCategory(2, 'success'))
             ).toEqual({
-                isFetching: false,
+                fetching: [],
                 errors: {},
                 editingCategory: {},
                 categories: [ categories[0] ]
@@ -249,7 +250,7 @@ describe('categories/duck/reducers', () => {
             expect(
                 reducer(fetchingDeleteState, actions.receiveDeleteCategory(2, 'fail', errors))
             ).toEqual({
-                isFetching: false,
+                fetching: [],
                 errors,
                 editingCategory: {},
                 categories                
