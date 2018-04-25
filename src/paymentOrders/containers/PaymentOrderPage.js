@@ -8,7 +8,7 @@ import { withStyles } from 'material-ui/styles';
 import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
 import PendingBalanceTable from '../components/PendingBalanceTable';
 import YearBalanceTable from '../components/YearBalanceTable';
-import AccountsBalanceTable from '../components/AccountsBalanceTable';
+import AccountsBalanceTable from '../../transactions/accounts/components/AccountsBalanceTable';
 import BalanceOverTimeTable from '../components/BalanceOverTimeTable';
 import { operations as balanceOperations } from '../../balances/duck';
 import balanceOptions from '../../balances/options';

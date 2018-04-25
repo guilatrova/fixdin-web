@@ -5,9 +5,9 @@ import { withStyles } from 'material-ui/styles';
 
 import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
 
-import { formatCurrencyDisplay } from '../../utils/formatters';
-import { selectors as balanceSelectors } from '../../balances/duck';
-import { selectors as accountSelectors } from '../../transactions/accounts/duck';
+import { formatCurrencyDisplay } from '../../../utils/formatters';
+import { selectors as balanceSelectors } from '../../../balances/duck';
+import { selectors } from '../duck';
 
 const styles = () => ({
     row: {
@@ -24,9 +24,9 @@ const styles = () => ({
     },
 });
 
-const AccountsBalanceTable = ({ classes, accountsNames, accountsBalances, totals }) => {
+const AccountsBalanceTable = ({ classes, names, balances, totals }) => {
     const BalanceCells = ({render, className}) => {
-        return accountsBalances.map(entry => {
+        return balances.map(entry => {
             return (
                 <TableCell numeric key={entry.account} padding="dense" className={className}>
                     {render(entry)}
@@ -35,7 +35,7 @@ const AccountsBalanceTable = ({ classes, accountsNames, accountsBalances, totals
         });
     };
 
-    const renderHeader = (entry) => accountsNames[entry.account] || entry.account;
+    const renderHeader = (entry) => names[entry.account] || entry.account;
     const renderIncomes = (entry) => formatCurrencyDisplay(entry.incomes, false);
     const renderExpenses = (entry) => formatCurrencyDisplay(entry.expenses, false);
     const renderTotals = (entry) => formatCurrencyDisplay(entry.total, false);
@@ -79,15 +79,15 @@ const AccountsBalanceTable = ({ classes, accountsNames, accountsBalances, totals
 
 AccountsBalanceTable.propTypes = {
     classes: PropTypes.object.isRequired,
-    accountsBalances: PropTypes.array.isRequired,
-    accountsNames: PropTypes.array.isRequired,
+    balances: PropTypes.array.isRequired,
+    names: PropTypes.array.isRequired,
     totals: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    accountsBalances: balanceSelectors.getDetailedAccounts(state),
+    balances: balanceSelectors.getDetailedAccounts(state),
     totals: balanceSelectors.getTotalsDetailedAccounts(state),
-    accountsNames: accountSelectors.getAccountsNamesMappedById(state),
+    names: selectors.getAccountsNamesMappedById(state),
 });
 
 export default withStyles(styles)(
