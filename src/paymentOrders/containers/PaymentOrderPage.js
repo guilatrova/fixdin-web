@@ -9,9 +9,9 @@ import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
 import PendingBalanceTable from '../components/PendingBalanceTable';
 import YearBalanceTable from '../components/YearBalanceTable';
 import AccountsBalanceTable from '../../transactions/accounts/components/AccountsBalanceTable';
-import BalanceOverTimeTable from '../components/BalanceOverTimeTable';
-import { operations as balanceOperations } from '../../balances/duck';
+import PeriodicsDetailedTable from '../../balances/components/PeriodicsDetailedTable';
 import balanceOptions from '../../balances/options';
+import { operations as balanceOperations } from '../../balances/duck';
 import { operations as accountOperations } from '../../transactions/accounts/duck';
 import { operations } from '../duck';
 
@@ -70,7 +70,7 @@ class PaymentOrderPage extends React.Component {
                     </div>
 
                     <div className={classes.biggerTable}>
-                        <BalanceOverTimeTable />
+                        <PeriodicsDetailedTable />
                     </div>
                 </div>
             </div>

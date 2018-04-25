@@ -6,7 +6,7 @@ import { withStyles } from 'material-ui/styles';
 
 import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
 
-import { selectors as reportSelectors } from '../../reports/duck';
+import { selectors as reportSelectors } from '../../reports/duck'; //TODO: It should be periodics from balances (not api yet)
 
 const styles = () => ({
     row: {
@@ -18,7 +18,7 @@ const styles = () => ({
     },
 });
 
-const BalanceOverTimeTable = ({ classes, balances }) => {
+const PeriodicsDetailedTable = ({ classes, balances }) => {
     const BalanceCells = ({render, className}) => {
         return balances.map((entry, idx) => {
             return (
@@ -83,7 +83,7 @@ const BalanceOverTimeTable = ({ classes, balances }) => {
     );
 };
 
-BalanceOverTimeTable.propTypes = {
+PeriodicsDetailedTable.propTypes = {
     classes: PropTypes.object.isRequired,
     balances: PropTypes.array.isRequired,
 };
@@ -93,5 +93,5 @@ const mapStateToProps = state => ({
 });
 
 export default withStyles(styles)(
-    connect(mapStateToProps)(BalanceOverTimeTable)
+    connect(mapStateToProps)(PeriodicsDetailedTable)
 );
