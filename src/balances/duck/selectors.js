@@ -27,9 +27,13 @@ const getTotalsDetailedAccounts = (state) => {
         total: 0
     });
 };
+
+const getPeriods = (state) => state.balances.periods;
+
 const isFetching = (state) => state.balances.isFetching;
 
 export default {
+    getPeriods,
     getPlainBalance,
     getDetailedBalance,
     getDetailedAccounts,

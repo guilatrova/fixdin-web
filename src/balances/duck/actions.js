@@ -64,6 +64,28 @@ const receiveDetailedAccountsBalance = (result, data) => {
     };
 };
 
+const fetchPeriodsBalance = () => ({
+    type: types.FETCH_PERIODS_BALANCE,    
+});
+
+const receivePeriodsBalance = (result, data, options) => {
+    if (result === "success") {
+        return {
+            type: types.FETCH_PERIODS_BALANCE,
+            result,
+            periods: data,
+            ...options
+        };
+    }
+
+    return {
+        type: types.FETCH_PERIODS_BALANCE,
+        result,
+        errors: data,
+        ...options
+    };
+};
+
 export default {
     fetchPlainBalance,
     receivePlainBalance,
@@ -73,4 +95,7 @@ export default {
 
     requestDetailedAccountsBalance,
     receiveDetailedAccountsBalance,
+
+    fetchPeriodsBalance,
+    receivePeriodsBalance
 };

@@ -6,7 +6,7 @@ import { withStyles } from 'material-ui/styles';
 
 import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
 
-import { selectors as reportSelectors } from '../../reports/duck'; //TODO: It should be periodics from balances (not api yet)
+import { selectors } from '../duck';
 
 const styles = () => ({
     row: {
@@ -89,7 +89,7 @@ PeriodicsDetailedTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    balances: reportSelectors.getLastMonths(state)
+    balances: selectors.getPeriods(state)
 });
 
 export default withStyles(styles)(

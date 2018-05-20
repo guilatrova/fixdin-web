@@ -1,6 +1,7 @@
 import actions from './actions';
 import { GetOperation } from '../../common/duck/operations';
 import getQueryParams from '../../services/query';
+import { formatDate } from '../../utils/formatters';
 
 export class FetchBalanceWithOptionsOperation extends GetOperation {
     constructor(requestAction, receiveAction, options, balanceFormat) {
@@ -42,12 +43,31 @@ export class FetchDetailedAccountsBalance extends GetOperation {
     getEndpoint = () => "balances/accounts/detailed/";
 }
 
+export class FetchPeriodsBalance extends GetOperation {
+    constructor(from, until) {
+        super(actions.fetchPeriodsBalance, actions.receivePeriodsBalance, { from, until });
+        this.from = from;
+        this.until = until;
+    }
+
+    getOptions = () => ({ from: formatDate(this.from), until: formatDate(this.until) });
+
+    getEndpoint = () => `balances/periods/${getQueryParams(this.getOptions())}`;
+
+    onSucceed(dispatch, receiveAction, data) {
+        dispatch(receiveAction('success', data, this.getOptions()));
+        return data;
+    }
+}
+
 const fetchPlainBalance = (options) => new FetchPlainBalance(options).dispatch();
 const fetchDetailedBalance = (options) => new FetchDetailedBalance(options).dispatch();
 const fetchDetailedAccountsBalance = () => new FetchDetailedAccountsBalance().dispatch();
+const fetchPeriodsBalance = (from, until) => new FetchPeriodsBalance(from, until).dispatch();
 
 export default {
     fetchPlainBalance,
     fetchDetailedBalance,
     fetchDetailedAccountsBalance,
+    fetchPeriodsBalance
 };

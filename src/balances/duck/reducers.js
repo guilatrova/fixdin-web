@@ -5,6 +5,7 @@ const initialState = {
     plain: [],
     detailed: [],
     detailedAccounts: [],
+    periods: [],
     isFetching: false,
     errors: {},
 };
@@ -125,6 +126,31 @@ const fetchDetailedBalance = (state, action) => {//TODO: refactor it
     }
 };
 
+const fetchPeriods = (state, action) => {
+    switch (action.result) {
+        case 'success':
+            return {
+                ...state,
+                periods: action.periods,
+                errors: {},
+                isFetching: false
+            };
+
+        case 'fail':
+            return {
+                ...state,
+                errors: action.errors,
+                isFetching: false
+            };
+
+        default:
+            return {
+                ...state,
+                isFetching: true
+            };
+    }
+}
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCH_PLAIN_BALANCE:
@@ -135,6 +161,9 @@ export default function reducer(state = initialState, action) {
 
         case types.FETCH_ACCOUNTS_DETAILED_BALANCE:
             return fetchDetailedAccounts(state, action);
+
+        case types.FETCH_PERIODS_BALANCE:
+            return fetchPeriods(state, action);
 
         default:
             return state;
