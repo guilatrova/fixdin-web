@@ -1,5 +1,4 @@
 import reducer from './reducers';
-// import actions from './actions';
 
 describe('balances/duck/reducers', () => {
 
@@ -7,14 +6,10 @@ describe('balances/duck/reducers', () => {
         plain: [],
         detailed: [],
         detailedAccounts: [],
-        isFetching: false,
+        periods: [],
+        fetching: [],
         errors: {},
     };
-
-    // const fetchingState = {
-    //     ...initialState,
-    //     isFetching: true
-    // };
 
     it('should return the initial state', () => {
         expect(

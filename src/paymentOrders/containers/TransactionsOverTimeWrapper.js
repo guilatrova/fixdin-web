@@ -9,7 +9,7 @@ import { operations, selectors } from '../duck';
 import { selectors as accountsSelectors } from '../../transactions/accounts/duck';
 
 const TransactionsOverTimeTableWrapper = ({nextExpenses, checked, onToggle, isFetching, accountNames}) => {
-    if (isFetching || !nextExpenses || nextExpenses.length == 0) {
+    if (isFetching) {
         return <CircularProgress />;
     }
 

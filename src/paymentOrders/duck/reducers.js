@@ -10,7 +10,7 @@ const initialState = {
 
     period: moment().startOf('month'),
     nextExpenses: [],
-    isFetching: false,
+    fetching: [],
     errors: {}
 };
 
@@ -52,21 +52,21 @@ const fetchNextExpensesReducer = (state, action) => {
         case 'success':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 nextExpenses: action.nextExpenses
             };
 
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 errors: action.errors
             };
 
         default:
             return {
                 ...state,
-                isFetching: true
+                fetching: state.fetching.concat(action.type),
             };
     }
 };

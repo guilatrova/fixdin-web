@@ -6,7 +6,7 @@ const initialState = {
     detailed: [],
     detailedAccounts: [],
     periods: [],
-    isFetching: false,
+    fetching: [],
     errors: {},
 };
 
@@ -17,20 +17,20 @@ const fetchDetailedAccounts = (state, action) => {
                 ...state,
                 detailedAccounts: action.balances,
                 errors: {},
-                isFetching: false
+                fetching: state.fetching.filter(x => x != action.type),
             };
 
         case 'fail':
             return {
                 ...state,
                 errors: action.errors,
-                isFetching: false
+                fetching: state.fetching.filter(x => x != action.type)
             };
 
         default:
             return {
                 ...state,
-                isFetching: true
+                fetching: state.fetching.concat(action.type)
             };
     }
 };
@@ -50,7 +50,7 @@ const fetchPlainBalance = (state, action) => {
 
                 return {
                     ...state,
-                    isFetching: false,
+                    fetching: state.fetching.filter(x => x != action.type),
                     plain: [
                         ...plain.slice(0, index),
                         newPlainBalance,
@@ -61,7 +61,7 @@ const fetchPlainBalance = (state, action) => {
 
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 plain: plain.concat(newPlainBalance)
             };
         }
@@ -69,14 +69,14 @@ const fetchPlainBalance = (state, action) => {
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 errors,
             };
 
         default:
             return {
                 ...state,
-                isFetching: true
+                fetching: state.fetching.concat(action.type)
             };
     }
 };
@@ -95,7 +95,7 @@ const fetchDetailedBalance = (state, action) => {//TODO: refactor it
 
                 return {
                     ...state,
-                    isFetching: false,
+                    fetching: state.fetching.filter(x => x != action.type),
                     detailed: [
                         ...detailed.slice(0, index),
                         newDetailedBalance,
@@ -106,7 +106,7 @@ const fetchDetailedBalance = (state, action) => {//TODO: refactor it
             
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 detailed: detailed.concat(newDetailedBalance)
             };
         }
@@ -114,14 +114,14 @@ const fetchDetailedBalance = (state, action) => {//TODO: refactor it
         case 'fail':
             return {
                 ...state,
-                isFetching: false,
+                fetching: state.fetching.filter(x => x != action.type),
                 errors
             };
 
         default:
             return {
                 ...state,
-                isFetching: true
+                fetching: state.fetching.concat(action.type)
             };
     }
 };
@@ -133,20 +133,20 @@ const fetchPeriods = (state, action) => {
                 ...state,
                 periods: action.periods,
                 errors: {},
-                isFetching: false
+                fetching: state.fetching.filter(x => x != action.type)
             };
 
         case 'fail':
             return {
                 ...state,
                 errors: action.errors,
-                isFetching: false
+                fetching: state.fetching.filter(x => x != action.type)
             };
 
         default:
             return {
                 ...state,
-                isFetching: true
+                fetching: state.fetching.concat(action.type)
             };
     }
 };

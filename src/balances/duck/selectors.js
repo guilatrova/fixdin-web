@@ -1,3 +1,4 @@
+import commonSelectors from '../../common/duck/selectors';
 import specifications from '../specifications';
 
 const getPlainBalance = (state, options = {}, notFound = 0) => {
@@ -30,7 +31,7 @@ const getTotalsDetailedAccounts = (state) => {
 
 const getPeriods = (state) => state.balances.periods;
 
-const isFetching = (state) => state.balances.isFetching;
+const isFetching = (state, type) => commonSelectors.isFetching(state.accounts, type);
 
 export default {
     getPeriods,

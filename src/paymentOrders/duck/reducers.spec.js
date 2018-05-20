@@ -2,6 +2,7 @@ import moment from 'moment';
 import reducer from './reducers';
 import actions from './actions';
 import formatters from '../formatters';
+import types from './types';
 
 describe('paymentOrders/duck/reducers', () => {
 
@@ -15,8 +16,9 @@ describe('paymentOrders/duck/reducers', () => {
         period,
         checked: [],
         totalChecked: 0,
-        isFetching: false,
+        fetching: [],
         errors: {},
+        yearBalance: undefined,
         nextExpenses: []
     };
 
@@ -171,16 +173,13 @@ describe('paymentOrders/duck/reducers', () => {
     describe('NEXT_EXPENSES', () => {
         const fetchingState = {
             ...initialState,
-            isFetching: true
+            fetching: [ types.FETCH_NEXT_EXPENSES ],
         };
 
         it('should be handled', () => {
             expect(
                 reducer(undefined, actions.fetchNextExpenses())
-            ).toEqual({
-                ...initialState,
-                isFetching: true
-            });
+            ).toEqual(fetchingState);
         });
 
         it('should be handled when successful', () => {
@@ -189,7 +188,7 @@ describe('paymentOrders/duck/reducers', () => {
                 reducer(fetchingState, actions.receiveNextExpenses('success', nextExpenses))
             ).toEqual({
                 ...fetchingState,
-                isFetching: false,
+                fetching: [],
                 nextExpenses
             });
         });
@@ -200,7 +199,7 @@ describe('paymentOrders/duck/reducers', () => {
                 reducer(fetchingState, actions.receiveNextExpenses('fail', errors))
             ).toEqual({
                 ...fetchingState,
-                isFetching: false,
+                fetching: [],
                 errors
             });
         });
