@@ -9,7 +9,7 @@ const defaultBalance = {
     expenses: 0,
     incomes: 0,
     total: 0
-}
+};
 
 const YearBalanceTable = ({ period, balance }) => {
     balance = balance || defaultBalance;
