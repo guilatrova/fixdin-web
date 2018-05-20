@@ -8,7 +8,6 @@ import getQueryParams from '../../services/query';
 import { formatDate } from '../../utils/formatters';
 
 import balanceOptions from '../../balances/options';
-import { operations as reportOperations } from '../../reports/duck';
 import { selectors as balanceSelectors, operations as balanceOperations } from '../../balances/duck';
 import { selectors as transactionSelectors, operations as transactionOperations } from '../../transactions/transactions/duck';
 
@@ -57,7 +56,6 @@ const reset = () => (dispatch, getState) => {
     dispatch(actions.reset(balance, expenses));
 };
 
-const changeValueToSave = actions.changeValueToSave;
 const changePeriod = (period) => (dispatch, getState) => {
     dispatch(actions.changePeriod(period));
 
@@ -69,20 +67,18 @@ const changePeriod = (period) => (dispatch, getState) => {
 
 const setYearBalance = actions.setYearBalance;
 
-//TODO:IMPORTANT: NOT ALWAYS WILL BE THERE PENDING EXPENSES - DATE CAN BE UNDEFINED
-const fetchNextExpenses = (from) => (dispatch, getState) => {
-    from = from || transactionSelectors.getOldestPendingExpenseDate(getState());
-    new FetchNextExpenses(from).dispatch()(dispatch, getState);
+const fetchNextExpenses = () => (dispatch, getState) => {
+    const from = transactionSelectors.getOldestPendingExpenseDate(getState());
+    return new FetchNextExpenses(from).dispatch()(dispatch, getState);
 };
 
-//TODO:IMPORTANT: NOT ALWAYS WILL BE THERE PENDING EXPENSES - DATE CAN BE UNDEFINED
-const fetchStartPeriodAlongData = () => (dispatch) => {
-    return dispatch(transactionOperations.fetchOldestExpense()).then((transaction) => {
-        const startDate = moment(transaction.due_date);
+const initializeData = () => (dispatch) => {
+    return dispatch(transactionOperations.fetchOldestExpense()).then((transaction) => { //transaction in case of success, action in case o failure
+        const startDate = transaction.result == 'fail' ? moment() : moment(transaction.due_date);
         const endDate = startDate.clone().add(11, 'months');
 
         dispatch(changePeriod(startDate));
-        dispatch(reportOperations.fetchLastMonthsReport(11, transaction.due_date));
+        dispatch(balanceOperations.fetchPeriodsBalance(startDate, endDate));
         dispatch(balanceOperations.fetchDetailedBalance(balanceOptions().range(startDate, endDate).build())).then(balance => {
             dispatch(setYearBalance(balance));
         });
@@ -96,7 +92,6 @@ const fetchStartPeriodAlongData = () => (dispatch) => {
 };
 
 export default {
-    changeValueToSave,
     changePeriod,
     setYearBalance,
 
@@ -105,5 +100,5 @@ export default {
     reset,
     fetchNextExpenses,
 
-    fetchStartPeriodAlongData
+    initializeData
 };
