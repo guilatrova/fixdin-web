@@ -5,8 +5,14 @@ import { connect } from 'react-redux';
 import BalanceSimpleTable from '../../balances/components/BalanceSimpleTable';
 import { selectors } from '../duck';
 
+const defaultBalance = {
+    expenses: 0,
+    incomes: 0,
+    total: 0
+}
+
 const YearBalanceTable = ({ period, balance }) => {
-    if (!balance) return null; //TODO: improve this
+    balance = balance || defaultBalance;
 
     return (
         <BalanceSimpleTable
