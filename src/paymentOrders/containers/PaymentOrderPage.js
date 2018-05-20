@@ -91,7 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(balanceOperations.fetchDetailedAccountsBalance());
         dispatch(accountOperations.fetchAccounts());
         
-        dispatch(operations.fetchStartPeriodAlongData());        
+        dispatch(operations.initializeData());        
     }
 });
 

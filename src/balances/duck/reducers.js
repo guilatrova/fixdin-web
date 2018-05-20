@@ -149,7 +149,7 @@ const fetchPeriods = (state, action) => {
                 isFetching: true
             };
     }
-}
+};
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
