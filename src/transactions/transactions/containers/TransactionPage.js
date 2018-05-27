@@ -10,7 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import ClearAllIcon from 'material-ui-icons/ClearAll';
 import RefreshIcon from 'material-ui-icons/Refresh';
 
-import { EXPENSE, INCOME, ALL, getKind } from '../../shared/kinds';
+import { EXPENSE, INCOME } from '../../shared/kinds';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
 import TransactionTable from '../components/TransactionTable';
 import TransactionFormDialog from './TransactionFormDialog';
@@ -88,8 +88,8 @@ class TransactionPage extends React.Component {
         this.setState({ openTransactionFormDialog: false });
     }
 
-    handleTransactionFormSubmit = (type, option, transaction, kind) => {
-        this.props.onSubmit(transaction, kind, type).then(({result}) => {
+    handleTransactionFormSubmit = (type, option, transaction) => {
+        this.props.onSubmit(transaction, type).then(({result}) => {
             if (result == 'success') {
 
                 switch(option) {
@@ -116,9 +116,8 @@ class TransactionPage extends React.Component {
 
     handlePay = id => {
         const transaction = this.props.transactions.find(transaction => transaction.id == id);
-        const kindId = transaction.kind;
         const revertPayment = !!transaction.payment_date;
-        this.props.onPay(getKind(kindId), id, revertPayment);
+        this.props.onPay(id, revertPayment);
     }
 
     handleDelete = id => {
@@ -134,9 +133,8 @@ class TransactionPage extends React.Component {
 
     handleConfirmDelete = type => {
         const id = (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) ? this.state.toDeletePeriodicTransaction : this.state.toDeleteId;
-        const kind = getKind(this.props.transactions.find(transaction => transaction.id == id).kind);
 
-        this.props.onDelete(id, kind, type).then(({result}) => {
+        this.props.onDelete(id, type).then(({result}) => {
             if (result == 'success') {
                 this.setState({
                     openDeleteDialog: false,
@@ -244,16 +242,16 @@ const mapDispatchToProps = (dispatch) => {
         onFetch: () => {
             dispatch(categoryOperations.fetchCategories(INCOME));
             dispatch(categoryOperations.fetchCategories(EXPENSE));
-            dispatch(operations.fetchTransactions(ALL));
+            dispatch(operations.fetchTransactions());
             dispatch(accountsOperations.fetchAccounts());
             dispatch(reportOperations.fetchLastMonthsReport(2));
         },
         onClearFilters: () => dispatch(operations.clearFilters()),
-        onSubmit: (transaction, kind, type) => dispatch(operations.saveTransaction(transaction, kind, type)),
-        onDelete: (id, kind, type) => dispatch(operations.deleteTransaction(id, kind, type)),
+        onSubmit: (transaction, type) => dispatch(operations.saveTransaction(transaction, type)),
+        onDelete: (id, type) => dispatch(operations.deleteTransaction(id, type)),
         onEdit: (id) => dispatch(operations.editTransaction(id)),
         onCopy: (id) => dispatch(operations.copyTransaction(id)),
-        onPay: (kind, id, revert) => dispatch(operations.payTransactions(kind, id, revert)),
+        onPay: (id, revert) => dispatch(operations.payTransactions(id, revert)),
         onFinishEdit: () => {
             dispatch(operations.finishEditTransaction());
             dispatch(categoryOperations.finishEditCategory());

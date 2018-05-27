@@ -103,7 +103,7 @@ class TransactionForm extends React.Component {
         };
     }
 
-    handleSubmit = (type, postSaveOption = CLOSE) => this.props.onSubmit(type, postSaveOption, { ...this.state }, this.state.kind);    
+    handleSubmit = (type, postSaveOption = CLOSE) => this.props.onSubmit(type, postSaveOption, { ...this.state });
 
     handleOptionSelected = (postSaveOption) => {
         this.handleSubmit(types.SAVE_TRANSACTION, postSaveOption);

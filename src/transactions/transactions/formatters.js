@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { EXPENSE, ALL } from '../shared/kinds';
+import { EXPENSE, INCOME, ALL } from '../shared/kinds';
 import { formatDate, clean } from '../../utils/formatters';
 
 export function formatTransactionReceived(transaction) {
@@ -11,7 +11,7 @@ export function formatTransactionReceived(transaction) {
     };
 }
 
-export function formatTransactionToSend(transaction) {
+export function formatTransactionToSend(transaction) {    
     return {
         ...transaction,
         kind: transaction.kind ? transaction.kind.id : undefined,
@@ -60,6 +60,9 @@ export function formatCurrency(value, kind) {
     if (kind == EXPENSE && value > 0) {
         value = -value;
     }    
+    else if (kind == INCOME && value < 0) {
+        value = -value;
+    }
 
     return value;
 }
