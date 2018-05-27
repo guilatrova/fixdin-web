@@ -11,12 +11,13 @@ export function formatTransactionReceived(transaction) {
     };
 }
 
-export function formatTransactionToSend(transaction, kind) {
+export function formatTransactionToSend(transaction) {
     return {
         ...transaction,
+        kind: transaction.kind ? transaction.kind.id : undefined,
         due_date: formatDate(transaction.due_date),
         payment_date: formatDate(transaction.payment_date),
-        value: formatCurrency(transaction.value, kind),
+        value: formatCurrency(transaction.value, transaction.kind),
         priority: transaction.priority ? transaction.priority : undefined,
         periodic: formatPeriodic(transaction.periodic)
     };
@@ -37,7 +38,7 @@ export function formatPeriodic(periodic) {
 export function formatFilters(filters) {
     const formatted = {
         ...filters,
-        kind: filters.kind ? filters.kind.value : ALL,        
+        kind: filters.kind ? filters.kind.value.id : undefined,        
         category: filters.category ? filters.category.join() : undefined,
         account: filters.account ? filters.account.join() : undefined,
         due_date_from: formatDate(filters.due_date_from),

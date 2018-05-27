@@ -9,12 +9,11 @@ import getQueryParams from '../../../services/query';
 import { Operation, GetOperation } from './../../../common/duck/operations';
 
 export class FetchOperation extends GetOperation {
-    constructor(kind) {
+    constructor() {
         super(actions.requestTransactions, actions.receiveTransactions);
-        this.kind = kind;
     }
 
-    getEndpoint = () => this.kind.apiEndpoint;
+    getEndpoint = () => "transactions/";
 }
 
 export class FilterOperation extends GetOperation {
@@ -24,18 +23,17 @@ export class FilterOperation extends GetOperation {
     }
 
     getEndpoint() {
-        const { kind, ...filters } = formatFilters(this.filters);
+        const filters = formatFilters(this.filters);
         const queryParams = getQueryParams(filters);
         
-        return `${kind.apiEndpoint}${queryParams}`;
+        return `transactions/${queryParams}`;
     }
 }
 
 export class SaveOperation extends Operation {
-    constructor(transaction, kind, type) {
+    constructor(transaction, type) {
         super(actions.requestSaveTransaction, actions.receiveSaveTransaction);    
         this.transaction = transaction;
-        this.kind = kind;
         this.type = type;
     }
 
@@ -54,31 +52,29 @@ export class SaveOperation extends Operation {
     getSucceedData = (raw) => Array.isArray(raw) ? raw : [raw];
 
     getApiPromise(api) {
-        const { transaction, kind } = this;
-        const data = formatTransactionToSend(transaction, kind);
-        const baseEndpoint = kind.apiEndpoint;
+        const { transaction } = this;
+        const data = formatTransactionToSend(transaction);
 
         switch (this.type) {
             case types.SAVE_ALL_PERIODIC_TRANSACTIONS:
-                return api.patch(`${baseEndpoint}?periodic_transaction=${transaction.bound_transaction}`, data);
+                return api.patch(`transactions/?periodic_transaction=${transaction.bound_transaction}`, data);
 
             case types.SAVE_THIS_AND_NEXT_TRANSACTIONS:
-                return api.patch(`${baseEndpoint}${transaction.id}?next=1`, data);
+                return api.patch(`transactions/${transaction.id}?next=1`, data);
 
             case types.SAVE_TRANSACTION:
                 if (transaction.id)
-                    return api.put(baseEndpoint + transaction.id, data);        
+                    return api.put(`transactions/${transaction.id}`, data);        
 
-                return api.post(baseEndpoint, data);
+                return api.post("transactions/", data);
         }
     }
 }
 
 export class DeleteOperation extends Operation {
-    constructor(id, kind, type) {
+    constructor(id, type) {
         super(actions.requestDeleteTransaction, actions.receiveDeleteTransaction);
         this.id = id;
-        this.kind = kind;
         this.type = type;
     }
 
@@ -98,17 +94,17 @@ export class DeleteOperation extends Operation {
     }
 
     getEndpoint() {
-        const { id, kind, type } = this;
-        const kindEndpoint = kind.apiEndpoint;
+        const { id, type } = this;
+        const endpoint = "transactions/";
         
         if (type == types.DELETE_TRANSACTION)
-            return `${kindEndpoint}${id}`;
+            return `${endpoint}${id}`;
 
         if (type == types.DELETE_THIS_AND_NEXT_TRANSACTIONS)
-            return `${kindEndpoint}${id}?next=1`;
+            return `${endpoint}${id}?next=1`;
 
         if (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS)
-            return `${kindEndpoint}?periodic_transaction=${id}`;
+            return `${endpoint}?periodic_transaction=${id}`;
     }
 
     getApiPromise(api) {
@@ -117,9 +113,8 @@ export class DeleteOperation extends Operation {
 }
 
 export class PayOperation extends Operation {
-    constructor(kind, ids, revert) {
+    constructor(ids, revert) {
         super(actions.payTransactions, actions.receivePayTransactions);
-        this.kind = kind;
         this.ids = ids;
         this.revert = revert;
     }
@@ -127,11 +122,11 @@ export class PayOperation extends Operation {
     getSucceedData = (raw) => Array.isArray(raw) ? raw : [raw];
 
     getEndpoint() {
-        const { ids, kind } = this;
+        const { ids } = this;
 
         // It can be /?ids=1,2 or /1
         const queryParams = Array.isArray(ids) ? `?ids=${ids.join(',')}` : ids;
-        return kind.apiEndpoint + queryParams;
+        return "transactions/" + queryParams;
     }
 
     getApiPromise(api) {
@@ -156,10 +151,10 @@ const editTransaction = actions.editTransaction;
 const finishEditTransaction = actions.finishEditTransaction;
 const clearFilters = actions.clearFilters;
 const setFilters = actions.setFilters;
-const fetchTransactions = (kind) => new FetchOperation(kind).dispatch();
-const saveTransaction = (transaction, kind, type) => new SaveOperation(transaction, kind, type).dispatch();
-const deleteTransaction = (id, kind, type) => new DeleteOperation(id, kind, type).dispatch();
-const payTransactions = (kind, ids, revert=false) => new PayOperation(kind, ids, revert).dispatch();
+const fetchTransactions = () => new FetchOperation().dispatch();
+const saveTransaction = (transaction, type) => new SaveOperation(transaction, type).dispatch();
+const deleteTransaction = (id, type) => new DeleteOperation(id, type).dispatch();
+const payTransactions = (ids, revert=false) => new PayOperation(ids, revert).dispatch();
 const filterTransactions = () => (dispatch, getState) => {
     const filters = selectors.getFilters(getState());
     return new FilterOperation(filters).dispatch()(dispatch, getState);

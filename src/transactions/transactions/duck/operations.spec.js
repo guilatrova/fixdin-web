@@ -19,9 +19,9 @@ describe('transactions/duck/operations', () => {
 
     describe('FetchOperation', () => {
         it('getEndpoint', () => {
-            const operation = new FetchOperation(INCOME);
+            const operation = new FetchOperation();
 
-            expect(operation.getEndpoint()).toEqual(INCOME.apiEndpoint);
+            expect(operation.getEndpoint()).toEqual("transactions/");
         });
     });
 
@@ -34,14 +34,14 @@ describe('transactions/duck/operations', () => {
 
         it('getEndpoint with some filters', () => {
             const operation = new FilterOperation({ filter1: "1", filter2: "2" });
-
+            
             expect(operation.getEndpoint()).toEqual("transactions/?filter1=1&filter2=2");
         });
 
         it('getEndpoint with kind and filters', () => {
             const operation = new FilterOperation({ kind: { value: INCOME }, filter1: "1", filter2: "2" });
 
-            expect(operation.getEndpoint()).toEqual(`${INCOME.apiEndpoint}?filter1=1&filter2=2`);
+            expect(operation.getEndpoint()).toEqual(`transactions/?kind=${INCOME.id}&filter1=1&filter2=2`);
         });
     });
 
@@ -68,59 +68,59 @@ describe('transactions/duck/operations', () => {
             });
 
             it('creates a transaction', () => {
-                const operation = new SaveOperation(baseTransaction, INCOME, types.SAVE_TRANSACTION);
+                const operation = new SaveOperation(baseTransaction, types.SAVE_TRANSACTION);
 
                 operation.getApiPromise(apiSpy);
 
                 expect(apiSpy.post).toHaveBeenCalledTimes(1);
-                expect(apiSpy.post).toHaveBeenCalledWith(INCOME.apiEndpoint, formatTransactionToSend(baseTransaction));
+                expect(apiSpy.post).toHaveBeenCalledWith("transactions/", formatTransactionToSend(baseTransaction));
             });
 
             it('updates a transaction', () => {
                 const id = 1;
                 const transaction = { id, ...baseTransaction };
-                const operation = new SaveOperation(transaction, INCOME, types.SAVE_TRANSACTION);
+                const operation = new SaveOperation(transaction, types.SAVE_TRANSACTION);
 
                 operation.getApiPromise(apiSpy);
 
                 expect(apiSpy.put).toHaveBeenCalledTimes(1);
-                expect(apiSpy.put).toHaveBeenCalledWith(`${INCOME.apiEndpoint}${id}`, formatTransactionToSend(transaction));
+                expect(apiSpy.put).toHaveBeenCalledWith(`transactions/${id}`, formatTransactionToSend(transaction));
             });
 
             it('updates all periodics', () => {
                 const bound_transaction = 2;
                 const transaction = { bound_transaction, ...baseTransaction };
-                const operation = new SaveOperation(transaction, EXPENSE, types.SAVE_ALL_PERIODIC_TRANSACTIONS);
+                const operation = new SaveOperation(transaction, types.SAVE_ALL_PERIODIC_TRANSACTIONS);
 
                 operation.getApiPromise(apiSpy);
 
                 expect(apiSpy.patch).toHaveBeenCalledTimes(1);
-                expect(apiSpy.patch).toHaveBeenCalledWith(`${EXPENSE.apiEndpoint}?periodic_transaction=${bound_transaction}`, formatTransactionToSend(transaction));
+                expect(apiSpy.patch).toHaveBeenCalledWith(`transactions/?periodic_transaction=${bound_transaction}`, formatTransactionToSend(transaction));
             });
 
             it('updates all periodics', () => {
                 const id = 1;
                 const transaction = { id, ...baseTransaction };
-                const operation = new SaveOperation(transaction, EXPENSE, types.SAVE_THIS_AND_NEXT_TRANSACTIONS);
+                const operation = new SaveOperation(transaction, types.SAVE_THIS_AND_NEXT_TRANSACTIONS);
 
                 operation.getApiPromise(apiSpy);
 
                 expect(apiSpy.patch).toHaveBeenCalledTimes(1);
-                expect(apiSpy.patch).toHaveBeenCalledWith(`${EXPENSE.apiEndpoint}${id}?next=1`, formatTransactionToSend(transaction));
+                expect(apiSpy.patch).toHaveBeenCalledWith(`transactions/${id}?next=1`, formatTransactionToSend(transaction));
             });
         });
     });
 
     describe('DeleteOperation', () => {
         describe('getEndpoint', () => {
-            const operation = (id, type) => new DeleteOperation(id, EXPENSE, type);
+            const operation = (id, type) => new DeleteOperation(id, type);
 
             it('DELETE_TRANSACTION', () => {
                 const id = 1;
                 expect(
                     operation(id, types.DELETE_TRANSACTION).getEndpoint()
                 )
-                .toEqual(`${EXPENSE.apiEndpoint}${id}`);
+                .toEqual(`transactions/${id}`);
             });
 
             it('DELETE_THIS_AND_NEXT_TRANSACTIONS', () => {
@@ -128,7 +128,7 @@ describe('transactions/duck/operations', () => {
                 expect(
                     operation(id, types.DELETE_THIS_AND_NEXT_TRANSACTIONS).getEndpoint()
                 )
-                .toEqual(`${EXPENSE.apiEndpoint}${id}?next=1`);
+                .toEqual(`transactions/${id}?next=1`);
             });
 
             it('DELETE_ALL_PERIODIC_TRANSACTIONS', () => {
@@ -136,7 +136,7 @@ describe('transactions/duck/operations', () => {
                 expect(
                     operation(id, types.DELETE_ALL_PERIODIC_TRANSACTIONS).getEndpoint()
                 )
-                .toEqual(`${EXPENSE.apiEndpoint}?periodic_transaction=${id}`);
+                .toEqual(`transactions/?periodic_transaction=${id}`);
             });
         });
     });
@@ -154,7 +154,7 @@ describe('transactions/duck/operations', () => {
 
         it('getApiPromise sends only payment_date', () => {
             apiSpy.patch.mockReset();
-            const operation = new PayOperation(INCOME, [ 1, 2, 3]);
+            const operation = new PayOperation([ 1, 2, 3]);
 
             operation.getApiPromise(apiSpy);
 
@@ -166,15 +166,15 @@ describe('transactions/duck/operations', () => {
         describe('getEndpoint', () => {
             it('handles one id', () => {
                 const id = 1;
-                const operation = new PayOperation(INCOME, id);
+                const operation = new PayOperation(id);
 
-                expect(operation.getEndpoint()).toEqual(`${INCOME.apiEndpoint}${id}`);
+                expect(operation.getEndpoint()).toEqual(`transactions/${id}`);
             });
 
             it('handles several ids', () => {                
-                const operation = new PayOperation(INCOME, [ 1, 2, 3]);
+                const operation = new PayOperation([ 1, 2, 3]);
 
-                expect(operation.getEndpoint()).toEqual(`${INCOME.apiEndpoint}?ids=1,2,3`);
+                expect(operation.getEndpoint()).toEqual(`transactions/?ids=1,2,3`);
             });
         });
 

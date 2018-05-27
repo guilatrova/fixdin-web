@@ -21,7 +21,7 @@ describe('transaction/duck/actions', () => {
 		const transactionActions = transactions.map(item => formatExpectedTransaction(item));
 
 		itShouldDispatchSuccessFailActionsCustom(
-			() => operations.fetchTransactions(INCOME),
+			() => operations.fetchTransactions(),
 			types.FETCH_TRANSACTIONS,
 			null,
 			{ transactions: transactionActions },
@@ -55,7 +55,7 @@ describe('transaction/duck/actions', () => {
 		const formatted = formatExpectedTransaction(transaction);
 
 		itShouldDispatchSuccessFailActionsCustom(
-			() => operations.saveTransaction(transaction, INCOME, types.SAVE_TRANSACTION),
+			() => operations.saveTransaction(transaction, types.SAVE_TRANSACTION),
 			types.SAVE_TRANSACTION,
 			null,
 			{ transactions: [ formatted ]},
@@ -67,7 +67,7 @@ describe('transaction/duck/actions', () => {
 	describe('DELETE_TRANSACTION', () => {
 		const id = 2;
 		itShouldDispatchSuccessFailActionsCustom(
-			() => operations.deleteTransaction(id, INCOME, types.DELETE_TRANSACTION),
+			() => operations.deleteTransaction(id, types.DELETE_TRANSACTION),
 			types.DELETE_TRANSACTION,
 			{ id },
 			{ id }

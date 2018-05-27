@@ -18,6 +18,7 @@ describe('transactions/formatters', () => {
                 const transactionPreFormatted = {
                     id: 1,
                     due_date: dueDate,
+                    kind: EXPENSE,
                     payment_date: undefined,
                     value: "R$ 15,00",
                     priority: ""
@@ -25,13 +26,14 @@ describe('transactions/formatters', () => {
                 const transactionPostFormatted = {
                     id: 1,
                     due_date: '2017-01-01',
+                    kind: EXPENSE.id,
                     payment_date: null,
                     value: -15,
                     periodic: undefined,
                     priority: undefined
                 };
 
-                expect(formatTransactionToSend(transactionPreFormatted, EXPENSE)).to.be.deep.equal(transactionPostFormatted);
+                expect(formatTransactionToSend(transactionPreFormatted)).to.be.deep.equal(transactionPostFormatted);
             });
 
             it('with periodic and until defined', () => {
@@ -42,6 +44,7 @@ describe('transactions/formatters', () => {
                     due_date: dueDate,
                     payment_date: undefined,
                     value: "R$ 15,00",
+                    kind: EXPENSE,
                     priority: "",
                     periodic: {
                         frequency: 'daily',
@@ -56,6 +59,7 @@ describe('transactions/formatters', () => {
                     payment_date: null,
                     value: -15,
                     priority: undefined,
+                    kind: EXPENSE.id,
                     periodic: {
                         frequency: 'daily',
                         until: '2017-01-07',
@@ -64,7 +68,7 @@ describe('transactions/formatters', () => {
                     }
                 };
 
-                expect(formatTransactionToSend(transactionPreFormatted, EXPENSE)).to.be.deep.equal(transactionPostFormatted);
+                expect(formatTransactionToSend(transactionPreFormatted)).toEqual(transactionPostFormatted);
             });
 
         });
