@@ -56,10 +56,7 @@ function fetchReducer(state, action) {
             return {
                 ...state,
                 fetching: state.fetching.filter(x => x != action.type),
-                categories: [
-                    ...state.categories.filter(category => category.kind != action.kind.id),
-                    ...action.categories
-                ]
+                categories: action.categories
             };
 
         case 'fail':

@@ -1,18 +1,15 @@
 import types from './types';
 
 //FETCH
-function requestCategories() {
-    return {
-        type: types.FETCH_TRANSACTION_CATEGORIES
-    };
-}
+const requestCategories = () => ({
+    type: types.FETCH_TRANSACTION_CATEGORIES
+});
 
-function receiveCategories(result, data, kind) {
+const receiveCategories = (result, data) => {
     if (result == 'success') {
         return {
             type: types.FETCH_TRANSACTION_CATEGORIES,
             result,
-            kind,
             categories: data
         };
     }
@@ -22,19 +19,17 @@ function receiveCategories(result, data, kind) {
         result,
         errors: data
     };
-}
+};
 
 //SAVE
-function requestSaveCategory() {
-    return {
-        type: types.SAVE_TRANSACTION_CATEGORY
-    };
-}
+const requestSaveCategory = () => ({
+    type: types.SAVE_TRANSACTION_CATEGORY
+});
 
-function receiveSaveCategory(result, data) {
+const  receiveSaveCategory = (result, data) => {
     if (result === 'success') {
         return {
-            type: types.SAVE_TRANSACTION_CATEGORY,            
+            type: types.SAVE_TRANSACTION_CATEGORY,
             result,
             category: data
         };
@@ -45,31 +40,25 @@ function receiveSaveCategory(result, data) {
         result,
         errors: data
     };
-}
+};
 
 //EDIT
-function editCategory(id) {
-    return {
-        type: types.EDIT_TRANSACTION_CATEGORY,
-        id
-    };
-}
+const editCategory = (id) => ({
+    type: types.EDIT_TRANSACTION_CATEGORY,
+    id
+});
 
-function finishEditCategory() {
-    return {
-        type: types.FINISH_EDIT_TRANSACTION_CATEGORY
-    };
-}
+const finishEditCategory = () => ({
+    type: types.FINISH_EDIT_TRANSACTION_CATEGORY
+});
 
 //DELETE
-function requestDeleteCategory(id) {
-    return {
-        type: types.DELETE_TRANSACTION_CATEGORY,
-        id
-    };
-}
+const requestDeleteCategory = (id) => ({
+    type: types.DELETE_TRANSACTION_CATEGORY,
+    id
+});
 
-function receiveDeleteCategory(id, result, errors) {
+const receiveDeleteCategory = (id, result, errors) => {
     if (result == 'success') {
         return {
             type: types.DELETE_TRANSACTION_CATEGORY,
@@ -83,7 +72,7 @@ function receiveDeleteCategory(id, result, errors) {
         result,
         errors
     };
-}
+};
 
 export default {
     requestCategories,

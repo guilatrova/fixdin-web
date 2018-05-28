@@ -2,17 +2,16 @@ import actions from './actions';
 import { Operation, DeleteOperation } from './../../../common/duck/operations';
 
 class FetchOperation extends Operation {
-    constructor(kind) {
+    constructor() {
         super(actions.requestCategories, actions.receiveCategories);
-        this.kind = kind;
     }
 
     onSucceed(dispatch, receiveAction, data) {
-        dispatch(receiveAction('success', data, this.kind));
+        dispatch(receiveAction('success', data));
     }
 
     getApiPromise(api) {
-        return api.get(`categories/${this.kind.apiEndpoint}`);
+        return api.get(`categories/`);
     }
 }
 
@@ -21,41 +20,38 @@ class SaveOperation extends Operation {
         super(actions.requestSaveCategory, actions.receiveSaveCategory);
         this.id = id;
         this.name = name;
-        this.kind = kind;
+        this.kind = kind.id;
     }
 
     onSucceed(dispatch, receiveAction, data) {
-        return dispatch(receiveAction('success', data, this.kind));
+        return dispatch(receiveAction('success', data));
     }
 
     getApiPromise(api) {
         const { id, name, kind } = this;
         if (id)
-            return api.put(`categories/${kind.apiEndpoint}${id}`, { name, kind });
+            return api.put(`categories/${id}`, { name, kind });
 
-        return api.post(`categories/${kind.apiEndpoint}`, { name, kind });
+        return api.post(`categories/`, { name, kind });
     }
 }
 
 class DeleteCategoryOperation extends DeleteOperation {
-    constructor(id, kind) {
+    constructor(id) {
         super(actions.requestDeleteCategory, actions.receiveDeleteCategory, id);
-        this.kind = kind;
     }
 
-    getEndpoint = (id) => `categories/${this.kind.apiEndpoint}${id}`;
+    getEndpoint = (id) => `categories/${id}`;
 }
 
 const editCategory = actions.editCategory;
 const finishEditCategory = actions.finishEditCategory;
-const fetchAllCategories = () => { throw 'Not implemented yet'; };
-const fetchCategories = (kind) => new FetchOperation(kind).dispatch();
+const fetchCategories = () => new FetchOperation().dispatch();
 const saveCategory = ({id, name, kind}) => new SaveOperation(id, name, kind).dispatch();
-const deleteCategory = (id, kind) => new DeleteCategoryOperation(id, kind).dispatch();
+const deleteCategory = (id) => new DeleteCategoryOperation(id).dispatch();
 
 export default {
     fetchCategories,
-    fetchAllCategories,
     saveCategory,
     editCategory,
     finishEditCategory,

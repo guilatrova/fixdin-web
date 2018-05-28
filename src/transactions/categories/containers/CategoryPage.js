@@ -11,7 +11,6 @@ import CategoryFormDialog from './CategoryFormDialog';
 import CategoryTable from '../components/CategoryTable';
 import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
 import { operations, selectors } from '../duck';
-import { EXPENSE, INCOME, getKind } from '../../shared/kinds';
 
 const styles = theme => ({
     root: {
@@ -82,11 +81,8 @@ class CategoryPage extends React.Component {
         });
     }
 
-    handleConfirmDelete = () => {
-        const kindId = this.props.categories.find(cat => cat.id == this.state.toDeleteId).kind;
-        const kind = getKind(kindId);
-        
-        this.props.onDelete(this.state.toDeleteId, kind).then(({result}) => {
+    handleConfirmDelete = () => {        
+        this.props.onDelete(this.state.toDeleteId).then(({result}) => {
             if (result == 'success') {
                 this.setState({
                     openDeleteDialog: false,
@@ -148,20 +144,17 @@ class CategoryPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-        categories: selectors.getCategories(state),
-        editingCategory: selectors.getEditingCategory(state),
-        errors: selectors.getErrors(state),
-        isFetching: selectors.isFetching(state)
+    categories: selectors.getCategories(state),
+    editingCategory: selectors.getEditingCategory(state),
+    errors: selectors.getErrors(state),
+    isFetching: selectors.isFetching(state)
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: (timeout) => { //TODO: add one unique fetch endpoint
-            dispatch(operations.fetchCategories(EXPENSE, timeout));
-            dispatch(operations.fetchCategories(INCOME, timeout));
-        },
+        onFetch: () => dispatch(operations.fetchCategories()),
         onSubmit: (category) => dispatch(operations.saveCategory(category)),
-        onDelete: (id, kind) => dispatch(operations.deleteCategory(id, kind)),
+        onDelete: (id) => dispatch(operations.deleteCategory(id)),
         onEdit: (id) => dispatch(operations.editCategory(id)),
         onFinishEdit: () => dispatch(operations.finishEditCategory())
     };
