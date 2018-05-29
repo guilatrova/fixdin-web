@@ -136,33 +136,7 @@ describe('categories/duck/reducers', () => {
                 errors
             });
         });
-
-        it('should replace only categories from requested kind', () => {
-            const someCategoriesState = {
-                ...initialState,
-                categories: [
-                    { id: 1, name: 'c1', kind: INCOME.id },
-                    { id: 2, name: 'c2', kind: EXPENSE.id },
-                ]
-            };
-            const received = [
-                { id: 2, name: 'new c2', kind:EXPENSE.id },
-                { id: 3, name: 'c3', kind: EXPENSE.id }
-            ];
-
-            expect(
-                reducer(someCategoriesState, actions.receiveCategories('success', received, EXPENSE))
-            ).toEqual({
-                fetching: [],
-                errors: {},
-                editingCategory: {},
-                categories: [
-                    { id: 1, name: 'c1', kind: INCOME.id },
-                    { id: 2, name: 'new c2', kind: EXPENSE.id },
-                    { id: 3, name: 'c3', kind: EXPENSE.id }
-                ]
-            });
-        });
+        
     });
 
     describe('EDIT_TRANSACTION_CATEGORY + FINISH_EDIT_TRANSACTION_CATEGORY', () => {
