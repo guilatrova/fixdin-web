@@ -3,12 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { withStyles } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
-import Toolbar from 'material-ui/Toolbar';
-import IconButton from 'material-ui/IconButton';
-import ClearAllIcon from 'material-ui-icons/ClearAll';
-import RefreshIcon from 'material-ui-icons/Refresh';
+import { withStyles } from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import { EXPENSE, INCOME } from '../../shared/kinds';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 
 import { selectors, operations } from '../../duck';
 import MultiCategorySelectPicker from './../../../categories/components/MultiCategorySelectPicker';

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'material-ui/Button';
-import { DialogActions, DialogContent } from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import { DialogActions, DialogContent } from '@material-ui/core/Dialog';
+import TextField from '@material-ui/core/TextField';
 
 import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import TypographyError from '../../../common/material/TypographyError';

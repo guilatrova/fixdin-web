@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import Checkbox from 'material-ui/Checkbox';
-import { FormControlLabel } from 'material-ui/Form';
-import Tooltip from 'material-ui/Tooltip';
+import Checkbox from '@material-ui/core/Checkbox';
+import { FormControlLabel } from '@material-ui/core/Form';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { formatCurrencyDisplay } from '../../utils/formatters';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import red from 'material-ui/colors/red';
-import green from 'material-ui/colors/green';
+import red from '@material-ui/core/colors/red';
+import green from '@material-ui/core/colors/green';
 import { VictoryChart, VictoryBar, VictoryLine, VictoryGroup, VictoryAxis } from 'victory';
 
 const effectiveExpenseStyle = {

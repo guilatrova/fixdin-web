@@ -3,8 +3,8 @@ import React from 'react';
 
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
-import Paper from 'material-ui/Paper';
-import { MenuItem } from 'material-ui/Menu';
+import Paper from '@material-ui/core/Paper';
+import { MenuItem } from '@material-ui/core/Menu';
 
 export const Suggestion = (suggestion, { query, isHighlighted }) => {
     const matches = match(suggestion.label, query);

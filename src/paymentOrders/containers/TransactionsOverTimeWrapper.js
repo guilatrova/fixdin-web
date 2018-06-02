@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { CircularProgress } from 'material-ui/Progress';
+import { CircularProgress } from '@material-ui/core/Progress';
 
 import TransactionsOverTimeTable from '../components/TransactionsOverTimeTable';
 import { operations, selectors } from '../duck';

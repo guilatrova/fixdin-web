@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import TextField from 'material-ui/TextField'; //TODO: Change to use autocomplete
-import Button from 'material-ui/Button';
+import TextField from '@material-ui/core/TextField'; //TODO: Change to use autocomplete
+import Button from '@material-ui/core/Button';
 
 import { selectors, operations } from '../../duck';
 

@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { withStyles } from 'material-ui/styles';
-import { DatePicker } from 'material-ui-pickers';
-import Button from 'material-ui/Button';
+import { withStyles } from '@material-ui/core/styles'
+import { DatePicker } from '@material-ui/core-pickers';
+import Button from '@material-ui/core/Button';
 import Slider from 'rc-slider';
-import { FormControlLabel } from 'material-ui/Form';
-import Switch from 'material-ui/Switch';
-import { DialogActions, DialogContent } from 'material-ui/Dialog';
-import { InputLabel } from 'material-ui/Input';
+import { FormControlLabel } from '@material-ui/core/Form';
+import Switch from '@material-ui/core/Switch';
+import { DialogActions, DialogContent } from '@material-ui/core/Dialog';
+import { InputLabel } from '@material-ui/core/Input';
 
 import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import TextFieldError from '../../../common/material/TextFieldError';

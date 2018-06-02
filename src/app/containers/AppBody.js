@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames';
 
 import AppToolbar from '../components/AppToolbar';
 import AppDrawer from '../components/AppDrawer';
-import MomentUtils from 'material-ui-pickers/utils/moment-utils';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import MomentUtils from '@material-ui/core-pickers/utils/moment-utils';
+import MuiPickersUtilsProvider from '@material-ui/core-pickers/utils/MuiPickersUtilsProvider';
 import { drawerWidth, anchor } from '../contants';
 
 const styles = theme => ({

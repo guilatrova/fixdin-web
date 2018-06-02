@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import TypographyError from './TypographyError';
 import Dialog, {
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-} from 'material-ui/Dialog';
+} from '@material-ui/core/Dialog';
 
 const ConfirmDeleteDialog = ({open, onConfirm, onClose, error, children}) => {
     return (

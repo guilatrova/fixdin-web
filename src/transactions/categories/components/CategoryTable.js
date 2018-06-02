@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DeleteIcon from 'material-ui-icons/Delete';
-import EditIcon from 'material-ui-icons/ModeEdit';
-import { MenuItem } from 'material-ui/Menu';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/ModeEdit';
+import { MenuItem } from '@material-ui/core/Menu';
 
 import { EXPENSE } from '../../shared/kinds';
 import { DataTable, DataColumn } from './../../../common/material/DataTable';

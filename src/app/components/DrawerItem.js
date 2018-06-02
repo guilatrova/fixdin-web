@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/List';
 
 const DrawerItem = ({ icon, text, to, onClick }) => {
     return (

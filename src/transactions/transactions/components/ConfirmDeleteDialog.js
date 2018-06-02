@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import Dialog, {
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-} from 'material-ui/Dialog';
+} from '@material-ui/core/Dialog';
 
 import TypographyError from '../../../common/material/TypographyError';
 import { types } from '../duck';

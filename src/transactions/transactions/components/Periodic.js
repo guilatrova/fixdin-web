@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DatePicker } from 'material-ui-pickers';
-import { FormControl } from 'material-ui/Form';
-import Input, { InputLabel } from 'material-ui/Input';
-import Select from 'material-ui/Select';
-import { MenuItem } from 'material-ui/Menu';
+import { DatePicker } from '@material-ui/core-pickers';
+import { FormControl } from '@material-ui/core/Form';
+import Input, { InputLabel } from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
+import { MenuItem } from '@material-ui/core/Menu';
 
 import TextFieldError from './../../../common/material/TextFieldError';
 

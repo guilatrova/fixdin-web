@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Drawer from 'material-ui/Drawer';
-import Divider from 'material-ui/Divider';
-import List from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
-import LabelIcon from 'material-ui-icons/Label';
-import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
-import ChevronRightIcon from 'material-ui-icons/ChevronRight';
-import { withStyles } from 'material-ui/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import IconButton from '@material-ui/core/IconButton';
+import LabelIcon from '@material-ui/icons/Label';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { withStyles } from '@material-ui/core/styles'
 
 import { drawerWidth } from '../contants';
 import DrawerItem from './DrawerItem';

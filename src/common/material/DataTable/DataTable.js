@@ -1,7 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames';
 
 import Table, {
@@ -10,10 +10,10 @@ import Table, {
     TableHead,
     TableRow,
     TableSortLabel,
-} from 'material-ui/Table';
-import Popover from 'material-ui/Popover';
-import IconButton from 'material-ui/IconButton';
-import FilterListIcon from 'material-ui-icons/FilterList';
+} from '@material-ui/core/Table';
+import Popover from '@material-ui/core/Popover';
+import IconButton from '@material-ui/core/IconButton';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 const styles = theme => ({
     popoverPaper: {

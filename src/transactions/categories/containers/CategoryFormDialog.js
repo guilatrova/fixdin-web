@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Dialog, {
     DialogTitle,
     withMobileDialog,
-  } from 'material-ui/Dialog';
+  } from '@material-ui/core/Dialog';
   
 import CategoryForm from '../components/CategoryForm';
 

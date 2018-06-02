@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'material-ui/Button';
-import { DialogActions, DialogContent } from 'material-ui/Dialog';
+import Button from '@material-ui/core/Button';
+import { DialogActions, DialogContent } from '@material-ui/core/Dialog';
   
 import TextFieldError from '../../../common/material/TextFieldError';
 import KindSwitch from '../../shared/components/KindSwitch';

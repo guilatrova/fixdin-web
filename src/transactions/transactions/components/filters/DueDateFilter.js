@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import Button from 'material-ui/Button';
-import { DatePicker } from 'material-ui-pickers';
+import Button from '@material-ui/core/Button';
+import { DatePicker } from '@material-ui/core-pickers';
 
 import { selectors, operations } from '../../duck';
 

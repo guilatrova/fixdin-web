@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from 'material-ui/styles';
-import red from 'material-ui/colors/red';
-import green from 'material-ui/colors/green';
+import { withStyles } from '@material-ui/core/styles'
+import red from '@material-ui/core/colors/red';
+import green from '@material-ui/core/colors/green';
 
 const styles = () => ({
     payed: {

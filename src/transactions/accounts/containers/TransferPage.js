@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles'
 import { selectors, operations } from '../duck';
-import Paper from 'material-ui/Paper';
+import Paper from '@material-ui/core/Paper';
 import TransferTable from '../components/TransferTable';
 import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
 

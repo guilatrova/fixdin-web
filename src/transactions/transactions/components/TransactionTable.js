@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles'
 
-import Checkbox from 'material-ui/Checkbox';
-import { MenuItem } from 'material-ui/Menu';
-import DeleteIcon from 'material-ui-icons/Delete';
-import ContentCopyIcon from 'material-ui-icons/ContentCopy';
-import EditIcon from 'material-ui-icons/ModeEdit';
-import MoneyIcon from 'material-ui-icons/AttachMoney';
-import red from 'material-ui/colors/red';
-import green from 'material-ui/colors/green';
+import Checkbox from '@material-ui/core/Checkbox';
+import { MenuItem } from '@material-ui/core/Menu';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ContentCopyIcon from '@material-ui/icons/ContentCopy';
+import EditIcon from '@material-ui/icons/ModeEdit';
+import MoneyIcon from '@material-ui/icons/AttachMoney';
+import red from '@material-ui/core/colors/red';
+import green from '@material-ui/core/colors/green';
 
 import { 
     DescriptionFilter, 

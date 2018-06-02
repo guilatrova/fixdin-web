@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles'
 
-import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from 'material-ui/Table';
+import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter } from '@material-ui/core/Table';
 
 import { selectors } from '../duck';
 
