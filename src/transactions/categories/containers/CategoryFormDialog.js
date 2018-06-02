@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Dialog, {
-    DialogTitle,
-    withMobileDialog,
-  } from '@material-ui/core/Dialog';
-  
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
+
 import CategoryForm from '../components/CategoryForm';
 
 const CategoryFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetching, category, errors}) => {

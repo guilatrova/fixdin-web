@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import LabelIcon from '@material-ui/icons/Label';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 
 import { drawerWidth } from '../contants';
 import DrawerItem from './DrawerItem';

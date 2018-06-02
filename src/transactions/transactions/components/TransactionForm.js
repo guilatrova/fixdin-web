@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { withStyles } from '@material-ui/core/styles'
-import { DatePicker } from '@material-ui/core-pickers';
+import { withStyles } from '@material-ui/core/styles';
+import DatePicker from 'material-ui-pickers/DatePicker';
 import Button from '@material-ui/core/Button';
 import Slider from 'rc-slider';
-import { FormControlLabel } from '@material-ui/core/Form';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { DialogActions, DialogContent } from '@material-ui/core/Dialog';
-import { InputLabel } from '@material-ui/core/Input';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import InputLabel from '@material-ui/core/InputLabel';
 
 import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import TextFieldError from '../../../common/material/TextFieldError';
@@ -305,6 +306,6 @@ class TransactionForm extends React.Component {
         </div>
         );
     }
-} 
+}
 
 export default withStyles(styles)(TransactionForm);

@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles'
-import Dialog, {
-    DialogTitle,
-    withMobileDialog,
-} from '@material-ui/core/Dialog';
-  
+import { withStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
+
 import TransferForm from '../components/TransferForm';
 
 const styles = {

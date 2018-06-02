@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Autosuggest from 'react-autosuggest';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 
 import Input from './Input';
 import { Suggestion, SuggestionsContainer } from './Suggestions';

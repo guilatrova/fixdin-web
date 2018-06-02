@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import Button from '@material-ui/core/Button';
-import { MenuItem } from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { DatePicker } from '@material-ui/core-pickers';
+import DatePicker from 'material-ui-pickers/DatePicker';
 
 import { selectors, operations } from '../../duck';
 

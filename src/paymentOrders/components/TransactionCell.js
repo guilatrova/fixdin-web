@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import Checkbox from '@material-ui/core/Checkbox';
-import { FormControlLabel } from '@material-ui/core/Form';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { formatCurrencyDisplay } from '../../utils/formatters';

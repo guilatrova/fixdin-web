@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import EditIcon from '@material-ui/icons/ModeEdit';
 import TransferIcon from '@material-ui/icons/CompareArrows';
-import { MenuItem } from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
 
 import { DataTable, DataColumn } from './../../../common/material/DataTable';

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 
-import { DatePicker } from '@material-ui/core-pickers';
+import DatePicker from 'material-ui-pickers/DatePicker';
 
 const styles = theme => ({
     periodInput: {

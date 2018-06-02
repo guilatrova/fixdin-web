@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 
 import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
 import PendingBalanceTable from '../components/PendingBalanceTable';

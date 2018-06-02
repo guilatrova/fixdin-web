@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
-import { DialogActions, DialogContent } from '@material-ui/core/Dialog';
-  
-import TypographyError from '../../../common/material/TypographyError'; 
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+
+import TypographyError from '../../../common/material/TypographyError';
 import TextFieldError from '../../../common/material/TextFieldError';
 
 class AccountForm extends React.Component {

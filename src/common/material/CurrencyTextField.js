@@ -3,9 +3,11 @@
 import React from 'react';
 import CurrencyInput from 'react-currency-input';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles'
-import Input, { InputLabel } from '@material-ui/core/Input';
-import { FormControl, FormHelperText } from '@material-ui/core/Form';
+import { withStyles } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 
 class CurrencyInputAdapter extends React.Component {
 	static propTypes = {

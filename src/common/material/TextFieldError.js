@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Input, { InputLabel } from '@material-ui/core/Input';
-import { FormControl, FormHelperText } from '@material-ui/core/Form';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 
 
 const TextFieldError = ({label, error, ...other}) => {        
