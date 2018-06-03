@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Creatable } from 'react-select';//TODO: Change it to Autocomplete support
 
-import { operations } from './../duck';
+import { operations, selectors } from './../duck';
 
 class CategorySelectPicker extends React.Component {
 
@@ -70,17 +70,14 @@ class CategorySelectPicker extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        ...state.categories
-    };
-};
+const mapStateToProps = (state) => ({
+    categories: selectors.getCategories(state),
+    isFetching: selectors.isFetching(state),    
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onFetch: (kind) => dispatch(operations.fetchCategories(kind)),
-        onCreate: (name, kind) => dispatch(operations.saveCategory({name, kind}))
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onFetch: (kind) => dispatch(operations.fetchCategories(kind)),
+    onCreate: (name, kind) => dispatch(operations.saveCategory({name, kind}))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategorySelectPicker);
