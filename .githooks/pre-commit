@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#Run it to enable: git config core.hooksPath .githooks
+changed=$(git diff --cached --name-only --diff-filter=AMR '*.js')
+
+if [[ -z $changed ]]; then
+  exit 0
+fi
+
+npm run lint -s
+ret=$?
+
+if [ $ret -gt 0 ]; then
+  echo Linter failed
+fi
+
+exit $ret
