@@ -12,7 +12,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 
 import { EXPENSE, INCOME } from '../../shared/kinds';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
-import TransactionTable from '../components/TransactionTable';
+import TransactionTable from './TransactionTableContainer';
 import TransactionFormDialog from './TransactionFormDialog';
 import * as saveOptions from './../components/TransactionForm';
 import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
@@ -157,7 +157,7 @@ class TransactionPage extends React.Component {
     handleClearFilters = () => this.props.onClearFilters();
 
     render() {
-        const { isFetching, transactions, categoriesNames, classes, accountsNames } = this.props;
+        const { isFetching, classes } = this.props;
 
         return (
             <div className={classes.root}>
@@ -176,16 +176,11 @@ class TransactionPage extends React.Component {
                     <div className={classes.table}>
 
                         <TransactionTable
-                            transactions={transactions}
-                            categoriesNames={categoriesNames}
-                            accountsNames={accountsNames}
-                            isFetching={isFetching}
                             onRefresh={this.handleRefresh}
                             onEdit={this.handleEdit}
                             onPay={this.handlePay}
                             onDelete={this.handleDelete}
-                            onCopy={this.handleCopy}
-                            activeFilters={this.props.activeFilters} />
+                            onCopy={this.handleCopy} />
                     </div>
 
                 </Paper>
@@ -223,12 +218,9 @@ class TransactionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        transactions: selectors.getTransactionsToDisplay(state),
-        categoriesNames: categorySelectors.getCategoriesNamesMappedById(state),
         editingTransaction: selectors.getEditingTransaction(state),
         isFetching: selectors.isFetching(state),
         accounts: accountSelectors.getAccounts(state),
-        accountsNames: accountSelectors.getAccountsNamesMappedById(state),
         errors: {
             ...selectors.getErrors(state),
             category: categorySelectors.getNameError(state)
