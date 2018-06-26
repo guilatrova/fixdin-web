@@ -8,11 +8,30 @@ import { EXPENSE, INCOME } from '../../shared/kinds';
 import TransactionTable from '../components/TransactionTable';
 import { Tabs, Tab } from '../../../common/material/Tabs';
 
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import AppBar from '@material-ui/core/AppBar';
+import { withStyles } from '@material-ui/core/styles';
 
 const ALL_TAB = 0;
 const INCOMES_TAB = 1;
 const EXPENSES_TAB = 2;
+
+const styles = {
+    bar: {
+        position: "relative"
+    },
+    container: {
+        position: "absolute",
+        boxSizing: "border-box",
+        width: "100%",
+        top: "50%",
+
+        display: "flex",
+        flexDirection: "row-reverse",
+        padding: "0 25px",
+    }
+};
 
 class TransactionTableContainer extends React.Component {
     static propTypes = {
@@ -28,7 +47,7 @@ class TransactionTableContainer extends React.Component {
     };
 
     render() {
-        const { transactions, ...props } = this.props;
+        const { transactions, classes, ...props } = this.props;
         const { tab } = this.state;
 
         let shownTransactions = transactions;
@@ -41,12 +60,18 @@ class TransactionTableContainer extends React.Component {
 
         return (
             <div>
-                <AppBar position="static">
+                <AppBar position="static" className={classes.bar}>
                     <Tabs value={tab} onChange={this.handleTabChange}>
                         <Tab label="Todas" />
                         <Tab label="Receitas" />
                         <Tab label="Despesas" />
                     </Tabs>
+
+                    <div className={classes.container}>
+                        <Button mini variant="fab" aria-label="add">
+                            <AddIcon />
+                        </Button>
+                    </div>
                 </AppBar>
 
                 <TransactionTable
@@ -65,4 +90,6 @@ const mapStateToProps = state => ({
     activeFilters: selectors.getActiveFilters(state)
 });
 
-export default connect(mapStateToProps)(TransactionTableContainer);
+export default withStyles(styles)(
+    connect(mapStateToProps)(TransactionTableContainer)
+);
