@@ -3,6 +3,8 @@
   src: url("./EspressoDolce.ttf");
 }
 
+$primary-color: #FB5100;
+
 /* Styles */
 html, body {
   margin: 0;
@@ -24,3 +26,4 @@ a {
 @import '~react-select/dist/react-select';
 @import '~rc-slider/assets/index';
 @import './tables';
+@import './tabs';

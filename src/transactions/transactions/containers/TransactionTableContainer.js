@@ -6,10 +6,13 @@ import { selectors as categorySelectors } from '../../categories/duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
 import { EXPENSE, INCOME } from '../../shared/kinds';
 import TransactionTable from '../components/TransactionTable';
+import { Tabs, Tab } from '../../../common/material/Tabs';
 
 import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+
+const ALL_TAB = 0;
+const INCOMES_TAB = 1;
+const EXPENSES_TAB = 2;
 
 class TransactionTableContainer extends React.Component {
     static propTypes = {
@@ -17,7 +20,7 @@ class TransactionTableContainer extends React.Component {
     }
 
     state = {
-        tab: 0
+        tab: ALL_TAB
     }
 
     handleTabChange = (e, value) => {
@@ -25,14 +28,14 @@ class TransactionTableContainer extends React.Component {
     };
 
     render() {
-        const { transactions, categoriesNames, accountsNames, isFetching } = this.props;
+        const { transactions, ...props } = this.props;
         const { tab } = this.state;
 
         let shownTransactions = transactions;
-        if ( tab === 1 ) {
+        if (tab === INCOMES_TAB) {
             shownTransactions = transactions.filter(t => t.kind == INCOME.id);
         }
-        else if (tab === 2) {
+        else if (tab === EXPENSES_TAB) {
             shownTransactions = transactions.filter(t => t.kind == EXPENSE.id);
         }
 
@@ -48,15 +51,7 @@ class TransactionTableContainer extends React.Component {
 
                 <TransactionTable
                     transactions={shownTransactions}
-                    categoriesNames={categoriesNames}
-                    accountsNames={accountsNames}
-                    isFetching={isFetching}
-                    onRefresh={this.handleRefresh}
-                    onEdit={this.handleEdit}
-                    onPay={this.handlePay}
-                    onDelete={this.handleDelete}
-                    onCopy={this.handleCopy}
-                    activeFilters={this.props.activeFilters} />
+                    {...props} />
             </div>
         );
     }

@@ -52,8 +52,6 @@ class TransactionPage extends React.Component {
     static propTypes = {
         accounts: PropTypes.array.isRequired,
         transactions: PropTypes.array.isRequired,
-        categoriesNames: PropTypes.array.isRequired,
-        accountsNames: PropTypes.array.isRequired,
         editingTransaction: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
         errors: PropTypes.object,
@@ -218,6 +216,7 @@ class TransactionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        transactions: selectors.getTransactionsToDisplay(state),
         editingTransaction: selectors.getEditingTransaction(state),
         isFetching: selectors.isFetching(state),
         accounts: accountSelectors.getAccounts(state),
