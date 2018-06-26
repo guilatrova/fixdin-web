@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { selectors } from '../duck';
@@ -14,19 +15,20 @@ const EXPENSES_TAB = 2;
 
 class TransactionTableContainer extends React.Component {
     static propTypes = {
-        ...TransactionTable.propTypes
+        ...TransactionTable.propTypes,
+        onAdd: PropTypes.func.isRequired,
+        onRefresh: PropTypes.func.isRequired,
+        onClearAll: PropTypes.func.isRequired
     }
 
     state = {
         tab: ALL_TAB
     }
 
-    handleTabChange = (e, value) => {
-        this.setState({ tab: value });
-    };
+    handleTabChange = (e, value) => this.setState({ tab: value });
 
     render() {
-        const { transactions,  ...props } = this.props;
+        const { transactions, onAdd, onRefresh, onClearAll, ...props } = this.props;
         const { tab } = this.state;
 
         let shownTransactions = transactions;
@@ -39,11 +41,18 @@ class TransactionTableContainer extends React.Component {
 
         return (
             <div>
-                <TransactionTableBar tab={tab} onTableChange={this.handleTabChange} />
+                <TransactionTableBar
+                    tab={tab}
+                    onAdd={onAdd}
+                    onRefresh={onRefresh}
+                    onClearAll={onClearAll}
+                    onTabChange={this.handleTabChange}
+                />
 
                 <TransactionTable
                     transactions={shownTransactions}
-                    {...props} />
+                    {...props}
+                />
             </div>
         );
     }

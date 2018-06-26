@@ -5,10 +5,6 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-import RefreshIcon from '@material-ui/icons/Refresh';
 
 import { EXPENSE, INCOME } from '../../shared/kinds';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
@@ -39,9 +35,6 @@ const styles = theme => ({
     },
     spacer: {
         flex: '1 1 50%',
-    },
-    actions: {
-        color: theme.palette.text.secondary,
     },
     title: {
         flex: '0 0 auto',
@@ -164,17 +157,12 @@ class TransactionPage extends React.Component {
 
                 <Paper className={classes.paper}>
 
-                    <Toolbar>
-                        <div className={classes.actions}>
-                            <IconButton aria-label="Refresh" onClick={this.handleRefresh} disabled={isFetching}><RefreshIcon /></IconButton>
-                            <IconButton aria-label="Filter list" onClick={this.handleClearFilters}><ClearAllIcon /></IconButton>
-                        </div>
-                    </Toolbar>
-
                     <div className={classes.table}>
 
                         <TransactionTable
+                            onAdd={this.handleCreateTransaction}
                             onRefresh={this.handleRefresh}
+                            onClearAll={this.handleClearFilters}
                             onEdit={this.handleEdit}
                             onPay={this.handlePay}
                             onDelete={this.handleDelete}

@@ -29,7 +29,7 @@ const styles = {
     }
 };
 
-const TransactionTableBar = ({ tab, classes, onTabChange }) => {
+const TransactionTableBar = ({ tab, classes, onTabChange, onAdd, onRefresh, onClearAll }) => {
     /* eslint-disable react/prop-types */
     const MiniButton = ({ children, onClick }) => {
         return (
@@ -50,9 +50,9 @@ const TransactionTableBar = ({ tab, classes, onTabChange }) => {
             </Tabs>
 
             <div className={classes.container}>
-                <MiniButton><AddIcon /></MiniButton>
-                <MiniButton><RefreshIcon /></MiniButton>
-                <MiniButton><ClearAllIcon /></MiniButton>
+                <MiniButton onClick={onAdd}><AddIcon /></MiniButton>
+                <MiniButton onClick={onRefresh}><RefreshIcon /></MiniButton>
+                <MiniButton onClick={onClearAll} ><ClearAllIcon /></MiniButton>
             </div>
         </AppBar>
     );
@@ -61,7 +61,10 @@ const TransactionTableBar = ({ tab, classes, onTabChange }) => {
 TransactionTableBar.propTypes = {
     tab: PropTypes.number.isRequired,
     classes: PropTypes.object.isRequired,
-    onTabChange: PropTypes.func.isRequired
+    onTabChange: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
+    onClearAll: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(TransactionTableBar);
