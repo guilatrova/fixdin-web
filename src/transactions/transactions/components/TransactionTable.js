@@ -15,7 +15,7 @@ import {
     DescriptionFilter, 
     CategoryFilter, 
     DueDateFilter, 
-    KindFilter, 
+    // KindFilter, 
     DeadlineFilter,
     PriorityFilter,
     PaymentFilter,
@@ -141,7 +141,7 @@ class TransactionTable extends React.Component {
                 data={this.props.transactions} 
                 initialOrderBy="due_date" >
 
-                <DataColumn 
+                {/* <DataColumn 
                     sortable
                     padding="none"
                     field="kind" 
@@ -149,7 +149,7 @@ class TransactionTable extends React.Component {
                     onRenderFilter={<KindFilter />} 
                     filterActive={activeFilters.kind}
                     cellClassName={classes.padLeft} > TIPO
-                </DataColumn>
+                </DataColumn> */}
 
                 <DataColumn 
                     sortable
