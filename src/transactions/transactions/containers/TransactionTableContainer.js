@@ -10,6 +10,8 @@ import { Tabs, Tab } from '../../../common/material/Tabs';
 
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import AppBar from '@material-ui/core/AppBar';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -20,6 +22,9 @@ const EXPENSES_TAB = 2;
 const styles = {
     bar: {
         position: "relative"
+    },
+    button: {
+        margin: "0 5px"
     },
     container: {
         position: "absolute",
@@ -68,9 +73,9 @@ class TransactionTableContainer extends React.Component {
                     </Tabs>
 
                     <div className={classes.container}>
-                        <Button mini variant="fab" aria-label="add">
-                            <AddIcon />
-                        </Button>
+                        <Button mini variant="fab" aria-label="add" className={classes.button}><AddIcon /></Button>
+                        <Button mini variant="fab" aria-label="add" className={classes.button}><RefreshIcon /></Button>
+                        <Button mini variant="fab" aria-label="add" className={classes.button}><ClearAllIcon /></Button>
                     </div>
                 </AppBar>
 
