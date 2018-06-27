@@ -1,3 +1,3 @@
-export const drawerWidth = 240;
+export const drawerWidth = 56;
 export const anchor = 'left';
 export const title = "fixdin";

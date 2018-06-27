@@ -16,6 +16,8 @@ import DrawerItem from './DrawerItem';
 const styles = theme => ({
     drawerPaper: {
         position: 'relative',
+        whiteSpace: 'nowrap',
+        overflowX: 'hidden',
         height: '100%',
         width: drawerWidth,
     },
@@ -31,7 +33,7 @@ const styles = theme => ({
 const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
     return (
         <Drawer
-            variant="persistent"
+            variant="permanent"
             classes={{ paper: classes.drawerPaper, }}
             open={open} 
         >
@@ -45,7 +47,7 @@ const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
             </div>
 
             <Divider />
-            <List className={classes.list}>
+            <List>
                 <DrawerItem icon={<LabelIcon />} onClick={handleDrawerClose} text="Início" to="/" />
                 <DrawerItem icon={<LabelIcon />} onClick={handleDrawerClose} text="Contas" to="/accounts" />
                 <DrawerItem icon={<LabelIcon />} onClick={handleDrawerClose} text="Categorias" to="/categories" />
