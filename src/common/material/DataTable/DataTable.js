@@ -157,6 +157,8 @@ class DataTable extends React.Component {
                             padding={padding} >
 
                             <div className={classes.tableHeader}>
+                                {renderFilter(child)}
+                                
                                 <TableSortLabel
                                     active={orderBy === field}
                                     direction={order}
@@ -166,7 +168,6 @@ class DataTable extends React.Component {
 
                                 </TableSortLabel>
                                 
-                                {renderFilter(child)}
                             </div>
 
                         </TableCell>
