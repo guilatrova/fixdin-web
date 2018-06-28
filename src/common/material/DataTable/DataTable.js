@@ -167,6 +167,8 @@ class DataTable extends React.Component {
                                     {child.props.children}
 
                                 </TableSortLabel>
+
+                                {child.props.headerSuffix}
                                 
                             </div>
 

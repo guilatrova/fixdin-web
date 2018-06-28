@@ -27,6 +27,7 @@ import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
 import { formatCurrencyDisplay } from '../../../utils/formatters';
+import AddButtonTableSuffix from './AddButtonTableSuffix';
 
 const styles = {
     cell: {
@@ -46,7 +47,7 @@ const styles = {
     },
     padLeft: {
         paddingLeft: '20px'
-    }
+    },
 };
 
 class TransactionTable extends React.Component {
@@ -158,7 +159,10 @@ class TransactionTable extends React.Component {
                     onRender={this.formatAccount} 
                     onRenderFilter={<AccountFilter />}
                     filterActive={activeFilters.account}
-                    onSort={this.sortAccount} > CONTA
+                    headerSuffix={<AddButtonTableSuffix />}
+                    onSort={this.sortAccount} > 
+                    
+                    CONTA                    
                 </DataColumn>
                 
                 <DataColumn 
