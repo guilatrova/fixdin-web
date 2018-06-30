@@ -19,6 +19,7 @@ import { operations as reportOperations } from '../../../reports/duck';
 import specifications from '../specifications';
 import BalanceHeader from './BalanceHeader';
 import AccountFormDialogContainer from '../../accounts/containers/AccountFormDialogContainer';
+import CategoryFormDialogContainer from '../../categories/containers/CategoryFormDialogContainer';
 
 const styles = theme => ({
     root: {
@@ -65,7 +66,8 @@ class TransactionPage extends React.Component {
     state = {
         openTransactionFormDialog: false,
         openDeleteDialog: false,
-        openCreateAccountDialog: false
+        openCreateAccountDialog: false,
+        openCreateCategoryDialog: false,
     }
 
     componentDidMount() {
@@ -153,6 +155,10 @@ class TransactionPage extends React.Component {
 
     handleCloseAccountDialog = () => this.setState({ openCreateAccountDialog: false });
 
+    handleOpenCategoryDialog = () => this.setState({ openCreateCategoryDialog: true });
+
+    handleCloseCategoryDialog = () => this.setState({ openCreateCategoryDialog: false });
+
     render() {
         const { isFetching, classes } = this.props;
 
@@ -174,6 +180,7 @@ class TransactionPage extends React.Component {
                             onDelete={this.handleDelete}
                             onCopy={this.handleCopy}
                             onAddAccount={this.handleOpenAccountDialog}
+                            onAddCategory={this.handleOpenCategoryDialog}
                         />
                     </div>
 
@@ -206,6 +213,11 @@ class TransactionPage extends React.Component {
                 <AccountFormDialogContainer 
                     open={this.state.openCreateAccountDialog}
                     onClose={this.handleCloseAccountDialog}
+                />
+
+                <CategoryFormDialogContainer
+                    open={this.state.openCreateCategoryDialog}
+                    onClose={this.handleCloseCategoryDialog}
                 />
 
                 <FloatingActionButton onClick={this.handleCreateTransaction} />

@@ -60,6 +60,7 @@ class TransactionTable extends React.Component {
         onCopy: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
         onAddAccount: PropTypes.func.isRequired,
+        onAddCategory: PropTypes.func.isRequired,
         isFetching: PropTypes.bool.isRequired,
         activeFilters: PropTypes.object.isRequired,
         classes: PropTypes.object.isRequired
@@ -135,7 +136,7 @@ class TransactionTable extends React.Component {
     sortPayed = (a, b, order) => sortMoment(a, b, order);
 
     render () {
-        const { activeFilters, classes, onAddAccount } = this.props;
+        const { activeFilters, classes, onAddAccount, onAddCategory } = this.props;
         return (
             <DataTable 
                 headersClassName={classes.strongCell}
@@ -161,9 +162,7 @@ class TransactionTable extends React.Component {
                     onRenderFilter={<AccountFilter />}
                     filterActive={activeFilters.account}
                     headerSuffix={<AddButtonTableSuffix onClick={onAddAccount} />}
-                    onSort={this.sortAccount} > 
-                    
-                    CONTA                    
+                    onSort={this.sortAccount} > CONTA                    
                 </DataColumn>
                 
                 <DataColumn 
@@ -190,6 +189,7 @@ class TransactionTable extends React.Component {
                     filterActive={activeFilters.category} 
                     onRender={this.formatCategory}
                     onRenderFilter={<CategoryFilter />}
+                    headerSuffix={<AddButtonTableSuffix onClick={onAddCategory} />}
                     onSort={this.sortCategory}> CATEGORIA
                 </DataColumn>
 
