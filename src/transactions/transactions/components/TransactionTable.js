@@ -59,6 +59,7 @@ class TransactionTable extends React.Component {
         onPay: PropTypes.func.isRequired,
         onCopy: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
+        onAddAccount: PropTypes.func.isRequired,
         isFetching: PropTypes.bool.isRequired,
         activeFilters: PropTypes.object.isRequired,
         classes: PropTypes.object.isRequired
@@ -134,7 +135,7 @@ class TransactionTable extends React.Component {
     sortPayed = (a, b, order) => sortMoment(a, b, order);
 
     render () {
-        const { activeFilters, classes } = this.props;
+        const { activeFilters, classes, onAddAccount } = this.props;
         return (
             <DataTable 
                 headersClassName={classes.strongCell}
@@ -159,7 +160,7 @@ class TransactionTable extends React.Component {
                     onRender={this.formatAccount} 
                     onRenderFilter={<AccountFilter />}
                     filterActive={activeFilters.account}
-                    headerSuffix={<AddButtonTableSuffix />}
+                    headerSuffix={<AddButtonTableSuffix onClick={onAddAccount} />}
                     onSort={this.sortAccount} > 
                     
                     CONTA                    

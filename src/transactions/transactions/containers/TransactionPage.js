@@ -18,6 +18,7 @@ import { operations as accountsOperations, selectors as accountSelectors } from 
 import { operations as reportOperations } from '../../../reports/duck';
 import specifications from '../specifications';
 import BalanceHeader from './BalanceHeader';
+import AccountFormDialogContainer from '../../accounts/containers/AccountFormDialogContainer';
 
 const styles = theme => ({
     root: {
@@ -63,7 +64,8 @@ class TransactionPage extends React.Component {
 
     state = {
         openTransactionFormDialog: false,
-        openDeleteDialog: false
+        openDeleteDialog: false,
+        openCreateAccountDialog: false
     }
 
     componentDidMount() {
@@ -147,6 +149,10 @@ class TransactionPage extends React.Component {
 
     handleClearFilters = () => this.props.onClearFilters();
 
+    handleOpenAccountDialog = () => this.setState({ openCreateAccountDialog: true });
+
+    handleCloseAccountDialog = () => this.setState({ openCreateAccountDialog: false });
+
     render() {
         const { isFetching, classes } = this.props;
 
@@ -166,7 +172,9 @@ class TransactionPage extends React.Component {
                             onEdit={this.handleEdit}
                             onPay={this.handlePay}
                             onDelete={this.handleDelete}
-                            onCopy={this.handleCopy} />
+                            onCopy={this.handleCopy}
+                            onAddAccount={this.handleOpenAccountDialog}
+                        />
                     </div>
 
                 </Paper>
@@ -194,6 +202,11 @@ class TransactionPage extends React.Component {
 
                     Tem certeza que deseja deletar esta movimentação?
                 </ConfirmDeleteDialog>
+
+                <AccountFormDialogContainer 
+                    open={this.state.openCreateAccountDialog}
+                    onClose={this.handleCloseAccountDialog}
+                />
 
                 <FloatingActionButton onClick={this.handleCreateTransaction} />
 

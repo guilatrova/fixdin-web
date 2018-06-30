@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
-import AccountFormDialog from './AccountFormDialog';
+import AccountFormDialogContainer from './AccountFormDialogContainer';
 import TransferFormDialog from './TransferFormDialog';
 import AccountTable from '../components/AccountTable';
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
@@ -31,10 +31,8 @@ class AccountPage extends React.Component {
         classes: PropTypes.object.isRequired,
         accounts: PropTypes.array.isRequired,
         errors: PropTypes.object.isRequired,
-        editingAccount: PropTypes.object.isRequired,
 
         onFetch: PropTypes.func.isRequired,
-        onSave: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
         onTransfer: PropTypes.func.isRequired,
         onFinishEdit: PropTypes.func.isRequired,
@@ -51,14 +49,6 @@ class AccountPage extends React.Component {
 
     // Account Form
     handleOpenAccountFormDialog = () => this.setState({ openAccountFormDialog: true });
-
-    handleAccountFormSubmit = (id, account) => {
-        this.props.onSave(id, account).then(({result}) => {
-            if (result == 'success') {
-                this.handleCloseAccountFormDialog();
-            }
-        });
-    }
 
     handleCloseAccountFormDialog = () => {
         this.setState({ openAccountFormDialog: false });
@@ -89,7 +79,7 @@ class AccountPage extends React.Component {
     }
 
     render() {
-        const { classes, accounts, errors, isFetching, editingAccount } = this.props;
+        const { classes, accounts, errors, isFetching } = this.props;
 
         return (
             <div className={classes.root}>
@@ -103,14 +93,9 @@ class AccountPage extends React.Component {
                         />
                     </div>
 
-                    <AccountFormDialog 
+                    <AccountFormDialogContainer 
                         open={this.state.openAccountFormDialog}
-                        onSubmit={this.handleAccountFormSubmit}
                         onClose={this.handleCloseAccountFormDialog}
-                        title={editingAccount.id ? "Editar conta" : "Criar conta"}
-                        account={editingAccount}
-                        errors={errors}
-                        isFetching={isFetching}
                     />
 
                     <TransferFormDialog 
@@ -135,14 +120,12 @@ const mapStateToProps = (state) => {
         accounts: selectors.getAccounts(state),
         isFetching: selectors.isFetching(state),
         errors: selectors.getErrors(state),
-        editingAccount: selectors.getEditingAccount(state)
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onFetch: (timeout) => dispatch(operations.fetchAccounts(timeout)),
-        onSave: (id, account) => dispatch(operations.saveAccount(id, account)),
         onEdit: (id) => dispatch(operations.editAccount(id)),
         onTransfer: (value, from, to) => dispatch(operations.saveTransfer(value, from, to)),
         onFinishEdit: () => dispatch(operations.finishEditAccount())
