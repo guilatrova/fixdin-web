@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import AddIcon from '@material-ui/icons/Add';
 
 import FloatingActionButton from '../../../common/material/FloatingActionButton';
-import CategoryFormDialog from './CategoryFormDialog';
+import CategoryFormDialogContainer from './CategoryFormDialogContainer';
 import CategoryTable from '../components/CategoryTable';
 import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
 import { operations, selectors } from '../duck';
@@ -28,11 +28,9 @@ const styles = theme => ({
 class CategoryPage extends React.Component {
 
     static propTypes = {
-        isFetching: PropTypes.bool.isRequired,
         classes: PropTypes.object.isRequired,
         categories: PropTypes.array.isRequired,
         errors: PropTypes.object.isRequired,
-        editingCategory: PropTypes.object,
 
         onFetch: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
@@ -51,15 +49,6 @@ class CategoryPage extends React.Component {
         this.props.onFetch();    
     }
 
-    handleCategoryFormSubmit = (category) => {
-        this.props.onSubmit(category).then(({result}) => {
-            if (result == 'success') {
-                this.setState({ openCategoryFormDialog: false });
-                this.props.onFinishEdit();
-            }
-        });
-    }
-
     handleRequestCreate = () => this.setState({ openCategoryFormDialog: true });
 
     handleCloseFormDialog = () => {
@@ -67,7 +56,7 @@ class CategoryPage extends React.Component {
         this.setState({ openCategoryFormDialog: false });
     }
 
-    handleRefresh = () => this.props.onFetch(0);
+    handleRefresh = () => this.props.onFetch();
 
     handleRequestEdit = (id) => {
         this.setState({ openCategoryFormDialog: true });
@@ -101,7 +90,7 @@ class CategoryPage extends React.Component {
     }
 
     render() {
-        const { isFetching, classes, categories } = this.props;
+        const { classes, categories } = this.props;
 
         return (
             <div className={classes.root}>
@@ -119,15 +108,9 @@ class CategoryPage extends React.Component {
                     </FloatingActionButton>
                 </Paper>
 
-                <CategoryFormDialog
+                <CategoryFormDialogContainer
                     open={this.state.openCategoryFormDialog}
                     onClose={this.handleCloseFormDialog}
-                    title={this.props.editingCategory.id ? "Editar categoria" : "Criar categoria"}
-
-                    isFetching={isFetching}
-                    errors={this.props.errors} 
-                    onSubmit={this.handleCategoryFormSubmit} 
-                    category={this.props.editingCategory}
                 />
 
                 <ConfirmDeleteDialog 
@@ -145,21 +128,17 @@ class CategoryPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     categories: selectors.getCategories(state),
-    editingCategory: selectors.getEditingCategory(state),
     errors: selectors.getErrors(state),
-    isFetching: selectors.isFetching(state)
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: () => dispatch(operations.fetchCategories()),
-        onSubmit: (category) => dispatch(operations.saveCategory(category)),
+        onFetch: () => dispatch(operations.fetchCategories()),        
         onDelete: (id) => dispatch(operations.deleteCategory(id)),
         onEdit: (id) => dispatch(operations.editCategory(id)),
         onFinishEdit: () => dispatch(operations.finishEditCategory())
     };
 };
-
 
 export default withStyles(styles)(
     connect(mapStateToProps, mapDispatchToProps)(CategoryPage)
