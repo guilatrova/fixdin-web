@@ -36,7 +36,7 @@ class DataTable extends React.Component {
         data: PropTypes.array.isRequired,
         columnKey: PropTypes.string.isRequired,
         children: PropTypes.node,
-        initialOrder: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
+        initialOrder: PropTypes.oneOf(['asc', 'desc']).isRequired,
         initialOrderBy: PropTypes.string.isRequired,
         classes: PropTypes.object.isRequired,
         filterActiveColor: PropTypes.string.isRequired,
@@ -87,7 +87,7 @@ class DataTable extends React.Component {
                 orderBy: field,
                 order
             });
-            
+
             this.sort(field, order);
         }
     }
@@ -98,11 +98,11 @@ class DataTable extends React.Component {
 
             return this.state.data.slice().sort((a, b) => sortFunc(a[orderBy], b[orderBy], order));
         }
-        
+
         return this.state.data.slice();
     }
 
-    render () {
+    render() {
         const { columnKey, children, filterActiveColor, classes, cellsClassName, headersClassName, className } = this.props;
         const { order, orderBy } = this.state;
         const handleHeaderClick = this.handleHeaderClick;
@@ -114,27 +114,28 @@ class DataTable extends React.Component {
                 const { popover } = this.state;
                 return (
                     <div>
-                        <IconButton 
+                        <IconButton
                             aria-label="Filter list"
                             className={classes.filterButton}
                             color={child.props.filterActive ? filterActiveColor : "default"}
                             ref={node => { buttonRef = node; }}
-                            onClick={() => this.setState({ 
+                            onClick={() => this.setState({
                                 popover: child.props.field,
-                                popoverRef: findDOMNode(buttonRef) })}
+                                popoverRef: findDOMNode(buttonRef)
+                            })}
                         >
                             <FilterListIcon />
                         </IconButton>
 
                         <Popover
-                            classes={{ paper: classes.popoverPaper}}
+                            classes={{ paper: classes.popoverPaper }}
                             open={popover == child.props.field}
                             onClose={() => this.setState({ popover: "" })}
                             anchorEl={this.state.popoverRef}
                             anchorReference="anchorEl"
-                            anchorOrigin={{ horizontal:"left", vertical:"bottom"}}
+                            anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
                             transformOrigin={{ horizontal: "center", vertical: "top" }}>
-                            {child.props.onRenderFilter}                        
+                            {child.props.onRenderFilter}
                         </Popover>
                     </div>
                 );
@@ -147,7 +148,7 @@ class DataTable extends React.Component {
             child => {
                 if (child) {
 
-                    const { field, numeric, padding, cellClassName } = child.props;                
+                    const { field, numeric, padding, cellClassName } = child.props;
 
                     return (
                         <TableCell
@@ -158,7 +159,7 @@ class DataTable extends React.Component {
 
                             <div className={classes.tableHeader}>
                                 {renderFilter(child)}
-                                
+
                                 <TableSortLabel
                                     active={orderBy === field}
                                     direction={order}
@@ -169,7 +170,7 @@ class DataTable extends React.Component {
                                 </TableSortLabel>
 
                                 {child.props.headerSuffix}
-                                
+
                             </div>
 
                         </TableCell>
@@ -179,13 +180,13 @@ class DataTable extends React.Component {
                 return null;
             }
         );
-                
+
         const rows = data.map(
             row => {
                 return (
                     <TableRow hover tabIndex="-1" key={row[columnKey]}>
 
-                        {React.Children.map(children, 
+                        {React.Children.map(children,
                             column => {
                                 if (column) {
                                     const { field, numeric, onRender, padding, cellClassName } = column.props;
