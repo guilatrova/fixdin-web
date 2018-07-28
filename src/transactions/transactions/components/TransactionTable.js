@@ -11,11 +11,10 @@ import MoneyIcon from '@material-ui/icons/AttachMoney';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 
-import { 
-    DescriptionFilter, 
-    CategoryFilter, 
-    DueDateFilter, 
-    // KindFilter, 
+import {
+    DescriptionFilter,
+    CategoryFilter,
+    DueDateFilter,
     DeadlineFilter,
     PriorityFilter,
     PaymentFilter,
@@ -28,6 +27,7 @@ import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
 import { formatCurrencyDisplay } from '../../../utils/formatters';
 import AddButtonTableSuffix from './AddButtonTableSuffix';
+import filterIconSrc from '../../../styles/icons/filterTableIcon.png';
 
 const styles = {
     cell: {
@@ -48,6 +48,10 @@ const styles = {
     padLeft: {
         paddingLeft: '20px'
     },
+    filterIcon: {
+        maxWidth: 30,
+        marginRight: 5
+    }
 };
 
 class TransactionTable extends React.Component {
@@ -87,9 +91,9 @@ class TransactionTable extends React.Component {
             return null;
 
         return (
-            <div className={classes.optionsWrapper}>                
-                <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>                
-                
+            <div className={classes.optionsWrapper}>
+                <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>
+
                 <CollapsibleMenu>
                     <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
                     <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
@@ -101,7 +105,7 @@ class TransactionTable extends React.Component {
         );
     }
 
-    formatKind = (transaction) => {        
+    formatKind = (transaction) => {
         const className = transaction.kind ? "greenColor" : "redColor";
         return <span className={this.props.classes[className]}>{getKind(transaction.kind).text[0].toUpperCase()}</span>;
     }
@@ -135,58 +139,49 @@ class TransactionTable extends React.Component {
 
     sortPayed = (a, b, order) => sortMoment(a, b, order);
 
-    render () {
+    render() {
         const { activeFilters, classes, onAddAccount, onAddCategory } = this.props;
         return (
-            <DataTable 
+            <DataTable
                 headersClassName={classes.strongCell}
                 cellsClassName={classes.cell}
-                data={this.props.transactions} 
+                data={this.props.transactions}
+                filterIcon={<img src={filterIconSrc} className={classes.filterIcon} />}
                 initialOrderBy="due_date" >
 
-                {/* <DataColumn 
-                    sortable
-                    padding="none"
-                    field="kind" 
-                    onRender={this.formatKind}
-                    onRenderFilter={<KindFilter />} 
-                    filterActive={activeFilters.kind}
-                    cellClassName={classes.padLeft} > TIPO
-                </DataColumn> */}
-
-                <DataColumn 
+                <DataColumn
                     sortable
                     padding="dense"
-                    field="account" 
-                    onRender={this.formatAccount} 
+                    field="account"
+                    onRender={this.formatAccount}
                     onRenderFilter={<AccountFilter />}
                     filterActive={activeFilters.account}
                     headerSuffix={<AddButtonTableSuffix onClick={onAddAccount} />}
-                    onSort={this.sortAccount} > CONTA                    
+                    onSort={this.sortAccount} > CONTA
                 </DataColumn>
-                
-                <DataColumn 
+
+                <DataColumn
                     sortable
                     padding="dense"
-                    field="due_date" 
+                    field="due_date"
                     onRender={this.formatDate}
-                    onRenderFilter={<DueDateFilter />} 
+                    onRenderFilter={<DueDateFilter />}
                     filterActive={activeFilters.due_date} > DATA
                 </DataColumn>
 
-                <DataColumn 
+                <DataColumn
                     sortable
                     padding="dense"
-                    field="description" 
-                    onRenderFilter={<DescriptionFilter />} 
+                    field="description"
+                    onRenderFilter={<DescriptionFilter />}
                     filterActive={activeFilters.description} > DESCRIÇÃO
                 </DataColumn>
 
-                <DataColumn 
+                <DataColumn
                     sortable
                     padding="dense"
                     field="category"
-                    filterActive={activeFilters.category} 
+                    filterActive={activeFilters.category}
                     onRender={this.formatCategory}
                     onRenderFilter={<CategoryFilter />}
                     headerSuffix={<AddButtonTableSuffix onClick={onAddCategory} />}
@@ -197,37 +192,37 @@ class TransactionTable extends React.Component {
                     sortable
                     numeric
                     padding="dense"
-                    field="value" 
+                    field="value"
                     cellClassName={classes.strongCell}
                     onRender={this.formatValue}
                     onSort={this.sortValue}> VALOR
                 </DataColumn>
 
-                <DataColumn 
-                    sortable 
-                    padding="none" 
-                    field="priority" 
-                    onRenderFilter={<PriorityFilter />} 
+                <DataColumn
+                    sortable
+                    padding="none"
+                    field="priority"
+                    onRenderFilter={<PriorityFilter />}
                     filterActive={activeFilters.priority}
                     cellClassName={classes.padLeft} > IMP.
                 </DataColumn>
 
-                <DataColumn 
-                    sortable 
-                    padding="none" 
-                    field="deadline" 
-                    onRenderFilter={<DeadlineFilter />} 
+                <DataColumn
+                    sortable
+                    padding="none"
+                    field="deadline"
+                    onRenderFilter={<DeadlineFilter />}
                     filterActive={activeFilters.deadline}
                     cellClassName={classes.padLeft} > TOL.
                 </DataColumn>
 
-                <DataColumn 
+                <DataColumn
                     sortable
-                    padding="none" 
+                    padding="none"
                     field="payment_date"
                     cellClassName={classes.strongCell}
-                    onRenderFilter={<PaymentFilter />} 
-                    filterActive={activeFilters.payment_date} 
+                    onRenderFilter={<PaymentFilter />}
+                    filterActive={activeFilters.payment_date}
                     onRender={this.formatPayed}
                     onSort={this.sortPayed}> PG.
                 </DataColumn>

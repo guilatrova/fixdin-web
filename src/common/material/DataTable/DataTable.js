@@ -42,6 +42,7 @@ class DataTable extends React.Component {
         filterActiveColor: PropTypes.string.isRequired,
         cellsClassName: PropTypes.string,
         headersClassName: PropTypes.string,
+        filterIcon: PropTypes.node,
         className: PropTypes.string
     }
 
@@ -49,7 +50,8 @@ class DataTable extends React.Component {
         columnKey: 'id',
         initialOrder: 'asc',
         initialOrderBy: '',
-        filterActiveColor: 'primary'
+        filterActiveColor: 'primary',
+        filterIcon: <FilterListIcon />
     }
 
     constructor(props) {
@@ -103,7 +105,7 @@ class DataTable extends React.Component {
     }
 
     render() {
-        const { columnKey, children, filterActiveColor, classes, cellsClassName, headersClassName, className } = this.props;
+        const { columnKey, children, filterActiveColor, classes, cellsClassName, headersClassName, filterIcon, className } = this.props;
         const { order, orderBy } = this.state;
         const handleHeaderClick = this.handleHeaderClick;
         const data = this.sort(this.state.orderBy, this.state.order);
@@ -124,7 +126,7 @@ class DataTable extends React.Component {
                                 popoverRef: findDOMNode(buttonRef)
                             })}
                         >
-                            <FilterListIcon />
+                            {filterIcon}
                         </IconButton>
 
                         <Popover
