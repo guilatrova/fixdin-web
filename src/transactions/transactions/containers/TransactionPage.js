@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
 import { EXPENSE, INCOME } from '../../shared/kinds';
-import FloatingActionButton from '../../../common/material/FloatingActionButton';
 import TransactionTable from './TransactionTableContainer';
 import TransactionFormDialog from './TransactionFormDialog';
 import * as saveOptions from './../components/TransactionForm';
@@ -23,9 +22,9 @@ import CategoryFormDialogContainer from '../../categories/containers/CategoryFor
 
 const styles = theme => ({
     root: {
-      flexGrow: 1,
-      marginTop: 30,
-      overflow: 'hidden',
+        flexGrow: 1,
+        marginTop: 30,
+        overflow: 'hidden',
     },
     paper: {
         width: '100%',
@@ -33,7 +32,7 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit * 6,
     },
     table: {
-        overflowX: 'auto',        
+        overflowX: 'auto',
     },
     spacer: {
         flex: '1 1 50%',
@@ -84,10 +83,10 @@ class TransactionPage extends React.Component {
     }
 
     handleTransactionFormSubmit = (type, option, transaction) => {
-        this.props.onSubmit(transaction, type).then(({result}) => {
+        this.props.onSubmit(transaction, type).then(({ result }) => {
             if (result == 'success') {
 
-                switch(option) {
+                switch (option) {
                     case saveOptions.CLOSE:
                         this.setState({ openTransactionFormDialog: false });
 
@@ -129,7 +128,7 @@ class TransactionPage extends React.Component {
     handleConfirmDelete = type => {
         const id = (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) ? this.state.toDeletePeriodicTransaction : this.state.toDeleteId;
 
-        this.props.onDelete(id, type).then(({result}) => {
+        this.props.onDelete(id, type).then(({ result }) => {
             if (result == 'success') {
                 this.setState({
                     openDeleteDialog: false,
@@ -210,7 +209,7 @@ class TransactionPage extends React.Component {
                     Tem certeza que deseja deletar esta movimentação?
                 </ConfirmDeleteDialog>
 
-                <AccountFormDialogContainer 
+                <AccountFormDialogContainer
                     open={this.state.openCreateAccountDialog}
                     onClose={this.handleCloseAccountDialog}
                 />
@@ -219,8 +218,6 @@ class TransactionPage extends React.Component {
                     open={this.state.openCreateCategoryDialog}
                     onClose={this.handleCloseCategoryDialog}
                 />
-
-                <FloatingActionButton onClick={this.handleCreateTransaction} />
 
             </div>
         );
