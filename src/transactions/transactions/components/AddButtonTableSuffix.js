@@ -7,9 +7,9 @@ import AddIcon from '@material-ui/icons/Add';
 
 const styles = theme => ({
     addButton: {
-        width: 25,
-        height: 25,
-        minHeight: 25, // Override button-root
+        width: 26,
+        height: 26,
+        minHeight: 26, // Override button-root
         margin: 'auto',
         ...theme.mixins.fab
     }
@@ -17,14 +17,14 @@ const styles = theme => ({
 
 const AddButtonTableSuffix = ({ classes, ...props }) => {
     return (
-        <Button 
-            mini 
-            variant="fab" 
-            aria-label="add" 
-            className={classes.addButton} 
+        <Button
+            mini
+            variant="fab"
+            aria-label="add"
+            className={classes.addButton}
             {...props}>
 
-            <AddIcon />
+            <AddIcon viewBox="0 -4 24 32" />
 
         </Button>
     );
