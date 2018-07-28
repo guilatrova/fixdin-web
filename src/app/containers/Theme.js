@@ -13,6 +13,14 @@ const theme = createMuiTheme({
             contrastText: '#000',
         },
     },
+    typography: {
+        fontFamily: [
+            '"Segoe UI"'
+        ].join(","),
+        subheading: {
+            fontSize: 16
+        },
+    },
     mixins: {
         fab: {
             background: "#f95023",
