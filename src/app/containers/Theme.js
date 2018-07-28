@@ -13,6 +13,12 @@ const theme = createMuiTheme({
             contrastText: '#000',
         },
     },
+    mixins: {
+        fab: {
+            background: "#f95023",
+            color: "#fff"
+        }
+    }
 });
 
 const FixdinTheme = ({ children }) => {

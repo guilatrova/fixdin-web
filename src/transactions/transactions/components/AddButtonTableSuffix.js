@@ -5,14 +5,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
-const styles = {
+const styles = theme => ({
     addButton: {
         width: 25,
         height: 25,
         minHeight: 25, // Override button-root
-        margin: 'auto'
+        margin: 'auto',
+        ...theme.mixins.fab
     }
-};
+});
 
 const AddButtonTableSuffix = ({ classes, ...props }) => {
     return (

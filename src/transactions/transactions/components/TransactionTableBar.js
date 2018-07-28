@@ -10,12 +10,13 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Tabs, Tab } from '../../../common/material/Tabs';
 
-const styles = {
+const styles = theme => ({
     bar: {
         position: "relative"
     },
     button: {
-        margin: "0 5px"
+        margin: "0 5px",
+        ...theme.mixins.fab
     },
     container: {
         position: "absolute",
@@ -27,7 +28,7 @@ const styles = {
         flexDirection: "row-reverse",
         padding: "0 25px",
     }
-};
+});
 
 const TransactionTableBar = ({ tab, classes, onTabChange, onAdd, onRefresh, onClearAll }) => {
     /* eslint-disable react/prop-types */
