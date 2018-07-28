@@ -185,8 +185,6 @@ class TransactionPage extends React.Component {
 
                 </Paper>
 
-                <BalanceHeader />
-
                 <TransactionFormDialog
                     open={this.state.openTransactionFormDialog}
                     onClose={this.handleHideTransactionFormModal}
