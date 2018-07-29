@@ -150,7 +150,12 @@ class DataTable extends React.Component {
             child => {
                 if (child) {
 
-                    const { field, numeric, padding, cellClassName } = child.props;
+                    const { field, numeric, padding } = child.props;
+                    let { cellClassName } = child.props;
+
+                    if (typeof cellClassName === "function") {
+                        cellClassName = "";
+                    }
 
                     return (
                         <TableCell
@@ -191,7 +196,12 @@ class DataTable extends React.Component {
                         {React.Children.map(children,
                             column => {
                                 if (column) {
-                                    const { field, numeric, onRender, padding, cellClassName } = column.props;
+                                    const { field, numeric, onRender, padding } = column.props;
+                                    let { cellClassName } = column.props;
+
+                                    if (typeof cellClassName === "function") {
+                                        cellClassName = cellClassName(row);
+                                    }
 
                                     return (
                                         <TableCell numeric={numeric} padding={padding} className={classNames(cellsClassName, cellClassName)}>
