@@ -188,7 +188,6 @@ class TransactionTable extends React.Component {
                     numeric
                     padding="dense"
                     field="value"
-                    cellClassName={classes.strongCell}
                     onRender={this.formatValue}
                     onSort={this.sortValue}> VALOR
                 </DataColumn>
