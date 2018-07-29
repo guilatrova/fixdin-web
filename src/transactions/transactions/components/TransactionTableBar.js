@@ -23,7 +23,8 @@ const styles = theme => ({
         ...theme.mixins.fab
     },
     tabsContainer: {
-        zIndex: 1 // Don't let buttons containers prevent clicking it
+        zIndex: 1, // Don't let buttons containers prevent clicking it
+        marginRight: "50%"
     },
     tabButton: {
         [theme.breakpoints.up('md')]: {
