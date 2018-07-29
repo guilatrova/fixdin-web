@@ -53,7 +53,7 @@ const TransactionTableBar = ({ tab, classes, onTabChange, onAdd, onRefresh, onCl
         );
     };
 
-    const tabClasses = { classes: { root: classes.tabButton, wrapper: classes.tabButton } };
+    const tabClasses = { classes: { root: classes.tabButton } };
 
     return (
         <AppBar position="static" className={classes.bar}>
