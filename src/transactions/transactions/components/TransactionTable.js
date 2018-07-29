@@ -6,6 +6,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
+import blue from '@material-ui/core/colors/blue';
+import purple from '@material-ui/core/colors/purple';
 
 import {
     DescriptionFilter,
@@ -26,7 +28,15 @@ import filterIconSrc from '../../../styles/icons/filterTableIcon.png';
 import editIconSrc from '../../../styles/icons/editIcon.png';
 import deleteIconSrc from '../../../styles/icons/garbageIcon.png';
 
+const INDICATOR_WEIGHT = "6px";
+
 const styles = {
+    payedIndicator: {
+        borderLeft: `${INDICATOR_WEIGHT} solid ${purple['500']}`
+    },
+    overdueIndicator: {
+        borderLeft: `${INDICATOR_WEIGHT} solid ${blue['500']}`
+    },
     cell: {
         whiteSpace: 'nowrap',
     },
@@ -87,7 +97,7 @@ class TransactionTable extends React.Component {
 
     formatPayed = (row, field) => {
         const { onPay, isFetching } = this.props;
-        const cell = row[field];
+        const cell = !!row[field];
         return <Checkbox color="primary" checked={cell} onClick={() => onPay(row.id)} disabled={isFetching} />;
     }
 
@@ -117,6 +127,17 @@ class TransactionTable extends React.Component {
     formatKind = (transaction) => {
         const className = transaction.kind ? "greenColor" : "redColor";
         return <span className={this.props.classes[className]}>{getKind(transaction.kind).text[0].toUpperCase()}</span>;
+    }
+
+    formatRowIndicator = (transaction) => {
+        const { classes } = this.props;
+        if (transaction.payment_date) {
+            return classes.payedIndicator;
+        }
+
+        if (specifications.isOverdue(transaction)) {
+            return classes.overdueIndicator;
+        }
     }
 
     //Sort
@@ -165,6 +186,7 @@ class TransactionTable extends React.Component {
                     onRender={this.formatAccount}
                     onRenderFilter={<AccountFilter />}
                     filterActive={activeFilters.account}
+                    cellClassName={this.formatRowIndicator}
                     headerSuffix={<AddButtonTableSuffix onClick={onAddAccount} />}
                     onSort={this.sortAccount} > CONTA
                 </DataColumn>
