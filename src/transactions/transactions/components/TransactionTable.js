@@ -45,8 +45,8 @@ const styles = {
     strongCell: {
         fontWeight: 'bold',
     },
-    padLeft: {
-        paddingLeft: '20px'
+    numeric: {
+        textAlign: "center"
     },
     filterIcon: {
         maxWidth: 30,
@@ -200,20 +200,22 @@ class TransactionTable extends React.Component {
 
                 <DataColumn
                     sortable
+                    numeric
                     padding="none"
                     field="priority"
                     onRenderFilter={<PriorityFilter />}
                     filterActive={activeFilters.priority}
-                    cellClassName={classes.padLeft} > IMP.
+                    cellClassName={classes.numeric} > IMP.
                 </DataColumn>
 
                 <DataColumn
                     sortable
+                    numeric
                     padding="none"
                     field="deadline"
                     onRenderFilter={<DeadlineFilter />}
                     filterActive={activeFilters.deadline}
-                    cellClassName={classes.padLeft} > TOL.
+                    cellClassName={classes.numeric} > TOL.
                 </DataColumn>
 
                 <DataColumn padding="none" onRender={this.formatOptions}>EDITAR</DataColumn>
