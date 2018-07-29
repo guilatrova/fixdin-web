@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ContentCopyIcon from '@material-ui/icons/ContentCopy';
 import EditIcon from '@material-ui/icons/ModeEdit';
-import MoneyIcon from '@material-ui/icons/AttachMoney';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 
@@ -45,7 +44,7 @@ const styles = {
     strongCell: {
         fontWeight: 'bold',
     },
-    numeric: {
+    centered: {
         textAlign: "center"
     },
     filterIcon: {
@@ -80,27 +79,23 @@ class TransactionTable extends React.Component {
     formatValue = (row, field) => formatCurrencyDisplay(row[field]);
 
     formatPayed = (row, field) => {
+        const { onPay, isFetching } = this.props;
         const cell = row[field];
-        const className = cell ? "greenColor" : "redColor";
-        return <span className={this.props.classes[className]}>$</span>;
+        return <Checkbox color="primary" checked={cell} onClick={() => onPay(row.id)} disabled={isFetching} />;
     }
 
     formatOptions = (transaction) => {
-        const { onEdit, onDelete, onCopy, onPay, isFetching, classes } = this.props;
+        const { onEdit, onDelete, onCopy, classes } = this.props;
         if (specifications.isTransfer(transaction))
             return null;
 
         return (
             <div className={classes.optionsWrapper}>
-                <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>
-
                 <CollapsibleMenu>
                     <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
                     <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
                     <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
                 </CollapsibleMenu>
-
-                <Checkbox color="primary" />
             </div>
         );
     }
@@ -205,7 +200,7 @@ class TransactionTable extends React.Component {
                     field="priority"
                     onRenderFilter={<PriorityFilter />}
                     filterActive={activeFilters.priority}
-                    cellClassName={classes.numeric} > IMP.
+                    cellClassName={classes.centered} > IMP.
                 </DataColumn>
 
                 <DataColumn
@@ -215,7 +210,7 @@ class TransactionTable extends React.Component {
                     field="deadline"
                     onRenderFilter={<DeadlineFilter />}
                     filterActive={activeFilters.deadline}
-                    cellClassName={classes.numeric} > TOL.
+                    cellClassName={classes.centered} > TOL.
                 </DataColumn>
 
                 <DataColumn padding="none" onRender={this.formatOptions}>EDITAR</DataColumn>
@@ -224,7 +219,7 @@ class TransactionTable extends React.Component {
                     sortable
                     padding="none"
                     field="payment_date"
-                    cellClassName={classes.strongCell}
+                    cellClassName={classes.centered}
                     onRenderFilter={<PaymentFilter />}
                     filterActive={activeFilters.payment_date}
                     onRender={this.formatPayed}
