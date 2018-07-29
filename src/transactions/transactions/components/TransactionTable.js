@@ -35,7 +35,7 @@ const styles = {
         borderLeft: `${INDICATOR_WEIGHT} solid ${purple['500']}`
     },
     overdueIndicator: {
-        borderLeft: `${INDICATOR_WEIGHT} solid ${blue['500']}`
+        borderLeft: `${INDICATOR_WEIGHT} solid ${blue['300']}`
     },
     cell: {
         whiteSpace: 'nowrap',
