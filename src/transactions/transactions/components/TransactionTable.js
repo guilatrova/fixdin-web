@@ -216,6 +216,8 @@ class TransactionTable extends React.Component {
                     cellClassName={classes.padLeft} > TOL.
                 </DataColumn>
 
+                <DataColumn padding="none" onRender={this.formatOptions}>EDITAR</DataColumn>
+
                 <DataColumn
                     sortable
                     padding="none"
@@ -224,10 +226,9 @@ class TransactionTable extends React.Component {
                     onRenderFilter={<PaymentFilter />}
                     filterActive={activeFilters.payment_date}
                     onRender={this.formatPayed}
-                    onSort={this.sortPayed}> PG.
+                    onSort={this.sortPayed}> STATUS
                 </DataColumn>
 
-                <DataColumn padding="none" onRender={this.formatOptions}>EDIT.</DataColumn>
             </DataTable>
         );
     }

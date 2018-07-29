@@ -16,6 +16,7 @@ const styles = theme => ({
         position: "relative",
         padding: "10px 0 0 15px",
         boxSizing: "border-box",
+        marginBottom: 10
     },
     button: {
         margin: "0 5px",
@@ -32,12 +33,12 @@ const styles = theme => ({
     buttonsContainer: {
         position: "absolute",
         boxSizing: "border-box",
-        width: "100%",
+        width: "calc(100% - 15px)", //parent padding
         top: "75%",
 
         display: "flex",
         flexDirection: "row-reverse",
-        padding: "0 25px",
+        padding: "0 15px",
     }
 });
 
