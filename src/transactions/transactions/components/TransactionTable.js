@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import Checkbox from '@material-ui/core/Checkbox';
-import MenuItem from '@material-ui/core/MenuItem';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ContentCopyIcon from '@material-ui/icons/ContentCopy';
-import EditIcon from '@material-ui/icons/ModeEdit';
+import IconButton from '@material-ui/core/IconButton';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 
@@ -21,12 +18,13 @@ import {
 } from './filters';
 import { sort, sortMoment } from './../../../utils/sorts';
 import { DataTable, DataColumn } from './../../../common/material/DataTable';
-import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
 import { formatCurrencyDisplay } from '../../../utils/formatters';
 import AddButtonTableSuffix from './AddButtonTableSuffix';
 import filterIconSrc from '../../../styles/icons/filterTableIcon.png';
+import editIconSrc from '../../../styles/icons/editIcon.png';
+import deleteIconSrc from '../../../styles/icons/garbageIcon.png';
 
 const styles = {
     cell: {
@@ -49,7 +47,16 @@ const styles = {
     },
     filterIcon: {
         maxWidth: 30,
+        maxHeight: 30,
         marginRight: 5
+    },
+    optionButton: {
+        width: 30,
+        height: 30
+    },
+    optionIcon: {
+        maxWidth: 15,
+        maxHeight: 15
     }
 };
 
@@ -89,13 +96,20 @@ class TransactionTable extends React.Component {
         if (specifications.isTransfer(transaction))
             return null;
 
+        /* eslint-disable react/prop-types */
+        const IconOptionButton = ({ onClick, icon }) => {
+            return (
+                <IconButton onClick={() => onClick(transaction.id)} className={classes.optionButton}>
+                    <img src={icon} className={classes.optionIcon} />
+                </IconButton>
+            );
+        };
+
         return (
             <div className={classes.optionsWrapper}>
-                <CollapsibleMenu>
-                    <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
-                    <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
-                    <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
-                </CollapsibleMenu>
+                <IconOptionButton onClick={onEdit} icon={editIconSrc} />
+                <IconOptionButton onClick={onCopy} icon={editIconSrc} />
+                <IconOptionButton onClick={onDelete} icon={deleteIconSrc} />
             </div>
         );
     }
