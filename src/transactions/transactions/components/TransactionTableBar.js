@@ -21,16 +21,19 @@ const styles = theme => ({
         margin: "0 5px",
         ...theme.mixins.fab
     },
+    tabsContainer: {
+        zIndex: 1 // Don't let buttons containers prevent clicking it
+    },
     tabButton: {
         [theme.breakpoints.up('md')]: {
             minWidth: 90,
         },
     },
-    container: {
+    buttonsContainer: {
         position: "absolute",
         boxSizing: "border-box",
         width: "100%",
-        top: "50%",
+        top: "75%",
 
         display: "flex",
         flexDirection: "row-reverse",
@@ -58,13 +61,13 @@ const TransactionTableBar = ({ tab, classes, onTabChange, onAdd, onRefresh, onCl
                 OPERAÇÕES FINANCEIRAS REALIZADAS
             </Typography>
 
-            <Tabs value={tab} onChange={onTabChange}>
+            <Tabs value={tab} onChange={onTabChange} className={classes.tabsContainer}>
                 <Tab label="Todas" {...tabClasses} />
                 <Tab label="Receitas" {...tabClasses} />
                 <Tab label="Despesas" {...tabClasses} />
             </Tabs>
 
-            <div className={classes.container}>
+            <div className={classes.buttonsContainer}>
                 <MiniButton onClick={onAdd}><AddIcon /></MiniButton>
                 <MiniButton onClick={onRefresh}><RefreshIcon /></MiniButton>
                 <MiniButton onClick={onClearAll} ><ClearAllIcon /></MiniButton>
