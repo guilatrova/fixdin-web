@@ -8,9 +8,13 @@
   src: url("./fonts/Segoe/segoeui.ttf");
 }
 
+@font-face {
+  font-family: 'Open Sans';
+  src: url("./fonts/Open_Sans/OpenSans-Regular.ttf");
+}
+
 $primary-color: #981192;
 
-/* Styles */
 html, body {
   margin: 0;
 }
@@ -20,7 +24,7 @@ a {
 }
 
 * {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .logo {
