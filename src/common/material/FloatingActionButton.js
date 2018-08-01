@@ -7,11 +7,12 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     button: {
-		margin: theme.spacing.unit,
-		position: 'fixed',
-		bottom: 10,
-		right: 10
-	}
+        margin: theme.spacing.unit,
+        position: 'fixed',
+        bottom: 10,
+        right: 10,
+        ...theme.mixins.fab
+    }
 });
 
 const FloatActionButton = ({ children, classes, ...props }) => {

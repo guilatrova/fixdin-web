@@ -3,19 +3,16 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import Checkbox from '@material-ui/core/Checkbox';
-import MenuItem from '@material-ui/core/MenuItem';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ContentCopyIcon from '@material-ui/icons/ContentCopy';
-import EditIcon from '@material-ui/icons/ModeEdit';
-import MoneyIcon from '@material-ui/icons/AttachMoney';
+import IconButton from '@material-ui/core/IconButton';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
+import blue from '@material-ui/core/colors/blue';
+import purple from '@material-ui/core/colors/purple';
 
-import { 
-    DescriptionFilter, 
-    CategoryFilter, 
-    DueDateFilter, 
-    // KindFilter, 
+import {
+    DescriptionFilter,
+    CategoryFilter,
+    DueDateFilter,
     DeadlineFilter,
     PriorityFilter,
     PaymentFilter,
@@ -23,12 +20,24 @@ import {
 } from './filters';
 import { sort, sortMoment } from './../../../utils/sorts';
 import { DataTable, DataColumn } from './../../../common/material/DataTable';
-import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
 import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
 import { formatCurrencyDisplay } from '../../../utils/formatters';
+import AddButtonTableSuffix from './AddButtonTableSuffix';
+import filterIconSrc from '../../../styles/icons/filterTableIcon.png';
+import editIconSrc from '../../../styles/icons/editIcon.png';
+import copyIconSrc from '../../../styles/icons/copyIcon.png';
+import deleteIconSrc from '../../../styles/icons/garbageIcon.png';
+
+const INDICATOR_WEIGHT = "6px";
 
 const styles = {
+    payedIndicator: {
+        borderLeft: `${INDICATOR_WEIGHT} solid ${purple['500']}`
+    },
+    overdueIndicator: {
+        borderLeft: `${INDICATOR_WEIGHT} solid ${blue['300']}`
+    },
     cell: {
         whiteSpace: 'nowrap',
     },
@@ -44,8 +53,21 @@ const styles = {
     strongCell: {
         fontWeight: 'bold',
     },
-    padLeft: {
-        paddingLeft: '20px'
+    centered: {
+        textAlign: "center"
+    },
+    filterIcon: {
+        maxWidth: 30,
+        maxHeight: 30,
+        marginRight: 5
+    },
+    optionButton: {
+        width: 30,
+        height: 30
+    },
+    optionIcon: {
+        maxWidth: 15,
+        maxHeight: 15
     }
 };
 
@@ -58,6 +80,8 @@ class TransactionTable extends React.Component {
         onPay: PropTypes.func.isRequired,
         onCopy: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
+        onAddAccount: PropTypes.func.isRequired,
+        onAddCategory: PropTypes.func.isRequired,
         isFetching: PropTypes.bool.isRequired,
         activeFilters: PropTypes.object.isRequired,
         classes: PropTypes.object.isRequired
@@ -73,34 +97,48 @@ class TransactionTable extends React.Component {
     formatValue = (row, field) => formatCurrencyDisplay(row[field]);
 
     formatPayed = (row, field) => {
-        const cell = row[field];
-        const className = cell ? "greenColor" : "redColor";
-        return <span className={this.props.classes[className]}>$</span>;
+        const { onPay, isFetching } = this.props;
+        const cell = !!row[field];
+        return <Checkbox color="primary" checked={cell} onClick={() => onPay(row.id)} disabled={isFetching} />;
     }
 
     formatOptions = (transaction) => {
-        const { onEdit, onDelete, onCopy, onPay, isFetching, classes } = this.props;
+        const { onEdit, onDelete, onCopy, classes } = this.props;
         if (specifications.isTransfer(transaction))
             return null;
 
-        return (
-            <div className={classes.optionsWrapper}>                
-                <MenuItem onClick={() => onPay(transaction.id)} disabled={isFetching}><MoneyIcon /></MenuItem>                
-                
-                <CollapsibleMenu>
-                    <MenuItem onClick={() => onEdit(transaction.id)}><EditIcon /> Editar</MenuItem>
-                    <MenuItem onClick={() => onCopy(transaction.id)}><ContentCopyIcon /> Copiar</MenuItem>
-                    <MenuItem onClick={() => onDelete(transaction.id)}><DeleteIcon /> Deletar</MenuItem>
-                </CollapsibleMenu>
+        /* eslint-disable react/prop-types */
+        const IconOptionButton = ({ onClick, icon }) => {
+            return (
+                <IconButton onClick={() => onClick(transaction.id)} className={classes.optionButton}>
+                    <img src={icon} className={classes.optionIcon} />
+                </IconButton>
+            );
+        };
 
-                <Checkbox color="primary" />
+        return (
+            <div className={classes.optionsWrapper}>
+                <IconOptionButton onClick={onEdit} icon={editIconSrc} />
+                <IconOptionButton onClick={onCopy} icon={copyIconSrc} />
+                <IconOptionButton onClick={onDelete} icon={deleteIconSrc} />
             </div>
         );
     }
 
-    formatKind = (transaction) => {        
+    formatKind = (transaction) => {
         const className = transaction.kind ? "greenColor" : "redColor";
         return <span className={this.props.classes[className]}>{getKind(transaction.kind).text[0].toUpperCase()}</span>;
+    }
+
+    formatRowIndicator = (transaction) => {
+        const { classes } = this.props;
+        if (transaction.payment_date) {
+            return classes.payedIndicator;
+        }
+
+        if (specifications.isOverdue(transaction)) {
+            return classes.overdueIndicator;
+        }
     }
 
     //Sort
@@ -132,59 +170,53 @@ class TransactionTable extends React.Component {
 
     sortPayed = (a, b, order) => sortMoment(a, b, order);
 
-    render () {
-        const { activeFilters, classes } = this.props;
+    render() {
+        const { activeFilters, classes, onAddAccount, onAddCategory } = this.props;
         return (
-            <DataTable 
+            <DataTable
                 headersClassName={classes.strongCell}
                 cellsClassName={classes.cell}
-                data={this.props.transactions} 
+                data={this.props.transactions}
+                filterIcon={<img src={filterIconSrc} className={classes.filterIcon} />}
                 initialOrderBy="due_date" >
 
-                {/* <DataColumn 
-                    sortable
-                    padding="none"
-                    field="kind" 
-                    onRender={this.formatKind}
-                    onRenderFilter={<KindFilter />} 
-                    filterActive={activeFilters.kind}
-                    cellClassName={classes.padLeft} > TIPO
-                </DataColumn> */}
-
-                <DataColumn 
+                <DataColumn
                     sortable
                     padding="dense"
-                    field="account" 
-                    onRender={this.formatAccount} 
+                    field="account"
+                    onRender={this.formatAccount}
                     onRenderFilter={<AccountFilter />}
                     filterActive={activeFilters.account}
+                    cellClassName={this.formatRowIndicator}
+                    headerSuffix={<AddButtonTableSuffix onClick={onAddAccount} />}
                     onSort={this.sortAccount} > CONTA
                 </DataColumn>
-                
-                <DataColumn 
+
+                <DataColumn
                     sortable
                     padding="dense"
-                    field="due_date" 
+                    field="due_date"
                     onRender={this.formatDate}
-                    onRenderFilter={<DueDateFilter />} 
+                    onRenderFilter={<DueDateFilter />}
                     filterActive={activeFilters.due_date} > DATA
                 </DataColumn>
 
-                <DataColumn 
+                <DataColumn
                     sortable
                     padding="dense"
-                    field="description" 
-                    onRenderFilter={<DescriptionFilter />} 
+                    field="description"
+                    onRenderFilter={<DescriptionFilter />}
                     filterActive={activeFilters.description} > DESCRIÇÃO
                 </DataColumn>
 
-                <DataColumn 
+                <DataColumn
                     sortable
                     padding="dense"
                     field="category"
-                    filterActive={activeFilters.category} 
+                    filterActive={activeFilters.category}
                     onRender={this.formatCategory}
                     onRenderFilter={<CategoryFilter />}
+                    headerSuffix={<AddButtonTableSuffix onClick={onAddCategory} />}
                     onSort={this.sortCategory}> CATEGORIA
                 </DataColumn>
 
@@ -192,42 +224,44 @@ class TransactionTable extends React.Component {
                     sortable
                     numeric
                     padding="dense"
-                    field="value" 
-                    cellClassName={classes.strongCell}
+                    field="value"
                     onRender={this.formatValue}
                     onSort={this.sortValue}> VALOR
                 </DataColumn>
 
-                <DataColumn 
-                    sortable 
-                    padding="none" 
-                    field="priority" 
-                    onRenderFilter={<PriorityFilter />} 
-                    filterActive={activeFilters.priority}
-                    cellClassName={classes.padLeft} > IMP.
-                </DataColumn>
-
-                <DataColumn 
-                    sortable 
-                    padding="none" 
-                    field="deadline" 
-                    onRenderFilter={<DeadlineFilter />} 
-                    filterActive={activeFilters.deadline}
-                    cellClassName={classes.padLeft} > TOL.
-                </DataColumn>
-
-                <DataColumn 
+                <DataColumn
                     sortable
-                    padding="none" 
-                    field="payment_date"
-                    cellClassName={classes.strongCell}
-                    onRenderFilter={<PaymentFilter />} 
-                    filterActive={activeFilters.payment_date} 
-                    onRender={this.formatPayed}
-                    onSort={this.sortPayed}> PG.
+                    numeric
+                    padding="none"
+                    field="priority"
+                    onRenderFilter={<PriorityFilter />}
+                    filterActive={activeFilters.priority}
+                    cellClassName={classes.centered} > IMP.
                 </DataColumn>
 
-                <DataColumn padding="none" onRender={this.formatOptions}>EDIT.</DataColumn>
+                <DataColumn
+                    sortable
+                    numeric
+                    padding="none"
+                    field="deadline"
+                    onRenderFilter={<DeadlineFilter />}
+                    filterActive={activeFilters.deadline}
+                    cellClassName={classes.centered} > TOL.
+                </DataColumn>
+
+                <DataColumn padding="none" onRender={this.formatOptions}>EDITAR</DataColumn>
+
+                <DataColumn
+                    sortable
+                    padding="none"
+                    field="payment_date"
+                    cellClassName={classes.centered}
+                    onRenderFilter={<PaymentFilter />}
+                    filterActive={activeFilters.payment_date}
+                    onRender={this.formatPayed}
+                    onSort={this.sortPayed}> STATUS
+                </DataColumn>
+
             </DataTable>
         );
     }

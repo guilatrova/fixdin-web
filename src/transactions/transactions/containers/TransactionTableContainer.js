@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
 
 import { selectors } from '../duck';
 import { selectors as categorySelectors } from '../../categories/duck';
@@ -13,12 +14,19 @@ const ALL_TAB = 0;
 const INCOMES_TAB = 1;
 const EXPENSES_TAB = 2;
 
+const styles = {
+    tableWrapper: {
+        overflow: 'auto'
+    }
+};
+
 class TransactionTableContainer extends React.Component {
     static propTypes = {
         ...TransactionTable.propTypes,
         onAdd: PropTypes.func.isRequired,
         onRefresh: PropTypes.func.isRequired,
-        onClearAll: PropTypes.func.isRequired
+        onClearAll: PropTypes.func.isRequired,
+        classes: PropTypes.object.isRequired
     }
 
     state = {
@@ -28,7 +36,7 @@ class TransactionTableContainer extends React.Component {
     handleTabChange = (e, value) => this.setState({ tab: value });
 
     render() {
-        const { transactions, onAdd, onRefresh, onClearAll, ...props } = this.props;
+        const { transactions, onAdd, onRefresh, onClearAll, classes, ...props } = this.props;
         const { tab } = this.state;
 
         let shownTransactions = transactions;
@@ -49,10 +57,12 @@ class TransactionTableContainer extends React.Component {
                     onTabChange={this.handleTabChange}
                 />
 
-                <TransactionTable
-                    transactions={shownTransactions}
-                    {...props}
-                />
+                <div className={classes.tableWrapper}>
+                    <TransactionTable
+                        transactions={shownTransactions}
+                        {...props}
+                    />
+                </div>
             </div>
         );
     }
@@ -66,4 +76,6 @@ const mapStateToProps = state => ({
     activeFilters: selectors.getActiveFilters(state)
 });
 
-export default connect(mapStateToProps)(TransactionTableContainer);
+export default withStyles(styles)(
+    connect(mapStateToProps)(TransactionTableContainer)
+);

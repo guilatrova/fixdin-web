@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
 import { EXPENSE, INCOME } from '../../shared/kinds';
-import FloatingActionButton from '../../../common/material/FloatingActionButton';
 import TransactionTable from './TransactionTableContainer';
 import TransactionFormDialog from './TransactionFormDialog';
 import * as saveOptions from './../components/TransactionForm';
@@ -15,15 +14,16 @@ import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 import { operations as accountsOperations, selectors as accountSelectors } from '../../accounts/duck';
-import { operations as reportOperations } from '../../../reports/duck';
 import specifications from '../specifications';
 import BalanceHeader from './BalanceHeader';
+import AccountFormDialogContainer from '../../accounts/containers/AccountFormDialogContainer';
+import CategoryFormDialogContainer from '../../categories/containers/CategoryFormDialogContainer';
 
 const styles = theme => ({
     root: {
-      flexGrow: 1,
-      marginTop: 30,
-      overflow: 'hidden',
+        flexGrow: 1,
+        padding: 30,
+        overflow: 'hidden',
     },
     paper: {
         width: '100%',
@@ -31,7 +31,7 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit * 6,
     },
     table: {
-        overflowX: 'auto',        
+        overflowX: 'auto',
     },
     spacer: {
         flex: '1 1 50%',
@@ -63,7 +63,9 @@ class TransactionPage extends React.Component {
 
     state = {
         openTransactionFormDialog: false,
-        openDeleteDialog: false
+        openDeleteDialog: false,
+        openCreateAccountDialog: false,
+        openCreateCategoryDialog: false,
     }
 
     componentDidMount() {
@@ -80,10 +82,10 @@ class TransactionPage extends React.Component {
     }
 
     handleTransactionFormSubmit = (type, option, transaction) => {
-        this.props.onSubmit(transaction, type).then(({result}) => {
+        this.props.onSubmit(transaction, type).then(({ result }) => {
             if (result == 'success') {
 
-                switch(option) {
+                switch (option) {
                     case saveOptions.CLOSE:
                         this.setState({ openTransactionFormDialog: false });
 
@@ -125,7 +127,7 @@ class TransactionPage extends React.Component {
     handleConfirmDelete = type => {
         const id = (type == types.DELETE_ALL_PERIODIC_TRANSACTIONS) ? this.state.toDeletePeriodicTransaction : this.state.toDeleteId;
 
-        this.props.onDelete(id, type).then(({result}) => {
+        this.props.onDelete(id, type).then(({ result }) => {
             if (result == 'success') {
                 this.setState({
                     openDeleteDialog: false,
@@ -147,6 +149,14 @@ class TransactionPage extends React.Component {
 
     handleClearFilters = () => this.props.onClearFilters();
 
+    handleOpenAccountDialog = () => this.setState({ openCreateAccountDialog: true });
+
+    handleCloseAccountDialog = () => this.setState({ openCreateAccountDialog: false });
+
+    handleOpenCategoryDialog = () => this.setState({ openCreateCategoryDialog: true });
+
+    handleCloseCategoryDialog = () => this.setState({ openCreateCategoryDialog: false });
+
     render() {
         const { isFetching, classes } = this.props;
 
@@ -166,12 +176,13 @@ class TransactionPage extends React.Component {
                             onEdit={this.handleEdit}
                             onPay={this.handlePay}
                             onDelete={this.handleDelete}
-                            onCopy={this.handleCopy} />
+                            onCopy={this.handleCopy}
+                            onAddAccount={this.handleOpenAccountDialog}
+                            onAddCategory={this.handleOpenCategoryDialog}
+                        />
                     </div>
 
                 </Paper>
-
-                <BalanceHeader />
 
                 <TransactionFormDialog
                     open={this.state.openTransactionFormDialog}
@@ -195,7 +206,15 @@ class TransactionPage extends React.Component {
                     Tem certeza que deseja deletar esta movimentação?
                 </ConfirmDeleteDialog>
 
-                <FloatingActionButton onClick={this.handleCreateTransaction} />
+                <AccountFormDialogContainer
+                    open={this.state.openCreateAccountDialog}
+                    onClose={this.handleCloseAccountDialog}
+                />
+
+                <CategoryFormDialogContainer
+                    open={this.state.openCreateCategoryDialog}
+                    onClose={this.handleCloseCategoryDialog}
+                />
 
             </div>
         );
@@ -223,7 +242,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(categoryOperations.fetchCategories(EXPENSE));
             dispatch(operations.fetchTransactions());
             dispatch(accountsOperations.fetchAccounts());
-            dispatch(reportOperations.fetchLastMonthsReport(2));
         },
         onClearFilters: () => dispatch(operations.clearFilters()),
         onSubmit: (transaction, type) => dispatch(operations.saveTransaction(transaction, type)),

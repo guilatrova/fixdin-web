@@ -7,27 +7,41 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import AppBar from '@material-ui/core/AppBar';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 import { Tabs, Tab } from '../../../common/material/Tabs';
 
-const styles = {
+const styles = theme => ({
     bar: {
-        position: "relative"
+        position: "relative",
+        padding: "10px 0 0 15px",
+        boxSizing: "border-box",
+        marginBottom: 10
     },
     button: {
-        margin: "0 5px"
+        margin: "0 5px",
+        ...theme.mixins.fab
     },
-    container: {
+    tabsContainer: {
+        zIndex: 1, // Don't let buttons containers prevent clicking it
+        marginRight: "50%"
+    },
+    tabButton: {
+        [theme.breakpoints.up('md')]: {
+            minWidth: 90,
+        },
+    },
+    buttonsContainer: {
         position: "absolute",
         boxSizing: "border-box",
-        width: "100%",
-        top: "50%",
+        width: "calc(100% - 15px)", //parent padding
+        top: "75%",
 
         display: "flex",
         flexDirection: "row-reverse",
-        padding: "0 25px",
+        padding: "0 15px",
     }
-};
+});
 
 const TransactionTableBar = ({ tab, classes, onTabChange, onAdd, onRefresh, onClearAll }) => {
     /* eslint-disable react/prop-types */
@@ -41,15 +55,21 @@ const TransactionTableBar = ({ tab, classes, onTabChange, onAdd, onRefresh, onCl
         );
     };
 
+    const tabClasses = { classes: { root: classes.tabButton } };
+
     return (
         <AppBar position="static" className={classes.bar}>
-            <Tabs value={tab} onChange={onTabChange}>
-                <Tab label="Todas" />
-                <Tab label="Receitas" />
-                <Tab label="Despesas" />
+            <Typography variant="subheading" color="secondary">
+                OPERAÇÕES FINANCEIRAS REALIZADAS
+            </Typography>
+
+            <Tabs value={tab} onChange={onTabChange} className={classes.tabsContainer}>
+                <Tab label="Todas" {...tabClasses} />
+                <Tab label="Receitas" {...tabClasses} />
+                <Tab label="Despesas" {...tabClasses} />
             </Tabs>
 
-            <div className={classes.container}>
+            <div className={classes.buttonsContainer}>
                 <MiniButton onClick={onAdd}><AddIcon /></MiniButton>
                 <MiniButton onClick={onRefresh}><RefreshIcon /></MiniButton>
                 <MiniButton onClick={onClearAll} ><ClearAllIcon /></MiniButton>

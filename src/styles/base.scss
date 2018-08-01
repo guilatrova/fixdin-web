@@ -1,11 +1,20 @@
 @font-face {
   font-family: 'Espresso Dolce';
-  src: url("./EspressoDolce.ttf");
+  src: url("./fonts/EspressoDolce.ttf");
 }
 
-$primary-color: #FB5100;
+@font-face {
+  font-family: 'Segoe UI';
+  src: url("./fonts/Segoe/segoeui.ttf");
+}
 
-/* Styles */
+@font-face {
+  font-family: 'Open Sans';
+  src: url("./fonts/Open_Sans/OpenSans-Regular.ttf");
+}
+
+$primary-color: #981192;
+
 html, body {
   margin: 0;
 }
@@ -15,7 +24,7 @@ a {
 }
 
 * {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .logo {

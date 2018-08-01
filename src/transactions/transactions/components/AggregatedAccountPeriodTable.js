@@ -15,23 +15,47 @@ import PayedSign from '../../../common/components/PayedSign';
 
 const styles = () => ({
     row: {
-        height: 0
+        height: 40
     },
     strongCell: {
-        color: 'black',
+        textAlign: 'center',
         fontWeight: 'bold'
+    },
+    firstColumn: {
+        textAlign: 'left !important'
+    },
+    basicCell: {
+        textAlign: 'center',
+        backgroundColor: '#faf3f9'
+    },
+    header: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        textAlign: 'center',
+        lineHeight: "12px"
     }
 });
 
 const Headers = (classes) => {
+    /* eslint-disable react/prop-types */
+    const DetailedHeader = ({ title, subtitle, expense = false }) => <span>{title} <PayedSign pending={expense} /><br /> <small>{subtitle}</small></span>;
+
     return (
         <TableRow className={classes.row}>
-            <TableCell padding="dense" className={classes.strongCell}>Contas</TableCell>
-            <TableCell padding="dense" className={classes.strongCell} numeric>Receitas <PayedSign /></TableCell>
-            <TableCell padding="dense" className={classes.strongCell} numeric>Receitas <PayedSign pending /></TableCell>
-            <TableCell padding="dense" className={classes.strongCell} numeric>Despesas <PayedSign /></TableCell>
-            <TableCell padding="dense" className={classes.strongCell} numeric>Despesas <PayedSign pending /></TableCell>
-            <TableCell padding="dense" className={classes.strongCell} numeric>Saldo</TableCell>
+            <TableCell padding="dense" className={classNames(classes.header, classes.firstColumn)}>Contas</TableCell>
+            <TableCell padding="dense" className={classes.header}>
+                <DetailedHeader title="Receitas" subtitle="reais" />
+            </TableCell>
+            <TableCell padding="dense" className={classes.header}>
+                <DetailedHeader title="Despesas" subtitle="reais" expense />
+            </TableCell>
+            <TableCell padding="dense" className={classes.header}>
+                <DetailedHeader title="Receitas" subtitle="pendentes" />
+            </TableCell>
+            <TableCell padding="dense" className={classes.header}>
+                <DetailedHeader title="Despesas" subtitle="pendentes" expense />
+            </TableCell>
+            <TableCell padding="dense" numeric className={classes.header}>Total</TableCell>
         </TableRow>
     );
 };
@@ -39,20 +63,20 @@ const Headers = (classes) => {
 const EntryTableRow = (entry, name, id, classes, cellModifierClass) => {
     return (
         <TableRow key={id} className={classes.row}>
-            <TableCell padding="dense" className={cellModifierClass}>{name}</TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
+            <TableCell padding="dense" className={classNames(cellModifierClass, classes.firstColumn)}>{name}</TableCell>
+            <TableCell padding="dense" className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalIncomesPayed)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
+            <TableCell padding="dense" className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalIncomesPending)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
+            <TableCell padding="dense" className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalExpensesPayed)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
+            <TableCell padding="dense" className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalExpensesPending)}
             </TableCell>
-            <TableCell padding="dense" numeric className={classNames(cellModifierClass)}>
+            <TableCell padding="dense" className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.balance)}
             </TableCell>
         </TableRow>
@@ -62,9 +86,9 @@ const EntryTableRow = (entry, name, id, classes, cellModifierClass) => {
 const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
     const rows = values.map(entry => {
         const idx = values.indexOf(entry);
-        return EntryTableRow(entry, names[idx], idx, classes);
+        return EntryTableRow(entry, names[idx], idx, classes, classes.basicCell);
     });
-    const footerRow = values.total ? EntryTableRow(values.total, "Total", 0, classes, classes.strongCell) : null;    
+    const footerRow = values.total ? EntryTableRow(values.total, "Total", 0, classes, classes.strongCell) : null;
 
     return (
         <div className={classes.root}>

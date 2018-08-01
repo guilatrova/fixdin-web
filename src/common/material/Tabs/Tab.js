@@ -2,11 +2,11 @@ import React from 'react';
 
 import Tab from '@material-ui/core/Tab';
 
-const CustomTab = (props) => {
+const CustomTab = ({ classes, ...remainingProps }) => {
     return (
         <Tab
-            classes={{ selected: "tab-selected" }}
-            {...props}
+            classes={{ selected: "tab-selected", ...classes }}
+            {...remainingProps}
         />
     );
 };

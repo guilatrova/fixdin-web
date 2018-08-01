@@ -2,23 +2,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-//'#FB5100'
-
 const theme = createMuiTheme({
     palette: {
         primary: {
-            light: '#ff843b',
-            main: '#fb5100',
-            dark: '#c01100',
+            main: '#981192',
             contrastText: '#fff',
         },
         secondary: {
-            light: '#fff',
             main: '#fff',
-            dark: '#ababab',
             contrastText: '#000',
         },
+        background: {
+            default: "#fff"
+        }
     },
+    typography: {
+        fontFamily: [
+            '"Segoe UI"'
+        ].join(","),
+        subheading: {
+            fontSize: 16
+        },
+    },
+    mixins: {
+        fab: {
+            background: "#f95023",
+            color: "#fff"
+        }
+    },
+    overrides: {
+        MuiTableCell: {
+            body: {
+                color: "#5b5b5a"
+            }
+        }
+    }
 });
 
 const FixdinTheme = ({ children }) => {

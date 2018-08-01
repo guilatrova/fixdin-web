@@ -5,6 +5,7 @@ import moment from 'moment';
 import TransactionCell from './TransactionCell';
 import { DataTable, DataColumn } from '../../common/material/DataTable';
 import PayedSign from '../../common/components/PayedSign';
+import specifications from '../../transactions/transactions/specifications';
 
 class TransactionsOverTimeTable extends React.Component {
     static propTypes = {
@@ -15,8 +16,7 @@ class TransactionsOverTimeTable extends React.Component {
     }
 
     formatFirst = (row, field) => {
-        try
-        {
+        try {
             const cols = Object.keys(row);
             for (let col of cols) {
                 for (let transaction of row[col]) {
@@ -25,7 +25,7 @@ class TransactionsOverTimeTable extends React.Component {
                 }
             }
         }
-        catch(error) {
+        catch (error) {
             return `error: ${field}`;
         }
         return "not found";
@@ -37,12 +37,11 @@ class TransactionsOverTimeTable extends React.Component {
     };
 
     formatDue = (row) => {
-        const today = moment();
         const cols = Object.keys(row);
         for (let col of cols) {
             if (Array.isArray(row[col])) {
                 for (let transaction of row[col]) {
-                    if (transaction && !transaction.payment_date && today.isAfter(transaction.due_date))
+                    if (transaction && specifications.isOverdue(transaction))
                         return <PayedSign pending />;
                 }
             }
@@ -51,7 +50,7 @@ class TransactionsOverTimeTable extends React.Component {
         return <PayedSign />;
     }
 
-    renderDateCell = (row, field) => (        
+    renderDateCell = (row, field) => (
         <TransactionCell transactions={row[field]} checked={this.props.checked} onToggle={this.props.onToggle} />
     );
 
@@ -61,13 +60,13 @@ class TransactionsOverTimeTable extends React.Component {
 
         return columns.map((column, idx) => {
             return (
-                <DataColumn 
+                <DataColumn
                     key={idx}
                     field={column}
                     onRender={this.renderDateCell}>
 
                     {moment(column, 'YYYY-MM-DD').format('MMM-YY')}
-                    
+
                 </DataColumn>
             );
         });
