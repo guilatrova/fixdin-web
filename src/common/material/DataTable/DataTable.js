@@ -27,7 +27,8 @@ const styles = theme => ({
     },
     filterButton: {
         width: 'auto',
-        heigth: 'auto'
+        height: 'auto',
+        padding: '3px 0'
     }
 });
 
