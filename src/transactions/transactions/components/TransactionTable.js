@@ -26,6 +26,7 @@ import { formatCurrencyDisplay } from '../../../utils/formatters';
 import AddButtonTableSuffix from './AddButtonTableSuffix';
 import filterIconSrc from '../../../styles/icons/filterTableIcon.png';
 import editIconSrc from '../../../styles/icons/editIcon.png';
+import copyIconSrc from '../../../styles/icons/copyIcon.png';
 import deleteIconSrc from '../../../styles/icons/garbageIcon.png';
 
 const INDICATOR_WEIGHT = "6px";
@@ -118,7 +119,7 @@ class TransactionTable extends React.Component {
         return (
             <div className={classes.optionsWrapper}>
                 <IconOptionButton onClick={onEdit} icon={editIconSrc} />
-                <IconOptionButton onClick={onCopy} icon={editIconSrc} />
+                <IconOptionButton onClick={onCopy} icon={copyIconSrc} />
                 <IconOptionButton onClick={onDelete} icon={deleteIconSrc} />
             </div>
         );
