@@ -29,6 +29,13 @@ const theme = createMuiTheme({
             background: "#f95023",
             color: "#fff"
         }
+    },
+    overrides: {
+        MuiTableCell: {
+            body: {
+                color: "#5b5b5a"
+            }
+        }
     }
 });
 
