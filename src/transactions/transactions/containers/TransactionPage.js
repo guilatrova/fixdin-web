@@ -14,7 +14,6 @@ import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 import { operations as accountsOperations, selectors as accountSelectors } from '../../accounts/duck';
-import { operations as reportOperations } from '../../../reports/duck';
 import specifications from '../specifications';
 import BalanceHeader from './BalanceHeader';
 import AccountFormDialogContainer from '../../accounts/containers/AccountFormDialogContainer';
@@ -243,7 +242,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(categoryOperations.fetchCategories(EXPENSE));
             dispatch(operations.fetchTransactions());
             dispatch(accountsOperations.fetchAccounts());
-            dispatch(reportOperations.fetchLastMonthsReport(2));
         },
         onClearFilters: () => dispatch(operations.clearFilters()),
         onSubmit: (transaction, type) => dispatch(operations.saveTransaction(transaction, type)),

@@ -5,10 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import BalanceSimpleTable from '../../../balances/components/BalanceSimpleTable';
 import AggregatedAccountPeriodTable from '../components/AggregatedAccountPeriodTable';
-import LastMonthsChart from '../components/LastMonthsChart';
 import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
-import { selectors as reportSelectors } from '../../../reports/duck';
 
 const styles = {
     root: {
@@ -31,7 +29,7 @@ const styles = {
     }
 };
 
-const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, lastMonthsData, classes }) => {
+const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, classes }) => {
     return (
         <div className={classes.root}>
             <div className={classes.balancesTable}>
@@ -44,14 +42,10 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
             </div>
 
             <div className={classes.accountsTable}>
-                <AggregatedAccountPeriodTable 
+                <AggregatedAccountPeriodTable
                     names={accountsName}
                     values={aggregatedAccounts}
                 />
-            </div>
-
-            <div className={classes.chart}>
-                <LastMonthsChart data={lastMonthsData} />
             </div>
         </div>
     );
@@ -64,7 +58,6 @@ BalanceHeader.propTypes = {
     period: PropTypes.object.isRequired,
     accountsName: PropTypes.array.isRequired,
     aggregatedAccounts: PropTypes.array.isRequired,
-    lastMonthsData: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
 };
 
@@ -77,8 +70,6 @@ const mapStateToProps = (state) => {
 
         accountsName: accountSelectors.getAccountsNamesMappedById(state),
         aggregatedAccounts: selectors.getTotalValueOfDisplayedTransactionsGroupedByAccount(state),
-        
-        lastMonthsData: reportSelectors.getLastMonthsChart(state)
     };
 };
 
