@@ -9,7 +9,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { withStyles } from '@material-ui/core/styles';
 
-import { drawerWidth } from '../contants';
+import { drawerWidth, headerHeight } from '../contants';
 import DrawerItem from './DrawerItem';
 import homeSrc from '../../styles/icons/drawer/home.png';
 import transactionsSrc from '../../styles/icons/drawer/transactions.png';
@@ -18,6 +18,7 @@ import resultsSrc from '../../styles/icons/drawer/results.png';
 
 const styles = theme => ({
     drawerPaper: {
+        paddingTop: headerHeight,
         position: 'relative',
         whiteSpace: 'nowrap',
         overflowX: 'hidden',
@@ -44,13 +45,6 @@ const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
 
             <div className={classes.drawerInner}>
 
-                <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-
-                <Divider />
                 <List>
                     <DrawerItem icon={<img src={homeSrc} />} text="Início" to="/" />
                     <DrawerItem icon={<img src={homeSrc} />} text="Contas" to="/accounts" />
@@ -59,6 +53,15 @@ const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
                     <DrawerItem icon={<img src={decisionsSrc} />} text="Decisões" to="/payment-order" />
                     <DrawerItem icon={<img src={resultsSrc} />} text="Resultados" to="/" />
                 </List>
+
+                <Divider />
+
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </div>
+
             </div>
         </Drawer>
     );

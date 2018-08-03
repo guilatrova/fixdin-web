@@ -21,21 +21,15 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        flexGrow: 1
-    },
-    appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['margin', 'width'], {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
+        flexGrow: 1,
+        zIndex: theme.zIndex.drawer + 1
     },
     'appBarShift-left': {
-		marginLeft: drawerWidth,
-	},
-	'appBarShift-right': {
-		marginRight: drawerWidth,
-	},
+        marginLeft: drawerWidth,
+    },
+    'appBarShift-right': {
+        marginRight: drawerWidth,
+    },
     menuButton: {
         marginLeft: 12,
         marginRight: 20,
@@ -50,7 +44,7 @@ const styles = theme => ({
 
 const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
     return (
-        <AppBar 
+        <AppBar
             className={classNames(classes.appBar, {
                 [classes.appBarShift]: open,
                 [classes[`appBarShift-${anchor}`]]: open,
@@ -61,7 +55,7 @@ const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
                     color="secondary"
                     aria-label="open drawer"
                     onClick={handleDrawerOpen}
-                    className={classNames(classes.menuButton, open && classes.hide)}
+                    className={classNames(classes.menuButton)}
                 >
                     <MenuIcon />
                 </IconButton>
