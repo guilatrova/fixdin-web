@@ -5,18 +5,39 @@ import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles';
 
-const DrawerItem = ({ icon, text, to, onClick }) => {
+const styles = {
+    icon: {
+        maxWidth: 34,
+        margin: 0
+    },
+    button: {
+        padding: 0,
+        marginBottom: 5,
+        margin: 'auto',
+        display: 'block',
+        textAlign: 'center'
+    },
+    textWrapper: {
+        padding: 0
+    },
+    text: {
+        fontSize: "13px",
+    }
+};
+
+const DrawerItem = ({ icon, text, to, classes, onClick }) => {
     return (
-        <Link to={to} onClick={onClick}>
-            <ListItem button>
-                <ListItemIcon>
+        <ListItem button classes={{ button: classes.button }}>
+            <Link to={to} onClick={onClick}>
+                <ListItemIcon className={classes.icon}>
                     {icon}
                 </ListItemIcon>
-                
-                <ListItemText primary={text} />
-            </ListItem>    
-        </Link>
+
+                <ListItemText primary={text} className={classes.textWrapper} classes={{ primary: classes.text }} />
+            </Link>
+        </ListItem>
     );
 };
 
@@ -24,7 +45,12 @@ DrawerItem.propTypes = {
     icon: PropTypes.node,
     text: PropTypes.string.isRequired,
     to: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-export default DrawerItem;
+DrawerItem.defaultProps = {
+    onClick: () => { }
+};
+
+export default withStyles(styles)(DrawerItem);
