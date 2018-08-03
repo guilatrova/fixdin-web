@@ -24,6 +24,7 @@ const styles = {
     },
     text: {
         fontSize: "13px",
+        color: "#2c2c2c"
     }
 };
 

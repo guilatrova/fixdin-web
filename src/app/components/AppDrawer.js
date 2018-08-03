@@ -23,6 +23,7 @@ const styles = theme => ({
         overflowX: 'hidden',
         height: '100%',
         width: drawerWidth,
+        backgroundColor: "#EEE"
     },
     drawerHeader: {
         display: 'flex',
@@ -36,7 +37,7 @@ const styles = theme => ({
 const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
     return (
         <Drawer
-            variant="permanent"
+            variant="persistent"
             classes={{ paper: classes.drawerPaper, }}
             open={open}
         >

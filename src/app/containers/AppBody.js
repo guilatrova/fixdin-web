@@ -20,7 +20,7 @@ const styles = theme => ({
         display: 'flex',
         width: '100%',
         height: '100%',
-    },  
+    },
     content: {
         width: '100%',
         flexGrow: 1,
@@ -39,11 +39,11 @@ const styles = theme => ({
         },
     },
     'content-left': {
-		marginLeft: -drawerWidth,
-	},
-	'content-right': {
-		marginRight: -drawerWidth,
-	},
+        marginLeft: -drawerWidth,
+    },
+    'content-right': {
+        marginRight: -drawerWidth,
+    },
     contentShift: {
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,
@@ -51,36 +51,36 @@ const styles = theme => ({
         }),
     },
     'contentShift-left': {
-		marginLeft: 0,
-	},
-	'contentShift-right': {
-		marginRight: 0,
-	},
+        marginLeft: 0,
+    },
+    'contentShift-right': {
+        marginRight: 0,
+    },
 });
 
 class AppBody extends React.Component {
     state = {
-        open: false,
+        open: true,
     };
-    
+
     handleDrawerOpen = () => this.setState({ open: true });
-    
+
     handleDrawerClose = () => this.setState({ open: false });
-    
+
     render() {
         const { classes, children } = this.props;
         const { open } = this.state;
-        
+
         return (
             <div className={classes.root}>
                 <div className={classes.appFrame}>
-                
+
                     <AppToolbar open={open} handleDrawerOpen={this.handleDrawerOpen} />
-                    
+
                     <AppDrawer open={open} handleDrawerClose={this.handleDrawerClose} />
-                    
+
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <main 
+                        <main
                             className={classNames(classes.content, classes[`content-${anchor}`], {
                                 [classes.contentShift]: open,
                                 [classes[`contentShift-${anchor}`]]: open,
