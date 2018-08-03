@@ -75,7 +75,7 @@ class AppBody extends React.Component {
             <div className={classes.root}>
                 <div className={classes.appFrame}>
 
-                    <AppToolbar open={open} handleDrawerOpen={this.handleDrawerOpen} />
+                    <AppToolbar open={open} handleDrawerOpen={this.handleDrawerOpen} handleDrawerClose={this.handleDrawerClose} />
 
                     <AppDrawer open={open} handleDrawerClose={this.handleDrawerClose} />
 

@@ -10,9 +10,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SettingsIcon from '@material-ui/icons/Settings';
 import SearchIcon from '@material-ui/icons/Search';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-import { drawerWidth, anchor, title } from '../contants';
+import { title } from '../contants';
 
 const styles = theme => ({
     appBar: {
@@ -23,12 +24,6 @@ const styles = theme => ({
         }),
         flexGrow: 1,
         zIndex: theme.zIndex.drawer + 1
-    },
-    'appBarShift-left': {
-        marginLeft: drawerWidth,
-    },
-    'appBarShift-right': {
-        marginRight: drawerWidth,
     },
     menuButton: {
         marginLeft: 12,
@@ -42,22 +37,18 @@ const styles = theme => ({
     }
 });
 
-const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
+const AppToolbar = ({ classes, open, handleDrawerOpen, handleDrawerClose }) => {
     return (
-        <AppBar
-            className={classNames(classes.appBar, {
-                [classes.appBarShift]: open,
-                [classes[`appBarShift-${anchor}`]]: open,
-            })}
-        >
-            <Toolbar disableGutters={!open}>
+        <AppBar className={classes.appBar}>
+            <Toolbar disableGutters={true}>
                 <IconButton
                     color="secondary"
                     aria-label="open drawer"
-                    onClick={handleDrawerOpen}
+                    onClick={open ? handleDrawerClose : handleDrawerOpen}
                     className={classNames(classes.menuButton)}
                 >
-                    <MenuIcon />
+                    {!open && <MenuIcon />}
+                    {open && <ChevronLeftIcon />}
                 </IconButton>
 
                 <Typography variant="title" color="inherit" className={classes.title} noWrap>
@@ -77,7 +68,8 @@ const AppToolbar = ({ classes, open, handleDrawerOpen }) => {
 AppToolbar.propTypes = {
     classes: PropTypes.object.isRequired,
     open: PropTypes.bool.isRequired,
-    handleDrawerOpen: PropTypes.func.isRequired
+    handleDrawerOpen: PropTypes.func.isRequired,
+    handleDrawerClose: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(AppToolbar);
