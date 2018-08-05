@@ -22,10 +22,6 @@ const styles = {
     accountsTable: {
         flex: 2,
         padding: '0 8px'
-    },
-    chart: {
-        flex: '2 1',
-        maxHeight: '200px'
     }
 };
 

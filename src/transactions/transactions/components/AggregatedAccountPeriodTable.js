@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,57 +14,74 @@ import TableFooter from '@material-ui/core/TableFooter';
 import { formatCurrencyDisplay } from '../../../utils/formatters';
 import PayedSign from '../../../common/components/PayedSign';
 
+const rowHeight = 40;
+const rowsUntilScroll = 5;
+const maxHeight = (rowHeight * rowsUntilScroll) + (rowHeight / 2);
+const widthSplitten = "16%";
+const scrollbarWidth = 15;
+
 const styles = () => ({
     row: {
-        height: 40
+        height: rowHeight
     },
-    strongCell: {
+    baseCell: {
         textAlign: 'center',
-        fontWeight: 'bold'
+        backgroundColor: '#faf3f9',
+        width: widthSplitten,
     },
-    firstColumn: {
-        textAlign: 'left !important'
-    },
-    basicCell: {
+    footerCell: {
         textAlign: 'center',
-        backgroundColor: '#faf3f9'
+        fontWeight: 'bold',
+        width: widthSplitten,
     },
-    header: {
+    firstColumnCell: {
+        textAlign: 'left !important',
+        width: widthSplitten,
+    },
+    headerCell: {
         fontWeight: 'bold',
         fontSize: 14,
         textAlign: 'center',
-        lineHeight: "12px"
+        lineHeight: "12px",
+        width: widthSplitten,
+    },
+    padScrollbar: {
+        boxSizing: "border-box",
+        paddingRight: scrollbarWidth
+    },
+    scrollable: {
+        maxHeight: maxHeight,
+        overflowY: "auto",
     }
 });
 
-const Headers = (classes) => {
-    /* eslint-disable react/prop-types */
+const Headers = ({ classes }) => {
     const DetailedHeader = ({ title, subtitle, expense = false }) => <span>{title} <PayedSign pending={expense} /><br /> <small>{subtitle}</small></span>;
 
     return (
         <TableRow className={classes.row}>
-            <TableCell padding="dense" className={classNames(classes.header, classes.firstColumn)}>Contas</TableCell>
-            <TableCell padding="dense" className={classes.header}>
+            <TableCell padding="dense" className={classNames(classes.headerCell, classes.firstColumnCell)}>Contas</TableCell>
+            <TableCell padding="dense" className={classes.headerCell}>
                 <DetailedHeader title="Receitas" subtitle="reais" />
             </TableCell>
-            <TableCell padding="dense" className={classes.header}>
+            <TableCell padding="dense" className={classes.headerCell}>
                 <DetailedHeader title="Despesas" subtitle="reais" expense />
             </TableCell>
-            <TableCell padding="dense" className={classes.header}>
+            <TableCell padding="dense" className={classes.headerCell}>
                 <DetailedHeader title="Receitas" subtitle="pendentes" />
             </TableCell>
-            <TableCell padding="dense" className={classes.header}>
+            <TableCell padding="dense" className={classes.headerCell}>
                 <DetailedHeader title="Despesas" subtitle="pendentes" expense />
             </TableCell>
-            <TableCell padding="dense" numeric className={classes.header}>Total</TableCell>
+            <TableCell padding="dense" numeric className={classes.headerCell}>Total</TableCell>
         </TableRow>
     );
 };
 
-const EntryTableRow = (entry, name, id, classes, cellModifierClass) => {
+const EntryTableRow = ({ entry, name, id, classes, cellModifierClass }) => {
     return (
         <TableRow key={id} className={classes.row}>
-            <TableCell padding="dense" className={classNames(cellModifierClass, classes.firstColumn)}>{name}</TableCell>
+            <TableCell padding="dense" className={classNames(cellModifierClass, classes.firstColumnCell)}>{name}</TableCell>
             <TableCell padding="dense" className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalIncomesPayed)}
             </TableCell>
@@ -86,23 +104,37 @@ const EntryTableRow = (entry, name, id, classes, cellModifierClass) => {
 const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
     const rows = values.map(entry => {
         const idx = values.indexOf(entry);
-        return EntryTableRow(entry, names[idx], idx, classes, classes.basicCell);
+        return <EntryTableRow key={idx} entry={entry} name={names[idx]} id={idx} classes={classes} cellModifierClass={classes.baseCell} />;
     });
-    const footerRow = values.total ? EntryTableRow(values.total, "Total", 0, classes, classes.strongCell) : null;
+
+    const willScroll = rows.length > rowsUntilScroll;
 
     return (
         <div className={classes.root}>
-            <Table>
-                <TableHead>
-                    {Headers(classes)}
-                </TableHead>
-                <TableBody>
-                    {rows}
-                </TableBody>
-                <TableFooter>
-                    {footerRow}
-                </TableFooter>
-            </Table>
+            <div className={classNames({ [classes.padScrollbar]: willScroll })}>
+                <Table>
+                    <TableHead>
+                        <Headers classes={classes} />
+                    </TableHead>
+                </Table>
+            </div>
+
+            <div className={classes.scrollable}>
+                <Table>
+                    <TableBody>
+                        {rows}
+                    </TableBody>
+                </Table>
+            </div>
+
+            {values.total &&
+                <div className={classNames({ [classes.padScrollbar]: willScroll })}>
+                    <Table className={classes.padScrollbar}>
+                        <TableFooter className={classes.tableParts}>
+                            <EntryTableRow entry={values.total} name={"Total"} id="0" classes={classes} cellModifierClass={classes.footerCell} />
+                        </TableFooter>
+                    </Table>
+                </div>}
         </div>
     );
 };
