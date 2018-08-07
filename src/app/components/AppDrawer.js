@@ -15,6 +15,8 @@ import homeSrc from '../../styles/icons/drawer/home.png';
 import transactionsSrc from '../../styles/icons/drawer/transactions.png';
 import decisionsSrc from '../../styles/icons/drawer/decisions.png';
 import resultsSrc from '../../styles/icons/drawer/results.png';
+import accountsSrc from '../../styles/icons/drawer/accounts.png';
+import categoriesSrc from '../../styles/icons/drawer/categories.png';
 
 const styles = theme => ({
     drawerPaper: {
@@ -47,8 +49,8 @@ const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
 
                 <List>
                     <DrawerItem icon={<img src={homeSrc} />} text="Início" to="/" />
-                    <DrawerItem icon={<img src={homeSrc} />} text="Contas" to="/accounts" />
-                    <DrawerItem icon={<img src={homeSrc} />} text="Categorias" to="/categories" />
+                    <DrawerItem icon={<img src={accountsSrc} />} text="Contas" to="/accounts" />
+                    <DrawerItem icon={<img src={categoriesSrc} />} text="Categorias" to="/categories" />
                     <DrawerItem icon={<img src={transactionsSrc} />} text="Operações" to="/transactions" />
                     <DrawerItem icon={<img src={decisionsSrc} />} text="Decisões" to="/payment-order" />
                     <DrawerItem icon={<img src={resultsSrc} />} text="Resultados" to="/" />
