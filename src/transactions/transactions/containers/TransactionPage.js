@@ -22,7 +22,6 @@ import CategoryFormDialogContainer from '../../categories/containers/CategoryFor
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        padding: 30,
         overflow: 'hidden',
     },
     paper: {
