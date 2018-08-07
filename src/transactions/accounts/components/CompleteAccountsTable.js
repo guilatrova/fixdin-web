@@ -101,7 +101,7 @@ const EntryTableRow = ({ entry, name, id, classes, cellModifierClass }) => {
     );
 };
 
-const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
+const CompleteAccountsTable = ({ classes, names, values }) => {
     const rows = values.map(entry => {
         const idx = values.indexOf(entry);
         return <EntryTableRow key={idx} entry={entry} name={names[idx]} id={idx} classes={classes} cellModifierClass={classes.baseCell} />;
@@ -139,10 +139,10 @@ const AggregatedAccountPeriodTable = ({ classes, names, values }) => {
     );
 };
 
-AggregatedAccountPeriodTable.propTypes = {
+CompleteAccountsTable.propTypes = {
     classes: PropTypes.object.isRequired,
     names: PropTypes.array.isRequired,
     values: PropTypes.array.isRequired
 };
 
-export default withStyles(styles)(AggregatedAccountPeriodTable);
+export default withStyles(styles)(CompleteAccountsTable);

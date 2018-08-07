@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
 import BalanceSimpleTable from '../../../balances/components/BalanceSimpleTable';
-import AggregatedAccountPeriodTable from '../components/AggregatedAccountPeriodTable';
+import CompleteAccountsTable from '../../accounts/components/CompleteAccountsTable';
 import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
 
@@ -38,7 +38,7 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
             </div>
 
             <div className={classes.accountsTable}>
-                <AggregatedAccountPeriodTable
+                <CompleteAccountsTable
                     names={accountsName}
                     values={aggregatedAccounts}
                 />

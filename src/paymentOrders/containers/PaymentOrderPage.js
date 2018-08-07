@@ -90,8 +90,8 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(balanceOperations.fetchDetailedBalance(balanceOptions().pending().build()));
         dispatch(balanceOperations.fetchDetailedAccountsBalance());
         dispatch(accountOperations.fetchAccounts());
-        
-        dispatch(operations.initializeData());        
+
+        dispatch(operations.initializeData());
     }
 });
 
