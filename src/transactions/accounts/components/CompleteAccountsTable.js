@@ -130,7 +130,7 @@ const CompleteAccountsTable = ({ classes, names, values }) => {
             {values.total &&
                 <div className={classNames({ [classes.padScrollbar]: willScroll })}>
                     <Table className={classes.padScrollbar}>
-                        <TableFooter className={classes.tableParts}>
+                        <TableFooter>
                             <EntryTableRow entry={values.total} name={"Total"} id="0" classes={classes} cellModifierClass={classes.footerCell} />
                         </TableFooter>
                     </Table>
