@@ -12,13 +12,15 @@ import { operations as balanceOperations } from '../../balances/duck';
 import { operations as accountOperations } from '../../transactions/accounts/duck';
 import { operations } from '../duck';
 
-const styles = () => ({
+const styles = theme => ({
     root: {
         flexGrow: 1
     },
     paper: {
-        padding: 16,
-        overflowX: 'scroll'
+        width: '100%',
+        overflowX: 'auto',
+        marginTop: theme.spacing.unit * 3,
+        marginBottom: theme.spacing.unit * 6,
     }
 });
 

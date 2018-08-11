@@ -22,21 +22,12 @@ import CategoryFormDialogContainer from '../../categories/containers/CategoryFor
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        overflow: 'hidden',
     },
     paper: {
         width: '100%',
+        overflow: 'auto',
         marginTop: theme.spacing.unit * 3,
         marginBottom: theme.spacing.unit * 6,
-    },
-    table: {
-        overflowX: 'auto',
-    },
-    spacer: {
-        flex: '1 1 50%',
-    },
-    title: {
-        flex: '0 0 auto',
     }
 });
 
@@ -166,20 +157,17 @@ class TransactionPage extends React.Component {
 
                 <Paper className={classes.paper}>
 
-                    <div className={classes.table}>
-
-                        <TransactionTable
-                            onAdd={this.handleCreateTransaction}
-                            onRefresh={this.handleRefresh}
-                            onClearAll={this.handleClearFilters}
-                            onEdit={this.handleEdit}
-                            onPay={this.handlePay}
-                            onDelete={this.handleDelete}
-                            onCopy={this.handleCopy}
-                            onAddAccount={this.handleOpenAccountDialog}
-                            onAddCategory={this.handleOpenCategoryDialog}
-                        />
-                    </div>
+                    <TransactionTable
+                        onAdd={this.handleCreateTransaction}
+                        onRefresh={this.handleRefresh}
+                        onClearAll={this.handleClearFilters}
+                        onEdit={this.handleEdit}
+                        onPay={this.handlePay}
+                        onDelete={this.handleDelete}
+                        onCopy={this.handleCopy}
+                        onAddAccount={this.handleOpenAccountDialog}
+                        onAddCategory={this.handleOpenCategoryDialog}
+                    />
 
                 </Paper>
 
