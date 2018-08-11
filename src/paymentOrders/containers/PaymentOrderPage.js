@@ -6,10 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 
 import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
-import PendingBalanceTable from '../components/PendingBalanceTable';
-import YearBalanceTable from '../components/YearBalanceTable';
-import AccountsBalanceTable from '../../transactions/accounts/components/AccountsBalanceTable';
-import PeriodicsDetailedTable from '../../balances/components/PeriodicsDetailedTable';
+import PaymentOrderHeader from './PaymentOrderHeader';
 import balanceOptions from '../../balances/options';
 import { operations as balanceOperations } from '../../balances/duck';
 import { operations as accountOperations } from '../../transactions/accounts/duck';
@@ -17,25 +14,11 @@ import { operations } from '../duck';
 
 const styles = () => ({
     root: {
-        flexGrow: 1,
-        marginTop: 30,
+        flexGrow: 1
     },
     paper: {
         padding: 16,
         overflowX: 'scroll'
-    },
-    surrounding: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-        alignContent: 'stretch'
-    },
-    smallerTable: {
-        flexShrink: 1
-    },
-    biggerTable: {
-        flex: 4
     }
 });
 
@@ -50,21 +33,13 @@ class PaymentOrderPage extends React.Component {
         return (
             <div className={classes.root}>
 
-                <div className={classes.surrounding}>
-                    <div className={classes.smallerTable}>
-                        <PendingBalanceTable />
-                    </div>
-
-                    <div className={classes.biggerTable}>
-                        <AccountsBalanceTable />
-                    </div>
-                </div>
+                <PaymentOrderHeader />
 
                 <Paper className={classes.paper}>
                     <TransactionsOverTimeWrapper />
                 </Paper>
 
-                <div className={classes.surrounding}>
+                {/* <div className={classes.surrounding}>
                     <div className={classes.smallerTable}>
                         <YearBalanceTable />
                     </div>
@@ -72,7 +47,7 @@ class PaymentOrderPage extends React.Component {
                     <div className={classes.biggerTable}>
                         <PeriodicsDetailedTable />
                     </div>
-                </div>
+                </div> */}
             </div>
         );
     }
