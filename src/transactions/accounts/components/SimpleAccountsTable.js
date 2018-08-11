@@ -92,6 +92,18 @@ const SimpleAccountsTable = ({ classes, names, values }) => {
         return <EntryTableRow key={entry.account} entry={entry} name={names[entry.account]} id={entry.account} classes={classes} cellModifierClass={classes.baseCell} />;
     });
 
+    const totals = values.reduce((prev, values) => {
+        prev.incomes += values.incomes;
+        prev.expenses += values.expenses;
+        prev.total += values.total;
+
+        return prev;
+    }, {
+            incomes: 0,
+            expenses: 0,
+            total: 0
+        });
+
     const willScroll = rows.length > rowsUntilScroll;
 
     return (
@@ -112,14 +124,13 @@ const SimpleAccountsTable = ({ classes, names, values }) => {
                 </Table>
             </div>
 
-            {values.total &&
-                <div className={classNames({ [classes.padScrollbar]: willScroll })}>
-                    <Table className={classes.padScrollbar}>
-                        <TableFooter>
-                            <EntryTableRow entry={values.total} name="Total" id="0" classes={classes} cellModifierClass={classes.footerCell} />
-                        </TableFooter>
-                    </Table>
-                </div>}
+            <div className={classNames({ [classes.padScrollbar]: willScroll })}>
+                <Table className={classes.padScrollbar}>
+                    <TableFooter>
+                        <EntryTableRow entry={totals} name="Total" id="0" classes={classes} cellModifierClass={classes.footerCell} />
+                    </TableFooter>
+                </Table>
+            </div>
         </div>
     );
 };

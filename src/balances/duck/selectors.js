@@ -23,10 +23,10 @@ const getTotalsDetailedAccounts = (state) => {
 
         return prev;
     }, {
-        incomes: 0,
-        expenses: 0,
-        total: 0
-    });
+            incomes: 0,
+            expenses: 0,
+            total: 0
+        });
 };
 
 const getPeriods = (state) => state.balances.periods;
