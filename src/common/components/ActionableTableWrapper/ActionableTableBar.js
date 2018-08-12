@@ -70,4 +70,8 @@ ActionableTableBar.propTypes = {
     }))
 };
 
+ActionableTableBar.defaultProps = {
+    actions: []
+};
+
 export default withStyles(styles)(ActionableTableBar);

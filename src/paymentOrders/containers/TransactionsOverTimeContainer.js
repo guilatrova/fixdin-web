@@ -5,19 +5,13 @@ import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import TransactionsOverTimeTable from '../components/TransactionsOverTimeTable';
-import TransactionOverTimeTableBar from '../components/TransactionOverTimeTableBar';
+import ActionableTableWrapper from '../../common/components/ActionableTableWrapper';
 import { operations, selectors } from '../duck';
 import { selectors as accountsSelectors } from '../../transactions/accounts/duck';
 
 const ALL_TAB = 0;
 // const PAYED_TAB = 1;
 // const PENDING_TAB = 2;
-
-// const styles = {
-//     tableWrapper: {
-//         overflow: 'auto'
-//     }
-// };
 
 class TransactionsOverTimeTableContainer extends React.Component {
     static propTypes = {
@@ -44,11 +38,12 @@ class TransactionsOverTimeTableContainer extends React.Component {
         }
 
         return (
-            <div>
-                <TransactionOverTimeTableBar
-                    tab={tab}
-                    onTabChange={this.handleTabChange}
-                />
+            <ActionableTableWrapper
+                selectedTab={tab}
+                onTabChange={this.handleTabChange}
+                tabs={["Todas", "Pagas", "Não pagas"]}
+                title="OPERAÇÕES FINANCEIRAS REALIZADAS"
+            >
 
                 <TransactionsOverTimeTable
                     transactions={nextExpenses}
@@ -56,7 +51,7 @@ class TransactionsOverTimeTableContainer extends React.Component {
                     onToggle={onToggle}
                     accountNames={accountNames} />
 
-            </div>
+            </ActionableTableWrapper>
         );
     }
 }
