@@ -1,24 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+
+import AddIcon from '@material-ui/icons/Add';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import { selectors } from '../duck';
 import { selectors as categorySelectors } from '../../categories/duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
 import { EXPENSE, INCOME } from '../../shared/kinds';
 import TransactionTable from '../components/TransactionTable';
-import TransactionTableBar from '../components/TransactionTableBar';
+import ActionableTableWrapper from '../../../common/components/ActionableTableWrapper';
 
 const ALL_TAB = 0;
 const INCOMES_TAB = 1;
 const EXPENSES_TAB = 2;
-
-const styles = {
-    tableWrapper: {
-        overflow: 'auto'
-    }
-};
 
 class TransactionTableContainer extends React.Component {
     static propTypes = {
@@ -36,7 +33,7 @@ class TransactionTableContainer extends React.Component {
     handleTabChange = (e, value) => this.setState({ tab: value });
 
     render() {
-        const { transactions, onAdd, onRefresh, onClearAll, classes, ...props } = this.props;
+        const { transactions, onAdd, onRefresh, onClearAll, ...props } = this.props;
         const { tab } = this.state;
 
         let shownTransactions = transactions;
@@ -47,23 +44,27 @@ class TransactionTableContainer extends React.Component {
             shownTransactions = transactions.filter(t => t.kind == EXPENSE.id);
         }
 
+        const actions = [
+            { onClick: onAdd, icon: <AddIcon /> },
+            { onClick: onRefresh, icon: <RefreshIcon /> },
+            { onClick: onClearAll, icon: <ClearAllIcon /> },
+        ];
+
         return (
-            <div>
-                <TransactionTableBar
-                    tab={tab}
-                    onAdd={onAdd}
-                    onRefresh={onRefresh}
-                    onClearAll={onClearAll}
-                    onTabChange={this.handleTabChange}
+            <ActionableTableWrapper
+                selectedTab={tab}
+                onTabChange={this.handleTabChange}
+                tabs={["Todas", "Receitas", "Despesas"]}
+                title="OPERAÇÕES FINANCEIRAS REALIZADAS"
+                actions={actions}
+            >
+
+                <TransactionTable
+                    transactions={shownTransactions}
+                    {...props}
                 />
 
-                <div className={classes.tableWrapper}>
-                    <TransactionTable
-                        transactions={shownTransactions}
-                        {...props}
-                    />
-                </div>
-            </div>
+            </ActionableTableWrapper>
         );
     }
 }
@@ -76,6 +77,4 @@ const mapStateToProps = state => ({
     activeFilters: selectors.getActiveFilters(state)
 });
 
-export default withStyles(styles)(
-    connect(mapStateToProps)(TransactionTableContainer)
-);
+export default connect(mapStateToProps)(TransactionTableContainer);
