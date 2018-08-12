@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 
-import TransactionsOverTimeWrapper from './TransactionsOverTimeWrapper';
+import TransactionsOverTimeContainer from './TransactionsOverTimeContainer';
 import PaymentOrderHeader from './PaymentOrderHeader';
 import balanceOptions from '../../balances/options';
 import { operations as balanceOperations } from '../../balances/duck';
@@ -38,7 +38,7 @@ class PaymentOrderPage extends React.Component {
                 <PaymentOrderHeader />
 
                 <Paper className={classes.paper}>
-                    <TransactionsOverTimeWrapper />
+                    <TransactionsOverTimeContainer />
                 </Paper>
 
                 {/* <div className={classes.surrounding}>
