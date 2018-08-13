@@ -1,18 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { withStyles } from '@material-ui/core/styles';
 
 import TransactionCell from './TransactionCell';
 import { DataTable, DataColumn } from '../../common/material/DataTable';
 import PayedSign from '../../common/components/PayedSign';
 import specifications from '../../transactions/transactions/specifications';
 
+const styles = {
+    centered: {
+        textAlign: 'center'
+    }
+};
+
 class TransactionsOverTimeTable extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired,
         checked: PropTypes.array.isRequired,
         onToggle: PropTypes.func.isRequired,
-        accountNames: PropTypes.array.isRequired
+        accountNames: PropTypes.array.isRequired,
+        classes: PropTypes.object.isRequired
     }
 
     formatFirst = (row, field) => {
@@ -55,7 +63,7 @@ class TransactionsOverTimeTable extends React.Component {
     );
 
     renderDateColumns = () => {
-        const { transactions } = this.props;
+        const { transactions, classes } = this.props;
         const columns = transactions[0] ? Object.keys(transactions[0]) : [];
 
         return columns.map((column, idx) => {
@@ -63,9 +71,10 @@ class TransactionsOverTimeTable extends React.Component {
                 <DataColumn
                     key={idx}
                     field={column}
+                    cellClassName={classes.centered}
                     onRender={this.renderDateCell}>
 
-                    {moment(column, 'YYYY-MM-DD').format('MMM-YY')}
+                    {moment(column, 'YYYY-MM-DD').format('MMM/YY')}
 
                 </DataColumn>
             );
@@ -73,11 +82,15 @@ class TransactionsOverTimeTable extends React.Component {
     };
 
     render() {
-        const { transactions } = this.props;
+        const { transactions, classes } = this.props;
         const data = transactions.map((transaction, id) => ({ ...transaction, id }));
 
         return (
-            <DataTable data={data} className="slim-table">
+            <DataTable
+                data={data}
+                className="slim-table"
+                headersClassName={classes.centered}
+            >
                 <DataColumn field="account" onRender={this.formatAccount}>CONTA</DataColumn>
                 <DataColumn field="description" onRender={this.formatFirst}>DESCRIÇÃO</DataColumn>
                 <DataColumn field="priority" onRender={this.formatFirst}>IMP.</DataColumn>
@@ -89,4 +102,4 @@ class TransactionsOverTimeTable extends React.Component {
     }
 }
 
-export default TransactionsOverTimeTable;
+export default withStyles(styles)(TransactionsOverTimeTable);
