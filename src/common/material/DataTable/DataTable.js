@@ -9,10 +9,11 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Popover from '@material-ui/core/Popover';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
+
+import TableHeaderLabel from './TableHeaderLabel';
 
 const styles = theme => ({
     popoverPaper: {
@@ -168,14 +169,15 @@ class DataTable extends React.Component {
                             <div className={classes.tableHeader}>
                                 {renderFilter(child)}
 
-                                <TableSortLabel
+                                <TableHeaderLabel
+                                    sortable={child.props.sortable}
                                     active={orderBy === field}
                                     direction={order}
                                     onClick={() => handleHeaderClick(child)}>
 
                                     {child.props.children}
 
-                                </TableSortLabel>
+                                </TableHeaderLabel>
 
                                 {child.props.headerSuffix}
 
