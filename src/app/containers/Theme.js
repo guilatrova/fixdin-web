@@ -12,6 +12,9 @@ const theme = createMuiTheme({
             main: '#fff',
             contrastText: '#000',
         },
+        accent: {
+            main: '#f95023'
+        },
         background: {
             default: "#fff"
         }

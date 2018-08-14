@@ -8,7 +8,7 @@ function defaultOnRender(row, field) {
 
 export default class DataColumn extends React.Component {
     static propTypes = {
-        children: PropTypes.string,
+        children: PropTypes.node,
         field: PropTypes.string,
         onRender: PropTypes.func.isRequired,
         sortable: PropTypes.bool.isRequired,
