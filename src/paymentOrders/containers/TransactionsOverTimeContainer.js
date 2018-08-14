@@ -8,10 +8,11 @@ import TransactionsOverTimeTable from '../components/TransactionsOverTimeTable';
 import ActionableTableWrapper from '../../common/components/ActionableTableWrapper';
 import { operations, selectors } from '../duck';
 import { selectors as accountsSelectors } from '../../transactions/accounts/duck';
+import specifications from '../specifications';
 
 const ALL_TAB = 0;
-// const PAYED_TAB = 1;
-// const PENDING_TAB = 2;
+const PAYED_TAB = 1;
+const PENDING_TAB = 2;
 
 class TransactionsOverTimeTableContainer extends React.Component {
     static propTypes = {
@@ -37,6 +38,14 @@ class TransactionsOverTimeTableContainer extends React.Component {
             return <CircularProgress />;
         }
 
+        let shownExpenses = nextExpenses;
+        if (tab == PAYED_TAB) {
+            shownExpenses = nextExpenses.filter(transactionGroup => specifications.isEverythingPayed(transactionGroup));
+        }
+        else if (tab == PENDING_TAB) {
+            shownExpenses = nextExpenses.filter(transactionGroup => specifications.isAnythingPending(transactionGroup));
+        }
+
         return (
             <ActionableTableWrapper
                 selectedTab={tab}
@@ -46,7 +55,7 @@ class TransactionsOverTimeTableContainer extends React.Component {
             >
 
                 <TransactionsOverTimeTable
-                    transactions={nextExpenses}
+                    transactions={shownExpenses}
                     checked={checked}
                     onToggle={onToggle}
                     accountNames={accountNames} />

@@ -3,16 +3,38 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 
+import Switch from '@material-ui/core/Switch';
+
 import TransactionCell from './TransactionCell';
 import { DataTable, DataColumn } from '../../common/material/DataTable';
 import PayedSign from '../../common/components/PayedSign';
 import specifications from '../../transactions/transactions/specifications';
 
-const styles = {
+const styles = theme => ({
     centered: {
         textAlign: 'center'
-    }
-};
+    },
+    logo: {
+        fontFamily: "'Espresso Dolce', sans-serif",
+        fontWeight: 'bold',
+        fontSize: 24
+    },
+    appSuggestion: {
+        color: theme.palette.primary.main
+    },
+    userChoice: {
+        color: theme.palette.accent.main
+    },
+    switchOff: {
+        color: theme.palette.accent.main,
+        "& + $colorBar": {
+            backgroundColor: theme.palette.accent.main
+        }
+    },
+    switchColorBar: {
+        backgroundColor: theme.palette.accent.main
+    }//Required
+});
 
 class TransactionsOverTimeTable extends React.Component {
     static propTypes = {
@@ -44,18 +66,9 @@ class TransactionsOverTimeTable extends React.Component {
         return this.props.accountNames[result] || result;
     };
 
-    formatDue = (row) => {
-        const cols = Object.keys(row);
-        for (let col of cols) {
-            if (Array.isArray(row[col])) {
-                for (let transaction of row[col]) {
-                    if (transaction && specifications.isOverdue(transaction))
-                        return <PayedSign pending />;
-                }
-            }
-        }
-
-        return <PayedSign />;
+    formatSuggestion = (row) => {
+        const { classes } = this.props;
+        return <Switch color="primary" classes={{ switchBase: classes.switchOff, bar: classes.switchColorBar }} />;
     }
 
     renderDateCell = (row, field) => (
@@ -96,7 +109,11 @@ class TransactionsOverTimeTable extends React.Component {
                 <DataColumn field="priority" onRender={this.formatFirst}>IMP.</DataColumn>
                 <DataColumn field="deadline" onRender={this.formatFirst}>TOL.</DataColumn>
                 {this.renderDateColumns()}
-                <DataColumn field="due" onRender={this.formatDue}>PG.</DataColumn>
+                <DataColumn field="due" onRender={this.formatSuggestion} cellClassName={classes.centered}>
+                    <span className={classes.logo}>
+                        <span className={classes.userChoice}>v</span> <span className={classes.appSuggestion}>f</span>
+                    </span>
+                </DataColumn>
             </DataTable>
         );
     }
