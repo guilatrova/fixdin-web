@@ -7,8 +7,6 @@ import Switch from '@material-ui/core/Switch';
 
 import TransactionCell from './TransactionCell';
 import { DataTable, DataColumn } from '../../common/material/DataTable';
-import PayedSign from '../../common/components/PayedSign';
-import specifications from '../../transactions/transactions/specifications';
 
 const styles = theme => ({
     centered: {
@@ -66,7 +64,7 @@ class TransactionsOverTimeTable extends React.Component {
         return this.props.accountNames[result] || result;
     };
 
-    formatSuggestion = (row) => {
+    formatSuggestion = () => {
         const { classes } = this.props;
         return <Switch color="primary" classes={{ switchBase: classes.switchOff, bar: classes.switchColorBar }} />;
     }

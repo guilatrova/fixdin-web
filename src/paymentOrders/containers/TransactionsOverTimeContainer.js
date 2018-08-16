@@ -40,7 +40,7 @@ class TransactionsOverTimeTableContainer extends React.Component {
 
         let shownExpenses = nextExpenses;
         if (tab == PAYED_TAB) {
-            shownExpenses = nextExpenses.filter(transactionGroup => specifications.isEverythingPayed(transactionGroup));
+            shownExpenses = nextExpenses.filter(transactionGroup => specifications.isEverythingToDate(transactionGroup));
         }
         else if (tab == PENDING_TAB) {
             shownExpenses = nextExpenses.filter(transactionGroup => specifications.isAnythingPending(transactionGroup));
