@@ -14,7 +14,41 @@ const reduceNextExpensesToTransactionsArray = (nextExpenses) =>
         return prev;
     }, []);
 
-export default {
-    reduceNextExpensesToTransactionsArray
+const reduceTransactionsGroupToIds = (transactionGroup) => {
+    const cols = Object.keys(transactionGroup);
+    const res = [];
+
+    for (let col of cols) {
+        for (let i = 0; i < transactionGroup[col].length; i++) {
+            const transaction = transactionGroup[col][i];
+            if (transaction) {
+                res.push(transaction.id);
+            }
+        }
+    }
+
+    return res;
 };
 
+const getFirstField = (transactionGroup, field) => {
+    try {
+        const cols = Object.keys(transactionGroup);
+        for (let col of cols) {
+            for (let transaction of transactionGroup[col]) {
+                if (transaction && (transaction[field] || transaction[field] == 0))
+                    return transaction[field];
+            }
+        }
+    }
+    catch (error) {
+        return `error: ${field}`;
+    }
+
+    return "not found";
+};
+
+export default {
+    reduceNextExpensesToTransactionsArray,
+    reduceTransactionsGroupToIds,
+    getFirstField
+};

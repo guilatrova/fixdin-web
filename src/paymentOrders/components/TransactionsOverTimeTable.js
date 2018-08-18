@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 
 import Switch from '@material-ui/core/Switch';
 
 import TransactionCell from './TransactionCell';
 import { DataTable, DataColumn } from '../../common/material/DataTable';
+import { selectors } from '../duck';
+import formatters from '../formatters';
 
 const styles = theme => ({
     centered: {
@@ -31,42 +34,40 @@ const styles = theme => ({
     },
     switchColorBar: {
         backgroundColor: theme.palette.accent.main
-    }//Required
+    }
 });
 
 class TransactionsOverTimeTable extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired,
         checked: PropTypes.array.isRequired,
+        suggested: PropTypes.array.isRequired,
         onToggle: PropTypes.func.isRequired,
         accountNames: PropTypes.array.isRequired,
         classes: PropTypes.object.isRequired
     }
 
-    formatFirst = (row, field) => {
-        try {
-            const cols = Object.keys(row);
-            for (let col of cols) {
-                for (let transaction of row[col]) {
-                    if (transaction && (transaction[field] || transaction[field] == 0))
-                        return transaction[field];
-                }
-            }
-        }
-        catch (error) {
-            return `error: ${field}`;
-        }
-        return "not found";
-    };
+    formatFirst = (row, field) => formatters.getFirstField(row, field);
 
     formatAccount = (row, field) => {
         const result = this.formatFirst(row, field);
         return this.props.accountNames[result] || result;
     };
 
-    formatSuggestion = () => {
-        const { classes } = this.props;
-        return <Switch color="primary" classes={{ switchBase: classes.switchOff, bar: classes.switchColorBar }} />;
+    formatSuggestion = (row) => {
+        const { classes, checked, suggested } = this.props;
+
+        const ids = formatters.reduceTransactionsGroupToIds(row);
+        const checkedInRow = checked.filter(checkedId => ids.includes(checkedId));
+        const checkedSuggestion = suggested.filter(checkedId => ids.includes(checkedId));
+
+        const isSuggested = (checkedInRow.length === checkedSuggestion.length && checkedSuggestion.every(item => checkedInRow.includes(item)));
+
+        return (
+            <Switch color="primary"
+                checked={isSuggested}
+                classes={{ switchBase: classes.switchOff, bar: classes.switchColorBar }} />
+        );
     }
 
     renderDateCell = (row, field) => (
@@ -107,7 +108,7 @@ class TransactionsOverTimeTable extends React.Component {
                 <DataColumn field="priority" onRender={this.formatFirst}>IMP.</DataColumn>
                 <DataColumn field="deadline" onRender={this.formatFirst}>TOL.</DataColumn>
                 {this.renderDateColumns()}
-                <DataColumn field="due" onRender={this.formatSuggestion} cellClassName={classes.centered}>
+                <DataColumn onRender={this.formatSuggestion} cellClassName={classes.centered}>
                     <span className={classes.logo}>
                         <span className={classes.userChoice}>v</span> <span className={classes.appSuggestion}>f</span>
                     </span>
@@ -117,4 +118,11 @@ class TransactionsOverTimeTable extends React.Component {
     }
 }
 
-export default withStyles(styles)(TransactionsOverTimeTable);
+const mapStateToProps = (state) => ({
+    suggested: selectors.getSuggested(state),
+    checked: selectors.getChecked(state)
+});
+
+export default withStyles(styles)(
+    connect(mapStateToProps)(TransactionsOverTimeTable)
+);

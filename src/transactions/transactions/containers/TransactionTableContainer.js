@@ -22,8 +22,7 @@ class TransactionTableContainer extends React.Component {
         ...TransactionTable.propTypes,
         onAdd: PropTypes.func.isRequired,
         onRefresh: PropTypes.func.isRequired,
-        onClearAll: PropTypes.func.isRequired,
-        classes: PropTypes.object.isRequired
+        onClearAll: PropTypes.func.isRequired
     }
 
     state = {

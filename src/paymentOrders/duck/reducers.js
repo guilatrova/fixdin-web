@@ -6,6 +6,7 @@ const initialState = {
     remainingBalance: undefined,
     yearBalance: undefined,
     checked: [],
+    suggested: [],
     totalChecked: 0,
 
     period: moment().startOf('month'),
@@ -39,7 +40,7 @@ const toggleTransaction = (initialTotalChecked, initialChecked, toggleCheck, tra
     const diffTotalChecked = sumCheckedTransactions - initialTotalChecked;
 
     const totalChecked = diffTotalChecked + initialTotalChecked;
-    
+
     return {
         newChecked,
         diffTotalChecked,
@@ -48,7 +49,7 @@ const toggleTransaction = (initialTotalChecked, initialChecked, toggleCheck, tra
 };
 
 const fetchNextExpensesReducer = (state, action) => {
-    switch(action.result) {
+    switch (action.result) {
         case 'success':
             return {
                 ...state,
@@ -72,10 +73,10 @@ const fetchNextExpensesReducer = (state, action) => {
 };
 
 const toggleExpense = (state, action) => {
-    const { newChecked, diffTotalChecked, totalChecked } = 
+    const { newChecked, diffTotalChecked, totalChecked } =
         toggleTransaction(state.totalChecked, state.checked, action.expenseIds, action.expenses);
     const remainingBalance = state.remainingBalance - diffTotalChecked;
-    
+
     return {
         ...state,
         checked: newChecked,
@@ -106,6 +107,7 @@ const checkDefaultExpenses = (state, action) => {
 
     return {
         ...state,
+        suggested: checked,
         checked,
         totalChecked,
         remainingBalance

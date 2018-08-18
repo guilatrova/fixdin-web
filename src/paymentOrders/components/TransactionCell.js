@@ -72,13 +72,14 @@ const TransactionCell = ({ transactions, onToggle, checked, classes }) => {
 };
 
 Title.propTypes = {
-    transaction: PropTypes.object.isRequired
+    transaction: PropTypes.object.isRequired,
 };
 
 TransactionCell.propTypes = {
     transactions: PropTypes.array.isRequired,
     checked: PropTypes.array.isRequired,
-    onToggle: PropTypes.func.isRequired
+    onToggle: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(TransactionCell);
