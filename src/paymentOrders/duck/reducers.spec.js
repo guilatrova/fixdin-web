@@ -90,7 +90,9 @@ describe('paymentOrders/duck/reducers', () => {
     describe('TOGGLE_EXPENSE', () => {
         const expenses = [
             { "2018-03-01": [{ id: 1, value: "-10" }, { id: 2, value: "-15" }], "2018-02-01": [] },
-            { "2018-03-01": [], "2018-02-01": [{ id: 3, value: "-28" }] },
+            { "2018-03-01": [], "2018-02-01": [{ id: 3, value: "-30" }] },
+            { "2018-03-01": [], "2018-02-01": [{ id: 4, value: "-40" }, { id: 5, value: "-50" }] },
+            { "2018-03-01": [], "2018-02-01": [{ id: 6, value: "-60" }] },
         ];
         const formattedExpenses = formatters.reduceNextExpensesToTransactionsArray(expenses);
 
@@ -129,6 +131,25 @@ describe('paymentOrders/duck/reducers', () => {
                 checked: [1],
                 remainingBalance: 20,
                 totalChecked: 10
+            });
+        });
+
+        it("Unchecks an expense list", () => {
+            const state = {
+                ...initialState,
+                nextExpenses: expenses,
+                checked: [1, 3, 4, 5],
+                remainingBalance: 30,
+                totalChecked: 130
+            };
+
+            expect(
+                reducer(state, actions.toggleExpense([2, 3, 4, 5], formattedExpenses))
+            ).toEqual({
+                ...state,
+                checked: [1, 2],
+                remainingBalance: 135,
+                totalChecked: 25
             });
         });
 

@@ -19,7 +19,7 @@ const toggleTransaction = (initialTotalChecked, initialChecked, toggleCheck, tra
     const newChecked = [...initialChecked];
 
     for (let id of toggleCheck) {
-        const currentIndex = initialChecked.indexOf(id);
+        const currentIndex = newChecked.indexOf(id);
 
         if (currentIndex === -1) {
             newChecked.push(id);
@@ -114,6 +114,23 @@ const checkDefaultExpenses = (state, action) => {
     };
 };
 
+const resetSelectionToSuggestion = (state, action) => {
+    const toAdd = state.suggested.filter(id => action.ids.includes(id) && !state.checked.includes(id)); // Not checked yet
+    const toRemove = state.checked.filter(id => action.ids.includes(id) && !state.suggested.includes(id)); // Checked but not suggested
+    const toggleIds = toAdd.concat(toRemove);
+
+    const { newChecked, diffTotalChecked, totalChecked } =
+        toggleTransaction(state.totalChecked, state.checked, toggleIds, action.expenses);
+    const remainingBalance = state.remainingBalance - diffTotalChecked;
+
+    return {
+        ...state,
+        checked: newChecked,
+        totalChecked,
+        remainingBalance
+    };
+};
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
@@ -125,6 +142,9 @@ export default function reducer(state = initialState, action) {
 
         case types.FETCH_NEXT_EXPENSES:
             return fetchNextExpensesReducer(state, action);
+
+        case types.RESET_SELECTION_SUGGESTION:
+            return resetSelectionToSuggestion(state, action);
 
         case types.CHANGE_PERIOD:
             return {

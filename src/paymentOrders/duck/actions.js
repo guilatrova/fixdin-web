@@ -7,7 +7,7 @@ const changePeriod = (period) => ({
 
 const toggleExpense = (expenseIds, expenses) => {
     if (!Array.isArray(expenseIds)) {
-        expenseIds = [ expenseIds ];
+        expenseIds = [expenseIds];
     }
 
     return {
@@ -30,7 +30,7 @@ const reset = (remainingBalance, nextExpenses) => ({
 });
 
 const fetchNextExpenses = () => ({
-    type: types.FETCH_NEXT_EXPENSES        
+    type: types.FETCH_NEXT_EXPENSES
 });
 
 const receiveNextExpenses = (result, data) => {
@@ -51,7 +51,13 @@ const receiveNextExpenses = (result, data) => {
 
 const setYearBalance = (balance) => ({
     type: types.SET_YEAR_BALANCE,
-    balance    
+    balance
+});
+
+const resetSelectionToSuggestion = (transactionIds, expenses) => ({
+    type: types.RESET_SELECTION_SUGGESTION,
+    ids: transactionIds,
+    expenses
 });
 
 export default {
@@ -60,6 +66,7 @@ export default {
     checkDefaultExpenses,
     reset,
     setYearBalance,
+    resetSelectionToSuggestion,
 
     fetchNextExpenses,
     receiveNextExpenses

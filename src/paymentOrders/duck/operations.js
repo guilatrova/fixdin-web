@@ -20,14 +20,14 @@ class FetchNextExpenses extends GetOperation {
     getQueryParamsObject() {
         let { from } = this;
         let until;
-        
+
         if (!from) {
             from = moment().startOf('month');
         }
 
         until = formatDate(from.clone().add(11, 'months')); //11 + 1 = 12
         from = formatDate(from);
-                
+
         return { from, until };
     }
 
@@ -39,6 +39,13 @@ const toggleExpense = (expenseIds) => (dispatch, getState) => {
     const expenses = selectors.getNextExpenses(state);
     const transactions = formatters.reduceNextExpensesToTransactionsArray(expenses);
     dispatch(actions.toggleExpense(expenseIds, transactions));
+};
+
+const resetSelectionToSuggestion = (transactionIds) => (dispatch, getState) => {
+    const state = getState();
+    const expenses = selectors.getNextExpenses(state);
+    const transactions = formatters.reduceNextExpensesToTransactionsArray(expenses);
+    dispatch(actions.resetSelectionToSuggestion(transactionIds, transactions));
 };
 
 const checkDefaultExpenses = () => (dispatch, getState) => {
@@ -97,6 +104,7 @@ export default {
 
     toggleExpense,
     checkDefaultExpenses,
+    resetSelectionToSuggestion,
     reset,
     fetchNextExpenses,
 

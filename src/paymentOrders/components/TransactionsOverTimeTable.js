@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 
 import Switch from '@material-ui/core/Switch';
 
 import TransactionCell from './TransactionCell';
 import { DataTable, DataColumn } from '../../common/material/DataTable';
-import { selectors } from '../duck';
 import formatters from '../formatters';
 
 const styles = theme => ({
@@ -28,9 +26,9 @@ const styles = theme => ({
     },
     switchOff: {
         color: theme.palette.accent.main,
-        "& + $colorBar": {
-            backgroundColor: theme.palette.accent.main
-        }
+        // "& + $colorBar": {
+        //     backgroundColor: theme.palette.accent.main
+        // }
     },
     switchColorBar: {
         backgroundColor: theme.palette.accent.main
@@ -44,7 +42,8 @@ class TransactionsOverTimeTable extends React.Component {
         suggested: PropTypes.array.isRequired,
         onToggle: PropTypes.func.isRequired,
         accountNames: PropTypes.array.isRequired,
-        classes: PropTypes.object.isRequired
+        classes: PropTypes.object.isRequired,
+        onResetSelectionToSuggestion: PropTypes.func.isRequired
     }
 
     formatFirst = (row, field) => formatters.getFirstField(row, field);
@@ -55,7 +54,7 @@ class TransactionsOverTimeTable extends React.Component {
     };
 
     formatSuggestion = (row) => {
-        const { classes, checked, suggested } = this.props;
+        const { classes, checked, suggested, onResetSelectionToSuggestion } = this.props;
 
         const ids = formatters.reduceTransactionsGroupToIds(row);
         const checkedInRow = checked.filter(checkedId => ids.includes(checkedId));
@@ -65,6 +64,7 @@ class TransactionsOverTimeTable extends React.Component {
 
         return (
             <Switch color="primary"
+                onClick={() => onResetSelectionToSuggestion(ids)}
                 checked={isSuggested}
                 classes={{ switchBase: classes.switchOff, bar: classes.switchColorBar }} />
         );
@@ -118,11 +118,4 @@ class TransactionsOverTimeTable extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    suggested: selectors.getSuggested(state),
-    checked: selectors.getChecked(state)
-});
-
-export default withStyles(styles)(
-    connect(mapStateToProps)(TransactionsOverTimeTable)
-);
+export default withStyles(styles)(TransactionsOverTimeTable);
