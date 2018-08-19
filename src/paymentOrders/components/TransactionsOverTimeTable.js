@@ -25,10 +25,7 @@ const styles = theme => ({
         color: theme.palette.accent.main
     },
     switchOff: {
-        color: theme.palette.accent.main,
-        // "& + $colorBar": {
-        //     backgroundColor: theme.palette.accent.main
-        // }
+        color: theme.palette.accent.main
     },
     switchColorBar: {
         backgroundColor: theme.palette.accent.main
@@ -70,9 +67,18 @@ class TransactionsOverTimeTable extends React.Component {
         );
     }
 
-    renderDateCell = (row, field) => (
-        <TransactionCell transactions={row[field]} checked={this.props.checked} onToggle={this.props.onToggle} />
-    );
+    renderDateCell = (row, field) => {
+        const { checked, suggested, onToggle } = this.props;
+
+        return (
+            <TransactionCell
+                transactions={row[field]}
+                checked={checked}
+                suggested={suggested}
+                onToggle={onToggle}
+            />
+        );
+    }
 
     renderDateColumns = () => {
         const { transactions, classes } = this.props;

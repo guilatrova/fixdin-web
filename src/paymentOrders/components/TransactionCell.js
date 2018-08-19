@@ -10,6 +10,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { formatCurrencyDisplay } from '../../utils/formatters';
 
 const styles = theme => ({
+    rootButton: {
+        padding: 5,
+        minWidth: 0
+    },
+    button: {
+        marginBottom: 5,
+    },
     suggestion: {
         color: theme.palette.primary.main
     },
@@ -36,12 +43,13 @@ const Title = ({ transaction }) => {
     );
 };
 
-const TransactionCell = ({ transactions, onToggle, checked, classes }) => {
+const TransactionCell = ({ transactions, onToggle, checked, suggested, classes }) => {
     return (
         <div>
             {transactions.map((transaction) => {
                 const isPayed = !!transaction.payment_date;
                 const isChecked = checked.indexOf(transaction.id) !== -1;
+                const isSuggested = isChecked && suggested.includes(transaction.id);
 
                 return (
                     <div key={transaction.id}>
@@ -49,10 +57,13 @@ const TransactionCell = ({ transactions, onToggle, checked, classes }) => {
 
                             <div className={classNames({
                                 [classes.default]: !isChecked,
-                                [classes.suggestion]: isChecked
+                                [classes.suggestion]: isSuggested,
+                                [classes.userChoice]: isChecked && !isSuggested
                             })}>
 
                                 <Button
+                                    classes={{ root: classes.rootButton }}
+                                    className={classes.button}
                                     variant={isChecked ? "outlined" : undefined}
                                     color="inherit"
                                     disabled={isPayed}
@@ -78,6 +89,7 @@ Title.propTypes = {
 TransactionCell.propTypes = {
     transactions: PropTypes.array.isRequired,
     checked: PropTypes.array.isRequired,
+    suggested: PropTypes.array.isRequired,
     onToggle: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
