@@ -49,6 +49,9 @@ class TransactionsOverTimeTable extends React.Component {
 
     formatFirst = (row, field) => formatters.getFirstField(row, field);
 
+    formatDueDate = (row, field) =>
+        String(moment(formatters.getFirstField(row, field), 'YYYY-MM-DD').date()).padStart(2, '0');
+
     formatAccount = (row, field) => {
         const result = this.formatFirst(row, field);
         return this.props.accountNames[result] || result;
@@ -113,6 +116,7 @@ class TransactionsOverTimeTable extends React.Component {
                 className="slim-table"
             >
                 <DataColumn field="account" onRender={this.formatAccount} cellClassName={classes.left} >CONTA</DataColumn>
+                <DataColumn field="due_date" onRender={this.formatDueDate} cellClassName={classes.left} >VENC.</DataColumn>
                 <DataColumn field="description" onRender={this.formatFirst} cellClassName={classes.left} >DESCRIÇÃO</DataColumn>
                 <DataColumn field="priority" onRender={this.formatFirst} cellClassName={classes.centered} >IMP.</DataColumn>
                 <DataColumn field="deadline" onRender={this.formatFirst} cellClassName={classes.centered} >TOL.</DataColumn>
