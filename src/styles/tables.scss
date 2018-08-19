@@ -2,6 +2,7 @@ td, th {
     white-space: nowrap;
 }
 
-.slim-table td, .slim-table th {
+.slim-table td, .slim-table th,
+.slim-table td:last-child, .slim-table th:last-child {
     padding: 4px 0px;
 }
