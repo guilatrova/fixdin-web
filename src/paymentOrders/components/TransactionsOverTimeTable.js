@@ -13,6 +13,10 @@ const styles = theme => ({
     centered: {
         textAlign: 'center'
     },
+    left: {
+        textAlign: 'left',
+        paddingLeft: '15px !important'
+    },
     logo: {
         fontFamily: "'Espresso Dolce', sans-serif",
         fontWeight: 'bold',
@@ -107,12 +111,11 @@ class TransactionsOverTimeTable extends React.Component {
             <DataTable
                 data={data}
                 className="slim-table"
-                headersClassName={classes.centered}
             >
-                <DataColumn field="account" onRender={this.formatAccount}>CONTA</DataColumn>
-                <DataColumn field="description" onRender={this.formatFirst}>DESCRIÇÃO</DataColumn>
-                <DataColumn field="priority" onRender={this.formatFirst}>IMP.</DataColumn>
-                <DataColumn field="deadline" onRender={this.formatFirst}>TOL.</DataColumn>
+                <DataColumn field="account" onRender={this.formatAccount} cellClassName={classes.left} >CONTA</DataColumn>
+                <DataColumn field="description" onRender={this.formatFirst} cellClassName={classes.left} >DESCRIÇÃO</DataColumn>
+                <DataColumn field="priority" onRender={this.formatFirst} cellClassName={classes.centered} >IMP.</DataColumn>
+                <DataColumn field="deadline" onRender={this.formatFirst} cellClassName={classes.centered} >TOL.</DataColumn>
                 {this.renderDateColumns()}
                 <DataColumn onRender={this.formatSuggestion} cellClassName={classes.centered}>
                     <span className={classes.logo}>
