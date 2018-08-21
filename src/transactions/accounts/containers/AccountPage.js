@@ -7,18 +7,16 @@ import Paper from '@material-ui/core/Paper';
 
 import AccountFormDialogContainer from './AccountFormDialogContainer';
 import TransferFormDialog from './TransferFormDialog';
-import AccountTable from '../components/AccountTable';
-import FloatingActionButton from '../../../common/material/FloatingActionButton';
+import AccountTable from './AccountTableContainer';
 import { operations, selectors } from '../duck';
 
 const styles = theme => ({
     root: {
-      flexGrow: 1,
-      marginTop: 30,
-      overflowX: 'auto',
+        flexGrow: 1,
     },
     paper: {
         width: '100%',
+        overflow: 'auto',
         marginTop: theme.spacing.unit * 3,
         marginBottom: theme.spacing.unit * 6,
     }
@@ -59,7 +57,7 @@ class AccountPage extends React.Component {
     handleOpenTransferFormDialog = () => this.setState({ openTransferFormDialog: true });
 
     handleTransferFormSubmit = (value, from, to) => {
-        this.props.onTransfer(value, from, to).then(({result}) => {
+        this.props.onTransfer(value, from, to).then(({ result }) => {
             if (result == 'success') {
                 this.handleCloseTransferFormSubmit();
             }
@@ -83,54 +81,50 @@ class AccountPage extends React.Component {
 
         return (
             <div className={classes.root}>
-                <Paper>
 
-                    <div className={classes.table}>
-                        <AccountTable 
-                            accounts={accounts} 
-                            onEdit={this.handleEdit}
-                            onTransfer={this.handleTransfer}
-                        />
-                    </div>
+                <Paper className={classes.paper}>
 
-                    <AccountFormDialogContainer 
-                        open={this.state.openAccountFormDialog}
-                        onClose={this.handleCloseAccountFormDialog}
+                    <AccountTable
+                        accounts={accounts}
+                        onAdd={this.handleOpenAccountFormDialog}
+                        onEdit={this.handleEdit}
+                        onTransfer={this.handleTransfer}
                     />
 
-                    <TransferFormDialog 
-                        open={this.state.openTransferFormDialog} 
-                        onSubmit={this.handleTransferFormSubmit}
-                        onClose={this.handleCloseTransferFormSubmit}
-                        title="Efetuar transferência"
-                        fromAccount={this.state.transferringFromAccount}
-                        errors={errors}
-                        isFetching={isFetching}
-                    />
-
-                    <FloatingActionButton color="primary" onClick={this.handleOpenAccountFormDialog} />
                 </Paper>
+
+                <AccountFormDialogContainer
+                    open={this.state.openAccountFormDialog}
+                    onClose={this.handleCloseAccountFormDialog}
+                />
+
+                <TransferFormDialog
+                    open={this.state.openTransferFormDialog}
+                    onSubmit={this.handleTransferFormSubmit}
+                    onClose={this.handleCloseTransferFormSubmit}
+                    title="Efetuar transferência"
+                    fromAccount={this.state.transferringFromAccount}
+                    errors={errors}
+                    isFetching={isFetching}
+                />
+
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        accounts: selectors.getAccounts(state),
-        isFetching: selectors.isFetching(state),
-        errors: selectors.getErrors(state),
-    };
-};
+const mapStateToProps = (state) => ({
+    accounts: selectors.getAccounts(state),
+    isFetching: selectors.isFetching(state),
+    errors: selectors.getErrors(state),
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onFetch: (timeout) => dispatch(operations.fetchAccounts(timeout)),
-        onEdit: (id) => dispatch(operations.editAccount(id)),
-        onTransfer: (value, from, to) => dispatch(operations.saveTransfer(value, from, to)),
-        onFinishEdit: () => dispatch(operations.finishEditAccount())
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onFetch: (timeout) => dispatch(operations.fetchAccounts(timeout)),
+    onEdit: (id) => dispatch(operations.editAccount(id)),
+    onTransfer: (value, from, to) => dispatch(operations.saveTransfer(value, from, to)),
+    onFinishEdit: () => dispatch(operations.finishEditAccount())
+});
 
 export default withStyles(styles)(
     connect(mapStateToProps, mapDispatchToProps)(AccountPage)
