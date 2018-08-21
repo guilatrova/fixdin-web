@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
+import cn from 'classnames';
 
 import Switch from '@material-ui/core/Switch';
 
@@ -16,6 +17,19 @@ const styles = theme => ({
     left: {
         textAlign: 'left',
         paddingLeft: '15px !important'
+    },
+    firstColumns: {
+        minWidth: "4%",
+        maxWidth: "11%"
+    },
+    smallestColumn: {
+        width: "2%" // 2% * 2 = 4%
+    },
+    dateColumn: {
+        width: "6%" // 6% * 12 = 72%
+    },
+    lastColumn: {
+        width: "5%"
     },
     logo: {
         fontFamily: "'Espresso Dolce', sans-serif",
@@ -96,7 +110,7 @@ class TransactionsOverTimeTable extends React.Component {
                 <DataColumn
                     key={idx}
                     field={column}
-                    cellClassName={classes.centered}
+                    cellClassName={cn(classes.centered, classes.dateColumn)}
                     onRender={this.renderDateCell}>
 
                     {moment(column, 'YYYY-MM-DD').format('MMM/YY')}
@@ -115,13 +129,13 @@ class TransactionsOverTimeTable extends React.Component {
                 data={data}
                 className="slim-table"
             >
-                <DataColumn field="account" onRender={this.formatAccount} cellClassName={classes.left} >CONTA</DataColumn>
-                <DataColumn field="due_date" onRender={this.formatDueDate} cellClassName={classes.left} >VENC.</DataColumn>
-                <DataColumn field="description" onRender={this.formatFirst} cellClassName={classes.left} >DESCRIÇÃO</DataColumn>
-                <DataColumn field="priority" onRender={this.formatFirst} cellClassName={classes.centered} >IMP.</DataColumn>
-                <DataColumn field="deadline" onRender={this.formatFirst} cellClassName={classes.centered} >TOL.</DataColumn>
+                <DataColumn field="account" onRender={this.formatAccount} cellClassName={cn(classes.left, classes.firstColumns)} >CONTA</DataColumn>
+                <DataColumn field="due_date" onRender={this.formatDueDate} cellClassName={cn(classes.left, classes.firstColumns)} >VENC.</DataColumn>
+                <DataColumn field="description" onRender={this.formatFirst} cellClassName={cn(classes.left, classes.firstColumns)} >DESCRIÇÃO</DataColumn>
+                <DataColumn field="priority" onRender={this.formatFirst} cellClassName={cn(classes.centered, classes.smallestColumn)} >IMP.</DataColumn>
+                <DataColumn field="deadline" onRender={this.formatFirst} cellClassName={cn(classes.centered, classes.smallestColumn)} >TOL.</DataColumn>
                 {this.renderDateColumns()}
-                <DataColumn onRender={this.formatSuggestion} cellClassName={classes.centered}>
+                <DataColumn onRender={this.formatSuggestion} cellClassName={cn(classes.centered, classes.lastColumn)}>
                     <span className={classes.logo}>
                         <span className={classes.userChoice}>v</span> <span className={classes.appSuggestion}>f</span>
                     </span>

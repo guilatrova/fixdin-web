@@ -11,7 +11,7 @@ import { formatCurrencyDisplay } from '../../utils/formatters';
 
 const styles = theme => ({
     rootButton: {
-        padding: 5,
+        padding: 0,
         minWidth: 0
     },
     button: {
@@ -64,7 +64,6 @@ const TransactionCell = ({ transactions, onToggle, checked, suggested, classes }
                                 <Button
                                     classes={{ root: classes.rootButton }}
                                     className={classes.button}
-                                    variant={isChecked ? "outlined" : undefined}
                                     color="inherit"
                                     disabled={isPayed}
                                     onClick={() => onToggle(transaction.id)}

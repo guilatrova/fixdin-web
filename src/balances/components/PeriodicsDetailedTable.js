@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
+import cn from "classnames";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,13 +22,19 @@ const styles = () => ({
         color: 'black',
         fontWeight: 'bold',
     },
+    valueSuffixColumn: {
+        width: "5%"
+    },
+    valueColumn: {
+        width: "7%" // 7*12 = 84%
+    }
 });
 
 const PeriodicsDetailedTable = ({ classes, balances }) => {
-    const BalanceCells = ({render, className}) => {
+    const BalanceCells = ({ render, className }) => {
         return balances.map((entry, idx) => {
             return (
-                <TableCell numeric key={idx} padding="dense" className={className}>
+                <TableCell numeric key={idx} padding="dense" className={cn(className, classes.valueColumn)}>
                     {render(entry)}
                 </TableCell>
             );
@@ -41,10 +48,10 @@ const PeriodicsDetailedTable = ({ classes, balances }) => {
 
         return prev;
     }, {
-        incomes: 0,
-        expenses: 0,
-        total: 0
-    });
+            incomes: 0,
+            expenses: 0,
+            total: 0
+        });
 
     const renderHeader = (entry) => moment(entry.period, 'YYYY-MM-DD').format('MMM-YY');
     const renderIncomes = (entry) => Math.round(entry.effective_incomes);
@@ -56,7 +63,7 @@ const PeriodicsDetailedTable = ({ classes, balances }) => {
             <Table className="slim-table">
                 <TableHead>
                     <TableRow className={classes.row}>
-                        <TableCell padding="dense" className={classes.strongCell}>Período</TableCell>
+                        <TableCell padding="dense" className={cn(classes.strongCell, classes.valueColumn)}>Período</TableCell>
                         <BalanceCells render={renderHeader} className={classes.strongCell} />
                         <TableCell numeric padding="dense" className={classes.strongCell}>Saldo</TableCell>
                     </TableRow>

@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import TransactionsOverTimeContainer from './TransactionsOverTimeContainer';
 import PaymentOrderHeader from './PaymentOrderHeader';
+import PaymentOrderFooter from './PaymentOrderFooter';
 import balanceOptions from '../../balances/options';
 import { operations as balanceOperations } from '../../balances/duck';
 import { operations as accountOperations } from '../../transactions/accounts/duck';
@@ -41,15 +42,8 @@ class PaymentOrderPage extends React.Component {
                     <TransactionsOverTimeContainer />
                 </Paper>
 
-                {/* <div className={classes.surrounding}>
-                    <div className={classes.smallerTable}>
-                        <YearBalanceTable />
-                    </div>
+                <PaymentOrderFooter />
 
-                    <div className={classes.biggerTable}>
-                        <PeriodicsDetailedTable />
-                    </div>
-                </div> */}
             </div>
         );
     }
