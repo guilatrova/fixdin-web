@@ -24,7 +24,10 @@ const styles = theme => ({
     },
     tableHeader: {
         display: 'inline-flex',
-        flexWrap: 'nowrap'
+        flexWrap: 'nowrap',
+    },
+    headerCell: {
+        fontWeight: 'bold'
     },
     filterButton: {
         width: 'auto',
@@ -163,7 +166,7 @@ class DataTable extends React.Component {
                         <TableCell
                             key={field}
                             numeric={numeric}
-                            className={classNames(cellsClassName, headersClassName, cellClassName)}
+                            className={classNames(classes.headerCell, cellsClassName, headersClassName, cellClassName)}
                             padding={padding} >
 
                             <div className={classes.tableHeader}>

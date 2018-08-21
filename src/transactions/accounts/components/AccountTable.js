@@ -18,7 +18,7 @@ const AccountTable = ({ accounts, onEdit, onTransfer }) => {
 
                 <CollapsibleMenu>
                     <MenuItem onClick={() => onTransfer(account)}><TransferIcon /> Transferir</MenuItem>
-                    <MenuItem onClick={() => onEdit(account.id)}><EditIcon /> Editar</MenuItem>                    
+                    <MenuItem onClick={() => onEdit(account.id)}><EditIcon /> Editar</MenuItem>
                 </CollapsibleMenu>
             </div>
         );
@@ -28,8 +28,8 @@ const AccountTable = ({ accounts, onEdit, onTransfer }) => {
 
     return (
         <DataTable data={accounts} initialOrderBy="name">
-            <DataColumn sortable field="name">Nome</DataColumn>
-            <DataColumn sortable field="current_balance" onRender={renderBalance}>Saldo</DataColumn>
+            <DataColumn sortable field="name">NOME</DataColumn>
+            <DataColumn sortable field="current_balance" onRender={renderBalance}>SALDO</DataColumn>
             <DataColumn onRender={formatOptions} />
         </DataTable>
     );
