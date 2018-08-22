@@ -1,21 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import cn from 'classnames';
 
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/ModeEdit';
-import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 
 import { EXPENSE } from '../../shared/kinds';
 import { DataTable, DataColumn } from './../../../common/material/DataTable';
-import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
+import editIconSrc from '../../../styles/icons/editIcon.png';
+import deleteIconSrc from '../../../styles/icons/garbageIcon.png';
 
-const CategoryTable = ({categories, onEdit, onDelete}) => {
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit,
+    },
+    optionIcon: {
+        maxWidth: 15,
+        maxHeight: 15
+    }
+});
+
+const CategoryTable = ({ classes, categories, onEdit, onDelete }) => {
+
+    // eslint-disable-next-line react/prop-types
+    const OptionButton = ({ icon, children, ...props }) => (
+        <Button className={classes.button} {...props}>
+            <img src={icon} className={cn(classes.leftIcon, classes.optionIcon)} />
+            {children}
+        </Button>
+    );
+
     const formatOptions = (category) => {
         return (
-            <CollapsibleMenu>
-                <MenuItem onClick={() => onEdit(category.id)}><EditIcon /> Editar</MenuItem>
-                <MenuItem onClick={() => onDelete(category.id)}><DeleteIcon /> Deletar</MenuItem>
-            </CollapsibleMenu>
+            <div>
+                <OptionButton icon={editIconSrc} onClick={() => onEdit(category.id)}>
+                    Editar
+                </OptionButton>
+
+                <OptionButton icon={deleteIconSrc} onClick={() => onDelete(category.id)}>
+                    Deletar
+                </OptionButton>
+            </div>
         );
     };
 
@@ -27,7 +55,7 @@ const CategoryTable = ({categories, onEdit, onDelete}) => {
         <DataTable data={categories} initialOrderBy="name">
             <DataColumn sortable field="kind" onRender={renderKind}>Tipo</DataColumn>
             <DataColumn sortable field="name">Nome</DataColumn>
-            <DataColumn onRender={formatOptions} />
+            <DataColumn numeric onRender={formatOptions} />
         </DataTable>
     );
 };
@@ -35,7 +63,8 @@ const CategoryTable = ({categories, onEdit, onDelete}) => {
 CategoryTable.propTypes = {
     categories: PropTypes.array.isRequired,
     onEdit: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-export default CategoryTable;
+export default withStyles(styles)(CategoryTable);
