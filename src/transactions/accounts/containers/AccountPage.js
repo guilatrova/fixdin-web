@@ -87,6 +87,7 @@ class AccountPage extends React.Component {
                     <AccountTable
                         accounts={accounts}
                         onAdd={this.handleOpenAccountFormDialog}
+                        onRefresh={this.handleRefresh}
                         onEdit={this.handleEdit}
                         onTransfer={this.handleTransfer}
                     />

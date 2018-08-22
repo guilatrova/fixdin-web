@@ -32,7 +32,7 @@ class AccountTableContainer extends React.Component {
 
         const actions = [
             { onClick: onAdd, icon: <AddIcon /> },
-            { onClick: () => { alert("undone"); onRefresh(); }, icon: <RefreshIcon /> }
+            { onClick: onRefresh, icon: <RefreshIcon /> }
         ];
 
         return (
