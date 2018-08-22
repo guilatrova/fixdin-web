@@ -4,22 +4,19 @@ import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import AddIcon from '@material-ui/icons/Add';
 
-import FloatingActionButton from '../../../common/material/FloatingActionButton';
 import CategoryFormDialogContainer from './CategoryFormDialogContainer';
-import CategoryTable from '../components/CategoryTable';
+import CategoryTable from './CategoryTableContainer';
 import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
 import { operations, selectors } from '../duck';
 
 const styles = theme => ({
     root: {
-      flexGrow: 1,
-      marginTop: 30,
-      overflowX: 'auto',
+        flexGrow: 1,
     },
     paper: {
         width: '100%',
+        overflow: 'auto',
         marginTop: theme.spacing.unit * 3,
         marginBottom: theme.spacing.unit * 6,
     }
@@ -29,11 +26,9 @@ class CategoryPage extends React.Component {
 
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        categories: PropTypes.array.isRequired,
         errors: PropTypes.object.isRequired,
 
         onFetch: PropTypes.func.isRequired,
-        onSubmit: PropTypes.func.isRequired,
         onFinishEdit: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
@@ -46,7 +41,7 @@ class CategoryPage extends React.Component {
     };
 
     componentDidMount() {
-        this.props.onFetch();    
+        this.props.onFetch();
     }
 
     handleRequestCreate = () => this.setState({ openCategoryFormDialog: true });
@@ -70,8 +65,8 @@ class CategoryPage extends React.Component {
         });
     }
 
-    handleConfirmDelete = () => {        
-        this.props.onDelete(this.state.toDeleteId).then(({result}) => {
+    handleConfirmDelete = () => {
+        this.props.onDelete(this.state.toDeleteId).then(({ result }) => {
             if (result == 'success') {
                 this.setState({
                     openDeleteDialog: false,
@@ -90,22 +85,17 @@ class CategoryPage extends React.Component {
     }
 
     render() {
-        const { classes, categories } = this.props;
+        const { classes } = this.props;
 
         return (
             <div className={classes.root}>
-                <Paper>
 
-                    <div className={classes.table}>
-                        <CategoryTable
-                            categories={categories}
-                            onEdit={this.handleRequestEdit}
-                            onDelete={this.handleRequestDelete} />
-                    </div>
-
-                    <FloatingActionButton color="primary" onClick={this.handleRequestCreate}>
-                        <AddIcon />
-                    </FloatingActionButton>
+                <Paper className={classes.paper}>
+                    <CategoryTable
+                        onAdd={this.handleRequestCreate}
+                        onRefresh={this.handleRefresh}
+                        onEdit={this.handleRequestEdit}
+                        onDelete={this.handleRequestDelete} />
                 </Paper>
 
                 <CategoryFormDialogContainer
@@ -113,9 +103,9 @@ class CategoryPage extends React.Component {
                     onClose={this.handleCloseFormDialog}
                 />
 
-                <ConfirmDeleteDialog 
-                    open={this.state.openDeleteDialog} 
-                    onClose={this.handleCloseDeleteDialog} 
+                <ConfirmDeleteDialog
+                    open={this.state.openDeleteDialog}
+                    onClose={this.handleCloseDeleteDialog}
                     onConfirm={this.handleConfirmDelete}
                     error={this.props.errors.detail} >
 
@@ -127,13 +117,12 @@ class CategoryPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    categories: selectors.getCategories(state),
     errors: selectors.getErrors(state),
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetch: () => dispatch(operations.fetchCategories()),        
+        onFetch: () => dispatch(operations.fetchCategories()),
         onDelete: (id) => dispatch(operations.deleteCategory(id)),
         onEdit: (id) => dispatch(operations.editCategory(id)),
         onFinishEdit: () => dispatch(operations.finishEditCategory())
