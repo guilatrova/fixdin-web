@@ -44,7 +44,8 @@ const KindSwitch = ({ classes, value, onChange }) => {
 
 KindSwitch.propTypes = {
     value: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 KindSwitch.defaultProps = {
