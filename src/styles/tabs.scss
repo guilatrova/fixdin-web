@@ -11,18 +11,3 @@
     overflow: visible !important;
     font-weight: bold !important;
 }
-
-$tab_arrow_size: 10px;
-
-.tab-selected:after {
-    content:'';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -$tab_arrow_size;
-    width: 0;
-    height: 0;
-    border-top: solid $tab_arrow_size $primary-color;
-    border-left: solid $tab_arrow_size transparent;
-    border-right: solid $tab_arrow_size transparent;
-}
