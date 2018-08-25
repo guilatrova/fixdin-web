@@ -2,42 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
 import FormLabel from '@material-ui/core/FormLabel';
+import ToggleButton, { ToggleButtonGroup } from '@material-ui/lab/ToggleButton';
 
 import { EXPENSE, INCOME } from '../kinds';
 
-const styles = {
+const styles = theme => ({
     root: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center'
     },
     selected: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: theme.palette.primary.main
     }
-};
+});
 
 const KindSwitch = ({ classes, value, onChange }) => {
-    let expenseProps, incomeProps;
-
-    if (value.id == EXPENSE.id) {
-        expenseProps = { color: 'primary', variant: 'outlined', className: classes.selected };
-        incomeProps = {};
-    }
-    else {
-        expenseProps = {};
-        incomeProps = { color: 'primary', variant: 'outlined', className: classes.selected };
-    }
-
     return (
         <div className={classes.root}>
             <FormLabel component="legend">Tipo</FormLabel>
 
-            <div>
-                <Button {...incomeProps} onClick={() => onChange(INCOME)}>Receita</Button>
-                <Button {...expenseProps} onClick={() => onChange(EXPENSE)}>Despesa</Button>
-            </div>
+            <ToggleButtonGroup value={value} exclusive onChange={onChange}>
+                <ToggleButton classes={{ selected: classes.selected }} value={INCOME}>Receita</ToggleButton>
+                <ToggleButton classes={{ selected: classes.selected }} value={EXPENSE}>Despesa</ToggleButton>
+            </ToggleButtonGroup>
         </div>
     );
 };
