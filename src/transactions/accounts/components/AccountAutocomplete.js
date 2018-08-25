@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Autocomplete from '../../../common/material/Autocomplete';
 import { selectors } from '../duck';
 
-class AccountAutocomplete extends React.Component {
+class AccountAutocomplete extends React.Component { // TODO: Refactor to pure function
     static propTypes = {
         label: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
@@ -27,24 +27,23 @@ class AccountAutocomplete extends React.Component {
     render() {
         const { label, value, accounts, alwaysOpen, ...other } = this.props;
         const suggestions = accounts.map(account => ({ label: account.name, id: account.id }));
+        other.dispatch = undefined; // Don't let this fall through input
 
         return (
-            <Autocomplete 
+            <Autocomplete
                 label={label}
                 value={value ? value.name : ""}
                 onChange={this.handleChange}
                 suggestions={suggestions}
                 alwaysOpen={alwaysOpen}
-                {...other}
+                inputProps={other}
             />
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        accounts: selectors.getAccounts(state)
-    };
-};
+const mapStateToProps = state => ({
+    accounts: selectors.getAccounts(state)
+});
 
 export default connect(mapStateToProps)(AccountAutocomplete);

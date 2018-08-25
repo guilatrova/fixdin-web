@@ -46,8 +46,8 @@ const regularActions = (onClick, disabled, classes) => {
             <Button variant="raised" color="primary" onClick={() => onClick(types.CLOSE)} disabled={disabled} className={classes.button}>
                 Salvar</Button>
             <Button variant="raised" color="default" onClick={() => onClick(types.NEW)} disabled={disabled} className={classes.button}>
-                Salvar e novo</Button>                
-        </div>        
+                Salvar e novo</Button>
+        </div>
     );
 };
 
@@ -86,7 +86,7 @@ class TransactionForm extends React.Component {
         transaction: PropTypes.object.isRequired,
         accounts: PropTypes.array.isRequired
     }
-    
+
     static defaultProps = {
         transaction: emptyTransaction
     }
@@ -95,7 +95,7 @@ class TransactionForm extends React.Component {
         super(props);
         const kind = getKind(props.transaction.kind);
 
-        this.state = { 
+        this.state = {
             ...props.transaction,
             payed: !!props.transaction.payment_date,
             account: props.transaction.account || props.accounts[0].id,
@@ -109,7 +109,7 @@ class TransactionForm extends React.Component {
     handleOptionSelected = (postSaveOption) => {
         this.handleSubmit(types.SAVE_TRANSACTION, postSaveOption);
 
-        switch(postSaveOption) {
+        switch (postSaveOption) {
             case NEW:
                 this.setState({ ...emptyTransaction, errors: {} });
                 break;
@@ -124,7 +124,7 @@ class TransactionForm extends React.Component {
 
     handleKindChange = (kind) => {
         if (this.state.kind != kind) {
-            this.setState({ 
+            this.setState({
                 kind,
                 category: undefined
             });
@@ -136,16 +136,16 @@ class TransactionForm extends React.Component {
             payed: checked,
             payment_date: checked ? moment(new Date()) : null
         });
-    }    
+    }
 
     handleIsPeriodicChange = (e, checked) => {
-        this.setState({ 
+        this.setState({
             isPeriodic: checked,
             periodic: checked ? { frequency: "daily" } : null
         });
     }
 
-    handleAccountChange = (account) => {        
+    handleAccountChange = (account) => {
         if (account) {
             this.setState({ account: account.id });
         }
@@ -158,152 +158,154 @@ class TransactionForm extends React.Component {
         let disabled = false;
         if (this.props.isFetching) {
             disabled = true;
-        }       
+        }
         else if (this.state.value === '' || this.state.value === undefined) { //0 is enabled
             disabled = true;
         }
-        else if (!moment.isMoment(this.state.due_date)) {            
+        else if (!moment.isMoment(this.state.due_date)) {
             disabled = true;
         }
         else {
-            disabled = !(this.state.due_date && 
+            disabled = !(this.state.due_date &&
                 this.state.category && this.state.description && this.state.account);
         }
-        
+
         return disabled;
     }
-    
+
     render() {
         const { errors, classes, accounts } = this.props;
         const selectedAccount = accounts.find(account => account.id === this.state.account);
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
         const isCreate = !isEdit;
-        const actions = (specifications.isPeriodic(this.state)) ? 
-            (disabled) => editingPeriodicActions(this.handleSubmit, disabled, classes) : 
+        const actions = (specifications.isPeriodic(this.state)) ?
+            (disabled) => editingPeriodicActions(this.handleSubmit, disabled, classes) :
             (disabled) => regularActions(this.handleOptionSelected, disabled, classes);
 
         return (
-        <div className={classes.root}>
-            <DialogContent>
+            <React.Fragment>
+                <DialogContent className={classes.root}>
 
-                <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
+                    <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
 
-                <AccountAutocomplete
-                    value={selectedAccount}
-                    onChange={this.handleAccountChange}
-                />
+                    <AccountAutocomplete
+                        fullWidth
+                        value={selectedAccount}
+                        onChange={this.handleAccountChange}
+                    />
 
-                <DatePicker
-                    keyboard
-                    label="Vencimento"
-                    value={this.state.due_date}
-                    onChange={(due_date) => this.setState({ due_date })}
-                    autoOk={true}
-                    format="DD MMMM YYYY"
-                />
+                    <DatePicker
+                        keyboard
+                        label="Vencimento"
+                        value={this.state.due_date}
+                        onChange={(due_date) => this.setState({ due_date })}
+                        autoOk={true}
+                        format="DD MMMM YYYY"
+                    />
 
-                <TransactionDescription
-                    value={this.state.description}
-                    error={errors.description}
-                    onChange={description => this.setState({ description })}
-                />
+                    <TransactionDescription
+                        fullWidth
+                        value={this.state.description}
+                        error={errors.description}
+                        onChange={description => this.setState({ description })}
+                    />
 
-                <div className={classes.widthLimit}>
-                    <InputLabel htmlFor="category-picker">Categoria</InputLabel>
+                    <div className={classes.widthLimit}>
+                        <InputLabel htmlFor="category-picker">Categoria</InputLabel>
 
-                    <CategorySelectPicker 
-                        id="category-picker"
-                        kind={this.state.kind} 
-                        value={this.state.category}
-                        onChange={category => this.setState({ category })} />
-                </div>
+                        <CategorySelectPicker
+                            id="category-picker"
+                            kind={this.state.kind}
+                            value={this.state.category}
+                            onChange={category => this.setState({ category })} />
+                    </div>
 
-                {/*TODO: <TextFieldError id="category" label="Categoria" error={errors.category}> */}
+                    {/*TODO: <TextFieldError id="category" label="Categoria" error={errors.category}> */}
                     {/* <CategorySelectPicker 
                         kind={this.state.kind} 
                         value={this.state.category}
                         onChange={ (category) => this.setState({ category }) } /> */}
-                {/* </HorizontalFormGroupError> */}
+                    {/* </HorizontalFormGroupError> */}
 
-                <CurrencyTextField
-                    id="value"
-                    label="Valor"
-                    error={errors.value}
-                    value={this.state.value}
-                    onChangeEvent={(e, maskedValue, value) => this.setState({ value })}
-                />
-
-                <div className={classes.widthLimit}>
-                    <InputLabel htmlFor="priority-slider">Importância</InputLabel>
-
-                    <Slider id="priority-slider" min={1} max={5} defaultValue={3} marks={{ 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5'}}
-                            value={this.state.priority} onChange={(priority) => this.setState({priority})}/>
-
-                    {/*TODO: ERRORS or wait new slider */}
-                </div>
-
-                <div className={classes.widthLimit}>
-                    <InputLabel htmlFor="priority-slider">Tolerância</InputLabel>
-
-                    <Slider min={0} max={60} step={null} marks={{ 0: '0', 5: '5', 15: '15', 30: '30', 60: '60'}}
-                            value={this.state.deadline} onChange={(deadline) => this.setState({deadline})}/>
-
-                    {/*TODO: ERRORS or wait new slider */}
-                </div>
-
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={this.state.payed}
-                            onClick={e => this.handlePayedChange(e, !this.state.payed)}
-                        />
-                    }
-                    label="Pago"
-                />
-
-                {this.state.payed && 
-                    <DatePicker 
-                        keyboard
-                        label="Pago em"
-                        value={this.state.payment_date}
-                        onChange={(payment_date) => this.setState({ payment_date })}
-                        autoOk={true}
-                        format="DD MMMM YYYY"
+                    <CurrencyTextField
+                        id="value"
+                        label="Valor"
+                        error={errors.value}
+                        value={this.state.value}
+                        onChangeEvent={(e, maskedValue, value) => this.setState({ value })}
                     />
-                }
 
-                <TextFieldError
-                    multiline
-                    name="details"
-                    label="Detalhes"
-                    rows="4"
-                    value={this.state.details}
-                    onChange={this.handleChange}
-                    error={errors.details}
-                />
+                    <div className={classes.widthLimit}>
+                        <InputLabel htmlFor="priority-slider">Importância</InputLabel>
 
-                {isCreate && <FormControlLabel
-                    control={
-                        <Switch
-                            checked={this.state.isPeriodic}
-                            onClick={e => this.handleIsPeriodicChange(e, !this.state.isPeriodic)}
+                        <Slider id="priority-slider" min={1} max={5} defaultValue={3} marks={{ 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5' }}
+                            value={this.state.priority} onChange={(priority) => this.setState({ priority })} />
+
+                        {/*TODO: ERRORS or wait new slider */}
+                    </div>
+
+                    <div className={classes.widthLimit}>
+                        <InputLabel htmlFor="priority-slider">Tolerância</InputLabel>
+
+                        <Slider min={0} max={60} step={null} marks={{ 0: '0', 5: '5', 15: '15', 30: '30', 60: '60' }}
+                            value={this.state.deadline} onChange={(deadline) => this.setState({ deadline })} />
+
+                        {/*TODO: ERRORS or wait new slider */}
+                    </div>
+
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={this.state.payed}
+                                onClick={e => this.handlePayedChange(e, !this.state.payed)}
+                            />
+                        }
+                        label="Pago"
+                    />
+
+                    {this.state.payed &&
+                        <DatePicker
+                            keyboard
+                            label="Pago em"
+                            value={this.state.payment_date}
+                            onChange={(payment_date) => this.setState({ payment_date })}
+                            autoOk={true}
+                            format="DD MMMM YYYY"
                         />
                     }
-                    label="Periódico"
-                />}
 
-                <Periodic 
-                    visible={this.state.isPeriodic}
-                    onChange={periodic => this.setState({ periodic })} />
+                    <TextFieldError
+                        multiline
+                        name="details"
+                        label="Detalhes"
+                        rows="4"
+                        value={this.state.details}
+                        onChange={this.handleChange}
+                        error={errors.details}
+                    />
 
-            </DialogContent>
+                    {isCreate && <FormControlLabel
+                        control={
+                            <Switch
+                                checked={this.state.isPeriodic}
+                                onClick={e => this.handleIsPeriodicChange(e, !this.state.isPeriodic)}
+                            />
+                        }
+                        label="Periódico"
+                    />}
 
-            <DialogActions>
-                {actions(disabled)}
-            </DialogActions>
+                    <Periodic
+                        visible={this.state.isPeriodic}
+                        onChange={periodic => this.setState({ periodic })} />
 
-        </div>
+                </DialogContent>
+
+                <DialogActions>
+                    {actions(disabled)}
+                </DialogActions>
+
+            </React.Fragment>
         );
     }
 }

@@ -22,14 +22,14 @@ const styles = theme => ({
     suggestion: {
         display: 'block',
         backgroundColor: 'white',
-		zIndex: 1,
+        zIndex: 1,
     },
     suggestionsList: {
         margin: 0,
         padding: 0,
         listStyleType: 'none',
         backgroundColor: 'white',
-		zIndex: 1,
+        zIndex: 1,
     },
     textField: {
         width: '100%',
@@ -40,7 +40,7 @@ class Autocomplete extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         inputProps: PropTypes.object,
-        
+
         label: PropTypes.string,
         value: PropTypes.string,
         error: PropTypes.string,
@@ -68,27 +68,27 @@ class Autocomplete extends React.Component {
             focused: false
         };
     }
-    
+
     componentWillReceiveProps(nextProps) {
-        if (nextProps.value && this.state.value != nextProps.value) {            
+        if (nextProps.value && this.state.value != nextProps.value) {
             this.setState({ value: nextProps.value });
         }
     }
-    
+
     handleSuggestionsFetchRequested = ({ value }) => {
         this.setState({ suggestions: this.getSuggestions(value) });
     }
-    
+
     handleSuggestionsClearRequested = () => {
-        const { suggestions, alwaysRenderSuggestions } = this.props; 
+        const { suggestions, alwaysRenderSuggestions } = this.props;
         this.setState({ suggestions: alwaysRenderSuggestions ? suggestions : [] });
     }
-    
+
     handleChange = (event, { newValue }) => {
         this.setState({ value: newValue });
-        
+
         const { onChange, suggestions, allowInvalid } = this.props;
-        
+
         if (allowInvalid) {
             onChange({ label: newValue });
         }
@@ -117,30 +117,30 @@ class Autocomplete extends React.Component {
     getSuggestionLabel = (suggestion) => suggestion.label;
 
     getSuggestions = (value) => {
-        const { suggestions, alwaysRenderSuggestions, maxSuggestionsDisplay } = this.props; 
+        const { suggestions, alwaysRenderSuggestions, maxSuggestionsDisplay } = this.props;
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
         let count = 0;
-        
+
         if (inputLength === 0)
             return alwaysRenderSuggestions ? suggestions : [];
 
         return suggestions.filter(suggestion => {
             const keep =
                 count < maxSuggestionsDisplay && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
-            
+
             if (keep) {
                 count += 1;
             }
-            
+
             return keep;
         });
     }
-    
+
     render() {
         const { classes, label, error, onChange, alwaysRenderSuggestions, inputProps } = this.props;
         const { value, focused } = this.state;
-        
+
         return (
             <Autosuggest
                 theme={{

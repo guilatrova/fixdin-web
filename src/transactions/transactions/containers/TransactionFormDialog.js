@@ -7,17 +7,17 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import TransactionForm from '../components/TransactionForm';
 
-const TransactionFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetching, transaction, errors, ...formProps}) => {
+const TransactionFormDialog = ({ open, onClose, title, fullScreen, onSubmit, isFetching, transaction, errors, ...formProps }) => {
     return (
         <Dialog
             fullScreen={fullScreen}
             open={open}
             onClose={onClose}>
 
-            <DialogTitle>{title}</DialogTitle>
+            <DialogTitle className="arrow-parent">{title}</DialogTitle>
 
-            <TransactionForm 
-                onSubmit={onSubmit} 
+            <TransactionForm
+                onSubmit={onSubmit}
                 isFetching={isFetching}
                 transaction={transaction}
                 errors={errors}

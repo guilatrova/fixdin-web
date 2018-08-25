@@ -7,22 +7,23 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 
 
-const TextFieldError = ({label, error, ...other}) => {        
+const TextFieldError = ({ label, error, fullWidth, ...other }) => {
     return (
         <div>
-            <FormControl error={!!error}>
+            <FormControl error={!!error} fullWidth={fullWidth}>
                 <InputLabel htmlFor="name-error">{label}</InputLabel>
                 <Input id="name-error" {...other} />
                 {error && <FormHelperText>{error}</FormHelperText>}
             </FormControl>
         </div>
-    );    
+    );
 };
 
 TextFieldError.propTypes = {
     classes: PropTypes.object,
     label: PropTypes.string.isRequired,
-    error: PropTypes.string
+    error: PropTypes.string,
+    fullWidth: PropTypes.bool
 };
 
 export default TextFieldError;
