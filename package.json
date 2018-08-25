@@ -32,7 +32,7 @@
   "author": "Gui Latrova",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^1.1.0",
+    "@material-ui/core": "^1.5.0",
     "@material-ui/icons": "^1.1.0",
     "@material-ui/lab": "^1.0.0-alpha.11",
     "autosuggest-highlight": "^3.1.1",
@@ -47,7 +47,7 @@
     "rc-slider": "^8.4.0",
     "react": "^16.3.0",
     "react-autosuggest": "^9.3.2",
-    "react-currency-input": "git+https://github.com/jsillitoe/react-currency-input.git",
+    "react-currency-input": "^1.3.6",
     "react-dom": "^16.3.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
