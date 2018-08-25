@@ -197,6 +197,7 @@ class TransactionForm extends React.Component {
 
                     <DatePicker
                         keyboard
+                        fullWidth
                         label="Vencimento"
                         value={this.state.due_date}
                         onChange={(due_date) => this.setState({ due_date })}
@@ -211,15 +212,12 @@ class TransactionForm extends React.Component {
                         onChange={description => this.setState({ description })}
                     />
 
-                    <div className={classes.widthLimit}>
-                        <InputLabel htmlFor="category-picker">Categoria</InputLabel>
-
-                        <CategorySelectPicker
-                            id="category-picker"
-                            kind={this.state.kind}
-                            value={this.state.category}
-                            onChange={category => this.setState({ category })} />
-                    </div>
+                    <CategorySelectPicker
+                        id="category-picker"
+                        kind={this.state.kind}
+                        value={this.state.category}
+                        onChange={category => this.setState({ category })}
+                    />
 
                     {/*TODO: <TextFieldError id="category" label="Categoria" error={errors.category}> */}
                     {/* <CategorySelectPicker 
