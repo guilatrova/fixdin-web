@@ -62,51 +62,49 @@ const components = {
     Menu,
 };
 
-class IntegrationReactSelect extends React.Component {
-    static propTypes = {
-        classes: PropTypes.object.isRequired,
-        theme: PropTypes.object.isRequired,
-        options: PropTypes.arrayOf(PropTypes.shape({
-            label: PropTypes.string.isRequired,
-            value: PropTypes.any.isRequired,
-        })).isRequired,
-        value: PropTypes.any,
-        onChange: PropTypes.func.isRequired,
-        label: PropTypes.string,
-        placeholder: PropTypes.string,
-        isMulti: PropTypes.bool,
-        creatable: PropTypes.bool
+const optionShape = {
+    label: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
+};
+
+const IntegrationReactSelect = ({ classes, theme, label, creatable, ...props }) => {
+    const SelectComponent = creatable ? Creatable : Select;
+
+    const selectStyles = {
+        input: base => ({
+            ...base,
+            color: theme.palette.text.primary,
+        }),
     };
 
-    render() {
-        const { classes, theme, label, creatable, ...props } = this.props;
+    return (
+        <NoSsr>
+            <SelectComponent
+                classes={classes}
+                styles={selectStyles}
+                components={components}
+                textFieldProps={{
+                    label: label,
+                    InputLabelProps: {
+                        shrink: !!label,
+                    },
+                }}
+                {...props}
+            />
+        </NoSsr>
+    );
+};
 
-        const selectStyles = {
-            input: base => ({
-                ...base,
-                color: theme.palette.text.primary,
-            }),
-        };
-
-        const SelectComponent = creatable ? Creatable : Select;
-
-        return (
-            <NoSsr>
-                <SelectComponent
-                    classes={classes}
-                    styles={selectStyles}
-                    components={components}
-                    textFieldProps={{
-                        label: label,
-                        InputLabelProps: {
-                            shrink: !!label,
-                        },
-                    }}
-                    {...props}
-                />
-            </NoSsr>
-        );
-    }
-}
+IntegrationReactSelect.propTypes = {
+    classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
+    options: PropTypes.arrayOf(PropTypes.shape(optionShape)).isRequired,
+    value: PropTypes.shape(optionShape),
+    onChange: PropTypes.func.isRequired,
+    label: PropTypes.string,
+    placeholder: PropTypes.string,
+    isMulti: PropTypes.bool,
+    creatable: PropTypes.bool
+};
 
 export default withStyles(styles, { withTheme: true })(IntegrationReactSelect);

@@ -7,7 +7,7 @@ if [[ -z $changed ]]; then
   exit 0
 fi
 
-npm run lint -s
+eslint $changed
 ret=$?
 
 if [ $ret -gt 0 ]; then
