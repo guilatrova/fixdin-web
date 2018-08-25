@@ -99,7 +99,10 @@ IntegrationReactSelect.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape(optionShape)).isRequired,
-    value: PropTypes.shape(optionShape),
+    value: PropTypes.oneOfType(
+        PropTypes.shape(optionShape),
+        PropTypes.arrayOf(optionShape)
+    ),
     onChange: PropTypes.func.isRequired,
     label: PropTypes.string,
     placeholder: PropTypes.string,

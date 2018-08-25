@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Select from 'react-select'; //TODO: Change it to Autocomplete support
-
-import { selectors } from'../duck';
+import Select from '../../../common/material/ReactSelect';
+import { selectors } from '../duck';
 
 class MultiAccountSelectPicker extends React.Component {
 
@@ -21,21 +20,24 @@ class MultiAccountSelectPicker extends React.Component {
         const { isFetching, value } = this.props;
 
         let accounts = this.props.accounts;
-        
+
         const options = accounts.map(account => ({
-            value: account.id, 
+            value: account.id,
             label: account.name
         }));
 
+        const selected = options.filter(opt => value.includes(opt.value));
+
         return (
-            <Select multi
+            <Select
+                isMulti
                 placeholder="Escolha suas contas"
                 options={options}
                 isLoading={isFetching}
                 disabled={isFetching}
                 autosize={false}
-                value={value}
-                onChange={this.handleOnChange}/>
+                value={selected}
+                onChange={this.handleOnChange} />
         );
     }
 }

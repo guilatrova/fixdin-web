@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Select from '../../../common/material/ReactSelect';
 
+import Select from '../../../common/material/ReactSelect';
 import { operations, selectors } from './../duck';
 
 class CategorySelectPicker extends React.Component {
