@@ -91,10 +91,10 @@ const IntegrationReactSelect = ({ classes, theme, label, creatable, isMulti, opt
     // Allow primitive values (label or value) instead of a full option shape
     let selectedValue = value;
     if (isMulti) {
-        selectedValue = options.filter(opt => value.includes(opt[valueProp]));
+        selectedValue = options.filter(opt => value.includes(opt[valueProp])) || [];
     }
     else {
-        selectedValue = options.find(opt => opt[valueProp] == value);
+        selectedValue = options.find(opt => opt[valueProp] == value) || null;
     }
 
     return (
