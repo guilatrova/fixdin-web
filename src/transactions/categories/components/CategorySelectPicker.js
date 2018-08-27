@@ -17,57 +17,44 @@ class CategorySelectPicker extends React.Component {
         kind: PropTypes.object.isRequired,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.handleNewOptionClick = this.handleNewOptionClick.bind(this);
-        this.handleOnChange = this.handleOnChange.bind(this);
-    }
-
     componentDidMount() {
         this.props.onFetch(this.props.kind);
     }
 
-    handleNewOptionClick(option) {
-        this.props.onCreate(option.label, this.props.kind).then((response) => {
+    handleOnCreateOption = (name) => {
+        this.props.onCreate(name, this.props.kind).then((response) => {
             if (response.result == 'success') {
                 this.props.onChange(response.category.id);
             }
         });
     }
 
-    handleOnChange(option) {
+    handleOnChange = (option) => {
         const value = option ? option.value : null;
         this.props.onChange(value);
     }
 
-    promptTextCreator(label) {
-        return `Criar nova categoria "${label}"`;
-    }
+    formatCreateLabel = (label) => `Criar nova categoria "${label}"`;
 
     render() {
         const { categories, isFetching, value, kind } = this.props;
 
-        const options = categories.filter(category => category.kind == kind.id).map(category => {
-            return {
-                value: category.id,
-                label: category.name
-            };
-        });
+        const options = categories.filter(category => category.kind == kind.id).map(category => ({
+            value: category.id,
+            label: category.name
+        }));
 
         return (
-            <Select
-                creatable
+            <Select creatable
                 label="Categoria"
                 placeholder="Selecionar..."
                 options={options}
+                value={value}
                 isLoading={isFetching}
                 disabled={isFetching}
-                value={options.find(opt => opt.value === value)}
-                autosize={false}
                 onChange={this.handleOnChange}
-                onNewOptionClick={this.handleNewOptionClick}
-                promptTextCreator={this.promptTextCreator} />
+                onCreateOption={this.handleOnCreateOption}
+                formatCreateLabel={this.formatCreateLabel} />
         );
     }
 }

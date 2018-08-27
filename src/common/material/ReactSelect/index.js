@@ -67,7 +67,7 @@ const optionShape = {
     value: PropTypes.any.isRequired,
 };
 
-const IntegrationReactSelect = ({ classes, theme, label, creatable, ...props }) => {
+const IntegrationReactSelect = ({ classes, theme, label, creatable, isMulti, options, value, valueProp, onChange, ...props }) => {
     const SelectComponent = creatable ? Creatable : Select;
 
     const selectStyles = {
@@ -77,18 +77,42 @@ const IntegrationReactSelect = ({ classes, theme, label, creatable, ...props }) 
         }),
     };
 
+    // Fix a bug regarding value type that must be string
+    const fixedOptions = options.map(opt => ({ label: opt.label, value: opt.value.toString() }));
+    const formatOption = opt => ({ label: opt.label, value: isNaN(opt.value) ? opt.value : Number(opt.value) });
+    let fixValueOnChangeHandler;
+    if (isMulti) {
+        fixValueOnChangeHandler = opts => onChange(opts.map(opt => formatOption(opt)));
+    }
+    else {
+        fixValueOnChangeHandler = opt => onChange(formatOption(opt));
+    }
+
+    // Allow primitive values (label or value) instead of a full option shape
+    let selectedValue = value;
+    if (isMulti) {
+        selectedValue = options.filter(opt => value.includes(opt[valueProp]));
+    }
+    else {
+        selectedValue = options.find(opt => opt[valueProp] == value);
+    }
+
     return (
         <NoSsr>
             <SelectComponent
+                isMulti={isMulti}
                 classes={classes}
                 styles={selectStyles}
                 components={components}
+                options={fixedOptions}
+                value={selectedValue}
                 textFieldProps={{
                     label: label,
                     InputLabelProps: {
                         shrink: !!label,
                     },
                 }}
+                onChange={fixValueOnChangeHandler}
                 {...props}
             />
         </NoSsr>
@@ -99,15 +123,22 @@ IntegrationReactSelect.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape(optionShape)).isRequired,
-    value: PropTypes.oneOfType(
-        PropTypes.shape(optionShape),
-        PropTypes.arrayOf(optionShape)
-    ),
+    value: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.number),
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
+    valueProp: PropTypes.oneOf(['value', 'label']).isRequired,
     onChange: PropTypes.func.isRequired,
     label: PropTypes.string,
     placeholder: PropTypes.string,
     isMulti: PropTypes.bool,
     creatable: PropTypes.bool
+};
+
+IntegrationReactSelect.defaultProps = {
+    valueProp: "value"
 };
 
 export default withStyles(styles, { withTheme: true })(IntegrationReactSelect);

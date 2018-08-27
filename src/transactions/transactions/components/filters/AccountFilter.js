@@ -37,6 +37,7 @@ class AccountFilter extends React.Component {
         return (
             <div>
                 <MultiAccountSelectPicker
+                    isMulti
                     value={this.state.account}
                     onChange={(account) => this.setState({ account })} />
 
@@ -54,7 +55,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {        
+    return {
         onSubmit: (account) => {
             dispatch(operations.setFilters({ account }, true));
             dispatch(operations.filterTransactions());

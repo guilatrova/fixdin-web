@@ -21,7 +21,7 @@ import CategorySelectPicker from '../../categories/components/CategorySelectPick
 import { EXPENSE, getKind } from '../../shared/kinds';
 import { types } from '../duck';
 import specifications from '../specifications';
-import AccountAutocomplete from '../../accounts/components/AccountAutocomplete';
+import MultiAccountSelectPicker from '../../accounts/components/MultiAccountSelectPicker';
 
 export const CLOSE = "CLOSE";
 export const NEW = "NEW";
@@ -145,15 +145,6 @@ class TransactionForm extends React.Component {
         });
     }
 
-    handleAccountChange = (account) => {
-        if (account) {
-            this.setState({ account: account.id });
-        }
-        else {
-            this.setState({ account: undefined });
-        }
-    }
-
     isSubmitDisabled = () => {
         let disabled = false;
         if (this.props.isFetching) {
@@ -174,8 +165,7 @@ class TransactionForm extends React.Component {
     }
 
     render() {
-        const { errors, classes, accounts } = this.props;
-        const selectedAccount = accounts.find(account => account.id === this.state.account);
+        const { errors, classes } = this.props;
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
         const isCreate = !isEdit;
@@ -189,10 +179,9 @@ class TransactionForm extends React.Component {
 
                     <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
 
-                    <AccountAutocomplete
-                        fullWidth
-                        value={selectedAccount}
-                        onChange={this.handleAccountChange}
+                    <MultiAccountSelectPicker
+                        value={this.state.account}
+                        onChange={(account) => this.setState({ account })}
                     />
 
                     <DatePicker

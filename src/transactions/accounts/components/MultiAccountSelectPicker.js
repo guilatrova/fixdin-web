@@ -9,15 +9,22 @@ class MultiAccountSelectPicker extends React.Component {
 
     static propTypes = {
         isFetching: PropTypes.bool.isRequired,
-        value: PropTypes.array,
+        value: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.number),
+            PropTypes.number
+        ]),
         onChange: PropTypes.func.isRequired,
         accounts: PropTypes.array.isRequired,
+        isMulti: PropTypes.bool
     }
 
-    handleOnChange = (options) => this.props.onChange(options.map(opt => opt.value));
+    handleOnChange = (selected) => {
+        const onlyValue = opt => opt ? opt.value : undefined;
+        this.props.onChange(Array.isArray(selected) ? selected.map(onlyValue) : onlyValue(selected));
+    };
 
     render() {
-        const { isFetching, value } = this.props;
+        const { isFetching, value, isMulti } = this.props;
 
         let accounts = this.props.accounts;
 
@@ -26,17 +33,14 @@ class MultiAccountSelectPicker extends React.Component {
             label: account.name
         }));
 
-        const selected = options.filter(opt => value.includes(opt.value));
-
         return (
             <Select
-                isMulti
+                isMulti={isMulti}
+                isLoading={isFetching}
+                isDisabled={isFetching}
                 placeholder="Escolha suas contas"
                 options={options}
-                isLoading={isFetching}
-                disabled={isFetching}
-                autosize={false}
-                value={selected}
+                value={value}
                 onChange={this.handleOnChange} />
         );
     }
