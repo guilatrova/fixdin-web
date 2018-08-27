@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Select from '../../../common/material/ReactSelect';
 import { selectors } from '../duck';
 
-class MultiAccountSelectPicker extends React.Component {
+class AccountSelectPicker extends React.Component {
 
     static propTypes = {
         isFetching: PropTypes.bool.isRequired,
@@ -20,11 +20,13 @@ class MultiAccountSelectPicker extends React.Component {
 
     handleOnChange = (selected) => {
         const onlyValue = opt => opt ? opt.value : undefined;
-        this.props.onChange(Array.isArray(selected) ? selected.map(onlyValue) : onlyValue(selected));
+        const newValue = Array.isArray(selected) ? selected.map(onlyValue) : onlyValue(selected);
+        this.props.onChange(newValue);
     };
 
     render() {
-        const { isFetching, value, isMulti } = this.props;
+        // eslint-disable-next-line
+        const { isFetching, value, onChange, ...props } = this.props;
 
         let accounts = this.props.accounts;
 
@@ -35,13 +37,14 @@ class MultiAccountSelectPicker extends React.Component {
 
         return (
             <Select
-                isMulti={isMulti}
                 isLoading={isFetching}
                 isDisabled={isFetching}
                 placeholder="Escolha suas contas"
                 options={options}
                 value={value}
-                onChange={this.handleOnChange} />
+                onChange={this.handleOnChange}
+                {...props}
+            />
         );
     }
 }
@@ -51,4 +54,4 @@ const mapStateToProps = (state) => ({
     accounts: selectors.getAccounts(state)
 });
 
-export default connect(mapStateToProps)(MultiAccountSelectPicker);
+export default connect(mapStateToProps)(AccountSelectPicker);

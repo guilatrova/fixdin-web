@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 
 import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import TypographyError from '../../../common/material/TypographyError';
-import MultiAccountSelectPicker from '../../accounts/components/MultiAccountSelectPicker';
+import AccountSelectPicker from '../../accounts/components/AccountSelectPicker';
 
 class TransferForm extends React.Component {
 
@@ -53,7 +53,7 @@ class TransferForm extends React.Component {
                         readOnly
                     />
 
-                    <MultiAccountSelectPicker
+                    <AccountSelectPicker
                         label="Para"
                         error={errors.toAccount}
                         value={this.state.toAccount}

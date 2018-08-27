@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 
 import { selectors, operations } from '../../duck';
-import MultiAccountSelectPicker from './../../../accounts/components/MultiAccountSelectPicker';
+import AccountSelectPicker from './../../../accounts/components/AccountSelectPicker';
 
 class AccountFilter extends React.Component {
     static propTypes = {
@@ -36,7 +36,7 @@ class AccountFilter extends React.Component {
     render() {
         return (
             <div>
-                <MultiAccountSelectPicker
+                <AccountSelectPicker
                     isMulti
                     value={this.state.account}
                     onChange={(account) => this.setState({ account })} />

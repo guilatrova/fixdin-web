@@ -21,7 +21,7 @@ import CategorySelectPicker from '../../categories/components/CategorySelectPick
 import { EXPENSE, getKind } from '../../shared/kinds';
 import { types } from '../duck';
 import specifications from '../specifications';
-import MultiAccountSelectPicker from '../../accounts/components/MultiAccountSelectPicker';
+import AccountSelectPicker from '../../accounts/components/AccountSelectPicker';
 
 export const CLOSE = "CLOSE";
 export const NEW = "NEW";
@@ -179,7 +179,8 @@ class TransactionForm extends React.Component {
 
                     <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
 
-                    <MultiAccountSelectPicker
+                    <AccountSelectPicker
+                        label="Conta"
                         value={this.state.account}
                         onChange={(account) => this.setState({ account })}
                     />
