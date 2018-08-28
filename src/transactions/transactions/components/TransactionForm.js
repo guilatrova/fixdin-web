@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import cn from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import DatePicker from 'material-ui-pickers/DatePicker';
 import Button from '@material-ui/core/Button';
-import Slider from 'rc-slider';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import InputLabel from '@material-ui/core/InputLabel';
+// import InputLabel from '@material-ui/core/InputLabel';
 
 import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import TextFieldError from '../../../common/material/TextFieldError';
+import Slider from '../../../common/material/Slider';
 import TransactionDescription from '../components/TransactionDescription';
 import KindSwitch from '../../shared/components/KindSwitch';
 import Periodic from './Periodic';
@@ -33,7 +34,7 @@ const emptyTransaction = {
     category: undefined,
     value: 0,
     deadline: undefined,
-    priority: 1,
+    priority: 3,
     payment_date: undefined,
     details: '',
     periodic: undefined,
@@ -69,8 +70,13 @@ const styles = theme => ({
         minWidth: 500,
         padding: 20
     },
-    widthLimit: {
-        maxWidth: 300
+    formRow: {
+        marginBottom: 10
+    },
+    valueRow: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     button: {
         margin: theme.spacing.unit,
@@ -177,15 +183,28 @@ class TransactionForm extends React.Component {
             <React.Fragment>
                 <DialogContent className={classes.root}>
 
-                    <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
+                    <div className={cn(classes.valueRow, classes.formRow)}>
+                        <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
+
+                        <CurrencyTextField
+                            fullWidth
+                            id="value"
+                            label="Valor"
+                            error={errors.value}
+                            value={this.state.value}
+                            onChangeEvent={(e, maskedValue, value) => this.setState({ value })}
+                        />
+                    </div>
 
                     <AccountSelectPicker
+                        className={classes.formRow}
                         label="Conta"
                         value={this.state.account}
                         onChange={(account) => this.setState({ account })}
                     />
 
                     <DatePicker
+                        className={classes.formRow}
                         keyboard
                         fullWidth
                         label="Vencimento"
@@ -196,55 +215,45 @@ class TransactionForm extends React.Component {
                     />
 
                     <TransactionDescription
+                        className={classes.formRow}
                         fullWidth
                         value={this.state.description}
                         error={errors.description}
                         onChange={description => this.setState({ description })}
                     />
 
-                    <CategorySelectPicker
-                        id="category-picker"
-                        kind={this.state.kind}
-                        value={this.state.category}
-                        onChange={category => this.setState({ category })}
-                    />
-
-                    {/*TODO: <TextFieldError id="category" label="Categoria" error={errors.category}> */}
-                    {/* <CategorySelectPicker 
-                        kind={this.state.kind} 
-                        value={this.state.category}
-                        onChange={ (category) => this.setState({ category }) } /> */}
-                    {/* </HorizontalFormGroupError> */}
-
-                    <CurrencyTextField
-                        id="value"
-                        label="Valor"
-                        error={errors.value}
-                        value={this.state.value}
-                        onChangeEvent={(e, maskedValue, value) => this.setState({ value })}
-                    />
-
-                    <div className={classes.widthLimit}>
-                        <InputLabel htmlFor="priority-slider">Importância</InputLabel>
-
-                        <Slider id="priority-slider" min={1} max={5} defaultValue={3} marks={{ 0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5' }}
-                            value={this.state.priority} onChange={(priority) => this.setState({ priority })} />
-
-                        {/*TODO: ERRORS or wait new slider */}
+                    {/* TODO: ADD ERROR MESSAGE */}
+                    <div className={classes.formRow}>
+                        <CategorySelectPicker
+                            id="category-picker"
+                            kind={this.state.kind}
+                            value={this.state.category}
+                            onChange={category => this.setState({ category })}
+                        />
                     </div>
 
-                    <div className={classes.widthLimit}>
-                        <InputLabel htmlFor="priority-slider">Tolerância</InputLabel>
+                    <div className={classes.formRow}>
+                        <Slider
+                            label="Importância"
+                            min={1} max={5} step={1}
+                            value={this.state.priority}
+                            onChange={(ev, priority) => this.setState({ priority })}
+                        />
+                    </div>
 
-                        <Slider min={0} max={60} step={null} marks={{ 0: '0', 5: '5', 15: '15', 30: '30', 60: '60' }}
-                            value={this.state.deadline} onChange={(deadline) => this.setState({ deadline })} />
-
-                        {/*TODO: ERRORS or wait new slider */}
+                    <div className={classes.formRow}>
+                        <Slider
+                            label="Tolerância"
+                            min={0} max={60} step={5}
+                            value={this.state.deadline}
+                            onChange={(ev, deadline) => this.setState({ deadline })}
+                        />
                     </div>
 
                     <FormControlLabel
                         control={
                             <Switch
+                                color="primary"
                                 checked={this.state.payed}
                                 onClick={e => this.handlePayedChange(e, !this.state.payed)}
                             />

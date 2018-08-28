@@ -2,16 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import FormLabel from '@material-ui/core/FormLabel';
 import ToggleButton, { ToggleButtonGroup } from '@material-ui/lab/ToggleButton';
 
 import { EXPENSE, INCOME } from '../kinds';
 
 const styles = theme => ({
     root: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        display: "inline-block"
     },
     selected: {
         fontWeight: 'bold',
@@ -22,8 +19,6 @@ const styles = theme => ({
 const KindSwitch = ({ classes, value, onChange }) => {
     return (
         <div className={classes.root}>
-            <FormLabel component="legend">Tipo</FormLabel>
-
             <ToggleButtonGroup value={value} exclusive onChange={onChange}>
                 <ToggleButton classes={{ selected: classes.selected }} value={INCOME}>Receita</ToggleButton>
                 <ToggleButton classes={{ selected: classes.selected }} value={EXPENSE}>Despesa</ToggleButton>
