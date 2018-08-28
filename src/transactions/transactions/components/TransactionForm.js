@@ -6,11 +6,10 @@ import cn from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import DatePicker from 'material-ui-pickers/DatePicker';
 import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-// import InputLabel from '@material-ui/core/InputLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 
 import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import TextFieldError from '../../../common/material/TextFieldError';
@@ -73,9 +72,13 @@ const styles = theme => ({
     formRow: {
         marginBottom: 10
     },
-    valueRow: {
+    flexSpread: {
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    flex: {
+        display: 'flex',
         alignItems: 'center',
     },
     button: {
@@ -183,7 +186,7 @@ class TransactionForm extends React.Component {
             <React.Fragment>
                 <DialogContent className={classes.root}>
 
-                    <div className={cn(classes.valueRow, classes.formRow)}>
+                    <div className={cn(classes.flexSpread, classes.formRow)}>
                         <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
 
                         <CurrencyTextField
@@ -196,13 +199,6 @@ class TransactionForm extends React.Component {
                         />
                     </div>
 
-                    <AccountSelectPicker
-                        className={classes.formRow}
-                        label="Conta"
-                        value={this.state.account}
-                        onChange={(account) => this.setState({ account })}
-                    />
-
                     <DatePicker
                         className={classes.formRow}
                         keyboard
@@ -212,6 +208,13 @@ class TransactionForm extends React.Component {
                         onChange={(due_date) => this.setState({ due_date })}
                         autoOk={true}
                         format="DD MMMM YYYY"
+                    />
+
+                    <AccountSelectPicker
+                        className={classes.formRow}
+                        label="Conta"
+                        value={this.state.account}
+                        onChange={(account) => this.setState({ account })}
                     />
 
                     <TransactionDescription
@@ -232,6 +235,7 @@ class TransactionForm extends React.Component {
                         />
                     </div>
 
+                    {/* TODO: ADD ERROR MESSAGE */}
                     <div className={classes.formRow}>
                         <Slider
                             label="Importância"
@@ -241,6 +245,7 @@ class TransactionForm extends React.Component {
                         />
                     </div>
 
+                    {/* TODO: ADD ERROR MESSAGE */}
                     <div className={classes.formRow}>
                         <Slider
                             label="Tolerância"
@@ -250,47 +255,50 @@ class TransactionForm extends React.Component {
                         />
                     </div>
 
-                    <FormControlLabel
-                        control={
+                    <div className={cn(classes.formRow, classes.flexSpread)}>
+                        <div className={classes.flex}>
+                            <FormLabel component="legend">Pago</FormLabel>
+
                             <Switch
                                 color="primary"
                                 checked={this.state.payed}
                                 onClick={e => this.handlePayedChange(e, !this.state.payed)}
                             />
-                        }
-                        label="Pago"
-                    />
+                        </div>
 
-                    {this.state.payed &&
-                        <DatePicker
-                            keyboard
-                            label="Pago em"
-                            value={this.state.payment_date}
-                            onChange={(payment_date) => this.setState({ payment_date })}
-                            autoOk={true}
-                            format="DD MMMM YYYY"
-                        />
-                    }
+                        {this.state.payed &&
+                            <DatePicker
+                                keyboard
+                                label="Pago em"
+                                value={this.state.payment_date}
+                                onChange={(payment_date) => this.setState({ payment_date })}
+                                autoOk={true}
+                                format="DD MMMM YYYY"
+                            />
+                        }
+                    </div>
 
                     <TextFieldError
+                        fullWidth
                         multiline
                         name="details"
                         label="Detalhes"
-                        rows="4"
+                        rowsMax="6"
+                        className={classes.formRow}
                         value={this.state.details}
                         onChange={this.handleChange}
                         error={errors.details}
                     />
 
-                    {isCreate && <FormControlLabel
-                        control={
-                            <Switch
-                                checked={this.state.isPeriodic}
-                                onClick={e => this.handleIsPeriodicChange(e, !this.state.isPeriodic)}
-                            />
-                        }
-                        label="Periódico"
-                    />}
+                    {isCreate && <div className={classes.flex}>
+                        <FormLabel component="legend">Periódico</FormLabel>
+
+                        <Switch
+                            color="primary"
+                            checked={this.state.isPeriodic}
+                            onClick={e => this.handleIsPeriodicChange(e, !this.state.isPeriodic)}
+                        />
+                    </div>}
 
                     <Periodic
                         visible={this.state.isPeriodic}
