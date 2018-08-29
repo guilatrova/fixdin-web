@@ -5,64 +5,25 @@ import cn from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import DatePicker from 'material-ui-pickers/DatePicker';
-import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import FormLabel from '@material-ui/core/FormLabel';
 
-import CurrencyTextField from '../../../common/material/CurrencyTextField';
-import TextFieldError from '../../../common/material/TextFieldError';
-import Slider from '../../../common/material/Slider';
-import TransactionDescription from '../components/TransactionDescription';
-import KindSwitch from '../../shared/components/KindSwitch';
+import CurrencyTextField from '../../../../common/material/CurrencyTextField';
+import TextFieldError from '../../../../common/material/TextFieldError';
+import Slider from '../../../../common/material/Slider';
+import TransactionDescription from '../../components/TransactionDescription';
+import KindSwitch from '../../../shared/components/KindSwitch';
 import Periodic from './Periodic';
-import CategorySelectPicker from '../../categories/components/CategorySelectPicker';
-import { EXPENSE, getKind } from '../../shared/kinds';
-import { types } from '../duck';
-import specifications from '../specifications';
-import AccountSelectPicker from '../../accounts/components/AccountSelectPicker';
-
-export const CLOSE = "CLOSE";
-export const NEW = "NEW";
-export const NEW_SAME_CATEGORY = "NEW_SAME_CATEGORY";
-
-const emptyTransaction = {
-    due_date: moment(new Date()),
-    description: '',
-    category: undefined,
-    value: 0,
-    deadline: undefined,
-    priority: 3,
-    payment_date: undefined,
-    details: '',
-    periodic: undefined,
-    kind: EXPENSE.id
-};
-
-const regularActions = (onClick, disabled, classes) => {
-    return (
-        <div>
-            <Button variant="raised" color="primary" onClick={() => onClick(types.CLOSE)} disabled={disabled} className={classes.button}>
-                Salvar</Button>
-            <Button variant="raised" color="default" onClick={() => onClick(types.NEW)} disabled={disabled} className={classes.button}>
-                Salvar e novo</Button>
-        </div>
-    );
-};
-
-const editingPeriodicActions = (onClick, disabled, classes) => {
-    return (
-        <div>
-            <Button variant="raised" color="primary" onClick={() => onClick(types.SAVE_TRANSACTION)} disabled={disabled} className={classes.button}>
-                Somenta esta</Button>
-            <Button variant="raised" color="default" onClick={() => onClick(types.SAVE_THIS_AND_NEXT_TRANSACTIONS)} disabled={disabled} className={classes.button}>
-                Esta e futuras</Button>
-            <Button variant="raised" color="default" onClick={() => onClick(types.SAVE_ALL_PERIODIC_TRANSACTIONS)} disabled={disabled} className={classes.button}>
-                Todas as recorrências</Button>
-        </div>
-    );
-};
+import CategorySelectPicker from '../../../categories/components/CategorySelectPicker';
+import { getKind } from '../../../shared/kinds';
+import { types } from '../../duck';
+import specifications from '../../specifications';
+import AccountSelectPicker from '../../../accounts/components/AccountSelectPicker';
+import saveOptions from './saveOptions';
+import Actions from './actions';
+import emptyTransaction from './emptyTransaction';
 
 const styles = theme => ({
     root: {
@@ -113,17 +74,17 @@ class TransactionForm extends React.Component {
         };
     }
 
-    handleSubmit = (type, postSaveOption = CLOSE) => this.props.onSubmit(type, postSaveOption, { ...this.state });
+    handleSubmit = (type, postSaveOption = saveOptions.CLOSE) => this.props.onSubmit(type, postSaveOption, { ...this.state });
 
     handleOptionSelected = (postSaveOption) => {
         this.handleSubmit(types.SAVE_TRANSACTION, postSaveOption);
 
         switch (postSaveOption) {
-            case NEW:
+            case saveOptions.NEW:
                 this.setState({ ...emptyTransaction, errors: {} });
                 break;
 
-            case NEW_SAME_CATEGORY:
+            case saveOptions.NEW_SAME_CATEGORY:
                 this.setState({ ...emptyTransaction, errors: {}, category: this.state.category });
                 break;
         }
@@ -178,9 +139,8 @@ class TransactionForm extends React.Component {
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
         const isCreate = !isEdit;
-        const actions = (specifications.isPeriodic(this.state)) ?
-            (disabled) => editingPeriodicActions(this.handleSubmit, disabled, classes) :
-            (disabled) => regularActions(this.handleOptionSelected, disabled, classes);
+        const isPeriodic = specifications.isPeriodic(this.state);
+        const onClickAction = isPeriodic ? this.handleSubmit : this.handleOptionSelected;
 
         return (
             <React.Fragment>
@@ -190,7 +150,6 @@ class TransactionForm extends React.Component {
                         <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
 
                         <CurrencyTextField
-                            fullWidth
                             id="value"
                             label="Valor"
                             error={errors.value}
@@ -307,7 +266,7 @@ class TransactionForm extends React.Component {
                 </DialogContent>
 
                 <DialogActions>
-                    {actions(disabled)}
+                    <Actions disabled={disabled} periodic={isPeriodic} onClick={onClickAction} />
                 </DialogActions>
 
             </React.Fragment>

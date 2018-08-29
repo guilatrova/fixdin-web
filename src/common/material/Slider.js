@@ -34,7 +34,9 @@ const SliderWrapper = ({ label, classes, ...props }) => {
 
             <Slider className={classes.slider} {...props} />
 
-            <Badge className={classes.badge} color="primary" badgeContent={props.value} />
+            <Badge className={classes.badge} color="primary" badgeContent={props.value}>
+                <div />
+            </Badge>
         </div>
     );
 };

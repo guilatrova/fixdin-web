@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import { EXPENSE, INCOME } from '../../shared/kinds';
 import TransactionTable from './TransactionTableContainer';
 import TransactionFormDialog from './TransactionFormDialog';
-import * as saveOptions from './../components/TransactionForm';
+import { saveOptions } from './../components/TransactionForm';
 import ConfirmDeleteDialog from './../components/ConfirmDeleteDialog';
 import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';

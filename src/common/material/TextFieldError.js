@@ -11,8 +11,8 @@ const TextFieldError = ({ label, error, fullWidth, ...other }) => {
     return (
         <div>
             <FormControl error={!!error} fullWidth={fullWidth}>
-                <InputLabel htmlFor="name-error">{label}</InputLabel>
-                <Input id="name-error" {...other} />
+                <InputLabel>{label}</InputLabel>
+                <Input {...other} />
                 {error && <FormHelperText>{error}</FormHelperText>}
             </FormControl>
         </div>
