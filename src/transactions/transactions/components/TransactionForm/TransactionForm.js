@@ -21,9 +21,9 @@ import { getKind } from '../../../shared/kinds';
 import { types } from '../../duck';
 import specifications from '../../specifications';
 import AccountSelectPicker from '../../../accounts/components/AccountSelectPicker';
-import saveOptions from './saveOptions';
 import Actions from './actions';
-import emptyTransaction from './emptyTransaction';
+import saveOptions from './consts/saveOptions';
+import emptyTransaction from './consts/emptyTransaction';
 
 const styles = theme => ({
     root: {

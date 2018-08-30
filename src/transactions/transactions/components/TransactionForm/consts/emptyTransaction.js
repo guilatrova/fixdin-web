@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { EXPENSE } from '../../../shared/kinds';
+import { EXPENSE } from '../../../../shared/kinds';
 
 const emptyTransaction = {
     due_date: moment(new Date()),
