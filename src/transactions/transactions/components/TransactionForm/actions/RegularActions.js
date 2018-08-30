@@ -8,15 +8,24 @@ import saveOptions from '../consts/saveOptions';
 const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
+        ...theme.mixins.orangeButton
+    },
+    cancelButton: {
+        margin: theme.spacing.unit,
+        color: theme.palette.text.secondary
     }
 });
 
-const RegularActions = ({ onClick, disabled, classes }) => {
+const RegularActions = ({ onClick, onCancel, disabled, classes }) => {
     return (
         <div>
-            <Button variant="raised" color="primary" onClick={() => onClick(saveOptions.CLOSE)} disabled={disabled} className={classes.button}>
+            <Button onClick={() => onCancel()} className={classes.cancelButton}>
+                Cancelar</Button>
+
+            <Button variant="raised" onClick={() => onClick(saveOptions.CLOSE)} disabled={disabled} className={classes.button}>
                 Salvar</Button>
-            <Button variant="raised" color="default" onClick={() => onClick(saveOptions.NEW)} disabled={disabled} className={classes.button}>
+
+            <Button variant="raised" onClick={() => onClick(saveOptions.NEW)} disabled={disabled} className={classes.button}>
                 Salvar e novo</Button>
         </div>
     );
@@ -25,6 +34,7 @@ const RegularActions = ({ onClick, disabled, classes }) => {
 RegularActions.propTypes = {
     classes: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
 };
 

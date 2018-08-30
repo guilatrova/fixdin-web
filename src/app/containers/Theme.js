@@ -28,6 +28,10 @@ const theme = createMuiTheme({
         },
     },
     mixins: {
+        orangeButton: {
+            background: "#f95023",
+            color: "#fff"
+        },
         fab: {
             background: "#f95023",
             color: "#fff"

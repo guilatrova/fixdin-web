@@ -18,6 +18,7 @@ const TransactionFormDialog = ({ open, onClose, title, fullScreen, onSubmit, isF
 
             <TransactionForm
                 onSubmit={onSubmit}
+                onCancel={onClose}
                 isFetching={isFetching}
                 transaction={transaction}
                 errors={errors}

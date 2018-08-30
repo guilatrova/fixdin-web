@@ -54,6 +54,7 @@ class TransactionForm extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         onSubmit: PropTypes.func.isRequired,
+        onCancel: PropTypes.func.isRequired,
         errors: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
         transaction: PropTypes.object.isRequired,
@@ -138,7 +139,7 @@ class TransactionForm extends React.Component {
     }
 
     render() {
-        const { errors, classes } = this.props;
+        const { errors, classes, onCancel } = this.props;
         const disabled = this.isSubmitDisabled();
         const isEdit = (this.state.id) ? true : false;
         const isCreate = !isEdit;
@@ -269,7 +270,12 @@ class TransactionForm extends React.Component {
                 </DialogContent>
 
                 <DialogActions>
-                    <Actions disabled={disabled} periodic={isPeriodic} onClick={onClickAction} />
+                    <Actions
+                        disabled={disabled}
+                        periodic={isPeriodic}
+                        onClick={onClickAction}
+                        onCancel={onCancel}
+                    />
                 </DialogActions>
 
             </React.Fragment>

@@ -8,17 +8,31 @@ import { types } from '../../../duck';
 const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
+        ...theme.mixins.orangeButton
+    },
+    cancelButton: {
+        margin: theme.spacing.unit,
+        color: theme.palette.text.secondary
     }
 });
 
-const EditingPeriodicActions = ({ onClick, disabled, classes }) => {
+// TODO: Create a dialog to popup after save with options
+const EditingPeriodicActions = ({ onClick, onCancel, disabled, classes }) => {
     return (
         <div>
-            <Button variant="raised" color="primary" onClick={() => onClick(types.SAVE_TRANSACTION)} disabled={disabled} className={classes.button}>
+            <Button onClick={() => onCancel()} className={classes.cancelButton}>
+                Cancelar</Button>
+
+            <Button variant="raised" disabled={disabled} className={classes.button}
+                onClick={() => onClick(types.SAVE_TRANSACTION)}>
                 Somenta esta</Button>
-            <Button variant="raised" color="default" onClick={() => onClick(types.SAVE_THIS_AND_NEXT_TRANSACTIONS)} disabled={disabled} className={classes.button}>
+
+            <Button variant="raised" disabled={disabled} className={classes.button}
+                onClick={() => onClick(types.SAVE_THIS_AND_NEXT_TRANSACTIONS)}>
                 Esta e futuras</Button>
-            <Button variant="raised" color="default" onClick={() => onClick(types.SAVE_ALL_PERIODIC_TRANSACTIONS)} disabled={disabled} className={classes.button}>
+
+            <Button variant="raised" disabled={disabled} className={classes.button}
+                onClick={() => onClick(types.SAVE_ALL_PERIODIC_TRANSACTIONS)}>
                 Todas as recorrências</Button>
         </div>
     );
@@ -27,6 +41,7 @@ const EditingPeriodicActions = ({ onClick, disabled, classes }) => {
 EditingPeriodicActions.propTypes = {
     classes: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
 };
 
