@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 
 import RadioButtonOption from '../../../../common/material/RadioButtonOption';
 import finishOptions from './consts/periodicFinishesOptions';
+import frequencies from './consts/periodicFrequencies';
 
 const styles = {
     smallInput: {
@@ -91,11 +92,7 @@ class Periodic extends React.Component {
                         onChange={e => this.handleChange('frequency', e.target.value)}
                         input={<Input id="input-frequency" />}
                     >
-
-                        <MenuItem value={'daily'}>dias</MenuItem>
-                        <MenuItem value={'weekly'}>semanas</MenuItem>
-                        <MenuItem value={'monthly'}>meses</MenuItem>
-                        <MenuItem value={'yearly'}>anos</MenuItem>
+                        {frequencies.map(f => <MenuItem key={f.value} value={f.value}>{f.label}</MenuItem>)}
 
                     </Select>
                 </div>
@@ -140,7 +137,6 @@ class Periodic extends React.Component {
                     </div>
 
                 </FormControl>
-
 
             </div>
         );
