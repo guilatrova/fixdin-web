@@ -30,6 +30,7 @@ class PaymentFilter extends React.Component {
         payed: PropTypes.string.isRequired,
         payment_date_from: PropTypes.object.isRequired,
         payment_date_until: PropTypes.object.isRequired,
+        classes: PropTypes.object.isRequired,
         onSubmit: PropTypes.func.isRequired
     };
 

@@ -29,10 +29,19 @@ const styles = theme => ({
     headerCell: {
         fontWeight: 'bold'
     },
+    filterActive: {
+        opacity: 1
+    },
+    filterDisabled: {
+        opacity: 0.5,
+        "&:hover": {
+            opacity: 1,
+        }
+    },
     filterButton: {
         width: 'auto',
         height: 'auto',
-        padding: '3px 0'
+        padding: '3px 0',
     }
 });
 
@@ -123,7 +132,10 @@ class DataTable extends React.Component {
                     <div>
                         <IconButton
                             aria-label="Filter list"
-                            className={classes.filterButton}
+                            className={classNames(classes.filterButton, {
+                                [classes.filterActive]: child.props.filterActive,
+                                [classes.filterDisabled]: !child.props.filterActive
+                            })}
                             color={child.props.filterActive ? filterActiveColor : "default"}
                             ref={node => { buttonRef = node; }}
                             onClick={() => this.setState({
