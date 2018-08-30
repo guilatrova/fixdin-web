@@ -10,9 +10,9 @@ import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import Radio from '@material-ui/core/Radio';
 
-import { FormControlLabel } from '@material-ui/core';
+import RadioButtonOption from '../../../../common/material/RadioButtonOption';
+import finishOptions from './consts/periodicFinishesOptions';
 
 const styles = {
     smallInput: {
@@ -21,6 +21,9 @@ const styles = {
     marginInput: {
         marginLeft: 10,
         marginRight: 10
+    },
+    formRow: {
+        marginBottom: 10
     },
     flex: {
         display: 'flex',
@@ -31,6 +34,7 @@ const styles = {
         flexDirection: 'column'
     }
 };
+
 
 class Periodic extends React.Component {
     static propTypes = {
@@ -43,7 +47,7 @@ class Periodic extends React.Component {
         frequency: "monthly",
         interval: "1",
         how_many: "",
-        how_it_ends: "on-date",
+        how_it_ends: finishOptions.ON_DATE,
         until: undefined
     }
 
@@ -53,14 +57,14 @@ class Periodic extends React.Component {
         });
     }
 
-    handleLimitChange = (key, value) => {
-        if (key === 'until') {
+    handleHowItEndsChange = (key) => {
+        if (key === finishOptions.ON_DATE) {
             this.setState({ how_many: "" });
         }
         else {
-            this.setState({ until: undefined });
+            this.setState({ how_many: "1", until: undefined });
         }
-        this.handleChange(key, value);
+        this.handleChange("how_it_ends", key);
     }
 
     render() {
@@ -71,7 +75,7 @@ class Periodic extends React.Component {
 
         return (
             <div>
-                <div className={classes.flex}>
+                <div className={cn(classes.flex, classes.formRow)}>
                     <FormLabel component="legend">Repetir a cada</FormLabel>
 
                     <TextField
@@ -100,27 +104,44 @@ class Periodic extends React.Component {
                     <FormLabel component="legend">Termina</FormLabel>
 
                     <div className={classes.flexCol}>
-                        <FormControlLabel label="Em"
-                            control={<div>
-                                <Radio name="periodic-finishes" color="primary" value="on-date" checked={this.state.how_it_ends == 'on-date'} />
-                            </div>}
-                        />
-                        <FormControlLabel label="Após"
-                            control={<div>
-                                <Radio name="periodic-finishes" color="primary" value="after-times" checked={this.state.how_it_ends == 'after-times'} />
-                            </div>}
-                        />
+
+                        <RadioButtonOption name="periodic-finishes"
+                            label="Em"
+                            value={finishOptions.ON_DATE}
+                            onClick={() => this.handleHowItEndsChange(finishOptions.ON_DATE)}
+                            checked={this.state.how_it_ends == finishOptions.ON_DATE}
+                        >
+
+                            <DatePicker
+                                keyboard
+                                autoOk
+                                format="DD MMMM YYYY"
+                                value={this.state.until}
+                                onChange={value => this.handleChange('until', value)}
+                            />
+                        </RadioButtonOption>
+
+                        <RadioButtonOption name="periodic-finishes"
+                            label="Após"
+                            value={finishOptions.AFTER_TIMES}
+                            onClick={() => this.handleHowItEndsChange(finishOptions.AFTER_TIMES)}
+                            checked={this.state.how_it_ends == finishOptions.AFTER_TIMES}
+                        >
+                            <TextField
+                                inputProps={{ style: { textAlign: "right" } }}
+                                className={cn(classes.smallInput, classes.marginInput)}
+                                value={this.state.how_many}
+                                type="number"
+                                onChange={e => this.handleChange('how_many', e.target.value)} />
+
+                            vezes
+                        </RadioButtonOption>
+
                     </div>
+
                 </FormControl>
 
-                <DatePicker
-                    keyboard
-                    label="Até"
-                    value={this.state.until}
-                    onChange={value => this.handleLimitChange('until', value)}
-                    autoOk={true}
-                    format="DD MMMM YYYY"
-                />
+
             </div>
         );
     }

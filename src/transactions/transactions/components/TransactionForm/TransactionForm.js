@@ -42,6 +42,9 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
     },
+    minLabel: {
+        minWidth: 70
+    },
     button: {
         margin: theme.spacing.unit,
     }
@@ -216,7 +219,7 @@ class TransactionForm extends React.Component {
 
                     <div className={cn(classes.formRow, classes.flexSpread)}>
                         <div className={classes.flex}>
-                            <FormLabel component="legend">Pago</FormLabel>
+                            <FormLabel className={classes.minLabel} component="legend">Pago</FormLabel>
 
                             <Switch
                                 color="primary"
@@ -237,20 +240,8 @@ class TransactionForm extends React.Component {
                         }
                     </div>
 
-                    <TextFieldError
-                        fullWidth
-                        multiline
-                        name="details"
-                        label="Detalhes"
-                        rowsMax="6"
-                        className={classes.formRow}
-                        value={this.state.details}
-                        onChange={this.handleChange}
-                        error={errors.details}
-                    />
-
                     {isCreate && <div className={classes.flex}>
-                        <FormLabel component="legend">Periódico</FormLabel>
+                        <FormLabel className={classes.minLabel} component="legend">Periódico</FormLabel>
 
                         <Switch
                             color="primary"
@@ -262,6 +253,18 @@ class TransactionForm extends React.Component {
                     <Periodic
                         visible={this.state.isPeriodic}
                         onChange={periodic => this.setState({ periodic })} />
+
+                    <TextFieldError
+                        fullWidth
+                        multiline
+                        name="details"
+                        label="Detalhes"
+                        rowsMax="6"
+                        className={classes.formRow}
+                        value={this.state.details}
+                        onChange={this.handleChange}
+                        error={errors.details}
+                    />
 
                 </DialogContent>
 
