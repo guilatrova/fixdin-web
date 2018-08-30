@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField'; //TODO: Change to use autocomplete
-import Button from '@material-ui/core/Button';
 
 import { selectors, operations } from '../../duck';
+import FilterWrapper from './FilterWrapper';
 
 class PriorityFilter extends React.Component {
     static propTypes = {
@@ -36,35 +36,28 @@ class PriorityFilter extends React.Component {
 
     render() {
         return (
-            <div>
+            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <TextField
+                    fullWidth
                     label="Importancia"
-                    value={this.state.priority} 
+                    value={this.state.priority}
                     onChange={e => this.setState({ priority: e.target.value })}
-                /> 
-                <br />
-                
-                <Button color="default" onClick={this.handleClear}>Limpar</Button>
-                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
-            </div>
+                />
+            </FilterWrapper>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        priority: selectors.getFilters(state).priority || "",
-        prioritySource: selectors.getVisiblePriorities(state) || []
-    };
-};
+const mapStateToProps = (state) => ({
+    priority: selectors.getFilters(state).priority || "",
+    prioritySource: selectors.getVisiblePriorities(state) || []
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {        
-        onSubmit: (priority) => {
-            dispatch(operations.setFilters({ priority }, true));
-            dispatch(operations.filterTransactions());
-        }
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (priority) => {
+        dispatch(operations.setFilters({ priority }, true));
+        dispatch(operations.filterTransactions());
+    }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PriorityFilter);

@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Button from '@material-ui/core/Button';
-
 import { selectors, operations } from '../../duck';
 import MultiCategorySelectPicker from './../../../categories/components/MultiCategorySelectPicker';
+import FilterWrapper from './FilterWrapper';
 
 class CategoryFilter extends React.Component {
     static propTypes = {
@@ -35,31 +34,24 @@ class CategoryFilter extends React.Component {
 
     render() {
         return (
-            <div>
+            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <MultiCategorySelectPicker
                     value={this.state.category}
                     onChange={(category) => this.setState({ category })} />
-
-                <Button color="default" onClick={this.handleClear}>Limpar</Button>
-                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
-            </div>
+            </FilterWrapper>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        category: selectors.getFilters(state).category || []
-    };
-};
+const mapStateToProps = (state) => ({
+    category: selectors.getFilters(state).category || []
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {        
-        onSubmit: (category) => {
-            dispatch(operations.setFilters({ category }, true));
-            dispatch(operations.filterTransactions());
-        }
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (category) => {
+        dispatch(operations.setFilters({ category }, true));
+        dispatch(operations.filterTransactions());
+    }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryFilter);

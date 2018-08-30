@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import Button from '@material-ui/core/Button';
 import DatePicker from 'material-ui-pickers/DatePicker';
+import FilterWrapper from './FilterWrapper';
 
 import { selectors, operations } from '../../duck';
 
@@ -28,7 +28,7 @@ class DueDateFilter extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ 
+        this.setState({
             due_date_from: nextProps.due_date_from,
             due_date_until: nextProps.due_date_until
         });
@@ -42,48 +42,43 @@ class DueDateFilter extends React.Component {
 
     render() {
         return (
+            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <div>
-                    <div>
-                        <DatePicker
-                            keyboard
-                            label="De"                
-                            value={this.state.due_date_from}
-                            onChange={this.handleChange('due_date_from')}
-                            autoOk={true}
-                            format="DD/MM/YYYY" />
-                    </div>
-
-                    <div>
-                        <DatePicker
-                            keyboard
-                            label="Até"
-                            value={this.state.due_date_until}
-                            onChange={this.handleChange('due_date_until')}
-                            autoOk={true}
-                            format="DD/MM/YYYY" />
-                    </div>
-
-                    <Button color="default" onClick={this.handleClear}>Limpar</Button>
-                    <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
+                    <DatePicker
+                        keyboard
+                        autoOk
+                        fullWidth
+                        label="De"
+                        value={this.state.due_date_from}
+                        onChange={this.handleChange('due_date_from')}
+                        format="DD/MM/YYYY" />
                 </div>
+
+                <div>
+                    <DatePicker
+                        keyboard
+                        autoOk
+                        fullWidth
+                        label="Até"
+                        value={this.state.due_date_until}
+                        onChange={this.handleChange('due_date_until')}
+                        format="DD/MM/YYYY" />
+                </div>
+            </FilterWrapper>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        due_date_from: selectors.getFilters(state).due_date_from || defaultStart(),
-        due_date_until: selectors.getFilters(state).due_date_until || defaultEnd(),
-    };
-};
+const mapStateToProps = (state) => ({
+    due_date_from: selectors.getFilters(state).due_date_from || defaultStart(),
+    due_date_until: selectors.getFilters(state).due_date_until || defaultEnd(),
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {        
-        onSubmit: (due_date_from, due_date_until) => {
-            dispatch(operations.setFilters({ due_date_from, due_date_until }, true));
-            dispatch(operations.filterTransactions());
-        }
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (due_date_from, due_date_until) => {
+        dispatch(operations.setFilters({ due_date_from, due_date_until }, true));
+        dispatch(operations.filterTransactions());
+    }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DueDateFilter);

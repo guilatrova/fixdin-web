@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField'; //TODO: Change to use autocomplete
-import Button from '@material-ui/core/Button';
 
 import { selectors, operations } from '../../duck';
+import FilterWrapper from './FilterWrapper';
 
 class DeadlineFilter extends React.Component {
     static propTypes = {
@@ -36,36 +36,29 @@ class DeadlineFilter extends React.Component {
 
     render() {
         return (
-            <div>
-                <TextField 
-                    name="deadline" 
+            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
+                <TextField
+                    fullWidth
+                    name="deadline"
                     label="Tolerância"
-                    value={this.state.deadline} 
+                    value={this.state.deadline}
                     onChange={e => this.setState({ deadline: e.target.value })}
                 />
-                <br />
-                
-                <Button color="default" onClick={this.handleClear}>Limpar</Button>
-                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
-            </div>
+            </FilterWrapper>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        deadline: selectors.getFilters(state).deadline || "",
-        deadlineSource: selectors.getVisibleDeadlines(state) || []
-    };
-};
+const mapStateToProps = (state) => ({
+    deadline: selectors.getFilters(state).deadline || "",
+    deadlineSource: selectors.getVisibleDeadlines(state) || []
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {        
-        onSubmit: (deadline) => {
-            dispatch(operations.setFilters({ deadline }, true));
-            dispatch(operations.filterTransactions());
-        }
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (deadline) => {
+        dispatch(operations.setFilters({ deadline }, true));
+        dispatch(operations.filterTransactions());
+    }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeadlineFilter);

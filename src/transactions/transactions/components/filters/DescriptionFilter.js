@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Button from '@material-ui/core/Button';
-
 import { selectors, operations } from '../../duck';
 import TransactionDescription from '../TransactionDescription';
+import FilterWrapper from './FilterWrapper';
 
 class DescriptionFilter extends React.Component {
     static propTypes = {
@@ -35,34 +34,27 @@ class DescriptionFilter extends React.Component {
 
     render() {
         return (
-            <div>
+            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <TransactionDescription
+                    fullWidth
                     value={this.state.description}
                     onChange={description => this.setState({ description })}
                     onlyVisible={true}
                 />
-                <br />
-
-                <Button color="default" onClick={this.handleClear}>Limpar</Button>
-                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
-            </div>
+            </FilterWrapper>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        description: selectors.getFilters(state).description || ""
-    };
-};
+const mapStateToProps = (state) => ({
+    description: selectors.getFilters(state).description || ""
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {        
-        onSubmit: (description) => {
-            dispatch(operations.setFilters({ description }, true));
-            dispatch(operations.filterTransactions());
-        }
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (description) => {
+        dispatch(operations.setFilters({ description }, true));
+        dispatch(operations.filterTransactions());
+    }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DescriptionFilter);

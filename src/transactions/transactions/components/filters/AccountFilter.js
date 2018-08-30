@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Button from '@material-ui/core/Button';
-
 import { selectors, operations } from '../../duck';
 import AccountSelectPicker from './../../../accounts/components/AccountSelectPicker';
+import FilterWrapper from './FilterWrapper';
 
 class AccountFilter extends React.Component {
     static propTypes = {
@@ -35,32 +34,25 @@ class AccountFilter extends React.Component {
 
     render() {
         return (
-            <div>
+            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <AccountSelectPicker
                     isMulti
                     value={this.state.account}
                     onChange={(account) => this.setState({ account })} />
-
-                <Button color="default" onClick={this.handleClear}>Limpar</Button>
-                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
-            </div>
+            </FilterWrapper>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        account: selectors.getFilters(state).account || []
-    };
-};
+const mapStateToProps = (state) => ({
+    account: selectors.getFilters(state).account || []
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onSubmit: (account) => {
-            dispatch(operations.setFilters({ account }, true));
-            dispatch(operations.filterTransactions());
-        }
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (account) => {
+        dispatch(operations.setFilters({ account }, true));
+        dispatch(operations.filterTransactions());
+    }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountFilter);

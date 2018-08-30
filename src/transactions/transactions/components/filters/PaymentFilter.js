@@ -2,16 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import FormLabel from '@material-ui/core/FormLabel';
 import DatePicker from 'material-ui-pickers/DatePicker';
 
 import { selectors, operations } from '../../duck';
+import FilterWrapper from './FilterWrapper';
 
 const defaultStart = () => moment().startOf('month');
 const defaultEnd = () => moment().endOf('month');
+
+const styles = {
+    flex: {
+        display: "flex",
+        alignItems: 'center',
+    },
+    margin: {
+        marginLeft: 10
+    }
+};
 
 class PaymentFilter extends React.Component {
     static propTypes = {
@@ -51,65 +63,65 @@ class PaymentFilter extends React.Component {
     handleClear = () => this.props.onSubmit("-1", null, null);
 
     render() {
-        return (
-            <div>
-                <label>Pago?</label>
-                <br />
+        const { classes } = this.props;
 
-                <Select
-                    value={this.state.payed}
-                    onChange={e => this.setState({ payed: e.target.value })}
-                >
-                    <MenuItem value="-1">-</MenuItem>
-                    <MenuItem value="0">NÃO</MenuItem>
-                    <MenuItem value="1">SIM</MenuItem>
-                </Select>
-                <br />
+        return (
+            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
+                <div className={classes.flex}>
+                    <FormLabel component="legend">Pago</FormLabel>
+
+                    <Select
+                        className={classes.margin}
+                        value={this.state.payed}
+                        onChange={e => this.setState({ payed: e.target.value })}
+                    >
+                        <MenuItem value="-1">-</MenuItem>
+                        <MenuItem value="0">NÃO</MenuItem>
+                        <MenuItem value="1">SIM</MenuItem>
+                    </Select>
+                </div>
 
                 {this.state.payed == "1" && <div>
 
                     <DatePicker
                         keyboard
+                        autoOk
+                        fullWidth
                         label="De"
                         value={this.state.payment_date_from}
                         onChange={(payment_date_from) => this.setState({ payment_date_from })}
-                        autoOk={true}
                         format="DD/MM/YYYY"
-                    /> 
+                    />
 
                     <DatePicker
                         keyboard
+                        autoOk
+                        fullWidth
                         label="Até"
                         value={this.state.payment_date_until}
                         onChange={(payment_date_until) => this.setState({ payment_date_until })}
-                        autoOk={true}
                         format="DD/MM/YYYY"
-                    /> 
+                    />
 
                 </div>}
-
-                <Button color="default" onClick={this.handleClear}>Limpar</Button>
-                <Button color="primary" onClick={this.handleSubmit}>Aplicar</Button>
-            </div>
+            </FilterWrapper>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        payed: selectors.getFilters(state).payed || "-1",
-        payment_date_from: selectors.getFilters(state).payment_date_from || defaultStart(),
-        payment_date_until: selectors.getFilters(state).payment_date_until || defaultEnd(),
-    };
-};
+const mapStateToProps = (state) => ({
+    payed: selectors.getFilters(state).payed || "-1",
+    payment_date_from: selectors.getFilters(state).payment_date_from || defaultStart(),
+    payment_date_until: selectors.getFilters(state).payment_date_until || defaultEnd(),
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {        
-        onSubmit: (payed, payment_date_from, payment_date_until) => {
-            dispatch(operations.setFilters({ payed, payment_date_from, payment_date_until }, true));
-            dispatch(operations.filterTransactions());
-        }
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (payed, payment_date_from, payment_date_until) => {
+        dispatch(operations.setFilters({ payed, payment_date_from, payment_date_until }, true));
+        dispatch(operations.filterTransactions());
+    }
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(PaymentFilter);
+export default withStyles(styles)(
+    connect(mapStateToProps, mapDispatchToProps)(PaymentFilter)
+);
