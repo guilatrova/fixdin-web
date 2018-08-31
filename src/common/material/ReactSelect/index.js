@@ -91,7 +91,7 @@ const IntegrationReactSelect = ({ classes, theme, label, creatable, isMulti, opt
     // Allow primitive values (label or value) instead of a full option shape
     let selectedValue = value;
     if (isMulti) {
-        selectedValue = fixedOptions.filter(opt => value.includes(opt[valueProp].toString())) || [];
+        selectedValue = fixedOptions.filter(opt => value.map(v => v.toString()).includes(opt.value));
     }
     else {
         selectedValue = fixedOptions.find(opt => opt[valueProp] == value) || null;
@@ -106,6 +106,7 @@ const IntegrationReactSelect = ({ classes, theme, label, creatable, isMulti, opt
                 components={components}
                 options={fixedOptions}
                 value={selectedValue}
+                noOptionsMessage={() => "Nada encontrado"}
                 textFieldProps={{
                     label: label,
                     InputLabelProps: {
