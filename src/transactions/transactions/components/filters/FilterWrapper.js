@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     root: {
-        width: 300
+        minWidth: 300,
+        maxWidth: 500
     },
     actions: {
         display: 'flex',
