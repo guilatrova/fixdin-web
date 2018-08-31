@@ -22,14 +22,17 @@ const styles = theme => ({
     }
 });
 
-const FilterWrapper = ({ classes, children, onSubmit, onClear }) => {
+const FilterWrapper = ({ classes, children, onSubmit, onClear, onClose }) => {
     return (
         <div className={classes.root}>
             {children}
 
             <div className={classes.actions}>
-                <Button onClick={onClear} className={classes.cancelButton}>Limpar</Button>
-                <Button variant="raised" onClick={onSubmit} className={classes.button}>Aplicar</Button>
+                <Button onClick={() => { onClear(); onClose(); }} className={classes.cancelButton}>
+                    Limpar</Button>
+
+                <Button onClick={() => { onSubmit(); onClose(); }} className={classes.button} variant="raised">
+                    Aplicar</Button>
             </div>
         </div>
     );
@@ -38,8 +41,13 @@ const FilterWrapper = ({ classes, children, onSubmit, onClear }) => {
 FilterWrapper.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onClear: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     classes: PropTypes.object.isRequired
+};
+
+FilterWrapper.defaultProps = {
+    onClose: () => { }
 };
 
 export default withStyles(styles)(FilterWrapper);

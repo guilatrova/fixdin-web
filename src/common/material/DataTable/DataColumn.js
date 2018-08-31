@@ -13,7 +13,7 @@ export default class DataColumn extends React.Component {
         onRender: PropTypes.func.isRequired,
         sortable: PropTypes.bool.isRequired,
         onSort: PropTypes.func.isRequired,
-        onRenderFilter: PropTypes.node,
+        filterComponent: PropTypes.func,
         filterActive: PropTypes.bool,
         padding: PropTypes.string,
         cellClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.func])

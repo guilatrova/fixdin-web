@@ -42,7 +42,7 @@ class DueDateFilter extends React.Component {
 
     render() {
         return (
-            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
+            <FilterWrapper {...this.props} onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <div>
                     <DatePicker
                         keyboard

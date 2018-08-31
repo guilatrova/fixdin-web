@@ -64,10 +64,10 @@ class PaymentFilter extends React.Component {
     handleClear = () => this.props.onSubmit("-1", null, null);
 
     render() {
-        const { classes } = this.props;
+        const { classes, ...props } = this.props;
 
         return (
-            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
+            <FilterWrapper {...props} onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <div className={classes.flex}>
                     <FormLabel component="legend">Pago</FormLabel>
 

@@ -36,7 +36,7 @@ class CategoryFilter extends React.Component {
 
     render() {
         return (
-            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
+            <FilterWrapper {...this.props} onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <CategorySelectPicker
                     isMulti
                     value={this.state.category}

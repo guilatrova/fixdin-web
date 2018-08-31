@@ -125,9 +125,10 @@ class DataTable extends React.Component {
         const data = this.sort(this.state.orderBy, this.state.order);
 
         const renderFilter = (child) => {
-            if (child.props.onRenderFilter) {
+            if (child.props.filterComponent) {
                 let buttonRef;
                 const { popover } = this.state;
+                const onClose = () => this.setState({ popover: "" });
                 return (
                     <div>
                         <IconButton
@@ -149,12 +150,15 @@ class DataTable extends React.Component {
                         <Popover
                             classes={{ paper: classes.popoverPaper }}
                             open={popover == child.props.field}
-                            onClose={() => this.setState({ popover: "" })}
+                            onClose={onClose}
                             anchorEl={this.state.popoverRef}
                             anchorReference="anchorEl"
                             anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-                            transformOrigin={{ horizontal: "center", vertical: "top" }}>
-                            {child.props.onRenderFilter}
+                            transformOrigin={{ horizontal: "center", vertical: "top" }}
+                        >
+
+                            <child.props.filterComponent onClose={onClose} />
+
                         </Popover>
                     </div>
                 );

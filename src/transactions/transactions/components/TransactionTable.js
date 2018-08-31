@@ -185,7 +185,7 @@ class TransactionTable extends React.Component {
                     padding="dense"
                     field="account"
                     onRender={this.formatAccount}
-                    onRenderFilter={<AccountFilter />}
+                    filterComponent={AccountFilter}
                     filterActive={activeFilters.account}
                     cellClassName={this.formatRowIndicator}
                     headerSuffix={<AddButtonTableSuffix onClick={onAddAccount} />}
@@ -197,7 +197,7 @@ class TransactionTable extends React.Component {
                     padding="dense"
                     field="due_date"
                     onRender={this.formatDate}
-                    onRenderFilter={<DueDateFilter />}
+                    filterComponent={DueDateFilter}
                     filterActive={activeFilters.due_date} > DATA
                 </DataColumn>
 
@@ -205,7 +205,7 @@ class TransactionTable extends React.Component {
                     sortable
                     padding="dense"
                     field="description"
-                    onRenderFilter={<DescriptionFilter />}
+                    filterComponent={DescriptionFilter}
                     filterActive={activeFilters.description} > DESCRIÇÃO
                 </DataColumn>
 
@@ -215,7 +215,7 @@ class TransactionTable extends React.Component {
                     field="category"
                     filterActive={activeFilters.category}
                     onRender={this.formatCategory}
-                    onRenderFilter={<CategoryFilter />}
+                    filterComponent={CategoryFilter}
                     headerSuffix={<AddButtonTableSuffix onClick={onAddCategory} />}
                     onSort={this.sortCategory}> CATEGORIA
                 </DataColumn>
@@ -234,7 +234,7 @@ class TransactionTable extends React.Component {
                     numeric
                     padding="none"
                     field="priority"
-                    onRenderFilter={<PriorityFilter />}
+                    filterComponent={PriorityFilter}
                     filterActive={activeFilters.priority}
                     cellClassName={classes.centered} > IMP.
                 </DataColumn>
@@ -244,7 +244,7 @@ class TransactionTable extends React.Component {
                     numeric
                     padding="none"
                     field="deadline"
-                    onRenderFilter={<DeadlineFilter />}
+                    filterComponent={DeadlineFilter}
                     filterActive={activeFilters.deadline}
                     cellClassName={classes.centered} > TOL.
                 </DataColumn>
@@ -256,7 +256,7 @@ class TransactionTable extends React.Component {
                     padding="none"
                     field="payment_date"
                     cellClassName={classes.centered}
-                    onRenderFilter={<PaymentFilter />}
+                    filterComponent={PaymentFilter}
                     filterActive={activeFilters.payment_date}
                     onRender={this.formatPayed}
                     onSort={this.sortPayed}> STATUS

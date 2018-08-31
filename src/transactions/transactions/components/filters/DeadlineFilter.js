@@ -36,7 +36,7 @@ class DeadlineFilter extends React.Component {
 
     render() {
         return (
-            <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
+            <FilterWrapper {...this.props} onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <TextField
                     fullWidth
                     name="deadline"
