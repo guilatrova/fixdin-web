@@ -13,8 +13,13 @@ class CategorySelectPicker extends React.Component {
         onChange: PropTypes.func.isRequired,
         categories: PropTypes.array.isRequired,
         isFetching: PropTypes.bool.isRequired,
-        value: PropTypes.number,
-        kind: PropTypes.object.isRequired,
+        value: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.arrayOf(PropTypes.number)
+        ]),
+        kind: PropTypes.object,
+        isMulti: PropTypes.bool,
+        creatable: PropTypes.bool
     }
 
     componentDidMount() {
@@ -30,22 +35,35 @@ class CategorySelectPicker extends React.Component {
     }
 
     handleOnChange = (option) => {
-        const value = option ? option.value : null;
-        this.props.onChange(value);
+        if (this.props.isMulti) {
+            const values = option.map(opt => opt.value);
+            this.props.onChange(values);
+        }
+        else {
+            const value = option ? option.value : null;
+            this.props.onChange(value);
+        }
     }
 
     formatCreateLabel = (label) => `Criar nova categoria "${label}"`;
 
     render() {
-        const { categories, isFetching, value, kind } = this.props;
+        const { categories, isFetching, value, kind, creatable, isMulti } = this.props;
 
-        const options = categories.filter(category => category.kind == kind.id).map(category => ({
+        let filteredCategories = categories;
+        if (kind) {
+            filteredCategories = categories.filter(category => category.kind == kind.id);
+        }
+
+        const options = filteredCategories.map(category => ({
             value: category.id,
             label: category.name
         }));
 
         return (
-            <Select creatable
+            <Select
+                creatable={creatable}
+                isMulti={isMulti}
                 label="Categoria"
                 placeholder="Selecionar..."
                 options={options}
@@ -54,7 +72,8 @@ class CategorySelectPicker extends React.Component {
                 disabled={isFetching}
                 onChange={this.handleOnChange}
                 onCreateOption={this.handleOnCreateOption}
-                formatCreateLabel={this.formatCreateLabel} />
+                formatCreateLabel={this.formatCreateLabel}
+            />
         );
     }
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { selectors, operations } from '../../duck';
-import MultiCategorySelectPicker from './../../../categories/components/MultiCategorySelectPicker';
+import CategorySelectPicker from './../../../categories/components/CategorySelectPicker';
 import FilterWrapper from './FilterWrapper';
 
 class CategoryFilter extends React.Component {
@@ -32,12 +32,15 @@ class CategoryFilter extends React.Component {
 
     handleClear = () => this.props.onSubmit([]);
 
+    handleChange = options => this.setState({ category: options });
+
     render() {
         return (
             <FilterWrapper onSubmit={this.handleSubmit} onClear={this.handleClear}>
-                <MultiCategorySelectPicker
+                <CategorySelectPicker
+                    isMulti
                     value={this.state.category}
-                    onChange={(category) => this.setState({ category })} />
+                    onChange={this.handleChange} />
             </FilterWrapper>
         );
     }

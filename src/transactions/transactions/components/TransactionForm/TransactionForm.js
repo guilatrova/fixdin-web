@@ -191,7 +191,7 @@ class TransactionForm extends React.Component {
                     {/* TODO: ADD ERROR MESSAGE */}
                     <div className={classes.formRow}>
                         <CategorySelectPicker
-                            id="category-picker"
+                            creatable
                             kind={this.state.kind}
                             value={this.state.category}
                             onChange={category => this.setState({ category })}
