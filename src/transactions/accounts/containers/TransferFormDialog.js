@@ -9,27 +9,26 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 import TransferForm from '../components/TransferForm';
 
 const styles = {
-    content: {
+    paperScrollPaper: {
+        flex: '0 1 auto',
+        maxHeight: 350,
         overflowY: 'visible'
-    },
-    paper: {
-        overflow: 'visible'
     }
 };
 
-const TransferFormDialog = ({open, onClose, title, fullScreen, classes, ...other}) => {
+const TransferFormDialog = ({ open, onClose, title, fullScreen, classes, ...other }) => {
+    const regularDialog = !fullScreen;
     return (
         <Dialog
             fullScreen={fullScreen}
             open={open}
             onClose={onClose}
-            classes={{ paper: classes.paper, }}>
+            classes={regularDialog ? classes : undefined}>
 
-            <DialogTitle>{title}</DialogTitle>
+            <DialogTitle className="arrow-parent">{title}</DialogTitle>
 
-            <TransferForm 
+            <TransferForm
                 onClose={onClose}
-                classes={classes}
                 {...other}
             />
 

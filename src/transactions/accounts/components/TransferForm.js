@@ -1,14 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 
+import PrimaryButton from '../../../common/components/PrimaryButton';
+import CancelButton from '../../../common/components/CancelButton';
 import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import TypographyError from '../../../common/material/TypographyError';
 import AccountSelectPicker from '../../accounts/components/AccountSelectPicker';
+
+const styles = {
+    formRow: {
+        marginBottom: 10
+    },
+    root: {
+        paddingTop: 20,
+        overflowY: 'visible'
+    }
+};
 
 class TransferForm extends React.Component {
 
@@ -40,48 +52,54 @@ class TransferForm extends React.Component {
         }
 
         return (
-            <div>
-                <DialogContent className={classes.content}>
+            <React.Fragment>
+
+                <DialogContent className={classes.root}>
 
                     <TypographyError>
                         {errors.detail}
                     </TypographyError>
 
-                    <TextField
-                        label="De"
-                        value={fromAccount.name}
-                        readOnly
-                    />
+                    <div className={classes.formRow}>
+                        <TextField
+                            fullWidth
+                            readOnly
+                            label="De"
+                            value={fromAccount.name}
+                        />
+                    </div>
 
-                    <AccountSelectPicker
-                        label="Para"
-                        error={errors.toAccount}
-                        value={this.state.toAccount}
-                        onChange={(toAccount) => this.setState({ toAccount })}
-                    />
+                    <div className={classes.formRow}>
+                        <AccountSelectPicker
+                            label="Para"
+                            error={errors.toAccount}
+                            value={this.state.toAccount}
+                            onChange={(toAccount) => this.setState({ toAccount })}
+                        />
+                    </div>
 
-                    <CurrencyTextField
-                        id="value"
-                        label="Valor"
-                        error={errors.value}
-                        value={this.state.value}
-                        onChangeEvent={(e, maskedValue, value) => this.setState({ value })}
-                    />
+                    <div className={classes.formRow}>
+                        <CurrencyTextField
+                            fullWidth
+                            label="Valor"
+                            error={errors.value}
+                            value={this.state.value}
+                            onChangeEvent={(e, maskedValue, value) => this.setState({ value })}
+                        />
+                    </div>
 
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={onClose}>
-                        Cancelar
-                    </Button>
+                    <CancelButton onClick={onClose} />
 
-                    <Button variant="raised" color="primary" disabled={disabled} onClick={this.handleSubmit}>
-                        Salvar
-                    </Button>
+                    <PrimaryButton disabled={disabled} onClick={this.handleSubmit}>
+                        Salvar</PrimaryButton>
                 </DialogActions>
-            </div>
+
+            </React.Fragment>
         );
     }
 }
 
-export default TransferForm;
+export default withStyles(styles)(TransferForm);
