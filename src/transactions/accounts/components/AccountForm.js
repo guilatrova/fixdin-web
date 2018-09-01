@@ -1,18 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
+import PrimaryButton from '../../../common/components/PrimaryButton';
+import CancelButton from '../../../common/components/CancelButton';
 import TypographyError from '../../../common/material/TypographyError';
 import TextFieldError from '../../../common/material/TextFieldError';
+
+const styles = {
+    contentWrapper: {
+        marginTop: 20
+    }
+};
 
 class AccountForm extends React.Component {
 
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         onClose: PropTypes.func.isRequired,
+        classes: PropTypes.object.isRequired,
         errors: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
         account: PropTypes.object.isRequired
@@ -28,11 +37,11 @@ class AccountForm extends React.Component {
             name: account.name || ""
         };
     }
-    
+
     handleSubmit = () => this.props.onSubmit(this.state.id, { name: this.state.name });
 
     render() {
-        const { errors, onClose, account } = this.props;
+        const { errors, onClose, classes, account } = this.props;
 
         let disabled = true;
         if (!this.props.isFetching && this.state.name) {
@@ -42,34 +51,36 @@ class AccountForm extends React.Component {
         }
 
         return (
-            <div>
+            <React.Fragment>
+
                 <DialogContent>
 
-                    <TypographyError>
-                        {errors.detail}
-                    </TypographyError>
+                    <div className={classes.contentWrapper}>
+                        <TypographyError>
+                            {errors.detail}
+                        </TypographyError>
 
-                    <TextFieldError
-                        label="Nome" 
-                        error={errors.name}
-                        value={this.state.name}
-                        onChange={e => this.setState({ name: e.target.value })}
-                    />
+                        <TextFieldError
+                            label="Nome"
+                            error={errors.name}
+                            value={this.state.name}
+                            onChange={e => this.setState({ name: e.target.value })}
+                        />
+                    </div>
 
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={onClose}>
-                        Cancelar
-                    </Button>
+                    <CancelButton onClick={onClose} />
 
-                    <Button variant="raised" color="primary" disabled={disabled} onClick={this.handleSubmit}>
+                    <PrimaryButton disabled={disabled} onClick={this.handleSubmit}>
                         Salvar
-                    </Button>
+                    </PrimaryButton>
                 </DialogActions>
-            </div>
+
+            </React.Fragment>
         );
     }
 }
 
-export default AccountForm;
+export default withStyles(styles)(AccountForm);

@@ -1,40 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
+import PrimaryButton from '../../../../../common/components/PrimaryButton';
+import CancelButton from '../../../../../common/components/CancelButton';
 import { types } from '../../../duck';
 
-const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-        ...theme.mixins.orangeButton
-    },
-    cancelButton: {
-        margin: theme.spacing.unit,
-        color: theme.palette.text.secondary
-    }
-});
-
 // TODO: Create a dialog to popup after save with options
-const EditingPeriodicActions = ({ onClick, onCancel, disabled, classes }) => {
+const EditingPeriodicActions = ({ onClick, onCancel, disabled }) => {
     return (
-        <div>
-            <Button onClick={() => onCancel()} className={classes.cancelButton}>
-                Cancelar</Button>
+        <React.Fragment>
+            <CancelButton onClick={() => onCancel()}>
+                Cancelar</CancelButton>
 
-            <Button variant="raised" disabled={disabled} className={classes.button}
+            <PrimaryButton disabled={disabled}
                 onClick={() => onClick(types.SAVE_TRANSACTION)}>
-                Somenta esta</Button>
+                Somenta esta</PrimaryButton>
 
-            <Button variant="raised" disabled={disabled} className={classes.button}
+            <PrimaryButton disabled={disabled}
                 onClick={() => onClick(types.SAVE_THIS_AND_NEXT_TRANSACTIONS)}>
-                Esta e futuras</Button>
+                Esta e futuras</PrimaryButton>
 
-            <Button variant="raised" disabled={disabled} className={classes.button}
+            <PrimaryButton disabled={disabled}
                 onClick={() => onClick(types.SAVE_ALL_PERIODIC_TRANSACTIONS)}>
-                Todas as recorrências</Button>
-        </div>
+                Todas as recorrências</PrimaryButton>
+        </React.Fragment>
     );
 };
 
@@ -45,4 +34,4 @@ EditingPeriodicActions.propTypes = {
     disabled: PropTypes.bool,
 };
 
-export default withStyles(styles)(EditingPeriodicActions);
+export default EditingPeriodicActions;

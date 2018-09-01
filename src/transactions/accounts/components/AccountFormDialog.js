@@ -7,16 +7,16 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import AccountForm from '../components/AccountForm';
 
-const AccountFormDialog = ({open, onClose, title, fullScreen, ...other}) => {
+const AccountFormDialog = ({ open, onClose, title, fullScreen, ...other }) => {
     return (
         <Dialog
             fullScreen={fullScreen}
             open={open}
             onClose={onClose}>
 
-            <DialogTitle>{title}</DialogTitle>
+            <DialogTitle className="arrow-parent">{title}</DialogTitle>
 
-            <AccountForm 
+            <AccountForm
                 onClose={onClose}
                 {...other}
             />
@@ -34,7 +34,7 @@ AccountFormDialog.propTypes = {
     //Form
     onSubmit: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired,    
+    isFetching: PropTypes.bool.isRequired,
 };
 
 export default withMobileDialog()(AccountFormDialog);

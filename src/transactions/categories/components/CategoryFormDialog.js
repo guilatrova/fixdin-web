@@ -7,17 +7,18 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import CategoryForm from '../components/CategoryForm';
 
-const CategoryFormDialog = ({open, onClose, title, fullScreen, onSubmit, isFetching, category, errors}) => {
+const CategoryFormDialog = ({ open, onClose, title, fullScreen, onSubmit, isFetching, category, errors }) => {
     return (
         <Dialog
             fullScreen={fullScreen}
             open={open}
             onClose={onClose}>
 
-            <DialogTitle>{title}</DialogTitle>
+            <DialogTitle className="arrow-parent">{title}</DialogTitle>
 
-            <CategoryForm 
-                onSubmit={onSubmit} 
+            <CategoryForm
+                onSubmit={onSubmit}
+                onCancel={onClose}
                 isFetching={isFetching}
                 category={category}
                 errors={errors} />

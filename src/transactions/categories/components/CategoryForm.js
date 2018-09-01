@@ -1,18 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
+import PrimaryButton from '../../../common/components/PrimaryButton';
+import CancelButton from '../../../common/components/CancelButton';
 import TextFieldError from '../../../common/material/TextFieldError';
 import KindSwitch from '../../shared/components/KindSwitch';
 import { getKind, EXPENSE } from '../../shared/kinds';
+
+const styles = theme => ({
+    kindSwitchWrapper: {
+        display: 'flex',
+        marginTop: 20,
+        marginBottom: 10,
+    },
+    button: {
+        ...theme.mixins.orangeButton
+    }
+});
 
 class CategoryForm extends React.Component {
 
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
+        onCancel: PropTypes.func.isRequired,
+        classes: PropTypes.object.isRequired,
         errors: PropTypes.object.isRequired,
         isFetching: PropTypes.bool.isRequired,
         category: PropTypes.object.isRequired
@@ -40,7 +55,7 @@ class CategoryForm extends React.Component {
     handleSubmit = () => this.props.onSubmit(this.state);
 
     render() {
-        const { errors } = this.props;
+        const { errors, onCancel, classes } = this.props;
 
         let disabled = true;
         if (!this.props.isFetching && this.state.name && this.state.kind) {
@@ -48,16 +63,19 @@ class CategoryForm extends React.Component {
         }
 
         return (
-            <div>
+            <React.Fragment>
+
                 <DialogContent>
 
-                    <KindSwitch 
-                        value={this.state.kind}
-                        onChange={kind => this.setState({ kind })}
-                    />                        
+                    <div className={classes.kindSwitchWrapper}>
+                        <KindSwitch
+                            value={this.state.kind}
+                            onChange={kind => this.setState({ kind })}
+                        />
+                    </div>
 
                     <TextFieldError
-                        label="Nome" 
+                        label="Nome"
                         error={errors.name}
                         value={this.state.name}
                         onChange={e => this.setState({ name: e.target.value })}
@@ -67,13 +85,16 @@ class CategoryForm extends React.Component {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button variant="raised" color="primary" disabled={disabled} onClick={this.handleSubmit}>
+                    <CancelButton onClick={onCancel} />
+
+                    <PrimaryButton disabled={disabled} onClick={this.handleSubmit}>
                         Salvar
-                    </Button>
+                    </PrimaryButton>
                 </DialogActions>
-            </div>
+
+            </React.Fragment>
         );
     }
 }
 
-export default CategoryForm;
+export default withStyles(styles)(CategoryForm);

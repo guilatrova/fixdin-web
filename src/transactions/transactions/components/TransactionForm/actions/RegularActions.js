@@ -1,41 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
+import PrimaryButton from '../../../../../common/components/PrimaryButton';
+import CancelButton from '../../../../../common/components/CancelButton';
 import saveOptions from '../consts/saveOptions';
 
-const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-        ...theme.mixins.orangeButton
-    },
-    cancelButton: {
-        margin: theme.spacing.unit,
-        color: theme.palette.text.secondary
-    }
-});
-
-const RegularActions = ({ onClick, onCancel, disabled, classes }) => {
+const RegularActions = ({ onClick, onCancel, disabled }) => {
     return (
-        <div>
-            <Button onClick={() => onCancel()} className={classes.cancelButton}>
-                Cancelar</Button>
+        <React.Fragment>
+            <CancelButton onClick={onCancel}>
+                Cancelar</CancelButton>
 
-            <Button variant="raised" onClick={() => onClick(saveOptions.CLOSE)} disabled={disabled} className={classes.button}>
-                Salvar</Button>
+            <PrimaryButton onClick={() => onClick(saveOptions.CLOSE)} disabled={disabled}>
+                Salvar</PrimaryButton>
 
-            <Button variant="raised" onClick={() => onClick(saveOptions.NEW)} disabled={disabled} className={classes.button}>
-                Salvar e novo</Button>
-        </div>
+            <PrimaryButton onClick={() => onClick(saveOptions.NEW)} disabled={disabled}>
+                Salvar e novo</PrimaryButton>
+        </React.Fragment>
     );
 };
 
 RegularActions.propTypes = {
-    classes: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
 };
 
-export default withStyles(styles)(RegularActions);
+export default RegularActions;

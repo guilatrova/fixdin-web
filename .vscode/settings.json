@@ -9,7 +9,7 @@
         "node_modules": true,
         "tmp": true,
         "server.js": true,
-        "webpack*": true,
+        "webpack*": false,
         "Procfile": true,
         ".gitignore": true,
         "*yml": true
