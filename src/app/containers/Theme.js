@@ -42,6 +42,12 @@ const theme = createMuiTheme({
             body: {
                 color: "#5b5b5a"
             }
+        },
+        MuiDialogTitle: {
+            root: {
+                textAlign: 'center',
+                textTransform: 'uppercase'
+            }
         }
     }
 });

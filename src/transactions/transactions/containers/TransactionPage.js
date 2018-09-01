@@ -174,7 +174,7 @@ class TransactionPage extends React.Component {
                 <TransactionFormDialog
                     open={this.state.openTransactionFormDialog}
                     onClose={this.handleHideTransactionFormModal}
-                    title={this.props.editingTransaction.id ? `Editar` : `Criar`}
+                    title={`${this.props.editingTransaction.id ? 'Editar ' : 'Criar '} Operação`}
 
                     onSubmit={this.handleTransactionFormSubmit}
                     isFetching={isFetching}
