@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
+import PrimaryButton from '../../../../common/components/PrimaryButton';
+import CancelButton from '../../../../common/components/CancelButton';
 
-const styles = theme => ({
+const styles = {
     root: {
         minWidth: 300,
         maxWidth: 500
@@ -12,16 +13,8 @@ const styles = theme => ({
     actions: {
         display: 'flex',
         justifyContent: 'flex-end'
-    },
-    button: {
-        margin: theme.spacing.unit,
-        ...theme.mixins.orangeButton
-    },
-    cancelButton: {
-        margin: theme.spacing.unit,
-        color: theme.palette.text.secondary
     }
-});
+};
 
 const FilterWrapper = ({ classes, children, onSubmit, onClear, onClose }) => {
     return (
@@ -29,11 +22,11 @@ const FilterWrapper = ({ classes, children, onSubmit, onClear, onClose }) => {
             {children}
 
             <div className={classes.actions}>
-                <Button onClick={() => { onClear(); onClose(); }} className={classes.cancelButton}>
-                    Limpar</Button>
+                <CancelButton onClick={() => { onClear(); onClose(); }}>
+                    Limpar</CancelButton>
 
-                <Button onClick={() => { onSubmit(); onClose(); }} className={classes.button} variant="raised">
-                    Aplicar</Button>
+                <PrimaryButton onClick={() => { onSubmit(); onClose(); }}>
+                    Filtrar</PrimaryButton>
             </div>
         </div>
     );

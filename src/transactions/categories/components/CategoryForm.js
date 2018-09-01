@@ -11,16 +11,13 @@ import TextFieldError from '../../../common/material/TextFieldError';
 import KindSwitch from '../../shared/components/KindSwitch';
 import { getKind, EXPENSE } from '../../shared/kinds';
 
-const styles = theme => ({
+const styles = {
     kindSwitchWrapper: {
         display: 'flex',
         marginTop: 20,
         marginBottom: 10,
-    },
-    button: {
-        ...theme.mixins.orangeButton
     }
-});
+};
 
 class CategoryForm extends React.Component {
 
