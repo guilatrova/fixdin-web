@@ -40,7 +40,7 @@ class TransferForm extends React.Component {
     handleSubmit = () => {
         const { fromAccount } = this.props;
         const { toAccount, value } = this.state;
-        this.props.onSubmit(value, fromAccount.id, toAccount.id);
+        this.props.onSubmit(value, fromAccount.id, toAccount);
     };
 
     render() {

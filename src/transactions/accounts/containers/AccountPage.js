@@ -71,7 +71,9 @@ class AccountPage extends React.Component {
         this.props.onEdit(id);
     }
 
-    handleTransfer = (transferringFromAccount) => {
+    handleTransfer = (transferringFromAccountId) => {
+        const transferringFromAccount = this.props.accounts
+            .find(acc => acc.id == transferringFromAccountId);
         this.setState({ transferringFromAccount });
         this.handleOpenTransferFormDialog();
     }
