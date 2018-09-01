@@ -36,19 +36,20 @@ class CurrencyInputAdapter extends React.Component {
 	}
 }
 
-class CurrencyTextField extends React.Component {	
+class CurrencyTextField extends React.Component {
 	static propTypes = {
 		classes: PropTypes.object.isRequired,
 		id: PropTypes.string,
 		value: PropTypes.number,
 		label: PropTypes.string,
-		error: PropTypes.string
+		error: PropTypes.string,
+		fullWidth: PropTypes.bool
 	}
-	
+
 	render() {
-		const { classes, id, label, error, value, ...other } = this.props;
+		const { classes, id, label, error, value, fullWidth, ...other } = this.props;
 		return (
-			<FormControl error={!!error}>
+			<FormControl error={!!error} fullWidth={fullWidth}>
 
 				<InputLabel htmlFor={id}>{label}</InputLabel>
 				<Input
@@ -61,7 +62,7 @@ class CurrencyTextField extends React.Component {
 						...other
 					}}
 				/>
-				
+
 				{error && <FormHelperText>{error}</FormHelperText>}
 
 			</FormControl>
