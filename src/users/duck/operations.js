@@ -1,6 +1,6 @@
 import actions from './actions';
 import createApi from '../../services/api';
-import { saveToken } from '../../services/session';
+import { saveToken, saveUserName } from '../../services/session';
 import handleError from '../../services/genericErrorHandler';
 import { Operation } from './../../common/duck/operations';
 
@@ -16,13 +16,10 @@ class FetchTokenOperation extends Operation {
         return createApi(false);
     }
 
-    getSucceedData(raw) {
-        return raw.token;
-    }
-
-    onSucceed(dispatch, receiveAction, token) {
-        saveToken(token);
-        return dispatch(receiveAction('success', token));
+    onSucceed(dispatch, receiveAction, data) {
+        saveUserName(data.first_name, data.last_name);
+        saveToken(data.token);
+        return dispatch(receiveAction('success', data.token));
     }
 
     onFailed(dispatch, receiveAction, errors) {

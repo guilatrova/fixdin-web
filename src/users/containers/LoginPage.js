@@ -21,7 +21,7 @@ class LoginPage extends React.Component {
         error: PropTypes.string.isRequired,
         classes: PropTypes.object.isRequired
     }
-    
+
     static defaultProps = {
         error: ""
     }
@@ -37,15 +37,11 @@ class LoginPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return selectors.getLoginState(state);
-};
+const mapStateToProps = (state) => selectors.getLoginState(state);
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onSubmit: (data) => dispatch(operations.fetchToken(data))
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (data) => dispatch(operations.fetchToken(data))
+});
 
 export default withStyles(styles)(
     connect(mapStateToProps, mapDispatchToProps)(LoginPage)
