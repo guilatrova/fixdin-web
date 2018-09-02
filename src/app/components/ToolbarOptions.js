@@ -1,23 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
-import IconButton from '@material-ui/core/IconButton';
-import SettingsIcon from '@material-ui/icons/Settings';
-import SearchIcon from '@material-ui/icons/Search';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import Typography from '@material-ui/core/Typography';
 
-const ToolbarOptions = ({ open }) => {
+import { getUserName } from '../../services/session';
+
+const styles = {
+    root: {
+        paddingRight: 20
+    },
+    username: {
+        textTransform: 'capitalize',
+    },
+    usernameText: {
+        color: '#FFF'
+    }
+};
+
+const ToolbarOptions = ({ classes }) => {
     return (
-        <div>
-            <IconButton color="secondary" aria-owns={open ? 'menu-appbar' : null}><NotificationsIcon /></IconButton>
-            <IconButton color="secondary" aria-owns={open ? 'menu-appbar' : null}><SearchIcon /></IconButton>
-            <IconButton color="secondary" aria-owns={open ? 'menu-appbar' : null}><SettingsIcon /></IconButton>
+        <div className={classes.root}>
+            <div className={classes.username}>
+                <Typography variant="body2" className={classes.usernameText}>
+                    {getUserName()}
+                </Typography>
+            </div>
         </div>
     );
 };
 
 ToolbarOptions.propTypes = {
-    open: PropTypes.bool.isRequired
+    open: PropTypes.bool.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-export default ToolbarOptions;
+export default withStyles(styles)(ToolbarOptions);
