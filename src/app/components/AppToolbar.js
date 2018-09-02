@@ -7,13 +7,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import SettingsIcon from '@material-ui/icons/Settings';
-import SearchIcon from '@material-ui/icons/Search';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import { headerHeight } from '../contants';
 import logoSrc from '../../styles/icons/logo-white.png';
+import ToolbarOptions from './ToolbarOptions';
 
 const styles = theme => ({
     appBar: {
@@ -58,11 +56,7 @@ const AppToolbar = ({ classes, open, handleDrawerOpen, handleDrawerClose }) => {
                     <img src={logoSrc} className={classes.logo} />
                 </div>
 
-                <div>
-                    <IconButton color="secondary" aria-owns={open ? 'menu-appbar' : null}><NotificationsIcon /></IconButton>
-                    <IconButton color="secondary" aria-owns={open ? 'menu-appbar' : null}><SearchIcon /></IconButton>
-                    <IconButton color="secondary" aria-owns={open ? 'menu-appbar' : null}><SettingsIcon /></IconButton>
-                </div>
+                <ToolbarOptions />
             </Toolbar>
         </AppBar>
     );
