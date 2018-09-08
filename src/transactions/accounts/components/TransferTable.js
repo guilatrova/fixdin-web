@@ -25,9 +25,9 @@ const TransferTable = ({ transfers, accountsNames, onEdit, onDelete }) => {
 
     return (
         <DataTable data={transfers}>
-            <DataColumn sortable field="account_from" onRender={renderAccount}>De</DataColumn>
-            <DataColumn sortable field="account_to" onRender={renderAccount}>Para</DataColumn>
-            <DataColumn sortable field="value" onRender={renderValue}>Valor</DataColumn>
+            <DataColumn sortable field="account_from" onRender={renderAccount}>DE</DataColumn>
+            <DataColumn sortable field="account_to" onRender={renderAccount}>PARA</DataColumn>
+            <DataColumn sortable field="value" onRender={renderValue}>VALOR</DataColumn>
             <DataColumn onRender={formatOptions} />
         </DataTable>
     );

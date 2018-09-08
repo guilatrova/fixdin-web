@@ -60,7 +60,7 @@ const AccountTable = ({ classes, accounts, onEdit, onTransfer }) => {
 
     return (
         <DataTable data={accounts} initialOrderBy="name">
-            <DataColumn sortable field="name">NOME</DataColumn>
+            <DataColumn sortable field="name">CONTA</DataColumn>
             <DataColumn sortable field="current_balance" onRender={renderBalance}>SALDO</DataColumn>
             <DataColumn numeric onRender={formatOptions} />
         </DataTable>

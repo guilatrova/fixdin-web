@@ -40,7 +40,7 @@ class AccountTableContainer extends React.Component {
                 selectedTab={tab}
                 onTabChange={this.handleTabChange}
                 tabs={["Ativas", "Arquivadas", "Todas"]}
-                title="RELAÇÃO DE CONTAS"
+                title="CONTAS"
                 actions={actions}
             >
 

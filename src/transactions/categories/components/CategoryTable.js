@@ -41,7 +41,7 @@ const CategoryTable = ({ classes, categories, onEdit, onDelete }) => {
                 </OptionButton>
 
                 <OptionButton icon={deleteIconSrc} onClick={() => onDelete(category.id)}>
-                    Deletar
+                    Excluir
                 </OptionButton>
             </div>
         );
@@ -53,8 +53,8 @@ const CategoryTable = ({ classes, categories, onEdit, onDelete }) => {
 
     return (
         <DataTable data={categories} initialOrderBy="name">
-            <DataColumn sortable field="kind" onRender={renderKind}>Tipo</DataColumn>
-            <DataColumn sortable field="name">Nome</DataColumn>
+            <DataColumn sortable field="kind" onRender={renderKind}>TIPO</DataColumn>
+            <DataColumn sortable field="name">NOME</DataColumn>
             <DataColumn numeric onRender={formatOptions} />
         </DataTable>
     );
