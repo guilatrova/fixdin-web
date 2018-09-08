@@ -271,6 +271,7 @@ class TransactionForm extends React.Component {
 
                 <DialogActions>
                     <Actions
+                        classes={classes}
                         disabled={disabled}
                         periodic={isPeriodic}
                         onClick={onClickAction}
