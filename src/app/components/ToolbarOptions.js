@@ -31,7 +31,6 @@ const ToolbarOptions = ({ classes }) => {
 };
 
 ToolbarOptions.propTypes = {
-    open: PropTypes.bool.isRequired,
     classes: PropTypes.object.isRequired
 };
 

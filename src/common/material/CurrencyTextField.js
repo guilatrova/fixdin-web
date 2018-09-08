@@ -70,4 +70,4 @@ class CurrencyTextField extends React.Component {
 	}
 }
 
-export default withStyles()(CurrencyTextField);
+export default withStyles({})(CurrencyTextField);
