@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 import blue from '@material-ui/core/colors/blue';
@@ -20,6 +19,7 @@ import {
 } from './filters';
 import { sort, sortMoment } from './../../../utils/sorts';
 import { DataTable, DataColumn } from './../../../common/material/DataTable';
+import IconOptionButton from './../../../common/components/IconOptionButton';
 import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
 import { formatCurrencyDisplay } from '../../../utils/formatters';
@@ -41,9 +41,6 @@ const styles = {
     cell: {
         whiteSpace: 'nowrap',
     },
-    optionsWrapper: {
-        display: 'flex',
-    },
     greenColor: {
         color: green['A700'],
     },
@@ -60,14 +57,6 @@ const styles = {
         maxWidth: 30,
         maxHeight: 30,
         marginRight: 5
-    },
-    optionButton: {
-        width: 30,
-        height: 30
-    },
-    optionIcon: {
-        maxWidth: 15,
-        maxHeight: 15
     }
 };
 
@@ -103,24 +92,17 @@ class TransactionTable extends React.Component {
     }
 
     formatOptions = (transaction) => {
-        const { onEdit, onDelete, onCopy, classes } = this.props;
         if (specifications.isTransfer(transaction))
             return null;
 
-        /* eslint-disable react/prop-types */
-        const IconOptionButton = ({ onClick, icon }) => {
-            return (
-                <IconButton onClick={() => onClick(transaction.id)} className={classes.optionButton}>
-                    <img src={icon} className={classes.optionIcon} />
-                </IconButton>
-            );
-        };
+        const { onEdit, onDelete, onCopy } = this.props;
+        const wrapFuncWithTransaction = func => () => func(transaction.id);
 
         return (
-            <div className={classes.optionsWrapper}>
-                <IconOptionButton onClick={onEdit} icon={editIconSrc} />
-                <IconOptionButton onClick={onCopy} icon={copyIconSrc} />
-                <IconOptionButton onClick={onDelete} icon={deleteIconSrc} />
+            <div>
+                <IconOptionButton onClick={wrapFuncWithTransaction(onEdit)} src={editIconSrc} />
+                <IconOptionButton onClick={wrapFuncWithTransaction(onCopy)} src={copyIconSrc} />
+                <IconOptionButton onClick={wrapFuncWithTransaction(onDelete)} src={deleteIconSrc} />
             </div>
         );
     }
