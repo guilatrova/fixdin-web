@@ -45,10 +45,10 @@ const ActionableTableBar = ({ selectedTab, tabs, title, actions, onTabChange, cl
                 {title}
             </Typography>
 
-            <Tabs value={selectedTab} onChange={onTabChange} className={classes.tabsContainer}>
+            {tabs && <Tabs value={selectedTab} onChange={onTabChange} className={classes.tabsContainer}>
                 {tabs.map((tab, idx) =>
                     <Tab key={idx} label={tab} {...tabClasses} />)}
-            </Tabs>
+            </Tabs>}
 
             <div className={classes.buttonsContainer}>
                 {actions.map((action, idx) =>
@@ -60,10 +60,10 @@ const ActionableTableBar = ({ selectedTab, tabs, title, actions, onTabChange, cl
 
 ActionableTableBar.propTypes = {
     classes: PropTypes.object.isRequired,
-    tabs: PropTypes.array.isRequired,
-    selectedTab: PropTypes.number.isRequired,
-    onTabChange: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
+    tabs: PropTypes.array,
+    selectedTab: PropTypes.number,
+    onTabChange: PropTypes.func,
     actions: PropTypes.arrayOf(PropTypes.shape({
         onClick: PropTypes.func.isRequired,
         icon: PropTypes.node.isRequired

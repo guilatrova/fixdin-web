@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { selectors, operations } from '../duck';
 import Paper from '@material-ui/core/Paper';
-import TransferTable from '../components/TransferTable';
+import TransferTable from './TransferTableContainer';
 import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
 
 const styles = theme => ({
     root: {
-      flexGrow: 1,
-      marginTop: 30,
-      overflowX: 'auto',
+        flexGrow: 1,
+        marginTop: 30,
+        overflowX: 'auto',
     },
     paper: {
         width: '100%',
@@ -45,11 +45,11 @@ class TransferPage extends React.Component {
     handleDelete = (toDeleteId) => this.setState({ openDeleteDialog: true, toDeleteId });
 
     handleCloseDeleteDialog = () => this.setState({ openDeleteDialog: false, toDeleteId: undefined });
-    
+
     handleConfirmDelete = () => {
         const { toDeleteId } = this.state;
         const { onDelete } = this.props;
-        onDelete(toDeleteId).then(({result}) => {
+        onDelete(toDeleteId).then(({ result }) => {
             if (result == 'success') {
                 this.handleCloseDeleteDialog();
             }
@@ -62,16 +62,16 @@ class TransferPage extends React.Component {
         return (
             <div className={classes.root}>
                 <Paper>
-                    <TransferTable 
+                    <TransferTable
                         transfers={transfers}
                         accountsNames={accountsNames}
-                        onEdit={() => {}}
+                        onEdit={() => { }}
                         onDelete={this.handleDelete} />
                 </Paper>
 
                 <ConfirmDeleteDialog
-                    open={this.state.openDeleteDialog} 
-                    onClose={this.handleCloseDeleteDialog} 
+                    open={this.state.openDeleteDialog}
+                    onClose={this.handleCloseDeleteDialog}
                     onConfirm={this.handleConfirmDelete}
                     error={errors.detail} >
 

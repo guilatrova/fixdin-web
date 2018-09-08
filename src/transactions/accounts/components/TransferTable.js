@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/ModeEdit';
-import MenuItem from '@material-ui/core/MenuItem';
-
 import { DataTable, DataColumn } from './../../../common/material/DataTable';
 import { formatCurrencyDisplay } from '../../../utils/formatters';
-import CollapsibleMenu from './../../../common/material/CollapsibleMenu';
+
+import editIconSrc from '../../../styles/icons/editIcon.png';
+import deleteIconSrc from '../../../styles/icons/garbageIcon.png';
+import IconOptionButton from '../../../common/components/IconOptionButton';
 
 const TransferTable = ({ transfers, accountsNames, onEdit, onDelete }) => {
     const formatOptions = (transfer) => {
         return (
-            <CollapsibleMenu>
-                <MenuItem onClick={() => onEdit(transfer.id)}><EditIcon /> Editar</MenuItem>
-                <MenuItem onClick={() => onDelete(transfer.id)}><DeleteIcon /> Deletar</MenuItem>
-            </CollapsibleMenu>
+            <div>
+                <IconOptionButton onClick={() => onEdit(transfer.id)} src={editIconSrc} />
+                <IconOptionButton onClick={() => onDelete(transfer.id)} src={deleteIconSrc} />
+            </div>
         );
     };
 
