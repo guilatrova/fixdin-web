@@ -15,6 +15,7 @@ import ValuesByCategoryPieChartContainer from './../../reports/containers/Values
 import { EXPENSE, INCOME } from './../../transactions/shared/kinds';
 import TransactionList from './../../transactions/transactions/components/TransactionList';
 import { formatCurrencyDisplay, formatDate } from '../../utils/formatters';
+import CustomChart from '../../charts/CustomChart';
 
 const endOfMonth = formatDate(moment().endOf('month'));
 
@@ -52,6 +53,10 @@ class DashboardPage extends React.Component {
 
         return (
             <div className={classes.root}>
+                <Grid container spacing={24}>
+                    <CustomChart />
+                </Grid>
+
                 <Grid container spacing={24}>
 
                     <Grid item xs={6} md={3}>
