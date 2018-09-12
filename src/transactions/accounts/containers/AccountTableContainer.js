@@ -6,12 +6,12 @@ import AddIcon from '@material-ui/icons/Add';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import { selectors } from '../duck';
+import { ACTIVE_STATUS, ARCHIVED_STATUS } from '../status';
 import AccountTable from '../components/AccountTable';
 import ActionableTableWrapper from '../../../common/components/ActionableTableWrapper';
 
 const ACTIVE_TAB = 0;
-// const ARCHIVED_TAB = 1;
-// const ALL_TAB = 2;
+const ARCHIVED_TAB = 1;
 
 class AccountTableContainer extends React.Component {
     static propTypes = {
@@ -27,8 +27,16 @@ class AccountTableContainer extends React.Component {
     handleTabChange = (e, value) => this.setState({ tab: value });
 
     render() {
-        const { onAdd, onRefresh, ...props } = this.props;
+        const { onAdd, onRefresh, accounts, ...props } = this.props;
         const { tab } = this.state;
+
+        let shownAccounts = accounts;
+        if (tab == ACTIVE_TAB) {
+            shownAccounts = accounts.filter(a => a.status == ACTIVE_STATUS);
+        }
+        else if (tab == ARCHIVED_TAB) {
+            shownAccounts = accounts.filter(a => a.status == ARCHIVED_STATUS);
+        }
 
         const actions = [
             { onClick: onAdd, icon: <AddIcon /> },
@@ -44,7 +52,7 @@ class AccountTableContainer extends React.Component {
                 actions={actions}
             >
 
-                <AccountTable {...props} />
+                <AccountTable accounts={shownAccounts} {...props} />
 
             </ActionableTableWrapper>
         );
