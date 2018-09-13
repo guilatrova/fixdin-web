@@ -1,8 +1,11 @@
 import commonSelectors from '../../../common/duck/selectors';
+import { ACTIVE_STATUS } from '../status';
 
 const isFetching = (state, type) => commonSelectors.isFetching(state.accounts, type);
 
 const getAccounts = (state) => state.accounts.accounts;
+
+const getActiveAccounts = (state) => state.accounts.accounts.filter(account => account.status == ACTIVE_STATUS);
 
 const getAccount = (state, id) => getAccounts(state).find(account => account.id == id);
 
@@ -22,6 +25,7 @@ const getAccountsNamesMappedById = (state) => getAccounts(state).reduce((prev, a
 
 export default {
     getAccounts,
+    getActiveAccounts,
     getAccount,
     getErrors,
     isFetching,

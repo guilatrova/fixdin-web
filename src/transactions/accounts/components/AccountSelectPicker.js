@@ -51,7 +51,7 @@ class AccountSelectPicker extends React.Component {
 
 const mapStateToProps = (state) => ({
     isFetching: selectors.isFetching(state),
-    accounts: selectors.getAccounts(state)
+    accounts: selectors.getActiveAccounts(state)
 });
 
 export default connect(mapStateToProps)(AccountSelectPicker);
