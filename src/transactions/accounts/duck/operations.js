@@ -1,14 +1,13 @@
 import actions from './actions';
 import { Operation, DeleteOperation } from './../../../common/duck/operations';
+import { ARCHIVED_STATUS } from '../status';
 
 class FetchAccountsOperation extends Operation {
     constructor() {
         super(actions.fetchAccounts, actions.receiveAccounts);
     }
 
-    getApiPromise(api) {
-        return api.get(`accounts/`);
-    }
+    getApiPromise = api => api.get(`accounts/`);
 }
 
 class SaveAccountOperation extends Operation {
@@ -24,6 +23,19 @@ class SaveAccountOperation extends Operation {
             return api.put(`accounts/${id}`, account);
 
         return api.post(`accounts/`, account);
+    }
+}
+
+class ArchiveAccountOperation extends Operation {
+    constructor(id, account) {
+        super(actions.requestArchiveAccount, actions.receiveArchiveAccount);
+        this.id = id;
+        this.account = account;
+    }
+
+    getApiPromise(api) {
+        const { id } = this;
+        return api.patch(`accounts/${id}`, { status: ARCHIVED_STATUS });
     }
 }
 
@@ -49,7 +61,7 @@ class SaveTransferOperation extends Operation {
         };
 
         return api.post(`accounts/transfers`, transfer);
-    }    
+    }
 }
 
 class FetchTransfersOperation extends Operation {
@@ -80,6 +92,7 @@ const editAccount = actions.editAccount;
 const finishEditAccount = actions.finishEditAccount;
 const fetchAccounts = () => new FetchAccountsOperation().dispatch();
 const saveAccount = (id, account) => new SaveAccountOperation(id, account).dispatch();
+const archiveAccount = (id, account) => new ArchiveAccountOperation(id, account).dispatch();
 const saveTransfer = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
 const fetchTransfers = (accountId = "") => new FetchTransfersOperation(accountId).dispatch();
 const deleteTransfer = (id) => new DeleteTransferOperation(id).dispatch();
@@ -87,6 +100,7 @@ const deleteTransfer = (id) => new DeleteTransferOperation(id).dispatch();
 export default {
     fetchAccounts,
     saveAccount,
+    archiveAccount,
     editAccount,
     finishEditAccount,
     fetchTransfers,

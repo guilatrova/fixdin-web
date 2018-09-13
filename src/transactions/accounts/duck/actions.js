@@ -33,7 +33,7 @@ function requestSaveAccount() {
 function receiveSaveAccount(result, data) {
     if (result === 'success') {
         return {
-            type: types.SAVE_ACCOUNT,            
+            type: types.SAVE_ACCOUNT,
             result,
             account: data
         };
@@ -41,6 +41,29 @@ function receiveSaveAccount(result, data) {
 
     return {
         type: types.SAVE_ACCOUNT,
+        result,
+        errors: data
+    };
+}
+
+//ARCHIVE
+function requestArchiveAccount() {
+    return {
+        type: types.ARCHIVE_ACCOUNT
+    };
+}
+
+function receiveArchiveAccount(result, data) {
+    if (result === 'success') {
+        return {
+            type: types.ARCHIVE_ACCOUNT,
+            result,
+            account: data
+        };
+    }
+
+    return {
+        type: types.ARCHIVE_ACCOUNT,
         result,
         errors: data
     };
@@ -74,7 +97,7 @@ function receiveSaveTransfer(result, data) {
 
 function fetchTransfers() {
     return {
-        type: types.FETCH_TRANSFERS        
+        type: types.FETCH_TRANSFERS
     };
 }
 
@@ -137,6 +160,9 @@ export default {
 
     requestSaveAccount,
     receiveSaveAccount,
+
+    requestArchiveAccount,
+    receiveArchiveAccount,
 
     fetchTransfers,
     receiveTransfers,

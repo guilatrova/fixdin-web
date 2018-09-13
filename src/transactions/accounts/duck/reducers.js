@@ -53,7 +53,7 @@ function saveReducer(state, itemKey, action) {
 }
 
 function fetchReducer(state, key, action) {
-    switch(action.result) {
+    switch (action.result) {
         case 'success': {
             return {
                 ...state,
@@ -78,7 +78,7 @@ function fetchReducer(state, key, action) {
 }
 
 function deleteTransferReducer(state, action) {
-    switch(action.result) {
+    switch (action.result) {
         case 'success':
             return {
                 ...state,
@@ -101,17 +101,20 @@ function deleteTransferReducer(state, action) {
     }
 }
 
-export default function reducer(state = initialState, action) {    
+export default function reducer(state = initialState, action) {
     switch (action.type) {
         case types.SAVE_ACCOUNT:
             return saveReducer(state, 'account', action);
-        
+
+        case types.ARCHIVE_ACCOUNT:
+            return saveReducer(state, 'account', action);
+
         case types.SAVE_TRANSFER:
             return saveReducer(state, 'transfer', action);
 
         case types.FETCH_ACCOUNTS:
             return fetchReducer(state, 'accounts', action);
-            
+
         case types.FETCH_TRANSFERS:
             return fetchReducer(state, 'transfers', action);
 
