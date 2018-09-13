@@ -38,6 +38,7 @@ class AccountPage extends React.Component {
         onDelete: PropTypes.func.isRequired,
         onTransfer: PropTypes.func.isRequired,
         onFinishEdit: PropTypes.func.isRequired,
+        onClearErrors: PropTypes.func.isRequired
     };
 
     state = {
@@ -98,6 +99,7 @@ class AccountPage extends React.Component {
     }
 
     handleHideDeleteModal = () => {
+        this.props.onClearErrors();
         this.setState({
             openDeleteDialog: false,
             toDeleteId: undefined,
@@ -167,6 +169,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    onClearErrors: () => dispatch(operations.clearErrors()),
     onFetch: (timeout) => dispatch(operations.fetchAccounts(timeout)),
     onEdit: (id) => dispatch(operations.editAccount(id)),
     onArchive: (id, reverse) => dispatch(operations.archiveAccount(id, reverse)),

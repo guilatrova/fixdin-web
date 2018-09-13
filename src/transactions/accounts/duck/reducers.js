@@ -160,6 +160,12 @@ export default function reducer(state = initialState, action) {
                 editingAccount: {}
             };
 
+        case types.CLEAR_ERRORS:
+            return {
+                ...state,
+                errors: {}
+            };
+
         default:
             return state;
     }

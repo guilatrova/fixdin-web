@@ -1,13 +1,11 @@
 import types from './types';
 
 //FETCH
-function fetchAccounts() {
-    return {
-        type: types.FETCH_ACCOUNTS
-    };
-}
+const fetchAccounts = () => ({
+    type: types.FETCH_ACCOUNTS
+});
 
-function receiveAccounts(result, data) {
+const receiveAccounts = (result, data) => {
     if (result === 'success') {
         return {
             type: types.FETCH_ACCOUNTS,
@@ -21,16 +19,14 @@ function receiveAccounts(result, data) {
         result,
         errors: data
     };
-}
+};
 
 //SAVE
-function requestSaveAccount() {
-    return {
-        type: types.SAVE_ACCOUNT
-    };
-}
+const requestSaveAccount = () => ({
+    type: types.SAVE_ACCOUNT
+});
 
-function receiveSaveAccount(result, data) {
+const receiveSaveAccount = (result, data) => {
     if (result === 'success') {
         return {
             type: types.SAVE_ACCOUNT,
@@ -44,16 +40,14 @@ function receiveSaveAccount(result, data) {
         result,
         errors: data
     };
-}
+};
 
 //ARCHIVE
-function requestArchiveAccount() {
-    return {
-        type: types.ARCHIVE_ACCOUNT
-    };
-}
+const requestArchiveAccount = () => ({
+    type: types.ARCHIVE_ACCOUNT
+});
 
-function receiveArchiveAccount(result, data) {
+const receiveArchiveAccount = (result, data) => {
     if (result === 'success') {
         return {
             type: types.ARCHIVE_ACCOUNT,
@@ -67,17 +61,15 @@ function receiveArchiveAccount(result, data) {
         result,
         errors: data
     };
-}
+};
 
 //DELETE
-function deleteAccount(id) {
-    return {
-        type: types.DELETE_ACCOUNT,
-        id
-    };
-}
+const deleteAccount = (id) => ({
+    type: types.DELETE_ACCOUNT,
+    id
+});
 
-function receiveDeleteAccount(id, result, errors) {
+const receiveDeleteAccount = (id, result, errors) => {
     if (result === 'success') {
         return {
             type: types.DELETE_ACCOUNT,
@@ -91,20 +83,18 @@ function receiveDeleteAccount(id, result, errors) {
         result,
         errors
     };
-}
+};
 
 
 //TRANSFER
-function saveTransfer(value, from, to) {
-    return {
-        type: types.SAVE_TRANSFER,
-        value,
-        from,
-        to
-    };
-}
+const saveTransfer = (value, from, to) => ({
+    type: types.SAVE_TRANSFER,
+    value,
+    from,
+    to
+});
 
-function receiveSaveTransfer(result, data) {
+const receiveSaveTransfer = (result, data) => {
     if (result === 'success') {
         return {
             type: types.SAVE_TRANSFER,
@@ -118,15 +108,13 @@ function receiveSaveTransfer(result, data) {
         result,
         errors: data
     };
-}
+};
 
-function fetchTransfers() {
-    return {
-        type: types.FETCH_TRANSFERS
-    };
-}
+const fetchTransfers = () => ({
+    type: types.FETCH_TRANSFERS
+});
 
-function receiveTransfers(result, data) {
+const receiveTransfers = (result, data) => {
     if (result === 'success') {
         return {
             type: types.FETCH_TRANSFERS,
@@ -140,16 +128,14 @@ function receiveTransfers(result, data) {
         result,
         errors: data
     };
-}
+};
 
-function deleteTransfer(id) {
-    return {
-        type: types.DELETE_TRANSFER,
-        id
-    };
-}
+const deleteTransfer = (id) => ({
+    type: types.DELETE_TRANSFER,
+    id
+});
 
-function receiveDeleteTransfer(id, result, errors) {
+const receiveDeleteTransfer = (id, result, errors) => {
     if (result === 'success') {
         return {
             type: types.DELETE_TRANSFER,
@@ -163,21 +149,21 @@ function receiveDeleteTransfer(id, result, errors) {
         result,
         errors
     };
-}
+};
 
 //EDIT
-function editAccount(id) {
-    return {
-        type: types.EDIT_ACCOUNT,
-        id
-    };
-}
+const editAccount = (id) => ({
+    type: types.EDIT_ACCOUNT,
+    id
+});
 
-function finishEditAccount() {
-    return {
-        type: types.FINISH_EDIT_ACCOUNT
-    };
-}
+const finishEditAccount = () => ({
+    type: types.FINISH_EDIT_ACCOUNT
+});
+
+const clearErrors = () => ({
+    type: types.CLEAR_ERRORS
+});
 
 export default {
     fetchAccounts,
@@ -202,5 +188,7 @@ export default {
     receiveDeleteTransfer,
 
     editAccount,
-    finishEditAccount
+    finishEditAccount,
+
+    clearErrors
 };
