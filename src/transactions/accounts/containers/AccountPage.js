@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 
 import AccountFormDialogContainer from './AccountFormDialogContainer';
 import TransferFormDialog from './TransferFormDialog';
+import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
 import AccountTable from './AccountTableContainer';
 import { operations, selectors } from '../duck';
 import { ARCHIVED_STATUS } from '../status';
@@ -34,13 +35,15 @@ class AccountPage extends React.Component {
         onFetch: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
         onArchive: PropTypes.func.isRequired,
+        onDelete: PropTypes.func.isRequired,
         onTransfer: PropTypes.func.isRequired,
         onFinishEdit: PropTypes.func.isRequired,
     };
 
     state = {
         openAccountFormDialog: false,
-        openTransferFormDialog: false
+        openTransferFormDialog: false,
+        openDeleteDialog: false
     };
 
     componentDidMount = () => this.props.onFetch();
@@ -79,6 +82,28 @@ class AccountPage extends React.Component {
         this.props.onArchive(id, reverse);
     }
 
+    handleDelete = (id) => {
+        this.setState({
+            openDeleteDialog: true,
+            toDeleteId: id,
+        });
+    }
+
+    handleConfirmDelete = () => {
+        this.props.onDelete(this.state.toDeleteId).then(({ result }) => {
+            if (result == 'success') {
+                this.handleHideDeleteModal();
+            }
+        });
+    }
+
+    handleHideDeleteModal = () => {
+        this.setState({
+            openDeleteDialog: false,
+            toDeleteId: undefined,
+        });
+    }
+
     handleTransfer = (transferringFromAccountId) => {
         const transferringFromAccount = this.props.accounts
             .find(acc => acc.id == transferringFromAccountId);
@@ -100,6 +125,7 @@ class AccountPage extends React.Component {
                         onArchive={this.handleArchive}
                         onRefresh={this.handleRefresh}
                         onEdit={this.handleEdit}
+                        onDelete={this.handleDelete}
                         onTransfer={this.handleTransfer}
                     />
 
@@ -120,6 +146,15 @@ class AccountPage extends React.Component {
                     isFetching={isFetching}
                 />
 
+                <ConfirmDeleteDialog
+                    open={this.state.openDeleteDialog}
+                    onClose={this.handleHideDeleteModal}
+                    onConfirm={this.handleConfirmDelete}
+                    error={this.props.errors['detail']}>
+
+                    Tem certeza que deseja deletar esta conta?
+                </ConfirmDeleteDialog>
+
             </div>
         );
     }
@@ -135,6 +170,7 @@ const mapDispatchToProps = (dispatch) => ({
     onFetch: (timeout) => dispatch(operations.fetchAccounts(timeout)),
     onEdit: (id) => dispatch(operations.editAccount(id)),
     onArchive: (id, reverse) => dispatch(operations.archiveAccount(id, reverse)),
+    onDelete: (id) => dispatch(operations.deleteAccount(id)),
     onTransfer: (value, from, to) => dispatch(operations.saveTransfer(value, from, to)),
     onFinishEdit: () => dispatch(operations.finishEditAccount())
 });
