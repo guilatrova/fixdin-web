@@ -5,23 +5,23 @@ describe('accounts/duck/actions', () => {
     // let store, mock, restoreMock;
     const { itShouldDispatchSuccessFailActions, itShouldDispatchSuccessFailActionsCustom } = actionsHelpers;
 
-	beforeEach(() => {
-		// const mockHelper = mockAxios();
-		// mock = mockHelper.mock;
-		// store = mockHelper.store;
-		// restoreMock = mockHelper.restoreMock;
-	});
-
-	afterEach(() => {
-		// restoreMock();
+    beforeEach(() => {
+        // const mockHelper = mockAxios();
+        // mock = mockHelper.mock;
+        // store = mockHelper.store;
+        // restoreMock = mockHelper.restoreMock;
     });
-    
+
+    afterEach(() => {
+        // restoreMock();
+    });
+
     describe('FETCH_ACCOUNTS', () => {
         itShouldDispatchSuccessFailActions(
             operations.fetchAccounts,
             types.FETCH_ACCOUNTS,
             'accounts',
-            [ { id: 1, name: 'acc' }, { id: 2, name: 'acc2' } ]
+            [{ id: 1, name: 'acc' }, { id: 2, name: 'acc2' }]
         );
     });
 
@@ -31,6 +31,15 @@ describe('accounts/duck/actions', () => {
             types.SAVE_ACCOUNT,
             'account',
             { name: 'acc' }
+        );
+    });
+
+    describe('ARCHIVE_ACCOUNT', () => {
+        itShouldDispatchSuccessFailActions(
+            operations.archiveAccount,
+            types.ARCHIVE_ACCOUNT,
+            'account',
+            {}
         );
     });
 
@@ -53,7 +62,7 @@ describe('accounts/duck/actions', () => {
 
     describe('DELETE_TRANSFER', () => {
         const id = 1;
-        
+
         itShouldDispatchSuccessFailActionsCustom(
             () => operations.deleteTransfer(id),
             types.DELETE_TRANSFER,
