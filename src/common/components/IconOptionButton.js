@@ -6,19 +6,20 @@ import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
     optionButton: {
-        width: 30,
-        height: 30
+        width: 48,
+        height: 48
     },
     optionIcon: {
-        maxWidth: 15,
-        maxHeight: 15
+        maxWidth: 24,
+        maxHeight: 24
     }
 };
 
-const IconOptionButton = ({ classes, onClick, src }) => {
+const IconOptionButton = ({ classes, onClick, src, children, ...props }) => {
     return (
-        <IconButton onClick={onClick} className={classes.optionButton}>
-            <img src={src} className={classes.optionIcon} />
+        <IconButton onClick={onClick} className={classes.optionButton} {...props}>
+            {src && <img src={src} className={classes.optionIcon} />}
+            {children}
         </IconButton>
     );
 };
@@ -27,6 +28,7 @@ IconOptionButton.propTypes = {
     classes: PropTypes.object.isRequired,
     onClick: PropTypes.func,
     src: PropTypes.node,
+    children: PropTypes.node
 };
 
 export default withStyles(styles)(IconOptionButton);
