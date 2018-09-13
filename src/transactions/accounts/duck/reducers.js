@@ -77,6 +77,30 @@ function fetchReducer(state, key, action) {
     }
 }
 
+function deleteAccountReducer(state, action) {
+    switch (action.result) {
+        case 'success':
+            return {
+                ...state,
+                fetching: state.fetching.filter(x => x != action.type),
+                accounts: state.accounts.filter(account => account.id != action.id)
+            };
+
+        case 'fail':
+            return {
+                ...state,
+                fetching: state.fetching.filter(x => x != action.type),
+                errors: action.errors
+            };
+
+        default:
+            return {
+                ...state,
+                fetching: state.fetching.concat(action.type),
+            };
+    }
+}
+
 function deleteTransferReducer(state, action) {
     switch (action.result) {
         case 'success':
@@ -108,6 +132,9 @@ export default function reducer(state = initialState, action) {
 
         case types.ARCHIVE_ACCOUNT:
             return saveReducer(state, 'account', action);
+
+        case types.DELETE_ACCOUNT:
+            return deleteAccountReducer(state, action);
 
         case types.SAVE_TRANSFER:
             return saveReducer(state, 'transfer', action);

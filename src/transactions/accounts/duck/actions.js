@@ -69,6 +69,31 @@ function receiveArchiveAccount(result, data) {
     };
 }
 
+//DELETE
+function deleteAccount(id) {
+    return {
+        type: types.DELETE_ACCOUNT,
+        id
+    };
+}
+
+function receiveDeleteAccount(id, result, errors) {
+    if (result === 'success') {
+        return {
+            type: types.DELETE_ACCOUNT,
+            id,
+            result
+        };
+    }
+
+    return {
+        type: types.DELETE_ACCOUNT,
+        result,
+        errors
+    };
+}
+
+
 //TRANSFER
 function saveTransfer(value, from, to) {
     return {
@@ -163,6 +188,9 @@ export default {
 
     requestArchiveAccount,
     receiveArchiveAccount,
+
+    deleteAccount,
+    receiveDeleteAccount,
 
     fetchTransfers,
     receiveTransfers,
