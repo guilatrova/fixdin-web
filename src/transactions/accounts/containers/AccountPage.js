@@ -9,6 +9,7 @@ import AccountFormDialogContainer from './AccountFormDialogContainer';
 import TransferFormDialog from './TransferFormDialog';
 import AccountTable from './AccountTableContainer';
 import { operations, selectors } from '../duck';
+import { ARCHIVED_STATUS } from '../status';
 
 const styles = theme => ({
     root: {
@@ -32,6 +33,7 @@ class AccountPage extends React.Component {
 
         onFetch: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
+        onArchive: PropTypes.func.isRequired,
         onTransfer: PropTypes.func.isRequired,
         onFinishEdit: PropTypes.func.isRequired,
     };
@@ -71,6 +73,12 @@ class AccountPage extends React.Component {
         this.props.onEdit(id);
     }
 
+    handleArchive = (id) => {
+        const account = this.props.accounts.find(acc => acc.id == id);
+        const reverse = account.status == ARCHIVED_STATUS;
+        this.props.onArchive(id, reverse);
+    }
+
     handleTransfer = (transferringFromAccountId) => {
         const transferringFromAccount = this.props.accounts
             .find(acc => acc.id == transferringFromAccountId);
@@ -89,6 +97,7 @@ class AccountPage extends React.Component {
                     <AccountTable
                         accounts={accounts}
                         onAdd={this.handleOpenAccountFormDialog}
+                        onArchive={this.handleArchive}
                         onRefresh={this.handleRefresh}
                         onEdit={this.handleEdit}
                         onTransfer={this.handleTransfer}
@@ -125,6 +134,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     onFetch: (timeout) => dispatch(operations.fetchAccounts(timeout)),
     onEdit: (id) => dispatch(operations.editAccount(id)),
+    onArchive: (id, reverse) => dispatch(operations.archiveAccount(id, reverse)),
     onTransfer: (value, from, to) => dispatch(operations.saveTransfer(value, from, to)),
     onFinishEdit: () => dispatch(operations.finishEditAccount())
 });
