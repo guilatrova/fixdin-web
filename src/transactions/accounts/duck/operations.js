@@ -97,6 +97,7 @@ class DeleteTransferOperation extends DeleteOperation {
     getEndpoint = (id) => `accounts/transfers/${id}`;
 }
 
+const clearErrors = actions.clearErrors;
 const editAccount = actions.editAccount;
 const finishEditAccount = actions.finishEditAccount;
 const fetchAccounts = () => new FetchAccountsOperation().dispatch();
@@ -117,4 +118,5 @@ export default {
     fetchTransfers,
     saveTransfer,
     deleteTransfer,
+    clearErrors
 };
