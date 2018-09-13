@@ -1,6 +1,6 @@
 import actions from './actions';
 import { Operation, DeleteOperation } from './../../../common/duck/operations';
-import { ARCHIVED_STATUS } from '../status';
+import { ACTIVE_STATUS, ARCHIVED_STATUS } from '../status';
 
 class FetchAccountsOperation extends Operation {
     constructor() {
@@ -27,15 +27,16 @@ class SaveAccountOperation extends Operation {
 }
 
 class ArchiveAccountOperation extends Operation {
-    constructor(id, account) {
+    constructor(id, reverse) {
         super(actions.requestArchiveAccount, actions.receiveArchiveAccount);
         this.id = id;
-        this.account = account;
+        this.reverse = reverse;
     }
 
     getApiPromise(api) {
-        const { id } = this;
-        return api.patch(`accounts/${id}`, { status: ARCHIVED_STATUS });
+        const { id, reverse } = this;
+        const status = reverse ? ACTIVE_STATUS : ARCHIVED_STATUS;
+        return api.patch(`accounts/${id}`, { status });
     }
 }
 
@@ -92,7 +93,7 @@ const editAccount = actions.editAccount;
 const finishEditAccount = actions.finishEditAccount;
 const fetchAccounts = () => new FetchAccountsOperation().dispatch();
 const saveAccount = (id, account) => new SaveAccountOperation(id, account).dispatch();
-const archiveAccount = (id, account) => new ArchiveAccountOperation(id, account).dispatch();
+const archiveAccount = (id, reverse) => new ArchiveAccountOperation(id, reverse).dispatch();
 const saveTransfer = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
 const fetchTransfers = (accountId = "") => new FetchTransfersOperation(accountId).dispatch();
 const deleteTransfer = (id) => new DeleteTransferOperation(id).dispatch();
