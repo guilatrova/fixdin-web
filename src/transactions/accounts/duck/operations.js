@@ -40,6 +40,14 @@ class ArchiveAccountOperation extends Operation {
     }
 }
 
+class DeleteAccountOperation extends DeleteOperation {
+    constructor(id) {
+        super(actions.deleteAccount, actions.receiveDeleteAccount, id);
+    }
+
+    getEndpoint = (id) => `accounts/${id}`
+}
+
 class SaveTransferOperation extends Operation {
     constructor(value, from, to) {
         super(actions.saveTransfer, actions.receiveSaveTransfer);
@@ -94,6 +102,7 @@ const finishEditAccount = actions.finishEditAccount;
 const fetchAccounts = () => new FetchAccountsOperation().dispatch();
 const saveAccount = (id, account) => new SaveAccountOperation(id, account).dispatch();
 const archiveAccount = (id, reverse) => new ArchiveAccountOperation(id, reverse).dispatch();
+const deleteAccount = (id) => new DeleteAccountOperation(id).dispatch();
 const saveTransfer = (value, from, to) => new SaveTransferOperation(value, from, to).dispatch();
 const fetchTransfers = (accountId = "") => new FetchTransfersOperation(accountId).dispatch();
 const deleteTransfer = (id) => new DeleteTransferOperation(id).dispatch();
@@ -102,6 +111,7 @@ export default {
     fetchAccounts,
     saveAccount,
     archiveAccount,
+    deleteAccount,
     editAccount,
     finishEditAccount,
     fetchTransfers,

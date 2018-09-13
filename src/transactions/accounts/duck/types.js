@@ -1,6 +1,7 @@
 const FETCH_ACCOUNTS            = 'fixdin/accounts/FETCH_ACCOUNTS';
 const SAVE_ACCOUNT              = 'fixdin/accounts/SAVE_ACCOUNT';
 const ARCHIVE_ACCOUNT           = 'fixdin/accounts/ARCHIVE_ACCOUNT';
+const DELETE_ACCOUNT            = 'fixdin/accounts/DELETE_ACCOUNT';
 const EDIT_ACCOUNT              = "fixdin/accounts/EDIT_ACCOUNT";
 const FINISH_EDIT_ACCOUNT       = "fixdin/accounts/FINISH_EDIT_ACCOUNT";
 
@@ -15,6 +16,7 @@ export default {
     FETCH_TRANSFERS,
     SAVE_TRANSFER,
     EDIT_ACCOUNT,
+    DELETE_ACCOUNT,
     FINISH_EDIT_ACCOUNT,
     DELETE_TRANSFER
 };

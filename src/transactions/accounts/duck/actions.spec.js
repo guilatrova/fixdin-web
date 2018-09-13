@@ -43,6 +43,17 @@ describe('accounts/duck/actions', () => {
         );
     });
 
+    describe('DELETE_ACCOUNT', () => {
+        const id = 1;
+
+        itShouldDispatchSuccessFailActionsCustom(
+            () => operations.deleteAccount(id),
+            types.DELETE_ACCOUNT,
+            { id },
+            { id }
+        );
+    });
+
     describe('FETCH_TRANSFERS', () => {
         itShouldDispatchSuccessFailActions(
             operations.fetchTransfers,
