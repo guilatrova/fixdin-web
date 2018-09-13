@@ -11,9 +11,10 @@ import IconOptionButton from './../../../common/components/IconOptionButton';
 import editIconSrc from '../../../styles/icons/editIcon.png';
 import doTransferIconSrc from '../../../styles/icons/doTransferIcon.png';
 import transferIconSrc from '../../../styles/icons/transfersIcon.png';
+import deleteIconSrc from '../../../styles/icons/garbageIcon.png';
 import { ACTIVE_STATUS } from '../status';
 
-const AccountTable = ({ accounts, onEdit, onTransfer, onArchive }) => {
+const AccountTable = ({ accounts, onEdit, onTransfer, onArchive, onDelete }) => {
 
     const formatOptions = (account) => {
         return (
@@ -28,6 +29,8 @@ const AccountTable = ({ accounts, onEdit, onTransfer, onArchive }) => {
                 </IconOptionButton>
 
                 <IconOptionButton src={transferIconSrc} component={Link} to={`accounts/${account.id}/transfers`} />
+
+                <IconOptionButton onClick={() => onDelete(account.id)} src={deleteIconSrc} />
 
             </div>
         );
@@ -49,7 +52,7 @@ AccountTable.propTypes = {
     onTransfer: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onArchive: PropTypes.func.isRequired,
-    onDisable: PropTypes.func
+    onDelete: PropTypes.func.isRequired
 };
 
 export default AccountTable;
