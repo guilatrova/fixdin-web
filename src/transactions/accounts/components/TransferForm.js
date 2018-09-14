@@ -64,6 +64,7 @@ class TransferForm extends React.Component {
                         <TextField
                             fullWidth
                             readOnly
+                            disabled
                             label="De"
                             value={fromAccount.name}
                         />
@@ -72,6 +73,7 @@ class TransferForm extends React.Component {
                     <div className={classes.formRow}>
                         <AccountSelectPicker
                             label="Para"
+                            placeholder="Escolha a conta destino"
                             error={errors.toAccount}
                             value={this.state.toAccount}
                             onChange={(toAccount) => this.setState({ toAccount })}
