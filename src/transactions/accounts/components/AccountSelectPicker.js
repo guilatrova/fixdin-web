@@ -13,9 +13,14 @@ class AccountSelectPicker extends React.Component {
             PropTypes.arrayOf(PropTypes.number),
             PropTypes.number
         ]),
+        placeholder: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
         accounts: PropTypes.array.isRequired,
         isMulti: PropTypes.bool
+    }
+
+    static defaultProps = {
+        placeholder: "Escolha suas contas"
     }
 
     handleOnChange = (selected) => {
@@ -39,7 +44,6 @@ class AccountSelectPicker extends React.Component {
             <Select
                 isLoading={isFetching}
                 isDisabled={isFetching}
-                placeholder="Escolha suas contas"
                 options={options}
                 value={value}
                 onChange={this.handleOnChange}
