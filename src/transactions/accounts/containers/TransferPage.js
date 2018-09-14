@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { withStyles } from '@material-ui/core/styles';
+
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+
 import { selectors, operations } from '../duck';
 import Paper from '@material-ui/core/Paper';
 import TransferTable from './TransferTableContainer';
@@ -61,6 +65,11 @@ class TransferPage extends React.Component {
 
         return (
             <div className={classes.root}>
+                <Button variant="contained" component={Link} to={`/accounts`} >
+                    <ArrowBackIcon />
+                    Voltar
+                </Button>
+
                 <Paper>
                     <TransferTable
                         transfers={transfers}
