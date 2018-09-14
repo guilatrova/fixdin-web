@@ -72,6 +72,7 @@ class TransferForm extends React.Component {
 
                     <div className={classes.formRow}>
                         <AccountSelectPicker
+                            autoFocus
                             label="Para"
                             placeholder="Escolha a conta destino"
                             error={errors.toAccount}
