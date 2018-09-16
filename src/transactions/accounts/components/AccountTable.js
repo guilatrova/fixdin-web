@@ -41,7 +41,8 @@ const AccountTable = ({ accounts, onEdit, onTransfer, onArchive, onDelete }) => 
     return (
         <DataTable data={accounts} initialOrderBy="name">
             <DataColumn sortable field="name">CONTA</DataColumn>
-            <DataColumn sortable field="current_balance" onRender={renderBalance}>SALDO</DataColumn>
+            <DataColumn sortable numeric field="start_balance" onRender={renderBalance}>SALDO INICIAL</DataColumn>
+            <DataColumn sortable numeric field="current_balance" onRender={renderBalance}>SALDO</DataColumn>
             <DataColumn numeric onRender={formatOptions} />
         </DataTable>
     );
