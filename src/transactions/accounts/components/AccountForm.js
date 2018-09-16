@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
+import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import PrimaryButton from '../../../common/components/PrimaryButton';
 import CancelButton from '../../../common/components/CancelButton';
 import TypographyError from '../../../common/material/TypographyError';
@@ -13,6 +14,9 @@ import TextFieldError from '../../../common/material/TextFieldError';
 const styles = {
     contentWrapper: {
         marginTop: 20
+    },
+    formRow: {
+        marginBottom: 10
     }
 };
 
@@ -34,11 +38,12 @@ class AccountForm extends React.Component {
 
         this.state = {
             id: account.id || null,
-            name: account.name || ""
+            name: account.name || "",
+            start_balance: 0
         };
     }
 
-    handleSubmit = () => this.props.onSubmit(this.state.id, { name: this.state.name });
+    handleSubmit = () => this.props.onSubmit(this.state.id, { name: this.state.name, start_balance: this.state.start_balance });
 
     render() {
         const { errors, onClose, classes, account } = this.props;
@@ -60,12 +65,24 @@ class AccountForm extends React.Component {
                             {errors.detail}
                         </TypographyError>
 
-                        <TextFieldError
-                            label="Nome"
-                            error={errors.name}
-                            value={this.state.name}
-                            onChange={e => this.setState({ name: e.target.value })}
-                        />
+                        <div className={classes.formRow}>
+                            <TextFieldError
+                                autoFocus
+                                label="Nome"
+                                error={errors.name}
+                                value={this.state.name}
+                                onChange={e => this.setState({ name: e.target.value })}
+                            />
+                        </div>
+
+                        <div className={classes.formRow}>
+                            <CurrencyTextField
+                                label="Saldo inicial"
+                                error={errors.start_balance}
+                                value={this.state.start_balance}
+                                onChangeEvent={(e, maskedValue, value) => this.setState({ start_balance: value })}
+                            />
+                        </div>
                     </div>
 
                 </DialogContent>
@@ -78,7 +95,7 @@ class AccountForm extends React.Component {
                     </PrimaryButton>
                 </DialogActions>
 
-            </React.Fragment>
+            </React.Fragment >
         );
     }
 }
