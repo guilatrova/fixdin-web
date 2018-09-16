@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Button from '@material-ui/core/Button';
 
 import CurrencyTextField from '../../../common/material/CurrencyTextField';
 import PrimaryButton from '../../../common/components/PrimaryButton';
@@ -17,6 +19,9 @@ const styles = {
     },
     formRow: {
         marginBottom: 10
+    },
+    hiddenInput: {
+        display: 'none'
     }
 };
 
@@ -43,10 +48,16 @@ class AccountForm extends React.Component {
         };
     }
 
-    handleSubmit = () => this.props.onSubmit(this.state.id, { name: this.state.name, start_balance: this.state.start_balance });
+    handleSubmit = () => {
+        const { id, ...account } = this.state;
+        this.props.onSubmit(id, account);
+    }
+
+    handleFileChange = e => this.setState({ avatar: e.target.files[0] });
 
     render() {
         const { errors, onClose, classes, account } = this.props;
+        const avatarPreview = this.state.avatar ? URL.createObjectURL(this.state.avatar) : "";
 
         let disabled = true;
         if (!this.props.isFetching && this.state.name) {
@@ -64,6 +75,23 @@ class AccountForm extends React.Component {
                         <TypographyError>
                             {errors.detail}
                         </TypographyError>
+
+                        <div className={classes.formRow}>
+                            <img src={avatarPreview} />
+                            <input
+                                id="hidden-upload"
+                                type="file"
+                                accept="image/*"
+                                className={classes.hiddenInput}
+                                onChange={this.handleFileChange}
+                            />
+                            <label htmlFor="hidden-upload">
+                                <Button component="span">
+                                    <CloudUploadIcon />
+                                    Upload
+                                </Button>
+                            </label>
+                        </div>
 
                         <div className={classes.formRow}>
                             <TextFieldError

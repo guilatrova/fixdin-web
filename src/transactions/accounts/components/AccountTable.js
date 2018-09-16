@@ -13,6 +13,8 @@ import doTransferIconSrc from '../../../styles/icons/doTransferIcon.png';
 import transferIconSrc from '../../../styles/icons/transfersIcon.png';
 import deleteIconSrc from '../../../styles/icons/garbageIcon.png';
 import { ACTIVE_STATUS } from '../status';
+import AccountAvatar from './AccountAvatar';
+
 
 const AccountTable = ({ accounts, onEdit, onTransfer, onArchive, onDelete }) => {
 
@@ -38,9 +40,11 @@ const AccountTable = ({ accounts, onEdit, onTransfer, onArchive, onDelete }) => 
 
     const renderBalance = (account, balanceField) => formatCurrencyDisplay(account[balanceField]);
 
+    const renderAvatar = (account) => <AccountAvatar account={account} />;
+
     return (
         <DataTable data={accounts} initialOrderBy="name">
-            <DataColumn sortable field="name">CONTA</DataColumn>
+            <DataColumn sortable field="name" onRender={renderAvatar}>CONTA</DataColumn>
             <DataColumn sortable numeric field="start_balance" onRender={renderBalance}>SALDO INICIAL</DataColumn>
             <DataColumn sortable numeric field="current_balance" onRender={renderBalance}>SALDO</DataColumn>
             <DataColumn numeric onRender={formatOptions} />
