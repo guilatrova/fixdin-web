@@ -19,10 +19,17 @@ class SaveAccountOperation extends Operation {
 
     getApiPromise(api) {
         const { id, account } = this;
-        if (id)
-            return api.put(`accounts/${id}`, account);
+        const keys = Object.keys(account);
+        const formData = new FormData();
 
-        return api.post(`accounts/`, account);
+        for (let key of keys) {
+            formData.append(key, account[key]);
+        }
+
+        if (id)
+            return api.put(`accounts/${id}`, formData);
+
+        return api.post(`accounts/`, formData);
     }
 }
 
