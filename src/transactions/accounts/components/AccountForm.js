@@ -49,19 +49,26 @@ class AccountForm extends React.Component {
     }
 
     handleSubmit = () => {
-        const { id, ...account } = this.state;
+        // eslint-disable-next-line no-unused-vars
+        const { id, preview, avatarChanged, ...account } = this.state;
         this.props.onSubmit(id, account);
     }
 
-    handleFileChange = e => this.setState({ avatar: e.target.files[0] });
+    handleFileChange = (e) => {
+        this.setState({
+            avatar: e.target.files[0],
+            preview: URL.createObjectURL(e.target.files[0]),
+            avatarChanged: true
+        });
+    }
 
     render() {
         const { errors, onClose, classes, account } = this.props;
-        const avatarPreview = this.state.avatar ? URL.createObjectURL(this.state.avatar) : "";
 
         let disabled = true;
         if (!this.props.isFetching && this.state.name) {
-            if (this.state.name != account.name) { //If same name doesn't try to save
+            // If is all the same doesn't try to save
+            if (this.state.name != account.name || this.state.avatarChanged) {
                 disabled = false;
             }
         }
@@ -77,7 +84,7 @@ class AccountForm extends React.Component {
                         </TypographyError>
 
                         <div className={classes.formRow}>
-                            <img src={avatarPreview} />
+                            <img src={this.state.preview} />
                             <input
                                 id="hidden-upload"
                                 type="file"
