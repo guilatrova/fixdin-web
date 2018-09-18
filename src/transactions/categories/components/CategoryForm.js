@@ -72,6 +72,7 @@ class CategoryForm extends React.Component {
                     </div>
 
                     <TextFieldError
+                        autoFocus
                         label="Nome"
                         error={errors.name}
                         value={this.state.name}
