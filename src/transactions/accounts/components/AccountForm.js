@@ -44,13 +44,13 @@ class AccountForm extends React.Component {
         this.state = {
             id: account.id || null,
             name: account.name || "",
-            start_balance: 0
+            start_balance: account.start_balance
         };
     }
 
     handleSubmit = () => {
         // eslint-disable-next-line no-unused-vars
-        const { id, preview, avatarChanged, ...account } = this.state;
+        const { id, preview, ...account } = this.state;
         this.props.onSubmit(id, account);
     }
 
@@ -58,19 +58,15 @@ class AccountForm extends React.Component {
         this.setState({
             avatar: e.target.files[0],
             preview: URL.createObjectURL(e.target.files[0]),
-            avatarChanged: true
         });
     }
 
     render() {
-        const { errors, onClose, classes, account } = this.props;
+        const { errors, onClose, classes } = this.props;
 
         let disabled = true;
         if (!this.props.isFetching && this.state.name) {
-            // If is all the same doesn't try to save
-            if (this.state.name != account.name || this.state.avatarChanged) {
-                disabled = false;
-            }
+            disabled = false;
         }
 
         return (

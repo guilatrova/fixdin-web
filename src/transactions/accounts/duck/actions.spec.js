@@ -21,7 +21,7 @@ describe('accounts/duck/actions', () => {
             operations.fetchAccounts,
             types.FETCH_ACCOUNTS,
             'accounts',
-            [{ id: 1, name: 'acc' }, { id: 2, name: 'acc2' }]
+            [{ id: 1, name: 'acc', start_balance: 10 }, { id: 2, name: 'acc2', start_balance: 10 }]
         );
     });
 

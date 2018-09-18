@@ -1,4 +1,5 @@
 import types from './types';
+import formatters from '../formatters';
 
 //FETCH
 const fetchAccounts = () => ({
@@ -10,7 +11,7 @@ const receiveAccounts = (result, data) => {
         return {
             type: types.FETCH_ACCOUNTS,
             result,
-            accounts: data
+            accounts: data.map(account => formatters.formatAccountReceived(account))
         };
     }
 
@@ -31,7 +32,7 @@ const receiveSaveAccount = (result, data) => {
         return {
             type: types.SAVE_ACCOUNT,
             result,
-            account: data
+            account: formatters.formatAccountReceived(data)
         };
     }
 
