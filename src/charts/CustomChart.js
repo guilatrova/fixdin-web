@@ -11,28 +11,36 @@ const CustomChart = (props) => {
             <svg viewBox="0 0 400 400" width="100%" height="100%">
                 <VictoryPie
                     standalone={false}
-                    animate={{ duration: 1000 }}
-                    width={400} height={400}
                     data={data}
-                    innerRadius={180}
-                    labels={() => null}
+                    animate={{ duration: 1000 }}
+                    width={400}
+                    height={400}
+                    innerRadius={140}
+                    padAngle={3}
+                    labels={d => d.y}
+                    labelRadius={190}
                     style={{
                         data: {
                             fill: (d) => {
                                 const color = d.y > 30 ? "green" : "red";
                                 return d.x === 1 ? color : "blue";
+                            },
+                            stroke: "blue",
+                            strokeWidth: (d) => {
+                                return d.x === 2 ? 10 : 0;
                             }
                         }
                     }}
                 />
+
                 <VictoryAnimation duration={1000} data={data}>
                     {() => {
                         return (
-                            <VictoryLabel
+                            <VictoryLabel inline
                                 textAnchor="middle" verticalAnchor="middle"
+                                text={["R$", "10.500,00"]}
                                 x={200} y={200}
-                                text={"R$ 10.500,00"}
-                                style={{ fontSize: 45 }}
+                                style={[{ fontSize: 20 }, { fontSize: 45 }]}
                             />
                         );
                     }}
