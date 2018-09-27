@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import BalanceSimpleTable from '../../../balances/components/BalanceSimpleTable';
 import CompleteAccountsTable from '../../accounts/components/CompleteAccountsTable';
+import TransactionsDonutChart from '../../../charts/TransactionsDonutChart';
 import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
 
@@ -14,7 +15,11 @@ const styles = {
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         alignItems: 'stretch',
-        alignContent: 'stretch'
+        alignContent: 'stretch',
+    },
+    chartWrapper: {
+        height: 220,
+        maxHeight: 220
     },
     balancesTable: {
         flex: 1
@@ -29,12 +34,14 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
     return (
         <div className={classes.root}>
             <div className={classes.balancesTable}>
-                <BalanceSimpleTable
-                    period={period}
-                    incomes={totalIncomes}
-                    expenses={totalExpenses}
-                    total={total}
-                />
+                <div className={classes.chartWrapper}>
+                    <TransactionsDonutChart
+                        period={period}
+                        incomes={totalIncomes}
+                        expenses={totalExpenses}
+                        total={total}
+                    />
+                </div>
             </div>
 
             <div className={classes.accountsTable}>

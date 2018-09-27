@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { VictoryPie, VictoryAnimation, VictoryLabel } from 'victory';
+import { formatCurrencyDisplay } from '../utils/formatters';
 
 const EXPENSES_STYLE = {
     index: 1,
@@ -19,12 +20,15 @@ const INCOMES_STYLE = {
     text: "INCOME"
 };
 
-const data = [
-    { x: EXPENSES_STYLE.index, y: 25, ...EXPENSES_STYLE },
-    { x: INCOMES_STYLE.index, y: 100 - 25, ...INCOMES_STYLE }
-];
 
-const TransactionsDonutChart = (props) => {
+
+const TransactionsDonutChart = ({ incomes, expenses, total, height, width }) => {
+
+    const data = [
+        { x: EXPENSES_STYLE.index, y: -expenses, ...EXPENSES_STYLE },
+        { x: INCOMES_STYLE.index, y: incomes, ...INCOMES_STYLE }
+    ];
+
     return (
         <div>
             <svg viewBox="0 0 400 400" width="100%" height="100%">
@@ -35,7 +39,7 @@ const TransactionsDonutChart = (props) => {
                     animate={{ duration: 1000 }}
                     width={400} height={400}
                     innerRadius={140} labelRadius={190}
-                    labels={d => `${d.text}: ${d.y}`}
+                    labels={d => formatCurrencyDisplay(d.y)}
                     style={{
                         data: {
                             fill: (d) => d.fill,
@@ -54,7 +58,7 @@ const TransactionsDonutChart = (props) => {
                         return (
                             <VictoryLabel inline
                                 textAnchor="middle" verticalAnchor="middle"
-                                text={["R$", " 10.500,00"]}
+                                text={["R$", formatCurrencyDisplay(total, false)]}
                                 x={200} y={220}
                                 style={[{ fontSize: 20 }, { fontSize: 40 }]}
                             />
@@ -67,7 +71,8 @@ const TransactionsDonutChart = (props) => {
 };
 
 TransactionsDonutChart.propTypes = {
-    data: PropTypes.object
+    data: PropTypes.object,
+
 };
 
 export default TransactionsDonutChart;
