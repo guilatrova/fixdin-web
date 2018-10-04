@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
-import BalanceSimpleTable from '../../../balances/components/BalanceSimpleTable';
 import CompleteAccountsTable from '../../accounts/components/CompleteAccountsTable';
 import TransactionsDonutChart from '../../../charts/TransactionsDonutChart';
 import { selectors } from '../duck';
