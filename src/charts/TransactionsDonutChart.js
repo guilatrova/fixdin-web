@@ -20,25 +20,35 @@ const INCOMES_STYLE = {
     text: "INCOME"
 };
 
+const duration = 1500;
 
-
-const TransactionsDonutChart = ({ incomes, expenses, total, height, width }) => {
+const TransactionsDonutChart = ({ incomes, expenses, total }) => {
 
     const data = [
         { x: EXPENSES_STYLE.index, y: -expenses, ...EXPENSES_STYLE },
         { x: INCOMES_STYLE.index, y: incomes, ...INCOMES_STYLE }
     ];
+    const totalData = [
+        ...data,
+        { x: 3, y: total }
+    ];
+
+    let totalValue = total;
+    if (totalValue < 0) {
+        totalValue = -totalValue;
+    }
+    const totalDisplay = formatCurrencyDisplay(totalValue, false);
 
     return (
         <div>
-            <svg viewBox="0 0 400 400" width="100%" height="100%">
+            <svg viewBox="0 0 550 400">
                 <VictoryPie
                     standalone={false}
                     data={data}
                     startAngle={-15}
-                    animate={{ duration: 1000 }}
+                    animate={{ duration: duration }}
                     width={400} height={400}
-                    innerRadius={140} labelRadius={190}
+                    innerRadius={140} labelRadius={170}
                     labels={d => formatCurrencyDisplay(d.y)}
                     style={{
                         data: {
@@ -53,12 +63,12 @@ const TransactionsDonutChart = ({ incomes, expenses, total, height, width }) => 
                     }}
                 />
 
-                <VictoryAnimation duration={1000} data={data}>
+                <VictoryAnimation duration={duration} data={totalData}>
                     {() => {
                         return (
                             <VictoryLabel inline
                                 textAnchor="middle" verticalAnchor="middle"
-                                text={["R$", formatCurrencyDisplay(total, false)]}
+                                text={["R$", totalDisplay]}
                                 x={200} y={220}
                                 style={[{ fontSize: 20 }, { fontSize: 40 }]}
                             />
@@ -72,7 +82,9 @@ const TransactionsDonutChart = ({ incomes, expenses, total, height, width }) => 
 
 TransactionsDonutChart.propTypes = {
     data: PropTypes.object,
-
+    incomes: PropTypes.number,
+    expenses: PropTypes.number,
+    total: PropTypes.number
 };
 
 export default TransactionsDonutChart;

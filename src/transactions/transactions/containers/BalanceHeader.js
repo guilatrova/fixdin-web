@@ -40,6 +40,8 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
                         incomes={totalIncomes}
                         expenses={totalExpenses}
                         total={total}
+                        height={200}
+                        width={200}
                     />
                 </div>
             </div>
