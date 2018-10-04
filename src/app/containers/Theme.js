@@ -30,11 +30,17 @@ const theme = createMuiTheme({
     mixins: {
         orangeButton: {
             background: "#f95023",
-            color: "#fff"
+            color: "#fff",
+            "&:hover": {
+                background: "#981192",
+            }
         },
         fab: {
             background: "#f95023",
-            color: "#fff"
+            color: "#fff",
+            "&:hover": {
+                background: "#981192",
+            }
         }
     },
     overrides: {
