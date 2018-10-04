@@ -22,6 +22,7 @@ const styles = theme => ({
         height: '100%',
     },
     content: {
+        boxSizing: "border-box",
         width: '100%',
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
@@ -31,13 +32,7 @@ const styles = theme => ({
         }),
         height: 'calc(100% - 56px)',
         marginTop: 56,
-        padding: 30,
-        [theme.breakpoints.up('sm')]: {
-            content: {
-                height: 'calc(100% - 64px)',
-                marginTop: 64,
-            },
-        },
+        padding: 30
     },
     'content-left': {
         marginLeft: -drawerWidth,
