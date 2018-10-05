@@ -154,7 +154,7 @@ class TransactionForm extends React.Component {
                         <KindSwitch value={this.state.kind} onChange={this.handleKindChange} />
 
                         <CurrencyTextField
-                            id="value"
+                            autoFocus
                             label="Valor"
                             error={errors.value}
                             value={this.state.value}
