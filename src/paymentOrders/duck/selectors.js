@@ -1,5 +1,6 @@
 import commonSelectors from '../../common/duck/selectors';
-import { selectors as transactionsSelectors } from '../../transactions/transactions/duck';
+import { selectors as balanceSelectors } from '../../balances/duck';
+import formatters from '../formatters';
 
 const getPeriod = (state) => state.paymentOrders.period;
 const getChecked = (state) => state.paymentOrders.checked;
@@ -12,8 +13,8 @@ const isFetching = (state, type) => commonSelectors.isFetching(state.accounts, t
 
 const getCheckedByAccount = (state) => {
     const checkedIds = getChecked(state);
-    const checkedTransactions = transactionsSelectors.getAllTransactions(state)
-        .filter(t => checkedIds.includes(t.id));
+    const expenses = formatters.reduceNextExpensesToTransactionsArray(getNextExpenses(state));
+    const checkedTransactions = expenses.filter(t => checkedIds.includes(t.id));
 
     return checkedTransactions.reduce((prev, transaction) => {
         const index = transaction.account;
@@ -24,13 +25,35 @@ const getCheckedByAccount = (state) => {
             prev[index] = transaction.value;
         }
         return prev;
-    }, []);
+    }, {});
+};
+
+const getExpectedAccountsBalance = (state) => {
+    const balances = balanceSelectors.getDetailedAccounts(state).slice();
+    const minusBalances = getCheckedByAccount(state);
+
+    for (let accountId of Object.keys(minusBalances)) {
+        const balance = balances.find(balance => balance.account == accountId);
+        const index = balances.indexOf(balance);
+        const newBalance = {
+            ...balance,
+            expenses: balance.expenses + minusBalances[accountId],
+            total: balance.total + minusBalances[accountId]
+        };
+
+        // We replace on array because otherwise it will change the object from state.
+        // Slice has no effect on objects in this case.
+        balances[index] = newBalance;
+    }
+
+    return balances;
 };
 
 export default {
     getPeriod,
     getChecked,
     getCheckedByAccount,
+    getExpectedAccountsBalance,
     getSuggested,
     getTotalChecked,
     getRemainingBalance,
