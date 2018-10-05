@@ -44,7 +44,7 @@ class AccountForm extends React.Component {
         this.state = {
             id: account.id || null,
             name: account.name || "",
-            start_balance: account.start_balance
+            start_balance: account.start_balance || 0
         };
     }
 
