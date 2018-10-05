@@ -8,6 +8,8 @@ const getEditingTransaction = (state) => state.transactions.editingTransaction;
 
 const isFetching = (state) => state.transactions.isFetching;
 
+const getAllTransactions = (state) => state.transactions.transactions;
+
 const getTransactionsToDisplay = (state) => {
     if (state.transactions.visibleTransactions) {
         return state.transactions.visibleTransactions
@@ -31,10 +33,10 @@ const getPendingTransactionsUntil = (state, until) => {
     return pending;
 };
 
-const getPendingIncomesUntil = (state, until) => 
+const getPendingIncomesUntil = (state, until) =>
     getPendingTransactionsUntil(state, until).filter(transaction => transaction.kind == INCOME.id);
 
-const getPendingExpensesUntil = (state, until) => 
+const getPendingExpensesUntil = (state, until) =>
     getPendingTransactionsUntil(state, until).filter(transaction => transaction.kind == EXPENSE.id);
 
 const getFilters = (state) => state.transactions.filters;
@@ -122,7 +124,7 @@ const getTotalValueOfDisplayedTransactionsGroupedByAccount = (state) => {
 
         result['total'] = total;
     }
-    
+
     return result;
 };
 
@@ -131,6 +133,7 @@ const getOldestPendingExpenseDate = (state) => state.transactions.oldestPendingE
 export default {
     getErrors,
     isFetching,
+    getAllTransactions,
     getTransactionsToDisplay,
     getEditingTransaction,
     getPendingTransactionsUntil,
