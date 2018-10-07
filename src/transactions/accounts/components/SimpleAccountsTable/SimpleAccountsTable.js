@@ -41,7 +41,9 @@ const styles = () => ({
     },
     firstColumnCell: {
         textAlign: 'left !important',
-        width: widthSplitten,
+    },
+    lastColumnCell: {
+        textAlign: 'right !important',
     },
     headerCell: {
         fontWeight: 'bold',
@@ -70,6 +72,7 @@ const SimpleAccountsTable = ({ classes, names, values }) => {
                 row: classes.row,
                 baseCell: classes.baseCell,
                 firstColumnCell: classes.firstColumnCell,
+                lastColumnCell: classes.lastColumnCell,
                 highlightCell: classes.highlightCell
             }}
         />
@@ -98,6 +101,7 @@ const SimpleAccountsTable = ({ classes, names, values }) => {
                             row: classes.row,
                             baseCell: classes.headerCell,
                             firstColumnCell: classes.firstColumnCell,
+                            lastColumnCell: classes.lastColumnCell
                         }} />
                     </TableHead>
                 </Table>
@@ -121,6 +125,7 @@ const SimpleAccountsTable = ({ classes, names, values }) => {
                                 row: classes.row,
                                 baseCell: classes.footerCell,
                                 firstColumnCell: classes.firstColumnCell,
+                                lastColumnCell: classes.lastColumnCell,
                                 highlightCell: classes.highlightCell
                             }}
                         />
