@@ -10,9 +10,9 @@ import { operations, selectors } from '../duck';
 import { selectors as accountsSelectors } from '../../transactions/accounts/duck';
 import specifications from '../specifications';
 
-const ALL_TAB = 0;
+const PENDING_TAB = 0;
 const PAYED_TAB = 1;
-const PENDING_TAB = 2;
+const ALL_TAB = 2; // eslint-disable-line no-unused-vars
 
 class TransactionsOverTimeTableContainer extends React.Component {
     static propTypes = {
@@ -25,7 +25,7 @@ class TransactionsOverTimeTableContainer extends React.Component {
     }
 
     state = {
-        tab: ALL_TAB
+        tab: PENDING_TAB
     }
 
     handleTabChange = (e, value) => this.setState({ tab: value });
@@ -51,7 +51,7 @@ class TransactionsOverTimeTableContainer extends React.Component {
             <ActionableTableWrapper
                 selectedTab={tab}
                 onTabChange={this.handleTabChange}
-                tabs={["Todas", "Pagas", "Não pagas"]}
+                tabs={["Não pagas", "Em dia", "Todas"]}
                 title="OPERAÇÕES FINANCEIRAS REALIZADAS"
             >
 

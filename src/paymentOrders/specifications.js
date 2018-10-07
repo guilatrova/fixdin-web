@@ -12,7 +12,7 @@ const isEverythingToDate = (transactionGroup) =>
 const isAnythingPending = (transactionGroup) =>
     Object.keys(transactionGroup)
         .filter(periodKey => hasAnyTransaction(transactionGroup, periodKey))
-        .every(periodKey => transactionGroup[periodKey].some(
+        .some(periodKey => transactionGroup[periodKey].some(
             t => transactionSpecifications.isOverdue(t))
         );
 
