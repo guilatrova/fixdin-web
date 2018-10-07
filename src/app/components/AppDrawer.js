@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Drawer from '@material-ui/core/Drawer';
-import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -26,7 +25,7 @@ const styles = theme => ({
         overflowX: 'hidden',
         height: '100%',
         width: drawerWidth,
-        backgroundColor: "#EEE"
+        border: "none"
     },
     drawerHeader: {
         display: 'flex',
@@ -55,8 +54,6 @@ const AppDrawer = ({ classes, theme, open, handleDrawerClose }) => {
                     <DrawerItem icon={<img src={decisionsSrc} />} text="Decisões" to="/payment-order" />
                     <DrawerItem icon={<img src={resultsSrc} />} text="Resultados" to="/" />
                 </List>
-
-                <Divider />
 
                 <div className={classes.drawerHeader}>
                     <IconButton onClick={handleDrawerClose}>

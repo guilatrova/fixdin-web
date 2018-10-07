@@ -5,8 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import PendingBalanceTable from '../components/PendingBalanceTable';
 import SimpleAccountsTable from '../../transactions/accounts/components/SimpleAccountsTable';
-import { selectors as balanceSelectors } from '../../balances/duck';
 import { selectors as accountSelectors } from '../../transactions/accounts/duck';
+import { selectors } from '../duck';
 
 const styles = () => ({
     root: {
@@ -52,7 +52,7 @@ PaymentOrderHeader.propTypes = {
 
 const mapStateToProps = (state) => ({
     accountsNames: accountSelectors.getAccountsNamesMappedById(state),
-    accountsBalances: balanceSelectors.getDetailedAccounts(state)
+    accountsBalances: selectors.getExpectedAccountsBalance(state)
 });
 
 export default withStyles(styles)(
