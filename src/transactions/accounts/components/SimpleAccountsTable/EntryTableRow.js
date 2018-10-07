@@ -62,7 +62,7 @@ EntryTableRow.propTypes = {
         total: PropTypes.number.isRequired,
         highlight: PropTypes.bool
     }),
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     classes: PropTypes.object.isRequired
 };
 

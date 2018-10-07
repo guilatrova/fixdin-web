@@ -9,11 +9,9 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableFooter from '@material-ui/core/TableFooter';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import PayedSign from '../../../../common/components/PayedSign';
 
 import EntryTableRow from './EntryTableRow';
+import HeaderRow from './HeaderRow';
 
 const rowHeight = 40;
 const rowsUntilScroll = 5;
@@ -22,6 +20,9 @@ const widthSplitten = "25%";
 const scrollbarWidth = 15;
 
 const styles = () => ({
+    root: {
+
+    },
     row: {
         height: rowHeight
     },
@@ -59,21 +60,6 @@ const styles = () => ({
     }
 });
 
-const Headers = ({ classes }) => {
-    return (
-        <TableRow className={classes.row}>
-            <TableCell padding="dense" className={classNames(classes.headerCell, classes.firstColumnCell)}>Contas</TableCell>
-            <TableCell padding="dense" className={classes.headerCell}>
-                Receitas <PayedSign />
-            </TableCell>
-            <TableCell padding="dense" className={classes.headerCell}>
-                Despesas <PayedSign pending />
-            </TableCell>
-            <TableCell padding="dense" numeric className={classes.headerCell}>Total</TableCell>
-        </TableRow>
-    );
-};
-
 const SimpleAccountsTable = ({ classes, names, values }) => {
     const rows = values.map(entry => (
         <EntryTableRow
@@ -108,7 +94,11 @@ const SimpleAccountsTable = ({ classes, names, values }) => {
             <div className={classNames({ [classes.padScrollbar]: willScroll })}>
                 <Table>
                     <TableHead>
-                        <Headers classes={classes} />
+                        <HeaderRow classes={{
+                            row: classes.row,
+                            baseCell: classes.headerCell,
+                            firstColumnCell: classes.firstColumnCell,
+                        }} />
                     </TableHead>
                 </Table>
             </div>
@@ -122,9 +112,18 @@ const SimpleAccountsTable = ({ classes, names, values }) => {
             </div>
 
             <div className={classNames({ [classes.padScrollbar]: willScroll })}>
-                <Table className={classes.padScrollbar}>
+                <Table>
                     <TableFooter>
-                        <EntryTableRow entry={totals} name="Total" id="0" classes={classes} cellModifierClass={classes.footerCell} />
+                        <EntryTableRow
+                            entry={totals}
+                            name="Total"
+                            classes={{
+                                row: classes.row,
+                                baseCell: classes.footerCell,
+                                firstColumnCell: classes.firstColumnCell,
+                                highlightCell: classes.highlightCell
+                            }}
+                        />
                     </TableFooter>
                 </Table>
             </div>
