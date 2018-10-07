@@ -1,81 +1,72 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { VictoryPie, VictoryAnimation, VictoryLabel } from 'victory';
+import purple from '@material-ui/core/colors/purple';
+import blue from '@material-ui/core/colors/blue';
+import ReactHighcharts from 'react-highcharts';
+
 import { formatCurrencyDisplay } from '../utils/formatters';
 
-const EXPENSES_STYLE = {
-    index: 1,
-    fill: "#981192",
-    strokeWidth: 0,
-    fillOpacity: 0.5,
-    text: "EXPENSE"
-};
-
-const INCOMES_STYLE = {
-    index: 2,
-    fill: "#981192",
-    strokeWidth: 5,
-    fillOpacity: 1,
-    text: "INCOME"
-};
-
+const expenseColor = blue["300"];
+const incomeColor = purple['500'];
 const duration = 1500;
 
 const TransactionsDonutChart = ({ incomes, expenses, total }) => {
 
-    const data = [
-        { x: EXPENSES_STYLE.index, y: -expenses, ...EXPENSES_STYLE },
-        { x: INCOMES_STYLE.index, y: incomes, ...INCOMES_STYLE }
-    ];
-    const totalData = [
-        ...data,
-        { x: 3, y: total }
-    ];
+    const totalDisplay = formatCurrencyDisplay(total);
 
-    let totalValue = total;
-    if (totalValue < 0) {
-        totalValue = -totalValue;
-    }
-    const totalDisplay = formatCurrencyDisplay(totalValue, false);
+    const config = {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            height: 220,
+            animation: {
+                duration: duration
+            }
+        },
+        credits: false,
+        title: {
+            text: totalDisplay,
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 10,
+            style: {
+                color: total < 0 ? expenseColor : 'inherit'
+            }
+        },
+        tooltip: {
+            pointFormat: '<b>{point.percentage:.2f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                startAngle: -35,
+                colors: [expenseColor, incomeColor],
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b><br/> R$ {point.y:.2f}'
+                }
+            }
+        },
+        series: [{
+            name: 'Transações',
+            innerSize: '80%',
+            data: [{
+                name: 'Despesas',
+                y: -expenses
+            }, {
+                name: 'Receitas',
+                y: incomes
+            }]
+        }]
+    };
 
     return (
         <div>
-            <svg viewBox="0 0 550 400">
-                <VictoryPie
-                    standalone={false}
-                    data={data}
-                    startAngle={-15}
-                    animate={{ duration: duration }}
-                    width={400} height={400}
-                    innerRadius={140} labelRadius={170}
-                    labels={d => formatCurrencyDisplay(d.y)}
-                    style={{
-                        data: {
-                            fill: (d) => d.fill,
-                            stroke: (d) => d.fill,
-                            strokeWidth: (d) => d.strokeWidth,
-                            fillOpacity: (d) => d.fillOpacity
-                        },
-                        labels: {
-                            fontSize: 20
-                        }
-                    }}
-                />
-
-                <VictoryAnimation duration={duration} data={totalData}>
-                    {() => {
-                        return (
-                            <VictoryLabel inline
-                                textAnchor="middle" verticalAnchor="middle"
-                                text={["R$", totalDisplay]}
-                                x={200} y={220}
-                                style={[{ fontSize: 20 }, { fontSize: 40 }]}
-                            />
-                        );
-                    }}
-                </VictoryAnimation>
-            </svg>
+            <ReactHighcharts config={config} />
         </div>
     );
 };

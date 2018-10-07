@@ -16,12 +16,8 @@ const styles = {
         alignItems: 'stretch',
         alignContent: 'stretch',
     },
-    chartWrapper: {
-        height: 220,
-        maxHeight: 220
-    },
-    balancesTable: {
-        flex: 1
+    chart: {
+        flex: 1,
     },
     accountsTable: {
         flex: 2,
@@ -32,17 +28,15 @@ const styles = {
 const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, classes }) => {
     return (
         <div className={classes.root}>
-            <div className={classes.balancesTable}>
-                <div className={classes.chartWrapper}>
-                    <TransactionsDonutChart
-                        period={period}
-                        incomes={totalIncomes}
-                        expenses={totalExpenses}
-                        total={total}
-                        height={200}
-                        width={200}
-                    />
-                </div>
+            <div className={classes.chart}>
+                <TransactionsDonutChart
+                    period={period}
+                    incomes={totalIncomes}
+                    expenses={totalExpenses}
+                    total={total}
+                    height={200}
+                    width={200}
+                />
             </div>
 
             <div className={classes.accountsTable}>
