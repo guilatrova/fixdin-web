@@ -7,7 +7,7 @@ import AppToolbar from '../components/AppToolbar';
 import AppDrawer from '../components/AppDrawer';
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import { drawerWidth, anchor } from '../contants';
+import { drawerWidth, headerHeight, anchor } from '../contants';
 
 const styles = theme => ({
     root: {
@@ -30,8 +30,8 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        height: 'calc(100% - 56px)',
-        marginTop: 56,
+        height: `calc(100% - ${headerHeight}px)`,
+        marginTop: headerHeight,
         padding: 30
     },
     'content-left': {
