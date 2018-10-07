@@ -4,15 +4,16 @@ import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import PayedSign from '../../../../common/components/PayedSign';
 
-import { formatCurrencyDisplay } from '../../../utils/formatters';
-import PayedSign from '../../../common/components/PayedSign';
+import EntryTableRow from './EntryTableRow';
 
 const rowHeight = 40;
 const rowsUntilScroll = 5;
@@ -33,6 +34,9 @@ const styles = () => ({
         textAlign: 'center',
         fontWeight: 'bold',
         width: widthSplitten,
+    },
+    highlightCell: {
+        color: "red"
     },
     firstColumnCell: {
         textAlign: 'left !important',
@@ -70,27 +74,20 @@ const Headers = ({ classes }) => {
     );
 };
 
-const EntryTableRow = ({ entry, name, id, classes, cellModifierClass }) => {
-    return (
-        <TableRow key={id} className={classes.row}>
-            <TableCell padding="dense" className={classNames(cellModifierClass, classes.firstColumnCell)}>{name}</TableCell>
-            <TableCell padding="dense" className={classNames(cellModifierClass)}>
-                {formatCurrencyDisplay(entry.incomes)}
-            </TableCell>
-            <TableCell padding="dense" className={classNames(cellModifierClass)}>
-                {formatCurrencyDisplay(entry.expenses)}
-            </TableCell>
-            <TableCell padding="dense" className={classNames(cellModifierClass)}>
-                {formatCurrencyDisplay(entry.total)}
-            </TableCell>
-        </TableRow>
-    );
-};
-
 const SimpleAccountsTable = ({ classes, names, values }) => {
-    const rows = values.map(entry => {
-        return <EntryTableRow key={entry.account} entry={entry} name={names[entry.account]} id={entry.account} classes={classes} cellModifierClass={classes.baseCell} />;
-    });
+    const rows = values.map(entry => (
+        <EntryTableRow
+            key={entry.account}
+            name={names[entry.account]}
+            entry={entry}
+            classes={{
+                row: classes.row,
+                baseCell: classes.baseCell,
+                firstColumnCell: classes.firstColumnCell,
+                highlightCell: classes.highlightCell
+            }}
+        />
+    ));
 
     const totals = values.reduce((prev, values) => {
         prev.incomes += values.incomes;

@@ -38,7 +38,8 @@ const getExpectedAccountsBalance = (state) => {
         const newBalance = {
             ...balance,
             expenses: balance.expenses + minusBalances[accountId],
-            total: balance.total + minusBalances[accountId]
+            total: balance.total + minusBalances[accountId],
+            highlight: true
         };
 
         // We replace on array because otherwise it will change the object from state.
