@@ -16,17 +16,19 @@ class TransactionsDonutChart extends React.Component {
         data: PropTypes.object,
         incomes: PropTypes.number,
         expenses: PropTypes.number,
-        total: PropTypes.number
+        total: PropTypes.number,
+        height: PropTypes.number,
     }
 
     componentWillReceiveProps(nextProps) {
-        const { incomes, expenses, total } = nextProps;
+        const { incomes, expenses, total, height } = nextProps;
         const chart = this.refs.chart.getChart();
 
         const data = this.getData(incomes, expenses);
         const totalDisplay = formatCurrencyDisplay(total);
 
         chart.series[0].update({ data });
+        chart.setSize(null, height);
         chart.title.update({ text: totalDisplay });
     }
 
@@ -59,10 +61,7 @@ class TransactionsDonutChart extends React.Component {
                 text: "R$ 0,00",
                 align: 'center',
                 verticalAlign: 'middle',
-                y: 10,
-                // style: {
-                //     color: total < 0 ? expenseColor : 'inherit'
-                // }
+                y: 10
             },
             tooltip: {
                 pointFormat: '<b>{point.percentage:.2f}%</b>'
@@ -71,7 +70,6 @@ class TransactionsDonutChart extends React.Component {
                 pie: {
                     allowPointSelect: true,
                     cursor: 'pointer',
-                    startAngle: -35,
                     colors: [expenseColor, incomeColor],
                     dataLabels: {
                         enabled: true,

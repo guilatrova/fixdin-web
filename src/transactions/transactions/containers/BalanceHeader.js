@@ -26,6 +26,15 @@ const styles = {
 };
 
 const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, classes }) => {
+    const rowHeight = 40;
+    const rowsUntilScroll = 5;
+    const additionalHeight = (rowHeight * 2); // footer/header
+    const maxHeight = (rowHeight * rowsUntilScroll) + (rowHeight / 2) + additionalHeight; // Leave a half row
+    let actualHeight = (aggregatedAccounts.length * rowHeight) + additionalHeight;
+    if (actualHeight > maxHeight) {
+        actualHeight = maxHeight;
+    }
+
     return (
         <div className={classes.root}>
             <div className={classes.chart}>
@@ -34,8 +43,7 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
                     incomes={totalIncomes}
                     expenses={totalExpenses}
                     total={total}
-                    height={200}
-                    width={200}
+                    height={actualHeight}
                 />
             </div>
 
