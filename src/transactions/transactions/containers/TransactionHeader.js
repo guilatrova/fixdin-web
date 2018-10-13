@@ -7,6 +7,7 @@ import CompleteAccountsTable from '../../accounts/components/CompleteAccountsTab
 import TransactionsDonutChart from '../../../charts/TransactionsDonutChart';
 import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
+import heightCalculator from '../../../utils/tableHeightCalculator';
 
 const styles = {
     root: {
@@ -28,12 +29,7 @@ const styles = {
 const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, classes }) => {
     const rowHeight = 40;
     const rowsUntilScroll = 5;
-    const additionalHeight = (rowHeight * 2); // footer/header
-    const maxHeight = (rowHeight * rowsUntilScroll) + (rowHeight / 2) + additionalHeight; // Leave a half row
-    let actualHeight = (aggregatedAccounts.length * rowHeight) + additionalHeight;
-    if (actualHeight > maxHeight) {
-        actualHeight = maxHeight;
-    }
+    const actualHeight = heightCalculator.calculateHeight(aggregatedAccounts, rowHeight, rowsUntilScroll);
 
     return (
         <div className={classes.root}>
