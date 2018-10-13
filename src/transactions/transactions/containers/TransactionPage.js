@@ -15,7 +15,7 @@ import { operations, types, selectors } from '../duck';
 import { operations as categoryOperations, selectors as categorySelectors } from '../../categories/duck';
 import { operations as accountsOperations, selectors as accountSelectors } from '../../accounts/duck';
 import specifications from '../specifications';
-import BalanceHeader from './BalanceHeader';
+import TransactionHeader from './TransactionHeader';
 import AccountFormDialogContainer from '../../accounts/containers/AccountFormDialogContainer';
 import CategoryFormDialogContainer from '../../categories/containers/CategoryFormDialogContainer';
 
@@ -153,7 +153,7 @@ class TransactionPage extends React.Component {
         return (
             <div className={classes.root}>
 
-                <BalanceHeader />
+                <TransactionHeader />
 
                 <Paper className={classes.paper}>
 

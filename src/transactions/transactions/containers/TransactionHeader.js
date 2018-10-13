@@ -25,7 +25,7 @@ const styles = {
     }
 };
 
-const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, classes }) => {
+const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, classes }) => {
     const rowHeight = 40;
     const rowsUntilScroll = 5;
     const additionalHeight = (rowHeight * 2); // footer/header
@@ -57,7 +57,7 @@ const BalanceHeader = ({ period, totalIncomes, totalExpenses, total, accountsNam
     );
 };
 
-BalanceHeader.propTypes = {
+TransactionHeader.propTypes = {
     total: PropTypes.number.isRequired,
     totalIncomes: PropTypes.number.isRequired,
     totalExpenses: PropTypes.number.isRequired,
@@ -80,5 +80,5 @@ const mapStateToProps = (state) => {
 };
 
 export default withStyles(styles)(
-    connect(mapStateToProps)(BalanceHeader)
+    connect(mapStateToProps)(TransactionHeader)
 );
