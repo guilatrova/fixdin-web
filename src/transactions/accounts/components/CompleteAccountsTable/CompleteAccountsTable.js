@@ -11,11 +11,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 
-import { formatCurrencyDisplay } from '../../../utils/formatters';
-import PayedSign from '../../../common/components/PayedSign';
+import { formatCurrencyDisplay } from '../../../../utils/formatters';
+import PayedSign from '../../../../common/components/PayedSign';
+import { rowHeight, rowsUntilScroll } from './consts';
 
-const rowHeight = 40;
-const rowsUntilScroll = 5;
 const maxHeight = (rowHeight * rowsUntilScroll) + (rowHeight / 2);
 const widthSplitten = "16%";
 const scrollbarWidth = 15;
