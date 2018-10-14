@@ -17,7 +17,7 @@ import TransactionDescription from '../../components/TransactionDescription';
 import KindSwitch from '../../../shared/components/KindSwitch';
 import Periodic from './Periodic';
 import CategorySelectPicker from '../../../categories/components/CategorySelectPicker';
-import { getKind } from '../../../shared/kinds';
+import { getKind, EXPENSE, INCOME } from '../../../shared/kinds';
 import { types } from '../../duck';
 import specifications from '../../specifications';
 import AccountSelectPicker from '../../../accounts/components/AccountSelectPicker';
@@ -76,6 +76,24 @@ class TransactionForm extends React.Component {
             kind,
             errors: {},
         };
+    }
+
+    handleCurrencyKeyDown = (ev) => {
+        switch (ev.keyCode) {
+            case 189: { // - (minus)
+                const newKind = this.state.kind == INCOME ? EXPENSE : INCOME;
+                this.handleKindChange(newKind);
+                break;
+            }
+
+            case 82: // r
+                this.handleKindChange(INCOME);
+                break;
+
+            case 68: // d
+                this.handleKindChange(EXPENSE);
+                break;
+        }
     }
 
     handleSubmit = (type, postSaveOption = saveOptions.CLOSE) => this.props.onSubmit(type, postSaveOption, { ...this.state });
@@ -159,6 +177,7 @@ class TransactionForm extends React.Component {
                             error={errors.value}
                             value={this.state.value}
                             onChangeEvent={(e, maskedValue, value) => this.setState({ value })}
+                            onKeyDown={this.handleCurrencyKeyDown}
                         />
                     </div>
 
