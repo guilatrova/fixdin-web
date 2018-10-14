@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
-import CompleteAccountsTable from '../../accounts/components/CompleteAccountsTable';
+import CompleteAccountsTable, { consts } from '../../accounts/components/CompleteAccountsTable';
 import TransactionsDonutChart from '../../../charts/TransactionsDonutChart';
 import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
@@ -27,9 +27,8 @@ const styles = {
 };
 
 const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, classes }) => {
-    const rowHeight = 40;
-    const rowsUntilScroll = 5;
-    const actualHeight = heightCalculator.calculateHeight(aggregatedAccounts, rowHeight, rowsUntilScroll);
+    const { rowHeight, rowsUntilScroll } = consts;
+    const chartHeight = heightCalculator.calculateHeight(aggregatedAccounts, rowHeight, rowsUntilScroll);
 
     return (
         <div className={classes.root}>
@@ -39,7 +38,7 @@ const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, account
                     incomes={totalIncomes}
                     expenses={totalExpenses}
                     total={total}
-                    height={actualHeight}
+                    height={chartHeight}
                 />
             </div>
 

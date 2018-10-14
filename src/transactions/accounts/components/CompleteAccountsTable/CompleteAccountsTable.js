@@ -13,8 +13,9 @@ import TableFooter from '@material-ui/core/TableFooter';
 
 import { formatCurrencyDisplay } from '../../../../utils/formatters';
 import PayedSign from '../../../../common/components/PayedSign';
-import { rowHeight, rowsUntilScroll } from './consts';
+import consts from './consts';
 
+const { rowHeight, rowsUntilScroll } = consts;
 const maxHeight = (rowHeight * rowsUntilScroll) + (rowHeight / 2);
 const widthSplitten = "16%";
 const scrollbarWidth = 15;
