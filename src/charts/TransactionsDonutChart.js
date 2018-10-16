@@ -61,7 +61,10 @@ class TransactionsDonutChart extends React.Component {
                 text: "R$ 0,00",
                 align: 'center',
                 verticalAlign: 'middle',
-                y: 10
+                y: 10,
+                style: {
+                    textShadow: '-2px 0 white, 0 2px white, 2px 0 white, 0 -2px white'
+                }
             },
             tooltip: {
                 pointFormat: '<b>{point.percentage:.2f}%</b>'
