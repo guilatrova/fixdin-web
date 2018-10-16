@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
+import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 import CompleteAccountsTable, { consts } from '../../accounts/components/CompleteAccountsTable';
 import TransactionsDonutChart from '../../../charts/TransactionsDonutChart';
-import { selectors } from '../duck';
+import { selectors, operations } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
 import PeriodPicker from '../../../balances/components/PeriodPicker';
 import heightCalculator from '../../../utils/tableHeightCalculator';
@@ -40,7 +41,8 @@ const styles = {
     }
 };
 
-const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, classes }) => {
+const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, onChangePeriod, classes }) => {
+
     const { rowHeight, rowsUntilScroll } = consts;
     const chartHeight = heightCalculator.calculateHeight(aggregatedAccounts, rowHeight, rowsUntilScroll);
 
@@ -50,7 +52,7 @@ const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, account
             <div className={classes.chart}>
                 <div className={classes.chartHeader}>
                     <Typography variant="body2">BALANÇO</Typography>
-                    <PeriodPicker classes={{ periodInput: classes.periodInput }} period={period} format="MMMM" />
+                    <PeriodPicker classes={{ periodInput: classes.periodInput }} period={period} onChangePeriod={onChangePeriod} format="MMMM" />
                 </div>
 
                 <TransactionsDonutChart
@@ -79,21 +81,31 @@ TransactionHeader.propTypes = {
     period: PropTypes.object.isRequired,
     accountsName: PropTypes.array.isRequired,
     aggregatedAccounts: PropTypes.array.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+
+    onChangePeriod: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-    return {
-        total: selectors.getTotalValueOfDisplayedTransactions(state),
-        totalExpenses: selectors.getTotalValueOfDisplayedExpenses(state),
-        totalIncomes: selectors.getTotalValueOfDisplayedIncomes(state),
-        period: selectors.getDisplayedPeriod(state),
+const mapStateToProps = (state) => ({
+    total: selectors.getTotalValueOfDisplayedTransactions(state),
+    totalExpenses: selectors.getTotalValueOfDisplayedExpenses(state),
+    totalIncomes: selectors.getTotalValueOfDisplayedIncomes(state),
+    period: selectors.getDisplayedPeriod(state),
 
-        accountsName: accountSelectors.getAccountsNamesMappedById(state),
-        aggregatedAccounts: selectors.getTotalValueOfDisplayedTransactionsGroupedByAccount(state),
-    };
-};
+    accountsName: accountSelectors.getAccountsNamesMappedById(state),
+    aggregatedAccounts: selectors.getTotalValueOfDisplayedTransactionsGroupedByAccount(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    onChangePeriod: (period) => {
+        const due_date_from = moment(period).startOf('month');
+        const due_date_until = moment(due_date_from).endOf('month');
+
+        dispatch(operations.setFilters({ due_date_from, due_date_until }, true));
+        dispatch(operations.filterTransactions());
+    }
+});
 
 export default withStyles(styles)(
-    connect(mapStateToProps)(TransactionHeader)
+    connect(mapStateToProps, mapDispatchToProps)(TransactionHeader)
 );
