@@ -6,6 +6,7 @@ import DatePicker from 'material-ui-pickers/DatePicker';
 import IconButton from '@material-ui/core/IconButton';
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
+import moment from 'moment';
 
 const styles = theme => ({
     root: {
@@ -33,7 +34,7 @@ const PeriodPicker = ({ classes, period, format, onChangePeriod, onDecreaseClick
             <IconButton
                 color="inherit"
                 className={classes.arrowButton}
-                onClick={onDecreaseClick}
+                onClick={() => onChangePeriod(onDecreaseClick(period))}
             >
                 <LeftIcon />
             </IconButton>
@@ -53,7 +54,7 @@ const PeriodPicker = ({ classes, period, format, onChangePeriod, onDecreaseClick
             <IconButton
                 color="inherit"
                 className={classes.arrowButton}
-                onClick={onIncreaseClick}
+                onClick={() => onChangePeriod(onIncreaseClick(period))}
             >
                 <RightIcon />
             </IconButton>
@@ -66,12 +67,14 @@ PeriodPicker.propTypes = {
     period: PropTypes.object.isRequired,
     format: PropTypes.string.isRequired,
     onChangePeriod: PropTypes.func.isRequired,
-    onDecreaseClick: PropTypes.func,
-    onIncreaseClick: PropTypes.func,
+    onDecreaseClick: PropTypes.func.isRequired,
+    onIncreaseClick: PropTypes.func.isRequired,
 };
 
 PeriodPicker.defaultProps = {
     onChange: () => { },
+    onIncreaseClick: (period) => moment(period).add(1, "months"),
+    onDecreaseClick: (period) => moment(period).subtract(1, "months"),
     format: "MMM-YY"
 };
 
