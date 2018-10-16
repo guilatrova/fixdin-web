@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 import CompleteAccountsTable, { consts } from '../../accounts/components/CompleteAccountsTable';
 import TransactionsDonutChart from '../../../charts/TransactionsDonutChart';
 import { selectors } from '../duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
+import PeriodPicker from '../../../balances/components/PeriodPicker';
 import heightCalculator from '../../../utils/tableHeightCalculator';
 
 const styles = {
@@ -19,6 +21,18 @@ const styles = {
     },
     chart: {
         flex: 1,
+        textAlign: 'center'
+    },
+    chartHeader: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textTransform: 'uppercase'
+    },
+    periodInput: {
+        width: 56,
+        padding: 0,
+        textTransform: 'uppercase'
     },
     accountsTable: {
         flex: 2,
@@ -32,7 +46,13 @@ const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, account
 
     return (
         <div className={classes.root}>
+
             <div className={classes.chart}>
+                <div className={classes.chartHeader}>
+                    <Typography variant="body2">BALANÇO</Typography>
+                    <PeriodPicker classes={{ periodInput: classes.periodInput }} format="MMMM" />
+                </div>
+
                 <TransactionsDonutChart
                     period={period}
                     incomes={totalIncomes}
