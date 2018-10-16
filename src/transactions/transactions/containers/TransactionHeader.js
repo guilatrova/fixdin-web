@@ -30,7 +30,7 @@ const styles = {
         textTransform: 'uppercase'
     },
     periodInput: {
-        width: 56,
+        width: 66,
         padding: 0,
         textTransform: 'uppercase'
     },
@@ -50,7 +50,7 @@ const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, account
             <div className={classes.chart}>
                 <div className={classes.chartHeader}>
                     <Typography variant="body2">BALANÇO</Typography>
-                    <PeriodPicker classes={{ periodInput: classes.periodInput }} format="MMMM" />
+                    <PeriodPicker classes={{ periodInput: classes.periodInput }} period={period} format="MMMM" />
                 </div>
 
                 <TransactionsDonutChart
