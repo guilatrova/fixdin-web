@@ -36,10 +36,10 @@ class TransactionsDonutChart extends React.Component {
         [
             {
                 name: 'Despesas',
-                y: incomes
+                y: -expenses
             }, {
                 name: 'Receitas',
-                y: -expenses
+                y: incomes
             }
         ]
     );
