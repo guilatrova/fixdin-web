@@ -45,6 +45,7 @@ const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, account
 
     const { rowHeight, rowsUntilScroll } = consts;
     const chartHeight = heightCalculator.calculateHeight(aggregatedAccounts, rowHeight, rowsUntilScroll);
+    const periodFormat = period.year() == moment().year() ? "MMMM" : "MMM/YY";
 
     return (
         <div className={classes.root}>
@@ -52,7 +53,7 @@ const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, account
             <div className={classes.chart}>
                 <div className={classes.chartHeader}>
                     <Typography variant="body2">BALANÇO</Typography>
-                    <PeriodPicker classes={{ periodInput: classes.periodInput }} period={period} onChangePeriod={onChangePeriod} format="MMMM" />
+                    <PeriodPicker classes={{ periodInput: classes.periodInput }} period={period} onChangePeriod={onChangePeriod} format={periodFormat} />
                 </div>
 
                 <TransactionsDonutChart
