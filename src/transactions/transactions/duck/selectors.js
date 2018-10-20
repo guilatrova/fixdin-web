@@ -1,6 +1,7 @@
 import { ALL, INCOME, EXPENSE } from '../../shared/kinds';
 import moment from 'moment';
 import { filterUniqueStringsArray } from '../../../utils/strings';
+import { selectors as categorySelectors } from '../../categories/duck';
 
 const getErrors = (state) => state.transactions.errors;
 
@@ -128,6 +129,32 @@ const getTotalValueOfDisplayedTransactionsGroupedByAccount = (state) => {
     return result;
 };
 
+const getDonutChartDrilldown = (state) => {
+    const categories = categorySelectors.getCategoriesNamesMappedById(state);
+    const transactions = getTransactionsToDisplay(state);
+    const expenses = transactions.filter(t => t.kind == EXPENSE.id);
+    const incomes = transactions.filter(t => t.kind == INCOME.id);
+
+    const reduceFunc = (collection) => collection.reduce((prev, transaction) => {
+        if (prev[transaction.category]) {
+            prev[transaction.category].value += transaction.value;
+        }
+        else {
+            prev[transaction.category] = {
+                name: categories[transaction.category] || transaction.category,
+                id: transaction.category,
+                value: transaction.value
+            };
+        }
+        return prev;
+    }, []);
+
+    return {
+        expenses: reduceFunc(expenses).map(t => [t.name, -t.value]).filter(item => item != null),
+        incomes: reduceFunc(incomes).map(t => [t.name, t.value]).filter(item => item != null)
+    };
+};
+
 const getOldestPendingExpenseDate = (state) => state.transactions.oldestPendingExpense;
 
 export default {
@@ -151,5 +178,6 @@ export default {
     getDisplayedPeriod,
     getDisplayedTransactionsGroupedByAccount,
     getTotalValueOfDisplayedTransactionsGroupedByAccount,
+    getDonutChartDrilldown,
     getOldestPendingExpenseDate
 };

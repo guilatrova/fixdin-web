@@ -41,7 +41,7 @@ const styles = {
     }
 };
 
-const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, onChangePeriod, classes }) => {
+const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, accountsName, aggregatedAccounts, onChangePeriod, drilldownData, classes }) => {
 
     const { rowHeight, rowsUntilScroll } = consts;
     const chartHeight = heightCalculator.calculateHeight(aggregatedAccounts, rowHeight, rowsUntilScroll);
@@ -61,6 +61,7 @@ const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, account
                     incomes={totalIncomes}
                     expenses={totalExpenses}
                     total={total}
+                    drilldown={drilldownData}
                     height={chartHeight}
                 />
             </div>
@@ -79,6 +80,7 @@ TransactionHeader.propTypes = {
     total: PropTypes.number.isRequired,
     totalIncomes: PropTypes.number.isRequired,
     totalExpenses: PropTypes.number.isRequired,
+    drilldownData: TransactionsDonutChart.propTypes.drilldown,
     period: PropTypes.object.isRequired,
     accountsName: PropTypes.array.isRequired,
     aggregatedAccounts: PropTypes.array.isRequired,
@@ -92,6 +94,7 @@ const mapStateToProps = (state) => ({
     totalExpenses: selectors.getTotalValueOfDisplayedExpenses(state),
     totalIncomes: selectors.getTotalValueOfDisplayedIncomes(state),
     period: selectors.getDisplayedPeriod(state),
+    drilldownData: selectors.getDonutChartDrilldown(state),
 
     accountsName: accountSelectors.getAccountsNamesMappedById(state),
     aggregatedAccounts: selectors.getTotalValueOfDisplayedTransactionsGroupedByAccount(state),

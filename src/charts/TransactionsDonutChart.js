@@ -19,43 +19,67 @@ const duration = 1500;
 
 class TransactionsDonutChart extends React.Component {
     static propTypes = {
-        data: PropTypes.object,
         incomes: PropTypes.number,
         expenses: PropTypes.number,
         total: PropTypes.number,
+        drilldown: PropTypes.shape({
+            incomes: PropTypes.array,
+            expenses: PropTypes.array
+        }),
         height: PropTypes.number,
     }
 
     componentWillReceiveProps(nextProps) {
-        const { incomes, expenses, total, height } = nextProps;
-        const chart = this.refs.chart.getChart();
+        const { incomes, expenses, total, drilldown, height } = nextProps;
+        const chart = this.getChart();
 
         const data = this.getData(incomes, expenses);
+        const drilldownData = this.getDrilldown(drilldown);
         const totalDisplay = formatCurrencyDisplay(total);
 
         chart.series[0].update({ data });
         chart.setSize(null, height);
         chart.title.update({ text: totalDisplay });
+
+        // workaround to fix drilldown update issue: https://github.com/highcharts/highcharts/issues/7600
+        chart.options.drilldown = ReactHighcharts.Highcharts.merge(chart.options.drilldown, { series: drilldownData });
     }
 
-    setTitle = (text = "") => {
-        const chart = this.refs.chart.getChart();
-        chart.title.update({ text });
-    }
+    getChart = () => this.refs.chart.getChart();
 
     getData = (incomes, expenses) => (
         [
             {
                 name: 'Despesas',
                 y: -expenses,
-                drilldown: "Chrome"
+                drilldown: "Despesas"
             }, {
                 name: 'Receitas',
                 y: incomes,
-                drilldown: "Firefox"
+                drilldown: "Receitas"
             }
         ]
     );
+
+    getDrilldown = (data) => (
+        [
+            {
+                name: "Despesas",
+                id: "Despesas",
+                data: data.expenses
+            },
+            {
+                name: "Receitas",
+                id: "Receitas",
+                data: data.incomes
+            }
+        ]
+    );
+
+    setTitle = (text = "") => {
+        const chart = this.getChart();
+        chart.title.update({ text });
+    }
 
     handleDrilldown = () => {
         this.setTitle();
@@ -115,36 +139,7 @@ class TransactionsDonutChart extends React.Component {
                     textDecoration: 'none',
                     color: 'black'
                 },
-                series: [
-                    {
-                        name: "Chrome",
-                        id: "Chrome",
-                        data: [
-                            [
-                                "v65.0",
-                                0.1
-                            ],
-                            [
-                                "v64.0",
-                                1.3
-                            ],
-                        ]
-                    },
-                    {
-                        name: "Firefox",
-                        id: "Firefox",
-                        data: [
-                            [
-                                "v65.0",
-                                0.1
-                            ],
-                            [
-                                "v64.0",
-                                1.3
-                            ],
-                        ]
-                    }
-                ]
+                series: this.getDrilldown({ expenses: [], incomes: [] })
             }
         };
 
