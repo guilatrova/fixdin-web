@@ -37,6 +37,7 @@ class TransactionsDonutChart extends React.Component {
         const drilldownData = this.getDrilldown(drilldown);
         const totalDisplay = formatCurrencyDisplay(total);
 
+        chart.drillUp(); // Keep drilldown at base level when data changes to avoid issues
         chart.series[0].update({ data });
         chart.setSize(null, height);
         chart.title.update({ text: totalDisplay });
@@ -66,11 +67,13 @@ class TransactionsDonutChart extends React.Component {
             {
                 name: "Despesas",
                 id: "Despesas",
+                colorByPoint: true,
                 data: data.expenses
             },
             {
                 name: "Receitas",
                 id: "Receitas",
+                colorByPoint: true,
                 data: data.incomes
             }
         ]
@@ -81,8 +84,8 @@ class TransactionsDonutChart extends React.Component {
         chart.title.update({ text });
     }
 
-    handleDrilldown = () => {
-        this.setTitle();
+    handleDrilldown = (e) => {
+        this.setTitle(e.seriesOptions.name);
     }
 
     handleDrillup = () => {
@@ -97,7 +100,7 @@ class TransactionsDonutChart extends React.Component {
                 plotBorderWidth: null,
                 plotShadow: false,
                 type: 'pie',
-                height: 220,
+                height: 0,
                 animation: {
                     duration: duration
                 },
@@ -108,7 +111,7 @@ class TransactionsDonutChart extends React.Component {
             },
             credits: false,
             title: {
-                text: "R$ 0,00",
+                text: 'R$ 0,00',
                 align: 'center',
                 verticalAlign: 'middle',
                 y: 10,
@@ -122,7 +125,6 @@ class TransactionsDonutChart extends React.Component {
             plotOptions: {
                 pie: {
                     cursor: 'pointer',
-                    colors: [expenseColor, incomeColor],
                     dataLabels: {
                         enabled: true,
                         format: '<b>{point.name}</b><br/> R$ {point.y:.2f}',
@@ -131,6 +133,7 @@ class TransactionsDonutChart extends React.Component {
             },
             series: [{
                 name: 'Transações',
+                colors: [expenseColor, incomeColor],
                 innerSize: '80%',
                 data: this.getData(0, 0)
             }],
