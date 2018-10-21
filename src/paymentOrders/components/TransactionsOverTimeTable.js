@@ -7,6 +7,7 @@ import cn from 'classnames';
 import Switch from '@material-ui/core/Switch';
 
 import TransactionCell from './TransactionCell';
+import AccountAvatar from '../../transactions/accounts/components/AccountAvatar';
 import { DataTable, DataColumn } from '../../common/material/DataTable';
 import formatters from '../formatters';
 
@@ -56,7 +57,7 @@ class TransactionsOverTimeTable extends React.Component {
         checked: PropTypes.array.isRequired,
         suggested: PropTypes.array.isRequired,
         onToggle: PropTypes.func.isRequired,
-        accountNames: PropTypes.array.isRequired,
+        accounts: PropTypes.array.isRequired,
         classes: PropTypes.object.isRequired,
         onResetSelectionToSuggestion: PropTypes.func.isRequired
     }
@@ -67,8 +68,14 @@ class TransactionsOverTimeTable extends React.Component {
         String(moment(formatters.getFirstField(row, field), 'YYYY-MM-DD').date()).padStart(2, '0');
 
     formatAccount = (row, field) => {
-        const result = this.formatFirst(row, field);
-        return this.props.accountNames[result] || result;
+        const accountId = this.formatFirst(row, field);
+        const account = this.props.accounts.find(acc => acc.id == accountId);
+
+        if (account) {
+            return <AccountAvatar account={account} />;
+        }
+
+        return accountId;
     };
 
     formatSuggestion = (row) => {

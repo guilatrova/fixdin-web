@@ -18,6 +18,7 @@ const getTransfers = (state) => state.accounts.transfers;
 const getTransfersOfAccount = (state, accountId) => getTransfers(state)
     .filter(transfer => transfer.account_from == accountId || transfer.account_to == accountId);
 
+// Candidate for removal
 const getAccountsNamesMappedById = (state) => getAccounts(state).reduce((prev, account) => {
     prev[account.id] = account.name;
     return prev;

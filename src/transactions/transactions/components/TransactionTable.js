@@ -83,7 +83,7 @@ class TransactionTable extends React.Component {
     formatAccount = (row, field) => {
         const account = this.getAccount(row[field]);
         if (account) {
-            return <AccountAvatar account={this.getAccount(row[field])} />;
+            return <AccountAvatar account={account} />;
         }
 
         return row[field];
@@ -151,9 +151,9 @@ class TransactionTable extends React.Component {
     }
 
     sortAccount = (a, b, order) => {
-        const aName = this.getAccount(a).name;
-        const bName = this.getAccount(b).name;
-        return sort(aName, bName, order);
+        const nameA = this.getAccount(a).name;
+        const nameB = this.getAccount(b).name;
+        return sort(nameA, nameB, order);
     }
 
     sortCategory = (a, b, order) => {

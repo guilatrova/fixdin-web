@@ -31,7 +31,7 @@ class TransactionsOverTimeTableContainer extends React.Component {
     handleTabChange = (e, value) => this.setState({ tab: value });
 
     render() {
-        const { nextExpenses, checked, suggested, isFetching, accountNames } = this.props;
+        const { nextExpenses, checked, suggested, isFetching, accounts } = this.props;
         const { onToggle, onResetSelectionToSuggestion } = this.props;
         const { tab } = this.state;
 
@@ -57,7 +57,7 @@ class TransactionsOverTimeTableContainer extends React.Component {
 
                 <TransactionsOverTimeTable
                     transactions={shownExpenses}
-                    accountNames={accountNames}
+                    accounts={accounts}
                     checked={checked}
                     suggested={suggested}
                     onToggle={onToggle}
@@ -74,7 +74,7 @@ const mapStateToProps = (state) => ({
     suggested: selectors.getSuggested(state),
     nextExpenses: selectors.getNextExpenses(state),
     isFetching: selectors.isFetching(state),
-    accountNames: accountsSelectors.getAccountsNamesMappedById(state)
+    accounts: accountsSelectors.getAccounts(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
