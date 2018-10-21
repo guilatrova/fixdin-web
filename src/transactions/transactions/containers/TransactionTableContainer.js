@@ -71,7 +71,7 @@ class TransactionTableContainer extends React.Component {
 const mapStateToProps = state => ({
     transactions: selectors.getTransactionsToDisplay(state),
     categoriesNames: categorySelectors.getCategoriesNamesMappedById(state),
-    accountsNames: accountSelectors.getAccountsNamesMappedById(state),
+    accounts: accountSelectors.getAccounts(state),
     isFetching: selectors.isFetching(state),
     activeFilters: selectors.getActiveFilters(state)
 });

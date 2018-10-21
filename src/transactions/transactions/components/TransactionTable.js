@@ -19,6 +19,7 @@ import {
 } from './filters';
 import { sort, sortMoment } from './../../../utils/sorts';
 import { DataTable, DataColumn } from './../../../common/material/DataTable';
+import AccountAvatar from '../../accounts/components/AccountAvatar';
 import IconOptionButton from './../../../common/components/IconOptionButton';
 import { getKind } from '../../shared/kinds';
 import specifications from '../specifications';
@@ -64,7 +65,7 @@ class TransactionTable extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired,
         categoriesNames: PropTypes.array.isRequired,
-        accountsNames: PropTypes.array.isRequired,
+        accounts: PropTypes.array,
         onEdit: PropTypes.func.isRequired,
         onPay: PropTypes.func.isRequired,
         onCopy: PropTypes.func.isRequired,
@@ -76,8 +77,17 @@ class TransactionTable extends React.Component {
         classes: PropTypes.object.isRequired
     }
 
+    getAccount = (id) => this.props.accounts.find(acc => acc.id == id);
+
     //Format
-    formatAccount = (row, field) => this.props.accountsNames[row[field]];
+    formatAccount = (row, field) => {
+        const account = this.getAccount(row[field]);
+        if (account) {
+            return <AccountAvatar account={this.getAccount(row[field])} />;
+        }
+
+        return row[field];
+    }
 
     formatCategory = (row, field) => this.props.categoriesNames[row[field]];
 
@@ -141,8 +151,9 @@ class TransactionTable extends React.Component {
     }
 
     sortAccount = (a, b, order) => {
-        const { accountsNames } = this.props;
-        return sort(accountsNames[a], accountsNames[b], order);
+        const aName = this.getAccount(a).name;
+        const bName = this.getAccount(b).name;
+        return sort(aName, bName, order);
     }
 
     sortCategory = (a, b, order) => {
