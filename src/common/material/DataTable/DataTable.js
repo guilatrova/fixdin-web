@@ -212,30 +212,37 @@ class DataTable extends React.Component {
 
         const rows = data.map(
             row => {
-                return (
-                    <TableRow hover tabIndex="-1" key={row[columnKey]}>
+                let colsComponent;
+                if (row.component) {
+                    colsComponent = <row.component data={row} />;
+                }
+                else {
+                    colsComponent = React.Children.map(children,
+                        column => {
+                            if (column) {
+                                const { field, numeric, onRender, padding } = column.props;
+                                let { cellClassName } = column.props;
 
-                        {React.Children.map(children,
-                            column => {
-                                if (column) {
-                                    const { field, numeric, onRender, padding } = column.props;
-                                    let { cellClassName } = column.props;
-
-                                    if (typeof cellClassName === "function") {
-                                        cellClassName = cellClassName(row);
-                                    }
-
-                                    return (
-                                        <TableCell numeric={numeric} padding={padding} className={classNames(cellsClassName, cellClassName)}>
-                                            {onRender(row, field)}
-                                        </TableCell>
-                                    );
+                                if (typeof cellClassName === "function") {
+                                    cellClassName = cellClassName(row);
                                 }
 
-                                return null;
+                                return (
+                                    <TableCell numeric={numeric} padding={padding} className={classNames(cellsClassName, cellClassName)}>
+                                        {onRender(row, field)}
+                                    </TableCell>
+                                );
                             }
-                        )}
 
+                            return null;
+                        }
+                    )
+                }
+
+
+                return (
+                    <TableRow hover tabIndex="-1" key={row[columnKey]}>
+                        {colsComponent}
                     </TableRow>
                 );
             }
