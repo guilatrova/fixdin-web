@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { selectors, operations } from '../../duck';
-import CategorySelectPicker from './../../../categories/components/CategorySelectPicker';
+import { selectors, operations } from '../../../duck';
+import CategorySelectPicker from '../../../../categories/components/CategorySelectPicker';
 import FilterWrapper from './FilterWrapper';
 
 class CategoryFilter extends React.Component {

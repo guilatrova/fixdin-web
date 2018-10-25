@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import PrimaryButton from '../../../../common/components/PrimaryButton';
-import CancelButton from '../../../../common/components/CancelButton';
+import PrimaryButton from '../../../../../common/components/PrimaryButton';
+import CancelButton from '../../../../../common/components/CancelButton';
 
 const styles = {
     root: {

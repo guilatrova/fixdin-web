@@ -236,7 +236,7 @@ class DataTable extends React.Component {
 
                             return null;
                         }
-                    )
+                    );
                 }
 
 

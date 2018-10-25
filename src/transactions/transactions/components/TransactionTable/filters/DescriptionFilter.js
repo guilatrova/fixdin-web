@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { selectors, operations } from '../../duck';
-import TransactionDescription from '../TransactionDescription';
+import { selectors, operations } from '../../../duck';
+import TransactionDescription from '../../TransactionDescription';
 import FilterWrapper from './FilterWrapper';
 
 class DescriptionFilter extends React.Component {

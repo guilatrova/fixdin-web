@@ -17,18 +17,18 @@ import {
     PaymentFilter,
     AccountFilter
 } from './filters';
-import { sort, sortMoment } from './../../../utils/sorts';
-import { DataTable, DataColumn } from './../../../common/material/DataTable';
-import AccountAvatar from '../../accounts/components/AccountAvatar';
-import IconOptionButton from './../../../common/components/IconOptionButton';
-import { getKind } from '../../shared/kinds';
-import specifications from '../specifications';
-import { formatCurrencyDisplay } from '../../../utils/formatters';
-import AddButtonTableSuffix from './AddButtonTableSuffix';
-import filterIconSrc from '../../../styles/icons/filterTableIcon.png';
-import editIconSrc from '../../../styles/icons/editIcon.png';
-import copyIconSrc from '../../../styles/icons/copyIcon.png';
-import deleteIconSrc from '../../../styles/icons/garbageIcon.png';
+import { sort, sortMoment } from '../../../../utils/sorts';
+import { DataTable, DataColumn } from '../../../../common/material/DataTable';
+import AccountAvatar from '../../../accounts/components/AccountAvatar';
+import IconOptionButton from './../../../../common/components/IconOptionButton';
+import { getKind } from '../../../shared/kinds';
+import specifications from '../../specifications';
+import { formatCurrencyDisplay } from '../../../../utils/formatters';
+import AddButtonTableSuffix from './../AddButtonTableSuffix';
+import filterIconSrc from '../../../../styles/icons/filterTableIcon.png';
+import editIconSrc from '../../../../styles/icons/editIcon.png';
+import copyIconSrc from '../../../../styles/icons/copyIcon.png';
+import deleteIconSrc from '../../../../styles/icons/garbageIcon.png';
 
 const INDICATOR_WEIGHT = "6px";
 
@@ -165,6 +165,7 @@ class TransactionTable extends React.Component {
 
     render() {
         const { activeFilters, classes, onAddAccount, onAddCategory } = this.props;
+
         return (
             <DataTable
                 headersClassName={classes.strongCell}

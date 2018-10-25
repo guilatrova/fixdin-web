@@ -6,7 +6,7 @@ import moment from 'moment';
 import DatePicker from 'material-ui-pickers/DatePicker';
 import FilterWrapper from './FilterWrapper';
 
-import { selectors, operations } from '../../duck';
+import { selectors, operations } from '../../../duck';
 
 const defaultStart = () => moment().startOf('month');
 const defaultEnd = () => moment().endOf('month');

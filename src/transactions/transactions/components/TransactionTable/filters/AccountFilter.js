@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { selectors, operations } from '../../duck';
-import AccountSelectPicker from './../../../accounts/components/AccountSelectPicker';
+import { selectors, operations } from '../../../duck';
+import AccountSelectPicker from './../../../../accounts/components/AccountSelectPicker';
 import FilterWrapper from './FilterWrapper';
 
 class AccountFilter extends React.Component {

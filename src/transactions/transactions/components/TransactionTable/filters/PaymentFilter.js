@@ -9,7 +9,7 @@ import Select from '@material-ui/core/Select';
 import FormLabel from '@material-ui/core/FormLabel';
 import DatePicker from 'material-ui-pickers/DatePicker';
 
-import { selectors, operations } from '../../duck';
+import { selectors, operations } from '../../../duck';
 import FilterWrapper from './FilterWrapper';
 
 const defaultStart = () => moment().startOf('month');
