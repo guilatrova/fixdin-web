@@ -17,6 +17,8 @@ import {
     PaymentFilter,
     AccountFilter
 } from './filters';
+import { TRANSFER_CATEGORY, STARTUP_CATEGORY } from '../../../categories/consts';
+import { TRANSFER_ACCOUNT_DESCRIPTION, STARTUP_ACCOUNT_DESCRIPTION } from '../../consts';
 import { sort, sortMoment } from '../../../../utils/sorts';
 import { DataTable, DataColumn } from '../../../../common/material/DataTable';
 import AccountAvatar from '../../../accounts/components/AccountAvatar';
@@ -89,7 +91,31 @@ class TransactionTable extends React.Component {
         return row[field];
     }
 
-    formatCategory = (row, field) => this.props.categoriesNames[row[field]];
+    formatDescription = (row, field) => {
+        const description = row[field];
+        switch (description) {
+            case TRANSFER_ACCOUNT_DESCRIPTION:
+                return "Transferência";
+
+            case STARTUP_ACCOUNT_DESCRIPTION:
+                return "Saldo Inicial";
+
+            default:
+                return description;
+        }
+    }
+
+    formatCategory = (row, field) => {
+        const name = this.props.categoriesNames[row[field]];
+        switch (name) {
+            case TRANSFER_CATEGORY:
+            case STARTUP_CATEGORY:
+                return "";
+
+            default:
+                return name;
+        }
+    }
 
     formatDate = (row, field) => row[field].format('DD/MM/YY');
 
@@ -199,6 +225,7 @@ class TransactionTable extends React.Component {
                     sortable
                     padding="dense"
                     field="description"
+                    onRender={this.formatDescription}
                     filterComponent={DescriptionFilter}
                     filterActive={activeFilters.description} > DESCRIÇÃO
                 </DataColumn>
