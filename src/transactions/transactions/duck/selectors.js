@@ -2,6 +2,7 @@ import { ALL, INCOME, EXPENSE } from '../../shared/kinds';
 import moment from 'moment';
 import { filterUniqueStringsArray } from '../../../utils/strings';
 import { selectors as categorySelectors } from '../../categories/duck';
+import { TRANSFER_CATEGORY, STARTUP_CATEGORY } from '../../categories/consts';
 
 const getErrors = (state) => state.transactions.errors;
 
@@ -131,7 +132,9 @@ const getTotalValueOfDisplayedTransactionsGroupedByAccount = (state) => {
 
 const getDonutChartDrilldown = (state) => {
     const categories = categorySelectors.getCategoriesNamesMappedById(state);
-    const transactions = getTransactionsToDisplay(state);
+    const excludingCategories = [categories.indexOf(TRANSFER_CATEGORY), categories.indexOf(STARTUP_CATEGORY)];
+
+    const transactions = getTransactionsToDisplay(state).filter(t => !excludingCategories.includes(t.category));
     const expenses = transactions.filter(t => t.kind == EXPENSE.id);
     const incomes = transactions.filter(t => t.kind == INCOME.id);
 
