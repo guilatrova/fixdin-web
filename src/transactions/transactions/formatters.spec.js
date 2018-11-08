@@ -1,14 +1,14 @@
 import { EXPENSE, INCOME } from '../shared/kinds';
 import moment from 'moment';
 import {
-    formatTransactionReceived, 
+    formatTransactionReceived,
     formatTransactionToSend,
     formatPeriodic,
     formatCurrency
 } from './formatters';
 
 describe('transactions/formatters', () => {
-    
+
     describe('formatTransaction...()', () => {
 
         describe('formatTransactionToSend()', () => {
@@ -21,7 +21,7 @@ describe('transactions/formatters', () => {
                     kind: EXPENSE,
                     payment_date: undefined,
                     value: "R$ 15,00",
-                    priority: ""
+                    priority: 3
                 };
                 const transactionPostFormatted = {
                     id: 1,
@@ -30,7 +30,7 @@ describe('transactions/formatters', () => {
                     payment_date: null,
                     value: -15,
                     periodic: undefined,
-                    priority: undefined
+                    priority: 3
                 };
 
                 expect(formatTransactionToSend(transactionPreFormatted)).to.be.deep.equal(transactionPostFormatted);
@@ -45,7 +45,7 @@ describe('transactions/formatters', () => {
                     payment_date: undefined,
                     value: "R$ 15,00",
                     kind: EXPENSE,
-                    priority: "",
+                    priority: 0,
                     periodic: {
                         frequency: 'daily',
                         how_many: "",
@@ -58,7 +58,7 @@ describe('transactions/formatters', () => {
                     due_date: '2017-01-01',
                     payment_date: null,
                     value: -15,
-                    priority: undefined,
+                    priority: 0,
                     kind: EXPENSE.id,
                     periodic: {
                         frequency: 'daily',
@@ -93,19 +93,19 @@ describe('transactions/formatters', () => {
     });
 
     describe('formatCurrency()', () => {
-        
+
         it('simple currency', () => {
             expect(formatCurrency("R$ 10", INCOME)).to.be.equal(10);
         });
-        
+
         it('with decimals', () => {
             expect(formatCurrency("R$ 19,99", INCOME)).to.be.equal(19.99);
         });
-        
+
         it('to negative when kind is EXPENSE', () => {
             expect(formatCurrency("R$ 59,99", EXPENSE)).to.be.equal(-59.99);
         });
-        
+
     });
 
     describe('formatPeriodic()', () => {
@@ -114,7 +114,7 @@ describe('transactions/formatters', () => {
             expect(formatPeriodic(null)).to.be.equal(undefined);
         });
 
-        it('when it have until should ignore how_many', () => {            
+        it('when it have until should ignore how_many', () => {
             const periodic = {
                 how_many: 'how_many',
                 until: moment(new Date(2017, 0, 1))

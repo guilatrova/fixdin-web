@@ -11,14 +11,13 @@ export function formatTransactionReceived(transaction) {
     };
 }
 
-export function formatTransactionToSend(transaction) {    
+export function formatTransactionToSend(transaction) {
     return {
         ...transaction,
         kind: transaction.kind ? transaction.kind.id : undefined,
         due_date: formatDate(transaction.due_date),
         payment_date: formatDate(transaction.payment_date),
         value: formatCurrency(transaction.value, transaction.kind),
-        priority: transaction.priority ? transaction.priority : undefined,
         periodic: formatPeriodic(transaction.periodic)
     };
 }
@@ -38,7 +37,7 @@ export function formatPeriodic(periodic) {
 export function formatFilters(filters) {
     const formatted = {
         ...filters,
-        kind: filters.kind ? filters.kind.value.id : undefined,        
+        kind: filters.kind ? filters.kind.value.id : undefined,
         category: filters.category ? filters.category.join() : undefined,
         account: filters.account ? filters.account.join() : undefined,
         due_date_from: formatDate(filters.due_date_from),
@@ -46,7 +45,7 @@ export function formatFilters(filters) {
         payment_date_from: formatDate(filters.payment_date_from),
         payment_date_until: formatDate(filters.payment_date_until)
     };
-    
+
     return clean(formatted);
 }
 
@@ -59,7 +58,7 @@ export function formatCurrency(value, kind) {
 
     if (kind == EXPENSE && value > 0) {
         value = -value;
-    }    
+    }
     else if (kind == INCOME && value < 0) {
         value = -value;
     }
