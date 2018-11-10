@@ -7,8 +7,8 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormLabel from '@material-ui/core/FormLabel';
-import DatePicker from 'material-ui-pickers/DatePicker';
 
+import DatePicker from '../../../../../common/components/DatePicker';
 import { selectors, operations } from '../../../duck';
 import FilterWrapper from './FilterWrapper';
 
@@ -85,23 +85,15 @@ class PaymentFilter extends React.Component {
                 {this.state.payed == "1" && <div>
 
                     <DatePicker
-                        keyboard
-                        autoOk
-                        fullWidth
                         label="De"
                         value={this.state.payment_date_from}
                         onChange={(payment_date_from) => this.setState({ payment_date_from })}
-                        format="DD/MM/YYYY"
                     />
 
                     <DatePicker
-                        keyboard
-                        autoOk
-                        fullWidth
                         label="Até"
                         value={this.state.payment_date_until}
                         onChange={(payment_date_until) => this.setState({ payment_date_until })}
-                        format="DD/MM/YYYY"
                     />
 
                 </div>}

@@ -5,8 +5,8 @@ import classNames from 'classnames';
 
 import AppToolbar from '../components/AppToolbar';
 import AppDrawer from '../components/AppDrawer';
-import MomentUtils from 'material-ui-pickers/utils/moment-utils';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import MomentUtils from '@date-io/moment';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import { drawerWidth, headerHeight, anchor } from '../contants';
 
 const styles = theme => ({

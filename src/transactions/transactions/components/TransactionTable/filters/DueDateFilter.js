@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import DatePicker from 'material-ui-pickers/DatePicker';
 import FilterWrapper from './FilterWrapper';
 
+import DatePicker from '../../../../../common/components/DatePicker';
 import { selectors, operations } from '../../../duck';
 
 const defaultStart = () => moment().startOf('month');
@@ -45,24 +45,18 @@ class DueDateFilter extends React.Component {
             <FilterWrapper {...this.props} onSubmit={this.handleSubmit} onClear={this.handleClear}>
                 <div>
                     <DatePicker
-                        keyboard
-                        autoOk
-                        fullWidth
                         label="De"
                         value={this.state.due_date_from}
                         onChange={this.handleChange('due_date_from')}
-                        format="DD/MM/YYYY" />
+                    />
                 </div>
 
                 <div>
                     <DatePicker
-                        keyboard
-                        autoOk
-                        fullWidth
                         label="Até"
                         value={this.state.due_date_until}
                         onChange={this.handleChange('due_date_until')}
-                        format="DD/MM/YYYY" />
+                    />
                 </div>
             </FilterWrapper>
         );

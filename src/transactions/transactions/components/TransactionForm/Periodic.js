@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import cn from "classnames";
 import { withStyles } from '@material-ui/core/styles';
 
-import DatePicker from 'material-ui-pickers/DatePicker';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Input from '@material-ui/core/Input';
@@ -11,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
+import DatePicker from '../../../../common/components/DatePicker';
 import RadioButtonOption from '../../../../common/material/RadioButtonOption';
 import finishOptions from './consts/periodicFinishesOptions';
 import frequencies from './consts/periodicFrequencies';
@@ -110,9 +110,6 @@ class Periodic extends React.Component {
                         >
 
                             <DatePicker
-                                keyboard
-                                autoOk
-                                format="DD MMMM YYYY"
                                 value={this.state.until}
                                 onChange={value => this.handleChange('until', value)}
                             />

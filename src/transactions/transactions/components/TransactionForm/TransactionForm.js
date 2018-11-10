@@ -4,12 +4,12 @@ import moment from 'moment';
 import cn from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
-import DatePicker from 'material-ui-pickers/DatePicker';
 import Switch from '@material-ui/core/Switch';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import FormLabel from '@material-ui/core/FormLabel';
 
+import DatePicker from '../../../../common/components/DatePicker';
 import CurrencyTextField from '../../../../common/material/CurrencyTextField';
 import TextFieldError from '../../../../common/material/TextFieldError';
 import Slider from '../../../../common/material/Slider';
@@ -183,13 +183,9 @@ class TransactionForm extends React.Component {
 
                     <DatePicker
                         className={classes.formRow}
-                        keyboard
-                        fullWidth
                         label="Vencimento"
                         value={this.state.due_date}
                         onChange={(due_date) => this.setState({ due_date })}
-                        autoOk={true}
-                        format="DD MMMM YYYY"
                     />
 
                     <AccountSelectPicker
@@ -250,12 +246,10 @@ class TransactionForm extends React.Component {
 
                         {this.state.payed &&
                             <DatePicker
-                                keyboard
+                                fullWidth={false}
                                 label="Pago em"
                                 value={this.state.payment_date}
                                 onChange={(payment_date) => this.setState({ payment_date })}
-                                autoOk={true}
-                                format="DD MMMM YYYY"
                             />
                         }
                     </div>
