@@ -8,7 +8,7 @@ const DatePickerProps = (props) => {
     let mask = undefined;
 
     if (props.format === defaultFormat) {
-        mask = value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])
+        mask = value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : []);
     }
 
     return (
