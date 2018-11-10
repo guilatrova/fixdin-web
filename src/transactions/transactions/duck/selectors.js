@@ -3,6 +3,7 @@ import moment from 'moment';
 import { filterUniqueStringsArray } from '../../../utils/strings';
 import { selectors as categorySelectors } from '../../categories/duck';
 import { TRANSFER_CATEGORY, STARTUP_CATEGORY } from '../../categories/consts';
+import specifications from '../specifications';
 
 const getErrors = (state) => state.transactions.errors;
 
@@ -104,10 +105,11 @@ const getDisplayedTransactionsGroupedByAccount = (state) => {
 const getTotalValueOfDisplayedTransactionsGroupedByAccount = (state) => {
     const sum = (total, cur) => total + cur.value;
     const result = getDisplayedTransactionsGroupedByAccount(state).reduce((prev, transactions, idx) => {
-        const totalIncomesPayed = transactions.filter(t => t.kind == INCOME.id && t.payment_date).reduce(sum, 0);
-        const totalIncomesPending = transactions.filter(t => t.kind == INCOME.id && !t.payment_date).reduce(sum, 0);
-        const totalExpensesPayed = transactions.filter(t => t.kind == EXPENSE.id && t.payment_date).reduce(sum, 0);
-        const totalExpensesPending = transactions.filter(t => t.kind == EXPENSE.id && !t.payment_date).reduce(sum, 0);
+        const totalIncomesPayed = transactions.filter(t => specifications.isIncome(t) && specifications.isPayed(t)).reduce(sum, 0);
+        const totalIncomesPending = transactions.filter(t => specifications.isIncome(t) && specifications.isPending(t)).reduce(sum, 0);
+        const totalExpensesPayed = transactions.filter(t => specifications.isExpense(t) && specifications.isPayed(t)).reduce(sum, 0);
+        const totalExpensesPending = transactions.filter(t => specifications.isExpense(t) && specifications.isPending(t)).reduce(sum, 0);
+
         const balance = totalIncomesPayed + totalIncomesPending + totalExpensesPayed + totalExpensesPending;
         prev[idx] = { totalIncomesPayed, totalIncomesPending, totalExpensesPayed, totalExpensesPending, balance };
         return prev;

@@ -86,10 +86,10 @@ const EntryTableRow = ({ entry, name, id, classes, cellModifierClass }) => {
                 {formatCurrencyDisplay(entry.totalIncomesPayed)}
             </TableCell>
             <TableCell padding="dense" className={classNames(cellModifierClass)}>
-                {formatCurrencyDisplay(entry.totalIncomesPending)}
+                {formatCurrencyDisplay(entry.totalExpensesPayed)}
             </TableCell>
             <TableCell padding="dense" className={classNames(cellModifierClass)}>
-                {formatCurrencyDisplay(entry.totalExpensesPayed)}
+                {formatCurrencyDisplay(entry.totalIncomesPending)}
             </TableCell>
             <TableCell padding="dense" className={classNames(cellModifierClass)}>
                 {formatCurrencyDisplay(entry.totalExpensesPending)}
