@@ -13,7 +13,7 @@ import BalanceCard from './../../balances/components/BalanceCard';
 import { operations as reportOperations, selectors as reportSelectors } from './../../reports/duck';
 import ValuesByCategoryPieChartContainer from './../../reports/containers/ValuesByCategoryPieChartContainer';
 import { EXPENSE, INCOME } from './../../transactions/shared/kinds';
-import TransactionList from './../../transactions/transactions/components/TransactionList';
+import DeprecatedTransactionList from './../../transactions/transactions/components/DeprecatedTransactionList';
 import { formatCurrencyDisplay, formatDate } from '../../utils/formatters';
 
 const endOfMonth = formatDate(moment().endOf('month'));
@@ -98,12 +98,12 @@ class DashboardPage extends React.Component {
 
                     <Grid item xs={12} md={6}>
                         <Typography type="subheading">Despesas vencidas</Typography>
-                        <TransactionList transactions={this.props.overdueExpenses} />
+                        <DeprecatedTransactionList transactions={this.props.overdueExpenses} />
                     </Grid>
 
                     <Grid item xs={12} md={6}>
                         <Typography type="subheading">Despesas pendentes</Typography>
-                        <TransactionList transactions={this.props.nextPendingExpenses} />
+                        <DeprecatedTransactionList transactions={this.props.nextPendingExpenses} />
                     </Grid>
 
                 </Grid>
@@ -116,12 +116,12 @@ class DashboardPage extends React.Component {
 
                     <Grid item xs={12} md={6}>
                         <Typography type="subheading">Receitas vencidas</Typography>
-                        <TransactionList transactions={this.props.overdueIncomes} />
+                        <DeprecatedTransactionList transactions={this.props.overdueIncomes} />
                     </Grid>
 
                     <Grid item xs={12} md={6}>
                         <Typography type="subheading">Próximas receitas</Typography>
-                        <TransactionList transactions={this.props.nextPendingIncomes} />
+                        <DeprecatedTransactionList transactions={this.props.nextPendingIncomes} />
                     </Grid>
 
                 </Grid>

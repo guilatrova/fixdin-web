@@ -19,7 +19,7 @@ const styles = theme => ({
     },
 });
 
-class TransactionList extends React.Component {
+class DeprecatedTransactionList extends React.Component {
     static propTypes = {
         transactions: PropTypes.array.isRequired
     }
@@ -32,13 +32,13 @@ class TransactionList extends React.Component {
         const { checked } = this.state;
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
-    
+
         if (currentIndex === -1) {
             newChecked.push(value);
         } else {
             newChecked.splice(currentIndex, 1);
         }
-    
+
         this.setState({
             checked: newChecked,
         });
@@ -66,7 +66,7 @@ class TransactionList extends React.Component {
         });
 
         return (
-            <div style={{maxHeight: 300, overflow: 'auto'}}>
+            <div style={{ maxHeight: 300, overflow: 'auto' }}>
                 {transactionItems.length == 0 && <Typography type="body2">Não há nada aqui</Typography>}
                 <List>
                     {transactionItems}
@@ -76,4 +76,4 @@ class TransactionList extends React.Component {
     }
 }
 
-export default withStyles(styles)(TransactionList);
+export default withStyles(styles)(DeprecatedTransactionList);
