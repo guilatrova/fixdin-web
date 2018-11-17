@@ -8,8 +8,9 @@ import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
 
 import TransactionSecondaryAction from './TransactionSecondaryAction';
+import TransactionTable from '../TransactionTable';
 
-const TransactionItem = ({ transaction, onEdit, onPay, isFetching }) => (
+const TransactionItem = ({ transaction, onEdit, ...props }) => (
     <ListItem button onClick={() => onEdit(transaction.id)}>
         <Avatar>
             <ImageIcon />
@@ -21,16 +22,14 @@ const TransactionItem = ({ transaction, onEdit, onPay, isFetching }) => (
         />
 
         <ListItemSecondaryAction>
-            <TransactionSecondaryAction transaction={transaction} onPay={onPay} isFetching={isFetching} />
+            <TransactionSecondaryAction transaction={transaction} {...props} />
         </ListItemSecondaryAction>
     </ListItem>
 );
 
 TransactionItem.propTypes = {
     transaction: PropTypes.object.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onPay: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool
+    ...TransactionTable.propTypes
 };
 
 export default TransactionItem;
