@@ -54,7 +54,7 @@ ConfirmDeleteDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     error: PropTypes.string,
     children: PropTypes.node,
-    ActionsComponent: PropTypes.node,
+    ActionsComponent: PropTypes.func,
 };
 
 ConfirmDeleteDialog.defaultProps = {
