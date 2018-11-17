@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 
+import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
-import moment from 'moment';
+
 import CompleteAccountsTable, { consts } from '../../accounts/components/CompleteAccountsTable';
 import TransactionsDonutChart from '../../../charts/TransactionsDonutChart';
 import { selectors, operations } from '../duck';
@@ -67,10 +69,12 @@ const TransactionHeader = ({ period, totalIncomes, totalExpenses, total, account
             </div>
 
             <div className={classes.accountsTable}>
-                <CompleteAccountsTable
-                    names={accountsName}
-                    values={aggregatedAccounts}
-                />
+                <Hidden xsDown>
+                    <CompleteAccountsTable
+                        names={accountsName}
+                        values={aggregatedAccounts}
+                    />
+                </Hidden>
             </div>
         </div>
     );
