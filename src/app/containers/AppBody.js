@@ -32,7 +32,10 @@ const styles = theme => ({
         }),
         height: `calc(100% - ${headerHeight}px)`,
         marginTop: headerHeight,
-        padding: 30
+        padding: 30,
+        [theme.breakpoints.down('sm')]: {
+            padding: 0
+        }
     },
     'content-left': {
         marginLeft: -drawerWidth,
