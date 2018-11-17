@@ -1,87 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
-import TypographyError from '../../../common/material/TypographyError';
+import ConfirmDeleteDialog from '../../../common/material/ConfirmDeleteDialog';
 import { types } from '../duck';
 
-const periodicActions = (onCancel, onConfirm) => {
+// eslint-disable-next-line react/prop-types
+const PeriodicActions = ({ onClose, onConfirm }) => (
+    <DialogActions>
+        <Button onClick={onClose} color="primary">
+            Cancelar
+            </Button>
+
+        <Button onClick={() => onConfirm(types.DELETE_ALL_PERIODIC_TRANSACTIONS)} color="default">
+            Todas
+            </Button>
+
+        <Button onClick={() => onConfirm(types.DELETE_THIS_AND_NEXT_TRANSACTIONS)} color="default">
+            Esta e futuras
+            </Button>
+
+        <Button onClick={() => onConfirm(types.DELETE_TRANSACTION)} color="default">
+            Somente esta
+            </Button>
+    </DialogActions>
+);
+
+// eslint-disable-next-line react/prop-types
+const RegularActions = ({ onClose, onConfirm }) => (
+    <DialogActions>
+        <Button onClick={onClose} color="primary">
+            Cancelar
+            </Button>
+
+        <Button onClick={() => onConfirm(types.DELETE_TRANSACTION)} color="default">
+            Confirmar
+            </Button>
+    </DialogActions>
+);
+
+const ConfirmTransactionDeleteDialog = ({ isPeriodic, children, ...props }) => {
+    const actions = isPeriodic ? PeriodicActions : RegularActions;
+
     return (
-        <DialogActions>
-            <Button onClick={onCancel} color="primary">
-                Cancelar
-            </Button>
-            
-            <Button onClick={() => onConfirm(types.DELETE_ALL_PERIODIC_TRANSACTIONS)} color="default">
-                Todas
-            </Button>
-
-            <Button onClick={() => onConfirm(types.DELETE_THIS_AND_NEXT_TRANSACTIONS)} color="default">
-                Esta e futuras
-            </Button>
-
-            <Button onClick={() => onConfirm(types.DELETE_TRANSACTION)} color="default">
-                Somente esta
-            </Button>
-        </DialogActions>
+        <ConfirmDeleteDialog ActionsComponent={actions} {...props}>
+            {children}
+            {isPeriodic && " Notamos que é uma transação periódica, como deseja deletar?"}
+        </ConfirmDeleteDialog>
     );
 };
 
-const regularActions = (onCancel, onConfirm) => {
-    return (
-        <DialogActions>
-            <Button onClick={onCancel} color="primary">
-                Cancelar
-            </Button>
-
-            <Button onClick={() => onConfirm(types.DELETE_TRANSACTION)} color="default">
-                Confirmar
-            </Button>
-        </DialogActions>
-    );
+ConfirmTransactionDeleteDialog.propTypes = {
+    isPeriodic: PropTypes.bool,
+    ...ConfirmDeleteDialog.propTypes
 };
 
-export default class ConfirmDeleteDialog extends React.Component {
-    static propTypes = {
-        open: PropTypes.bool.isRequired,
-        onConfirm: PropTypes.func.isRequired,
-        onClose: PropTypes.func.isRequired,
-        isPeriodic: PropTypes.bool,
-        error: PropTypes.string,
-        children: PropTypes.node.isRequired
-    }
-
-    static defaultProps = {
-        isPeriodic: false
-    }
-
-    render() {
-        const actions = this.props.isPeriodic ? periodicActions : regularActions;
-        const periodicText = this.props.isPeriodic ? "Notamos que é uma transação periódica, como deseja deletar?" : "";
-
-        return (
-            <Dialog open={this.props.open} onClose={this.props.onClose}>
-                <DialogTitle>Confirmar ação</DialogTitle>
-                <DialogContent>
-
-                    <DialogContentText>
-                        <TypographyError>
-                            {this.props.error}
-                        </TypographyError>
-
-                        {this.props.children}
-                        {" "}{periodicText}
-                    </DialogContentText>
-
-                </DialogContent>
-
-                {actions(this.props.onClose, this.props.onConfirm)}
-            </Dialog>
-        );
-    }
-}
+export default ConfirmTransactionDeleteDialog;

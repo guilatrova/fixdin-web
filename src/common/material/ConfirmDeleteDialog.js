@@ -18,7 +18,16 @@ const styles = {
     }
 };
 
-const ConfirmDeleteDialog = ({ open, onConfirm, onClose, error, children, classes }) => {
+// eslint-disable-next-line react/prop-types
+const DefaultActions = ({ onClose, onConfirm }) => (
+    <DialogActions>
+        <CancelButton onClick={onClose} />
+
+        <PrimaryButton onClick={onConfirm}>Confirmar</PrimaryButton>
+    </DialogActions>
+);
+
+const ConfirmDeleteDialog = ({ open, onConfirm, onClose, error, children, ActionsComponent, classes }) => {
     return (
         <Dialog open={open} onClose={onClose}>
             <DialogTitle className="arrow-parent">Confirmar ação</DialogTitle>
@@ -33,11 +42,7 @@ const ConfirmDeleteDialog = ({ open, onConfirm, onClose, error, children, classe
                 </TypographyError>
             </DialogContent>
 
-            <DialogActions>
-                <CancelButton onClick={onClose} />
-
-                <PrimaryButton onClick={onConfirm}>Confirmar</PrimaryButton>
-            </DialogActions>
+            <ActionsComponent onClose={onClose} onConfirm={onConfirm} />
         </Dialog>
     );
 };
@@ -49,6 +54,11 @@ ConfirmDeleteDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     error: PropTypes.string,
     children: PropTypes.node,
+    ActionsComponent: PropTypes.node,
+};
+
+ConfirmDeleteDialog.defaultProps = {
+    ActionsComponent: DefaultActions
 };
 
 export default withStyles(styles)(ConfirmDeleteDialog);
