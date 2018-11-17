@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import AddIcon from '@material-ui/icons/Add';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import { selectors } from '../duck';
 import { selectors as categorySelectors } from '../../categories/duck';
 import { selectors as accountSelectors } from '../../accounts/duck';
 import { EXPENSE, INCOME } from '../../shared/kinds';
+import TransactionList from '../components/TransactionList';
 import TransactionTable from '../components/TransactionTable';
 import ActionableTableWrapper from '../../../common/components/ActionableTableWrapper';
 
@@ -22,7 +24,8 @@ class TransactionTableContainer extends React.Component {
         ...TransactionTable.propTypes,
         onAdd: PropTypes.func.isRequired,
         onRefresh: PropTypes.func.isRequired,
-        onClearAll: PropTypes.func.isRequired
+        onClearAll: PropTypes.func.isRequired,
+        fullScreen: PropTypes.bool.isRequired
     }
 
     state = {
@@ -32,7 +35,7 @@ class TransactionTableContainer extends React.Component {
     handleTabChange = (e, value) => this.setState({ tab: value });
 
     render() {
-        const { transactions, onAdd, onRefresh, onClearAll, ...props } = this.props;
+        const { transactions, onAdd, onRefresh, onClearAll, fullScreen, ...props } = this.props;
         const { tab } = this.state;
 
         let shownTransactions = transactions;
@@ -49,6 +52,8 @@ class TransactionTableContainer extends React.Component {
             { onClick: onClearAll, icon: <ClearAllIcon /> },
         ];
 
+        const Component = fullScreen ? TransactionList : TransactionTable;
+
         return (
             <ActionableTableWrapper
                 selectedTab={tab}
@@ -58,7 +63,7 @@ class TransactionTableContainer extends React.Component {
                 actions={actions}
             >
 
-                <TransactionTable
+                <Component
                     transactions={shownTransactions}
                     {...props}
                 />
@@ -73,7 +78,9 @@ const mapStateToProps = state => ({
     categoriesNames: categorySelectors.getCategoriesNamesMappedById(state),
     accounts: accountSelectors.getAccounts(state),
     isFetching: selectors.isFetching(state),
-    activeFilters: selectors.getActiveFilters(state)
+    activeFilters: selectors.getActiveFilters(state),
 });
 
-export default connect(mapStateToProps)(TransactionTableContainer);
+export default withMobileDialog()(
+    connect(mapStateToProps)(TransactionTableContainer)
+);
