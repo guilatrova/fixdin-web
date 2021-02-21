@@ -1,6 +1,6 @@
 # Fixdin
 
-![logo](src/styles/icons/logo-white.png)
+<img src="./src/styles/icons/logo-white.png" width=192>
 
 Personal Finance Web app built with React.
 Demo is hosted on https://fixdin-web-dev.herokuapp.com/
